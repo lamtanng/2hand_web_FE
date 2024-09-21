@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --page-gutter-lg: 10rem;
+    --page-gutter-md: 5rem;
+    --page-gutter-sm: 1rem;
+    --header: 56px;
+  }
+}
+
+@layer components {
+  .form {
+    @apply flex w-full flex-col items-start justify-between gap-6;
+  }
+  .header-btn {
+    @apply inline-block h-full border-b border-b-blue-500 font-medium no-underline transition-all duration-100 ease-in-out hover:text-gray-600;
+  }
+}
