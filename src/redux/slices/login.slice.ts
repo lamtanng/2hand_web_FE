@@ -1,27 +1,30 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Loading } from '../../types/enum/loading.type';
 import { LoginResponseProps } from '../../types/http/login.typs';
 import { RootState } from '../store';
+import { TokenProps } from '../../types/token.type';
+import { AccountProps } from '../../types/account.type';
+import { decodeToken } from '../../utils/jwt';
 
-export interface LoginSliceProps extends LoginResponseProps {
-  loading: Loading;
-  error: string | undefined;
+export interface LoginSliceProps {
+  token: TokenProps;
+  user: AccountProps;
 }
 
 const initialState: LoginSliceProps = {
-  accessToken: '',
-  refreshToken: '',
-  id: '',
-  email: '',
-  role: [],
-  loading: Loading.Idle,
-  error: undefined,
+  token: {} as TokenProps,
+  user: {} as AccountProps,
 };
 
 const loginSlice = createSlice({
   name: 'login',
   initialState,
-  reducers: {},
+  reducers: {
+    storeAuth: (state, action) => {
+      const user = decodeToken(action.payload?.data?.accessToken);
+      state.token = action.payload.data;
+      state.user = user;
+    },
+  },
   extraReducers: (builder) => {
     // builder
     //   .addCase(login.fulfilled, (state, action) => {
@@ -41,4 +44,5 @@ const loginSlice = createSlice({
 });
 
 export const loginSelector = (state: RootState) => state.login;
-export default loginSlice.reducer;
+export default loginSlice.reducer = loginSlice.reducer;
+export const { storeAuth } = loginSlice.actions;

@@ -6,10 +6,11 @@ export const store = configureStore({
     login: loginSlice,
   },
   devTools: true,
-  // middleware: (getDefaultMiddleware) =>
-  //   getDefaultMiddleware({
-  //     serializableCheck: false,
-  //   }),
+  middleware: (getDefaultMiddleware) =>
+    //fix error: A non-serializable value was detected in an action, in the path: `payload`. Value: [Function anonymous]
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
 
 export type AppDispatch = typeof store.dispatch;
