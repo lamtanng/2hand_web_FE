@@ -1,20 +1,18 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AxiosError } from 'axios';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { authAPIs } from '../../../../apis/auth.api';
+import { adminPaths } from '../../../../constants/apiPaths/adminPaths';
+import { useAppDispatch } from '../../../../redux/hooks';
+import { storeAuth } from '../../../../redux/slices/login.slice';
+import { AccountProps } from '../../../../types/account.type';
 import { handleError } from '../../../../utils/handleError';
 import { loginSchema } from '../../Login.constant';
-import { authAPIs } from '../../../../apis/auth.api';
-import { useNavigate } from 'react-router-dom';
-import { adminPaths } from '../../../../constants/apiPaths/adminPaths';
-import { AccountProps } from '../../../../types/account.type';
-import { useAppDispatch, useAppSelector } from '../../../../redux/hooks';
-import { loginSelector } from '../../../../redux/slices/login.slice';
 
 const useLoginForm = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { } = useAppSelector(loginSelector);
-
   const {
     handleSubmit,
     control,
@@ -25,11 +23,9 @@ const useLoginForm = () => {
 
   const handleLogin = async (account: AccountProps) => {
     try {
-      await authAPIs.login(account);
-
-      //store jwt to redux
-
-      // navigate(`ad/${adminPaths.dashboardPath}`);
+      const res = await authAPIs.login(account);
+      dispatch(storeAuth(res));
+      navigate(`/${adminPaths.adminPath}/${adminPaths.dashboardPath}`);
     } catch (error: AxiosError | any) {
       handleError(error);
     }

@@ -7,3 +7,4 @@ export const adminRoutes: RouteObject = {
   element: <ProtectedAdminRoutes />,
   children: [DashboardRoute],
 };
+  
