@@ -15,6 +15,7 @@ function DashboardPage() {
 
     fetchData();
   }, []);
+
   return (
     <>
       <List>
