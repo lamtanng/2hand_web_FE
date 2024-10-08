@@ -1,10 +1,10 @@
-import { List, ListItemButton, ListItemText } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { adminAPIs } from '../../../apis/admin.api';
-import { AccountProps } from '../../../types/account.type';
+import { UserProps } from '../../../types/user.type';
+import { List } from "antd";
 
 function DashboardPage() {
-  const [accountList, setAccountList] = useState<AccountProps[]>([]);
+  const [accountList, setAccountList] = useState<UserProps[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,10 +19,10 @@ function DashboardPage() {
   return (
     <>
       <List>
-        {accountList.map((account, i) => (
-          <ListItemButton key={i}>
-            <ListItemText primary="User" secondary={account?.email} />
-          </ListItemButton>
+      {accountList.map((account, i) => (
+          <List.Item key={i}>
+            <List.Item.Meta description="User" title={account?.email} />
+          </List.Item>
         ))}
       </List>
     </>

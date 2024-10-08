@@ -6,22 +6,19 @@ import { authAPIs } from '../../../../apis/auth.api';
 import { adminPaths } from '../../../../constants/apiPaths/adminPaths';
 import { useAppDispatch } from '../../../../redux/hooks';
 import { storeAuth } from '../../../../redux/slices/login.slice';
-import { AccountProps } from '../../../../types/account.type';
 import { handleError } from '../../../../utils/handleError';
 import { loginSchema } from '../../Login.constant';
+import { UserProps } from '../../../../types/user.type';
 
 const useLoginForm = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const {
-    handleSubmit,
-    control,
-    formState: { isSubmitting, isDirty },
-  } = useForm<AccountProps>({
+  const method = useForm<UserProps>({
     resolver: yupResolver(loginSchema),
   });
+  const { handleSubmit } = method;
 
-  const handleLogin = async (account: AccountProps) => {
+  const handleLogin = async (account: UserProps) => {
     try {
       const res = await authAPIs.login(account);
       dispatch(storeAuth(res));
@@ -33,10 +30,8 @@ const useLoginForm = () => {
 
   return {
     handleLogin,
-    control,
     handleSubmit,
-    isSubmitting,
-    isDirty,
+    method,
   };
 };
 

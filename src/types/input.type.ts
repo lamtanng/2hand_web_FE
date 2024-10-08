@@ -1,14 +1,9 @@
-import { HTMLInputTypeAttribute } from 'react';
-import { Control, FieldPath, FieldValues, Path } from 'react-hook-form';
+import { FormItemProps } from "antd";
 
-export interface ControlledInputProps<FormValues extends FieldValues> {
-  name: FieldPath<FormValues>;
-  control: Control<FormValues>;
-  label: string;
-  type?: HTMLInputTypeAttribute;
-  defaultValue?: number | boolean | null | undefined;
-  multiline?: boolean;
-  rows?: number;
-  disabled?: boolean;
-  isRequired?: boolean;
-}
+export interface CustomFormItemProps extends FormItemProps {
+    label?: string;
+    name: string;
+    hint: string;
+    type?: string;
+    isRequired?: boolean;
+  }

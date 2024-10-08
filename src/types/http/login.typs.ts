@@ -1,5 +1,5 @@
-import { AccountProps } from '../account.type';
+import { UserProps } from '../user.type';
 import { TokenProps } from '../token.type';
 
-export interface LoginRequestProps extends Pick<AccountProps, 'email' | 'password'> {}
+export interface LoginRequestProps extends Pick<UserProps, 'email' | 'password'> {}
 export interface LoginResponseProps extends TokenProps {}

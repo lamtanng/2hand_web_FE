@@ -1,24 +1,16 @@
-import { Link } from '@mui/material';
 import LoginForm from './components/LoginForm';
 
 function Login() {
   return (
     <>
-      <div className="mx-auto flex items-start justify-between font-sans text-base">
-        <div className="mx-auto flex w-full flex-col items-center justify-start gap-8 px-52 py-20">
-          <div className="mt-16 w-full">
-            <p className="w-full text-[46px] font-extrabold">Getting Started</p>
-            <p className="mt-6 text-left text-base text-gray-600">
-              Don't have account?{' '}
-              <Link href="/signup" className="font-medium no-underline">
-                Sign up
-              </Link>
-            </p>
-          </div>
-
+      <div className="flex h-screen w-full">
+        <div className="flex w-full items-center justify-center lg:w-10/12">
           <LoginForm />
         </div>
-        <div className="min-w-basis-1/2 h-screen w-full bg-blue-500"></div>
+        <div className="hidden relative h-full w-full items-center justify-center bg-blue-50 lg:flex">
+          <div className="h-60 w-60 bg-gradient-to-tr from-blue-700 to-blue-200 rounded-full animate-bounce"></div>
+          <div className='w-full h-1/2 absolute bottom-0 bg-white/10 backdrop-blur-lg'></div>
+        </div>
       </div>
     </>
   );
