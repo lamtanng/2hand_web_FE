@@ -4,7 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export default function App() {
   return (
-    <div className="mx-auto max-w-screen-2xl overflow-hidden text-base">
+    <div className="overflow-hidden text-base">
       <ToastContainer
         position="top-right"
         transition={Bounce}

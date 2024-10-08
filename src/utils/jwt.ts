@@ -1,3 +1,3 @@
 import { jwtDecode } from 'jwt-decode';
-import { AccountProps } from '../types/account.type';
-export const decodeToken = (accessToken: string): AccountProps => jwtDecode(accessToken);
+import { UserProps } from '../types/user.type';
+export const decodeToken = (accessToken: string): UserProps => jwtDecode(accessToken);

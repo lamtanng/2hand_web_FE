@@ -1,43 +1,31 @@
-import { Stack, TextField, Typography } from '@mui/material';
-import { Controller, FieldValues } from 'react-hook-form';
-import { ControlledInputProps } from '../../../../types/input.type';
+import { CustomFormItemProps } from '../../../../types/input.type';
+import { Form, Input } from "antd";
+import { Controller, useFormContext } from "react-hook-form";
 
-export default function ControlledInput<FormValues extends FieldValues>({
+export default function CustomFormItem({
   name,
-  control,
-  label,
-  type = 'text',
-  multiline = false,
-  rows = 4,
-  disabled = false,
+  hint,
+  type = "text",
+  label = "",
   isRequired = false,
-}: ControlledInputProps<FormValues>) {
+}: CustomFormItemProps) {
+  const { control } = useFormContext();
+  const InputComponent = type === "password" ? Input.Password : Input;
+
   return (
     <Controller
-      shouldUnregister={true}
-      key={name}
       name={name}
       control={control}
-      render={({ field: { onChange, value }, fieldState: { error } }) => (
-        <TextField
-          disabled={disabled}
-          helperText={error ? error.message : null}
-          error={!!error}
-          value={value}
-          label={
-            <Stack direction="row" spacing={2}>
-              {label}
-              {isRequired && <Typography color="error">*</Typography>}
-            </Stack>
-          }
-          type={type}
-          multiline={multiline}
-          rows={rows}
-          size="medium"
-          onChange={onChange}
-          fullWidth
-          variant="outlined"
-        />
+      render={({ field, fieldState }) => (
+        <Form.Item
+          label={label}
+          rules={[{ required: isRequired}]}
+          validateStatus={fieldState.error ? "error" : ""}
+          help={fieldState.error?.message}
+          className='text-base'
+        >
+          <InputComponent className="inputs w-full text-base h-10" placeholder={hint} {...field} />
+        </Form.Item>
       )}
     />
   );

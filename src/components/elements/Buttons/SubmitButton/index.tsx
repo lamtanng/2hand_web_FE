@@ -1,4 +1,4 @@
-import LoadingButton from '@mui/lab/LoadingButton';
+import { Button } from 'antd';
 import { MouseEventHandler } from 'react';
 import ButtonProps from '../../../../types/button.type';
 
@@ -9,24 +9,21 @@ export interface SubmitButtonProps extends ButtonProps {
 
 export default function SubmitButton({
   text = 'Finish',
-  variant = 'contained',
   isSubmitting,
   isDirty = true,
   onClick,
 }: SubmitButtonProps) {
   return (
-    <LoadingButton
-      variant={variant}
-      type="submit"
+    <Button
+      type='primary'
+      htmlType="submit"
       size="large"
-      fullWidth
-      className="group"
+      className="group w-full"
       loading={isSubmitting}
       disabled={isDirty ? false : true}
       onClick={onClick}
-      // loadingPosition='start'
     >
       <span>{text}</span>
-    </LoadingButton>
+    </Button>
   );
 }
