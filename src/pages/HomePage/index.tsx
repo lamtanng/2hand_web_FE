@@ -1,7 +1,15 @@
+import Header from '../../components/elements/Header';
+import { useAppSelector } from '../../redux/hooks';
+import { loginSelector } from '../../redux/slices/login.slice';
+
 const HomePage = () => {
+  const {
+    user,
+  } = useAppSelector(loginSelector);
   return (
     <>
-      <h1>Home Page</h1>
+      <Header />
+      <h1 className='m-40'>{user.email}</h1>
     </>
   );
 };

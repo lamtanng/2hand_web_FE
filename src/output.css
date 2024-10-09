@@ -137,6 +137,10 @@
   z-index: 10;
 }
 
+#root .m-40{
+  margin: 10rem;
+}
+
 #root .mx-auto{
   margin-left: auto;
   margin-right: auto;
@@ -148,6 +152,10 @@
 
 #root .hidden{
   display: none;
+}
+
+#root .\!hidden{
+  display: none !important;
 }
 
 #root .h-1\/2{
@@ -196,16 +204,6 @@
 
 #root .flex-grow{
   flex-grow: 1;
-}
-
-@keyframes spin{
-  to{
-    transform: rotate(360deg);
-  }
-}
-
-#root .animate-spin{
-  animation: spin 1s linear infinite;
 }
 
 @keyframes bounce{
@@ -272,6 +270,10 @@
   --tw-gradient-to: #bfdbfe var(--tw-gradient-to-position);
 }
 
+#root .p-0{
+  padding: 0px;
+}
+
 #root .p-5{
   padding: 1.25rem;
 }
@@ -332,6 +334,10 @@
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
+}
+
+#root .hover\:bg-transparent:hover{
+  background-color: transparent;
 }
 
 @media (min-width: 1024px){
