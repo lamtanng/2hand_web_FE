@@ -12,6 +12,17 @@ export interface VerifyFormProps {
   setSubmitting: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+export interface useVerifyFormProps{
+  account: UserProps,
+  handleResendClick: () => void,
+  setSubmitting: React.Dispatch<React.SetStateAction<boolean>>,
+  setCounting: React.Dispatch<React.SetStateAction<boolean>>,
+  setIsResent: React.Dispatch<React.SetStateAction<boolean>>,
+  setDisable: React.Dispatch<React.SetStateAction<boolean>>,
+  setHidden: React.Dispatch<React.SetStateAction<boolean>>,
+  setIsDirty: React.Dispatch<React.SetStateAction<boolean>>,
+}
+
 export interface VerifyProps {
   otp?: number[];
 }

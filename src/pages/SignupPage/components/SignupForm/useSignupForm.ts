@@ -26,9 +26,10 @@ const useSignupForm = (
       await authAPIs.signup(account);
       handleSignupOnClick(account);
       reset();
-      setSubmitting(false);
     } catch (error: AxiosError | any) {
       handleError(error);
+    } finally{
+      setSubmitting(false);
     }
   };
 

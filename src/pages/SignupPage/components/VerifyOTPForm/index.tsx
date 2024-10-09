@@ -28,18 +28,22 @@ const VerifyOTPForm = ({
     setIsDirty(false);
   };
 
-  const handleClick = () => {
+  const handleResendClick = () => {
     setDisable(true);
     setHidden(false);
     setCounting(true);
   };
 
-  const { handleSubmit, method, handleVerify, reset, handleResend } = useVerifyForm(
+  const { handleSubmit, method, handleVerify, reset, handleResend } = useVerifyForm({
     account,
-    handleClick,
+    handleResendClick,
     setSubmitting,
+    setCounting,
     setIsResent,
-  );
+    setDisable,
+    setHidden,
+    setIsDirty,
+  });
 
   return (
     <div className="form-container w-8/12" hidden={hiddenVerify}>

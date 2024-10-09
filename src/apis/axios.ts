@@ -21,7 +21,7 @@ axiosClient.interceptors.response.use(
     if (error.response?.status === 401) handleLogout();
     //token is expired
     const prevRequest = error?.config;
-    if (error?.response?.status === 410 && prevRequest) {
+    if (error?.response?.status === 410 && prevRequest && error.message.includes('Token')) {
       try {
         // prevent multiple request
         // if refreshTokenRequest is null, call refreshToken API to get new token
