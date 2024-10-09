@@ -8,6 +8,7 @@ import { verifySchema } from './VerifyOTP.constant';
 import { useAppDispatch } from '../../../../redux/hooks';
 import { authAPIs } from '../../../../apis/auth.api';
 import { storeAuth } from '../../../../redux/slices/login.slice';
+import { displaySuccess } from '../../../../utils/displayToast';
 
 const useVerifyForm = (account: UserProps, handleResendClick: () => void) => {
   const navigate = useNavigate();
@@ -39,6 +40,7 @@ const useVerifyForm = (account: UserProps, handleResendClick: () => void) => {
       account = {email: account.email};
       console.log(account)
       await authAPIs.resendOTP(account);
+      displaySuccess('OTP is resent successfully. Please check your email.')
     } catch (error: AxiosError | any) {
       handleError(error);
     }
