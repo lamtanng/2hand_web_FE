@@ -8,14 +8,24 @@ import { VerifyFormProps } from './VerifyOTP.constant';
 import CountdownTimer from '../../../../components/elements/CountdownTimer';
 import { useState } from 'react';
 
-const VerifyOTPForm = ({ hiddenVerify, account, handleBackOnClick, isCounting, setCounting }: VerifyFormProps) => {
+const VerifyOTPForm = ({
+  hiddenVerify,
+  account,
+  handleBackOnClick,
+  isCounting,
+  setCounting,
+  isSubmitting,
+  setSubmitting,
+}: VerifyFormProps) => {
   const [isDisable, setDisable] = useState<boolean>(true);
   const [hidden, setHidden] = useState<boolean>(false);
   const [isDirty, setIsDirty] = useState<boolean>(false);
+  const [isResent, setIsResent] = useState<boolean>(false);
 
   const handleCountdown = () => {
     setDisable(false);
     setHidden(true);
+    setIsDirty(false);
   };
 
   const handleClick = () => {
@@ -24,7 +34,12 @@ const VerifyOTPForm = ({ hiddenVerify, account, handleBackOnClick, isCounting, s
     setCounting(true);
   };
 
-  const { handleSubmit, method, handleVerify, reset, handleResend } = useVerifyForm(account, handleClick);
+  const { handleSubmit, method, handleVerify, reset, handleResend } = useVerifyForm(
+    account,
+    handleClick,
+    setSubmitting,
+    setIsResent,
+  );
 
   return (
     <div className="form-container w-8/12" hidden={hiddenVerify}>
@@ -48,14 +63,21 @@ const VerifyOTPForm = ({ hiddenVerify, account, handleBackOnClick, isCounting, s
       <FormProvider {...method}>
         <Form name="normal_login" layout="vertical" className="w-full" onFinish={handleSubmit(handleVerify)}>
           <Form.Item className="flex items-center justify-center">
-            <CustomOTPInput setIsDirty={setIsDirty} />
+            <CustomOTPInput setIsDirty={setIsDirty} isCounting={isCounting} />
           </Form.Item>
           <Form.Item>
-            <SubmitButton isDirty={isDirty} />
+            <SubmitButton isDirty={isDirty} isSubmitting={isSubmitting} />
           </Form.Item>
         </Form>
       </FormProvider>
-      <Button type="default" size="large" className="w-full font-sans" disabled={isDisable} onClick={handleResend}>
+      <Button
+        type="default"
+        size="large"
+        className="w-full font-sans"
+        loading={isResent}
+        disabled={isDisable}
+        onClick={handleResend}
+      >
         Resend OTP{' '}
         <CountdownTimer
           seconds={120}

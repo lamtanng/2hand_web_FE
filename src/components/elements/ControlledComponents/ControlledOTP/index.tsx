@@ -4,12 +4,12 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { CustomOTPProps } from '../../../../types/input.type';
 import { InputOTP } from 'antd-input-otp';
 
-export default function CustomOTPInput({ setIsDirty }: CustomOTPProps) {
+export default function CustomOTPInput({ setIsDirty, isCounting }: CustomOTPProps) {
   const { control, watch } = useFormContext();
   const otpValue = watch('otp');
 
   useEffect(() => {
-    if (otpValue.length !== 6 || otpValue.includes('')){
+    if (otpValue.length !== 6 || otpValue.includes('') || isCounting === false){
       setIsDirty(false);
     } else {
       setIsDirty(true);

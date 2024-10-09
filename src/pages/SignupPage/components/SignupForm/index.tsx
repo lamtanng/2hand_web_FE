@@ -7,8 +7,8 @@ import SubmitButton from '../../../../components/elements/Buttons/SubmitButton';
 import useSignupForm from './useSignupForm';
 import { SignupFormProps } from './Signup.constant';
 
-const SignupForm = ({ hiddenSignup, handleSignupOnClick }: SignupFormProps) => {
-  const { handleSignup, handleSubmit, method } = useSignupForm(handleSignupOnClick);
+const SignupForm = ({ hiddenSignup, handleSignupOnClick, isSubmitting, setSubmitting }: SignupFormProps) => {
+  const { handleSignup, handleSubmit, method } = useSignupForm(handleSignupOnClick, setSubmitting);
 
   return (
     <>
@@ -33,7 +33,7 @@ const SignupForm = ({ hiddenSignup, handleSignupOnClick }: SignupFormProps) => {
               isRequired={true}
             />
             <Form.Item>
-              <SubmitButton />
+              <SubmitButton isSubmitting={isSubmitting} />
             </Form.Item>
           </Form>
         </FormProvider>

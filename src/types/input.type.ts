@@ -11,4 +11,5 @@ export interface CustomFormItemProps extends FormItemProps {
 
 export interface CustomOTPProps extends OTPProps {
   setIsDirty: React.Dispatch<React.SetStateAction<boolean>>;
+  isCounting: boolean;
 }

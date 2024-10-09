@@ -6,23 +6,27 @@ import { authAPIs } from '../../../../apis/auth.api';
 import { AxiosError } from 'axios';
 import { handleError } from '../../../../utils/handleError';
 
-const useSignupForm = (handleSignupOnClick: (account: UserProps) => void) => {
+const useSignupForm = (
+  handleSignupOnClick: (account: UserProps) => void,
+  setSubmitting: React.Dispatch<React.SetStateAction<boolean>>,
+) => {
   const method = useForm<UserProps>({
     resolver: yupResolver(signupSchema),
     defaultValues: {
       email: '',
       password: '',
       confirmPassword: '',
-    }
+    },
   });
   const { handleSubmit, reset } = method;
 
   const handleSignup = async (account: UserProps) => {
     try {
-      console.log(account);
+      setSubmitting(true);
+      await authAPIs.signup(account);
       handleSignupOnClick(account);
       reset();
-      await authAPIs.signup(account);
+      setSubmitting(false);
     } catch (error: AxiosError | any) {
       handleError(error);
     }

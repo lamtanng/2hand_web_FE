@@ -5,6 +5,8 @@ import { UserProps } from '../../../../types/user.type';
 export interface SignupFormProps {
   hiddenSignup: boolean;
   handleSignupOnClick: (account: UserProps) => void;
+  isSubmitting: boolean;
+  setSubmitting: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface SignupProps {

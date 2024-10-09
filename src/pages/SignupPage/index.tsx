@@ -8,6 +8,7 @@ const Signup = () => {
   const [hiddenSignup, setHiddenSignup] = useState<boolean>(false);
   const [hiddenVerify, setHiddenVerify] = useState<boolean>(true);
   const [isCounting, setCounting] = useState<boolean>(false);
+  const [isSubmitting, setSubmitting] = useState<boolean>(false);
 
   const handleSignupOnClick = (account: UserProps) => {
     setHiddenSignup(true);
@@ -26,13 +27,20 @@ const Signup = () => {
     <>
       <div className="flex h-screen w-full">
         <div className="flex w-full items-center justify-center lg:w-10/12">
-          <SignupForm hiddenSignup={hiddenSignup} handleSignupOnClick={handleSignupOnClick} />
+          <SignupForm
+            hiddenSignup={hiddenSignup}
+            handleSignupOnClick={handleSignupOnClick}
+            isSubmitting={isSubmitting}
+            setSubmitting={setSubmitting}
+          />
           <VerifyOTPForm
             hiddenVerify={hiddenVerify}
             account={account}
             handleBackOnClick={handleBackOnClick}
             isCounting={isCounting}
             setCounting={setCounting}
+            isSubmitting={isSubmitting}
+            setSubmitting={setSubmitting}
           />
         </div>
         <div className="relative hidden h-full w-full items-center justify-center bg-blue-50 lg:flex">

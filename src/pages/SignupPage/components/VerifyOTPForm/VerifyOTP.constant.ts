@@ -8,12 +8,14 @@ export interface VerifyFormProps {
   handleBackOnClick: () => void;
   isCounting: boolean;
   setCounting: React.Dispatch<React.SetStateAction<boolean>>;
+  isSubmitting: boolean;
+  setSubmitting: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-interface VerifyProps {
-  otp?: string;
+export interface VerifyProps {
+  otp?: number[];
 }
 
 export const verifySchema: yup.ObjectSchema<VerifyProps> = yup.object({
-  otp: yup.string().required(getRequiredMsg('OTP')),
+  otp: yup.array().required(getRequiredMsg('OTP')),
 });
