@@ -8,5 +8,5 @@ interface LoginProps{
 
 export const loginSchema: yup.ObjectSchema<LoginProps> = yup.object({
   email: yup.string().email().required(getRequiredMsg('Email')),
-  password: yup.string().required(getRequiredMsg('Email')),
+  password: yup.string().required(getRequiredMsg('Password')),
 });

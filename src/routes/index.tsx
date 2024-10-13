@@ -5,6 +5,8 @@ import { adminRoutes } from './admin.routes';
 import { ProtectedRoutes } from '../components/layouts/ProtectedRoutes';
 import { HomePageRoutes } from '../pages/HomePage/HomePage.routes';
 import { SignupRoute } from '../pages/SignupPage/Signup.routes';
+import Account from '../pages/customer/AccountPage';
+import { ProfileRoutes } from '../pages/customer/AccountPage/Profile/Profile.routes';
 
 const routes = createBrowserRouter([
   {
@@ -17,6 +19,13 @@ const routes = createBrowserRouter([
       {
         element: <ProtectedRoutes />,
         children: [adminRoutes],
+      },
+      {
+        path: '/account',
+        element: <Account />,
+        children: [
+          ProfileRoutes,
+        ]
       },
     ],
   },

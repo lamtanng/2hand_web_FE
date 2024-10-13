@@ -1,4 +1,4 @@
-import { FormItemProps } from 'antd';
+import { DatePickerProps, FormItemProps } from 'antd';
 import { OTPProps } from 'antd/es/input/OTP';
 
 export interface CustomFormItemProps extends FormItemProps {
@@ -7,9 +7,15 @@ export interface CustomFormItemProps extends FormItemProps {
   hint: string;
   type?: string;
   isRequired?: boolean;
+  isDisabled?: boolean;
 }
 
 export interface CustomOTPProps extends OTPProps {
   setIsDirty: React.Dispatch<React.SetStateAction<boolean>>;
   isCounting: boolean;
+}
+
+export interface CustomDatePickerProps extends DatePickerProps {
+  name: string;
+  label: string;
 }

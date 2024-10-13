@@ -8,6 +8,7 @@ export default function CustomFormItem({
   type = "text",
   label = "",
   isRequired = false,
+  isDisabled = false,
 }: CustomFormItemProps) {
   const { control } = useFormContext();
   const InputComponent = type === "password" ? Input.Password : Input;
@@ -24,7 +25,7 @@ export default function CustomFormItem({
           help={fieldState.error?.message}
           className='text-base'
         >
-          <InputComponent className="inputs w-full text-base h-10" placeholder={hint} {...field} />
+          <InputComponent className="inputs w-full text-base h-10" disabled={isDisabled} placeholder={hint} {...field} />
         </Form.Item>
       )}
     />
