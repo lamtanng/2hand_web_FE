@@ -3,7 +3,6 @@ import {
   HeartOutlined,
   HomeOutlined,
   LogoutOutlined,
-  MessageOutlined,
   NotificationOutlined,
   QuestionCircleOutlined,
   SettingOutlined,
@@ -15,11 +14,12 @@ import { useNavigate } from 'react-router-dom';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
-function getItem(label: React.ReactNode, key: React.Key, icon?: React.ReactNode): MenuItem {
+function getItem(label: React.ReactNode, key: React.Key, icon?: React.ReactNode, disabled?: boolean): MenuItem {
   return {
     key,
     icon,
     label,
+    disabled,
   } as MenuItem;
 }
 
@@ -31,8 +31,7 @@ const items: MenuItem[] = [
     children: [
       getItem('Profile', 'profile', <UserOutlined />),
       getItem('My Addresses', 'addresses', <HomeOutlined />),
-      getItem('Messages', 'messages', <MessageOutlined />),
-      getItem('Notifications', 'notifications', <NotificationOutlined />),
+      getItem('Notifications', 'notifications', <NotificationOutlined />, true),
     ],
   },
   {
@@ -42,7 +41,7 @@ const items: MenuItem[] = [
     children: [
       getItem('My Orders', 'orders', <FileTextOutlined />),
       getItem('My Reviews', 'reviews', <StarOutlined />),
-      getItem('Wishlist', 'wishlist', <HeartOutlined />),
+      getItem('Wishlist', 'wishlist', <HeartOutlined />, true),
     ],
   },
   {
@@ -51,7 +50,7 @@ const items: MenuItem[] = [
     label: 'Settings',
     children: [
       getItem('Change Password', 'changepassword', <SettingOutlined />),
-      getItem('Help Center', 'helpcenter', <QuestionCircleOutlined />),
+      getItem('Help Center', 'helpcenter', <QuestionCircleOutlined />, true),
       getItem('Log Out', '/', <LogoutOutlined />),
     ],
   },

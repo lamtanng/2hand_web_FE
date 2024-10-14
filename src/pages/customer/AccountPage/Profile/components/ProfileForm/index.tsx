@@ -23,7 +23,7 @@ const ProfileForm = () => {
         <CustomFormItem name="phoneNumber" hint="Phone number" label="Phone Number" isRequired={true} />
         <CustomDatePicker name="birthday" label="Birthday" />
         <Form.Item>
-            <SubmitButton />
+          <SubmitButton />
         </Form.Item>
       </Form>
     </FormProvider>

@@ -1,4 +1,4 @@
-import { DatePickerProps, FormItemProps } from 'antd';
+import { DatePickerProps, FormItemProps, RadioGroupProps } from 'antd';
 import { OTPProps } from 'antd/es/input/OTP';
 
 export interface CustomFormItemProps extends FormItemProps {
@@ -18,4 +18,10 @@ export interface CustomOTPProps extends OTPProps {
 export interface CustomDatePickerProps extends DatePickerProps {
   name: string;
   label: string;
+}
+
+export interface CustomRadioProps extends RadioGroupProps {
+  name: string;
+  label: string;
+  items: { value: string; name: string; }[],
 }

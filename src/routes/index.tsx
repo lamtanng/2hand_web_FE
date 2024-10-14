@@ -7,6 +7,9 @@ import { HomePageRoutes } from '../pages/HomePage/HomePage.routes';
 import { SignupRoute } from '../pages/SignupPage/Signup.routes';
 import Account from '../pages/customer/AccountPage';
 import { ProfileRoutes } from '../pages/customer/AccountPage/Profile/Profile.routes';
+import { AddressRoutes } from '../pages/customer/AccountPage/Address/Address.routes';
+import { MyOrdersRoutes } from '../pages/customer/AccountPage/MyOrders/MyOrder.routes';
+import { MyReviewsRoutes } from '../pages/customer/AccountPage/MyReviews/MyReviews.routes';
 
 const routes = createBrowserRouter([
   {
@@ -21,10 +24,13 @@ const routes = createBrowserRouter([
         children: [adminRoutes],
       },
       {
-        path: '/account',
+        path: '/user',
         element: <Account />,
         children: [
           ProfileRoutes,
+          AddressRoutes,
+          MyOrdersRoutes,
+          MyReviewsRoutes
         ]
       },
     ],
