@@ -5,7 +5,7 @@ import { authPaths } from '../../../constants/apiPaths/authPaths';
 
 export default function Header() {
   return (
-    <div className="nav-bar fixed z-10 mx-auto w-full bg-white p-5 shadow-sm">
+    <div className="nav-bar fixed z-20 mx-auto w-full bg-white py-5 shadow-sm">
       <Flex align="center" justify="space-between" className="mx-auto w-10/12">
         <Flex gap={'middle'} justify="start" align="center" className="flex flex-grow">
           <Flex gap="small" className="font-sans">
