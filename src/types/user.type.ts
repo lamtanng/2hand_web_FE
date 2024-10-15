@@ -2,8 +2,10 @@ export interface UserProps {
   id?: string;
   firstName?: string;
   lastName?: string;
-  email: string;
-  password: string;
+  email?: string;
+  password?: string;
+  confirmPassword?: string;
+  otp?: string;
   phoneNumber?: string;
   dateOfBirth?: Date;
   address?: string[];

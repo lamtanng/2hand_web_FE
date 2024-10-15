@@ -3,6 +3,8 @@ const loginPath = 'login';
 const logoutPath = 'logout';
 const signupPath = 'signup';
 const refreshPath = 'refresh';
+const verifyOTPPath = 'verify';
+const sendOTPPath = 'sendotp';
 
 export const authPaths = {
   authPath,
@@ -10,4 +12,6 @@ export const authPaths = {
   logoutPath,
   signupPath,
   refreshPath,
+  verifyOTPPath,
+  sendOTPPath,
 };

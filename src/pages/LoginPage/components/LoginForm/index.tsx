@@ -4,6 +4,7 @@ import CustomFormItem from '../../../../components/elements/ControlledComponents
 import useLoginForm from './useLoginForm';
 import SubmitButton from '../../../../components/elements/Buttons/SubmitButton';
 import { Link } from 'react-router-dom';
+import { authPaths } from '../../../../constants/apiPaths/authPaths';
 
 // Form Component
 const LoginForm: React.FC = () => {
@@ -11,10 +12,10 @@ const LoginForm: React.FC = () => {
 
   return (
     <div className="form-container w-8/12">
-      <p className="font-sans text-[46px] font-extrabold">Getting Started</p>
+      <p className="font-sans text-[46px] font-extrabold">Welcome Back</p>
       <p className="text-left font-sans text-base text-gray-600">
         Don't have account?{' '}
-        <Link to="/signup" className="font-medium no-underline">
+        <Link to={`/${authPaths.signupPath}`} className="font-medium no-underline">
           Sign up
         </Link>
       </p>
@@ -28,6 +29,7 @@ const LoginForm: React.FC = () => {
           </Form.Item>
         </Form>
       </FormProvider>
+      <Link to={'/'} className='font-sans no-underline'>Back to Home</Link>
     </div>
   );
 };

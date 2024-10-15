@@ -15,14 +15,19 @@ const useLoginForm = () => {
   const dispatch = useAppDispatch();
   const method = useForm<UserProps>({
     resolver: yupResolver(loginSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
   });
-  const { handleSubmit } = method;
+  const { handleSubmit, reset } = method;
 
   const handleLogin = async (account: UserProps) => {
     try {
       const res = await authAPIs.login(account);
       dispatch(storeAuth(res));
       navigate(`/${adminPaths.adminPath}/${adminPaths.dashboardPath}`);
+      reset();
     } catch (error: AxiosError | any) {
       handleError(error);
     }

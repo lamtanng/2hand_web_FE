@@ -2,8 +2,8 @@ import * as yup from 'yup';
 import { getRequiredMsg } from '../../utils/getMessage';
 
 interface LoginProps{
-  email: string,
-  password: string,
+  email?: string,
+  password?: string,
 }
 
 export const loginSchema: yup.ObjectSchema<LoginProps> = yup.object({
