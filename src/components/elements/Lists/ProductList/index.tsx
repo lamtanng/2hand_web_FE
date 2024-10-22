@@ -1,28 +1,28 @@
 import { Col, Row } from 'antd';
 import { Link } from 'react-router-dom';
 import ProductCard from '../../Cards/ProductCard';
-
-const data = [
-  { key: 1 },
-  { key: 2 },
-  { key: 3 },
-  { key: 4 },
-  { key: 5 },
-  { key: 6 },
-  { key: 7 },
-  { key: 8 },
-  { key: 9 },
-  { key: 10 },
-];
+import { useEffect, useState } from 'react';
+import useProductList from './useProductList';
 
 const ProductList = () => {
+  const [product, setProduct] = useState([]);
+  const { getProducts } = useProductList();
+  
+  const getAllProduct = async (page: number, limit: number, search: string) => {
+    const res = await getProducts(page, limit, search);
+    setProduct(res?.data.response.products);
+  };
+
+  useEffect(() => {
+    getAllProduct(1, 10, '');
+  }, []);
   return (
-    <Row gutter={[24, 24]} className="mt-10">
-      {data.map((item: any) => (
-        <Col span={4}>
+    <Row gutter={[0, 24]} className="mt-10">
+      {product.map((item: any) => (
+        <Col xs={12} md={8} xl={4}>
           <Link to={'#'} key={item.key} id="cate-card">
-            <div className="pr-6">
-              <ProductCard key={item.key} />
+            <div>
+              <ProductCard product={item} />
             </div>
           </Link>
         </Col>

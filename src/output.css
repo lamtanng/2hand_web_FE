@@ -133,16 +133,8 @@
   bottom: 0px;
 }
 
-#root .right-0{
-  right: 0px;
-}
-
-#root .top-1\/2{
-  top: 50%;
-}
-
-#root .z-10{
-  z-index: 10;
+#root .z-0{
+  z-index: 0;
 }
 
 #root .z-20{
@@ -153,9 +145,14 @@
   margin: 0px;
 }
 
-#root .mx-10{
-  margin-left: 2.5rem;
-  margin-right: 2.5rem;
+#root .mx-2{
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+#root .mx-5{
+  margin-left: 1.25rem;
+  margin-right: 1.25rem;
 }
 
 #root .mx-auto{
@@ -163,16 +160,12 @@
   margin-right: auto;
 }
 
-#root .mb-20{
-  margin-bottom: 5rem;
+#root .mb-10{
+  margin-bottom: 2.5rem;
 }
 
 #root .mt-10{
   margin-top: 2.5rem;
-}
-
-#root .mt-20{
-  margin-top: 5rem;
 }
 
 #root .flex{
@@ -211,10 +204,6 @@
   width: 33.333333%;
 }
 
-#root .w-1\/5{
-  width: 20%;
-}
-
 #root .w-10\/12{
   width: 83.333333%;
 }
@@ -227,33 +216,8 @@
   width: 66.666667%;
 }
 
-#root .w-\[12\.5\%\]{
-  width: 12.5%;
-}
-
 #root .w-full{
   width: 100%;
-}
-
-#root .min-w-80{
-  min-width: 20rem;
-}
-
-#root .max-w-screen-sm{
-  max-width: 640px;
-}
-
-#root .flex-shrink-0{
-  flex-shrink: 0;
-}
-
-#root .flex-grow{
-  flex-grow: 1;
-}
-
-#root .-translate-x-full{
-  --tw-translate-x: -100%;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
 @keyframes bounce{
@@ -352,23 +316,9 @@
   padding: 2.5rem;
 }
 
-#root .px-2{
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-}
-
-#root .py-1{
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
-}
-
-#root .py-5{
-  padding-top: 1.25rem;
-  padding-bottom: 1.25rem;
-}
-
-#root .pr-6{
-  padding-right: 1.5rem;
+#root .py-3{
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
 }
 
 #root .text-left{
@@ -392,14 +342,14 @@
   line-height: 1.5rem;
 }
 
-#root .text-lg{
-  font-size: 1.125rem;
-  line-height: 1.75rem;
-}
-
 #root .text-sm{
   font-size: 0.875rem;
   line-height: 1.25rem;
+}
+
+#root .text-xs{
+  font-size: 0.75rem;
+  line-height: 1rem;
 }
 
 #root .font-bold{
@@ -412,10 +362,6 @@
 
 #root .font-medium{
   font-weight: 500;
-}
-
-#root .font-semibold{
-  font-weight: 600;
 }
 
 #root .text-gray-500{
@@ -456,20 +402,52 @@
   transition-duration: 150ms;
 }
 
-#root .duration-300{
-  transition-duration: 300ms;
-}
-
-#root .duration-500{
-  transition-duration: 500ms;
-}
-
-#root .ease-in-out{
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-}
-
 #root .hover\:bg-transparent:hover{
   background-color: transparent;
+}
+
+@media (min-width: 768px){
+  #root .md\:mx-10{
+    margin-left: 2.5rem;
+    margin-right: 2.5rem;
+  }
+
+  #root .md\:mx-3{
+    margin-left: 0.75rem;
+    margin-right: 0.75rem;
+  }
+
+  #root .md\:mx-5{
+    margin-left: 1.25rem;
+    margin-right: 1.25rem;
+  }
+
+  #root .md\:mb-20{
+    margin-bottom: 5rem;
+  }
+
+  #root .md\:mt-20{
+    margin-top: 5rem;
+  }
+
+  #root .md\:inline{
+    display: inline;
+  }
+
+  #root .md\:text-base{
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
+  #root .md\:text-lg{
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+
+  #root .md\:text-sm{
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
 }
 
 @media (min-width: 1024px){
@@ -479,5 +457,54 @@
 
   #root .lg\:w-10\/12{
     width: 83.333333%;
+  }
+}
+
+@media (min-width: 1280px){
+  #root .xl\:mx-5{
+    margin-left: 1.25rem;
+    margin-right: 1.25rem;
+  }
+
+  #root .xl\:mx-auto{
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  #root .xl\:mt-10{
+    margin-top: 2.5rem;
+  }
+
+  #root .xl\:block{
+    display: block;
+  }
+
+  #root .xl\:flex{
+    display: flex;
+  }
+
+  #root .xl\:w-10\/12{
+    width: 83.333333%;
+  }
+
+  #root .xl\:w-full{
+    width: 100%;
+  }
+
+  #root .xl\:min-w-80{
+    min-width: 20rem;
+  }
+
+  #root .xl\:max-w-screen-sm{
+    max-width: 640px;
+  }
+
+  #root .xl\:flex-grow{
+    flex-grow: 1;
+  }
+
+  #root .xl\:text-base{
+    font-size: 1rem;
+    line-height: 1.5rem;
   }
 }

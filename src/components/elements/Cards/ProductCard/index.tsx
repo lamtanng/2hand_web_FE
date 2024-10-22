@@ -2,12 +2,12 @@ import { EnvironmentFilled } from '@ant-design/icons';
 import { Card } from 'antd';
 import defaultImg from '../../../../assets/blob.jpg';
 
-const ProductCard = ({key}: {key: number}) => {
+const ProductCard = ({product}: {product:any}) => {
   return (
-    <Card key={key} cover={<img alt="example" src={defaultImg} />}>
-      <p className="truncate text-base">Product name {key}</p>
-      <p className="text-lg font-bold">0 VND</p>
-      <p className="text-sm text-gray-500">
+    <Card key={product.id} cover={<img alt="example" src={defaultImg} />} className='mx-2 md:mx-5'>
+      <p className="truncate text-sm md:text-base">{product.name}</p>
+      <p className="text-base md:text-lg font-bold">{product.price} VND</p>
+      <p className="text-xs md:text-sm text-gray-500">
         <EnvironmentFilled /> Location
       </p>
     </Card>

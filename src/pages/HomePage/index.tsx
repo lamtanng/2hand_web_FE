@@ -16,11 +16,11 @@ const HomePage = () => {
   return (
     <>
       <Header />
-      <Flex vertical className="mb-20 mt-20 w-full">
+      <Flex vertical className="mt-10 mb-10 md:mb-20 md:mt-20 w-full">
         <div className="p-10">
           <CustomCarousel />
         </div>
-        <Flex vertical gap={45} className="mx-auto w-10/12">
+        <Flex vertical gap={45} className="mx-5 md:mx-10 xl:mx-auto xl:w-10/12">
           <div>
             <Typography.Title level={2}>Categories</Typography.Title>
             <CategorySlider />
