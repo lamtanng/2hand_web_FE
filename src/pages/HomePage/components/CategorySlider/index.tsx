@@ -41,7 +41,7 @@ const CategorySlider = () => {
         <Carousel responsive={responsive} className='z-0'>
         {category.map((item: CategoryProps) => (
           <div className="card" key={item.id}>
-          <Link to="#">
+          <Link to={'/product-list'}>
             <Card size="small" className='mx-2 md:mx-3 xl:mx-5'>
               <Flex vertical justify="center" align="center" gap={'middle'}>
                 <Image alt="" src="" fallback={defaultImg} preview={false} className="rounded-md" />

@@ -164,6 +164,10 @@
   margin-bottom: 2.5rem;
 }
 
+#root .mb-5{
+  margin-bottom: 1.25rem;
+}
+
 #root .mt-10{
   margin-top: 2.5rem;
 }
@@ -204,8 +208,16 @@
   width: 33.333333%;
 }
 
+#root .w-1\/5{
+  width: 20%;
+}
+
 #root .w-10\/12{
   width: 83.333333%;
+}
+
+#root .w-4\/5{
+  width: 80%;
 }
 
 #root .w-60{
@@ -364,6 +376,15 @@
   font-weight: 500;
 }
 
+#root .font-normal{
+  font-weight: 400;
+}
+
+#root .text-black{
+  --tw-text-opacity: 1;
+  color: rgb(0 0 0 / var(--tw-text-opacity));
+}
+
 #root .text-gray-500{
   --tw-text-opacity: 1;
   color: rgb(107 114 128 / var(--tw-text-opacity));
@@ -406,6 +427,25 @@
   background-color: transparent;
 }
 
+#root .hover\:text-blue-400:hover{
+  --tw-text-opacity: 1;
+  color: rgb(96 165 250 / var(--tw-text-opacity));
+}
+
+#root .hover\:text-blue-600:hover{
+  --tw-text-opacity: 1;
+  color: rgb(37 99 235 / var(--tw-text-opacity));
+}
+
+#root .active\:font-semibold:active{
+  font-weight: 600;
+}
+
+#root .active\:text-blue-700:active{
+  --tw-text-opacity: 1;
+  color: rgb(29 78 216 / var(--tw-text-opacity));
+}
+
 @media (min-width: 768px){
   #root .md\:mx-10{
     margin-left: 2.5rem;
@@ -432,6 +472,11 @@
 
   #root .md\:inline{
     display: inline;
+  }
+
+  #root .md\:py-5{
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
   }
 
   #root .md\:text-base{
@@ -473,10 +518,6 @@
 
   #root .xl\:mt-10{
     margin-top: 2.5rem;
-  }
-
-  #root .xl\:block{
-    display: block;
   }
 
   #root .xl\:flex{
