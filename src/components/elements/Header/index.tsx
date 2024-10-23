@@ -1,10 +1,18 @@
-import { Button, Flex } from 'antd';
+import { Flex } from 'antd';
 import Search from 'antd/es/input/Search';
 import { Link } from 'react-router-dom';
-import { authPaths } from '../../../constants/apiPaths/authPaths';
 import CustomCategoryMenu from '../Menu/CategoryMenu';
+import { useAppSelector } from '../../../redux/hooks';
+import { loginSelector } from '../../../redux/slices/login.slice';
+import UserInfoGroup from './components/UserInfoGroup';
+import ActionGroup from './components/ActionGroup';
 
 export default function Header() {
+  const { user } = useAppSelector(loginSelector);
+  console.log(user);
+
+  const displayingGroup = user.email ? <UserInfoGroup user={user} /> : <ActionGroup />;
+
   return (
     <>
       <div className="nav-bar fixed z-20 mx-auto w-full bg-white py-3 shadow-sm">
@@ -16,19 +24,13 @@ export default function Header() {
               </Link>
               <CustomCategoryMenu />
             </Flex>
-            <Search placeholder="input search text" allowClear className="hidden md:inline w-full xl:min-w-80 xl:max-w-screen-sm text-base" />
+            <Search
+              placeholder="input search text"
+              allowClear
+              className="hidden w-full text-base md:inline xl:min-w-80 xl:max-w-80"
+            />
           </Flex>
-          <Flex gap={'middle'} justify="center" align="center">
-            <Link to={authPaths.signupPath} className="font-sans">
-              Sign Up
-            </Link>
-            <Link to={authPaths.loginPath} className="font-sans">
-              Sign In
-            </Link>
-            <Button type="primary" className="hidden md:inline h-10 text-base">
-              Sell a product
-            </Button>
-          </Flex>
+          {displayingGroup}
         </Flex>
       </div>
     </>

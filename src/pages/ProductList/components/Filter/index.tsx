@@ -1,34 +1,6 @@
 import { Checkbox, Collapse, CollapseProps, Flex, Radio, Space } from 'antd';
 import { Link } from 'react-router-dom';
-
-const cate = (
-  <Flex vertical>
-    <Link to={'#'} className="font-normal text-black hover:text-blue-400 active:font-semibold active:text-blue-700">
-      All Cate
-    </Link>
-    <Link
-      to={'#'}
-      className="font-normal text-black hover:text-blue-600 active:font-semibold active:text-blue-700"
-      style={{ paddingInlineStart: 24 }}
-    >
-      Cate 1
-    </Link>
-    <Link
-      to={'#'}
-      className="font-normal text-black hover:text-blue-600 active:font-semibold active:text-blue-700"
-      style={{ paddingInlineStart: 24 }}
-    >
-      Cate 2
-    </Link>
-    <Link
-      to={'#'}
-      className="font-normal text-black hover:text-blue-600 active:font-semibold active:text-blue-700"
-      style={{ paddingInlineStart: 24 }}
-    >
-      Cate 3
-    </Link>
-  </Flex>
-);
+import { CategoryProps } from '../../../../types/category.type';
 
 const price = (
   <Radio.Group className="font-normal">
@@ -58,30 +30,46 @@ const quality = (
   </Flex>
 );
 
-const items: CollapseProps['items'] = [
-  {
-    key: '1',
-    label: 'Category',
-    children: cate,
-  },
-  {
-    key: '2',
-    label: 'Price',
-    children: price,
-  },
-  {
-    key: '3',
-    label: 'Location',
-    children: location,
-  },
-  {
-    key: '4',
-    label: 'Quality',
-    children: quality,
-  },
-];
+const Filter = ({ category }: { category: CategoryProps[] }) => {
+  const cate = (
+    <Flex vertical>
+      <Link to={'/product-list'} className="font-normal text-black hover:text-blue-400 active:font-semibold active:text-blue-700">
+        All Cate
+      </Link>
+      {category?.map((cate: CategoryProps) => (
+        <Link
+          to={'#'}
+          className="font-normal text-black hover:text-blue-600 active:font-semibold active:text-blue-700"
+          style={{ paddingInlineStart: 24 }}
+        >
+          {cate.name}
+        </Link>
+      ))}
+    </Flex>
+  );
 
-const Filter = () => {
+  const items: CollapseProps['items'] = [
+    {
+      key: '1',
+      label: 'Category',
+      children: cate,
+    },
+    {
+      key: '2',
+      label: 'Price',
+      children: price,
+    },
+    {
+      key: '3',
+      label: 'Location',
+      children: location,
+    },
+    {
+      key: '4',
+      label: 'Quality',
+      children: quality,
+    },
+  ];
   return (
     <Collapse items={items} bordered={false} ghost className="font-bold" defaultActiveKey={['1', '2', '3', '4']} />
   );

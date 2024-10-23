@@ -3,6 +3,7 @@ import { Breadcrumb } from 'antd';
 const items = [
   {
     title: 'Home',
+    href: '/',
   },
   {
     title: 'Products',
