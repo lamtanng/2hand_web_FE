@@ -8,8 +8,7 @@ import CustomBreadcrumb from './components/Breadcrumb';
 import useListProducts from './useProductListPage';
 
 const ProductList = () => {
-  
-  const { product, totalProducts, category } = useListProducts();
+  const { product, totalProducts, category, isLoading } = useListProducts();
 
   return (
     <>
@@ -32,8 +31,22 @@ const ProductList = () => {
                 <p>Sort by:</p>
               </Flex>
             </Flex>
-            <ListProducts productList={product} />
-            <Pagination align="center" defaultCurrent={1} total={totalProducts} className="mt-10" />
+            {isLoading && <p>Loaing products...</p>}
+            {product.length !== 0 ? (
+              <>
+                <ListProducts productList={product} />
+                <Pagination align="center" defaultCurrent={1} total={totalProducts} className="mt-10" />
+              </>
+            ) : (
+              <Flex vertical align="center">
+                <Typography.Title level={4} className="text-blue-600">
+                  No product is found
+                </Typography.Title>
+                <Typography.Paragraph>
+                  Please try again by reducing filters or checking your spelling.
+                </Typography.Paragraph>
+              </Flex>
+            )}
           </div>
         </Flex>
       </div>
