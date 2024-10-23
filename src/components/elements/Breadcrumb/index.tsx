@@ -7,12 +7,12 @@ const items = [
   },
   {
     title: 'Products',
-    href: '#',
+    href: '/product-list',
   },
 ];
 
 const CustomBreadcrumb = () => {
-  return <Breadcrumb className="mb-5" separator=">" items={items} />;
+  return <Breadcrumb separator=">" items={items} />;
 };
 
 export default CustomBreadcrumb;

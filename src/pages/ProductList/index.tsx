@@ -4,7 +4,7 @@ import Header from '../../components/elements/Header';
 import Search from 'antd/es/transfer/search';
 import Filter from './components/Filter';
 import ListProducts from './components/ListProducts';
-import CustomBreadcrumb from './components/Breadcrumb';
+import CustomBreadcrumb from '../../components/elements/Breadcrumb';
 import useListProducts from './useProductListPage';
 
 const ProductList = () => {

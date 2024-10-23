@@ -5,7 +5,7 @@ import Header from '../../components/elements/Header';
 // import { loginSelector } from '../../redux/slices/login.slice';
 import CustomCarousel from './components/Carousel';
 import CategorySlider from './components/CategorySlider';
-import ProductSlider from './components/ProductSlider';
+import ProductSlider from '../../components/elements/Slider/ProductSlider';
 import ProductList from '../../components/elements/Lists/ProductList';
 import SystemInfo from './components/SystemInfo';
 import Collection from './components/Collection';
@@ -16,7 +16,7 @@ const HomePage = () => {
   return (
     <>
       <Header />
-      <Flex vertical className="mt-10 mb-10 md:mb-20 md:mt-20 w-full">
+      <Flex vertical className="mb-10 mt-10 w-full md:mb-20 md:mt-20">
         <div className="p-10">
           <CustomCarousel />
         </div>
