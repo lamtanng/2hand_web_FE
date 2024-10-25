@@ -6,7 +6,7 @@ import { CategoryProps } from '../../types/category.type';
 import { ProductProps } from '../../types/product.type';
 
 const useListProducts = () => {
-  const [product, setProduct] = useState<ProductProps[]>([]);
+  const [product, setProduct] = useState<ProductProps[]>();
   const [category, setCategory] = useState<CategoryProps[]>([]);
   const [isLoading, setLoading] = useState<boolean>(false);
   const [totalProducts, setTotalProducts] = useState<number>(0);

@@ -15,9 +15,9 @@ const ProductList = () => {
       <Header />
       <div className="mx-5 mb-10 mt-10 md:mx-10 md:mb-20 md:mt-20 md:py-5 xl:mx-auto xl:w-10/12">
         <CustomBreadcrumb />
-        <Flex gap={'large'}>
+        <Flex gap={'large'} className='mt-5'>
           <Flex vertical gap={'large'} className="w-1/5">
-            <Search placeholder="Search for a product" />
+            <Search placeholder="Search for a product" onChange={(event) => console.log(event?.target.value)} />
             <Filter category={category} />
           </Flex>
           <Divider type="vertical" className="h-screen" />
@@ -32,7 +32,7 @@ const ProductList = () => {
               </Flex>
             </Flex>
             {isLoading && <p>Loaing products...</p>}
-            {product.length !== 0 ? (
+            {(product?.length !== 0) ? (
               <>
                 <ListProducts productList={product} />
                 <Pagination align="center" defaultCurrent={1} total={totalProducts} className="mt-10" />
