@@ -13,10 +13,7 @@ const CartItem = ({
   checkedList: any[];
   singleCheckBoxHandler: (event: any) => void;
 }) => {
-  const insertedList = group.products.map((product: any) => {
-    return product.productID;
-  });
-  const isGroupChecked = insertedList.every((value: any) => checkedList.includes(value)) ? true : false;
+  const isGroupChecked = group.products.every((value: any) => checkedList.includes(value)) ? true : false;
 
   return (
     <div id="cart-item" key={group.shop.id} className="mb-5 w-full rounded-md bg-white shadow-sm">

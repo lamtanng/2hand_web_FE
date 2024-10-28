@@ -1,33 +1,37 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 export const data = [
-    {
-      shop: {
-        id: 1,
-      },
-      products: [
-        {
-          productID: 11,
-        },
-        {
-          productID: 12,
-        },
-      ],
+  {
+    shop: {
+      id: 1,
     },
-    {
-      shop: {
-        id: 2,
+    products: [
+      {
+        productID: 11,
+        shopID: 1,
       },
-      products: [
-        {
-          productID: 21,
-        },
-        {
-          productID: 22,
-        },
-      ],
+      {
+        productID: 12,
+        shopID: 1,
+      },
+    ],
+  },
+  {
+    shop: {
+      id: 2,
     },
-  ];
+    products: [
+      {
+        productID: 21,
+        shopID: 2,
+      },
+      {
+        productID: 22,
+        shopID: 2,
+      },
+    ],
+  },
+];
 
 const useCart = () => {
   const [checkedList, setCheckedList] = useState<any[]>([]);
@@ -54,10 +58,7 @@ const useCart = () => {
     const selectedGroup = data.find((group: any) => {
       return group.shop.id === value;
     });
-    const selectedList =
-      selectedGroup?.products?.map((product: any) => {
-        return product.productID;
-      }) || [];
+    const selectedList = selectedGroup?.products || [];
     const insertedList = [...checkedList, ...selectedList].sort();
 
     if (isSelected) {
@@ -79,10 +80,7 @@ const useCart = () => {
       .map((group: any) => {
         return group.products;
       })
-      .flat()
-      .map((product: any) => {
-        return product.productID;
-      });
+      .flat();
 
     if (isSelected) {
       setCheckedList([...insertedList]);
@@ -97,15 +95,26 @@ const useCart = () => {
       .map((group: any) => {
         return group.products;
       })
-      .flat()
-      .map((product: any) => {
-        return product.productID;
-      }).length
+      .flat().length
       ? true
       : false;
 
+  const groupedByShop = checkedList.reduce((acc, item) => {
+    const { shopID } = item;
+    if (!acc[shopID]) {
+      acc[shopID] = [];
+    }
+    acc[shopID].push(item);
+    return acc;
+  }, {});
+
+  const handleOnClick = () => {
+    sessionStorage.setItem('checkout', JSON.stringify(groupedByShop));
+  }
+
   useEffect(() => {
     console.log(checkedList);
+    console.log(groupedByShop);
   }, [checkedList]);
 
   return {
@@ -114,7 +123,8 @@ const useCart = () => {
     groupCheckBoxHandler,
     allCheckBoxHandler,
     isCheckedAll,
-  }
+    handleOnClick,
+  };
 };
 
 export default useCart;

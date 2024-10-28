@@ -1,6 +1,16 @@
 import { Button, Checkbox, Flex, Typography } from 'antd';
 
-const Summary = ({checkedList, allCheckBoxHandler, checked}: {checkedList: any[], allCheckBoxHandler: (event: any) => void, checked: boolean}) => {
+const Summary = ({
+  checkedList,
+  allCheckBoxHandler,
+  checked,
+  handleOnClick,
+}: {
+  checkedList: any[];
+  allCheckBoxHandler: (event: any) => void;
+  checked: boolean;
+  handleOnClick: () => void;
+}) => {
   return (
     <div id="summary" className="rounded-md bg-white p-8 shadow-sm">
       <Flex justify="space-between" align="center">
@@ -18,7 +28,7 @@ const Summary = ({checkedList, allCheckBoxHandler, checked}: {checkedList: any[]
             Total price ({checkedList.length} {checkedList.length > 1 ? 'products' : 'product'}):
           </Typography.Paragraph>
           <Typography.Paragraph className="m-0 text-xl text-blue-600">0 VND</Typography.Paragraph>
-          <Button type="primary" className="px-10 py-5 text-base">
+          <Button type="primary" className="px-10 py-5 text-base" onClick={handleOnClick}>
             Checkout
           </Button>
         </Flex>

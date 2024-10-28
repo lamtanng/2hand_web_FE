@@ -22,9 +22,9 @@ const CartDetail = ({product, singleCheckBoxHandler, checkedList}:{product: any,
       <Flex id="cart-detail">
         <Flex gap={'large'} id="product" className="w-1/2">
           <Checkbox
-            value={product.productID}
+            value={product}
             onChange={singleCheckBoxHandler}
-            checked={checkedList.includes(product.productID)}
+            checked={checkedList.includes(product)}
           />
           <Image width={'13%'} alt="" src="" fallback={defaultPic} preview={false} />
           <Flex gap={'small'} vertical>

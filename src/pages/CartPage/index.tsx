@@ -7,7 +7,7 @@ import Summary from './components/Summary';
 import useCart, { data } from './useCartPage';
 
 const CartPage = () => {
-  const {checkedList, isCheckedAll, allCheckBoxHandler, groupCheckBoxHandler, singleCheckBoxHandler} = useCart();
+  const {checkedList, isCheckedAll, allCheckBoxHandler, groupCheckBoxHandler, singleCheckBoxHandler, handleOnClick} = useCart();
 
   return (
     <>
@@ -49,7 +49,7 @@ const CartPage = () => {
               />
             ))}
           </div>
-          <Summary checkedList={checkedList} allCheckBoxHandler={allCheckBoxHandler} checked={isCheckedAll} />
+          <Summary checkedList={checkedList} allCheckBoxHandler={allCheckBoxHandler} checked={isCheckedAll} handleOnClick={handleOnClick} />
           <div id="recommend-products" className="mt-10">
             <Typography.Title level={3} className="m-0">
               Recommended Products
