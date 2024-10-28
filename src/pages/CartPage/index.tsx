@@ -1,86 +1,13 @@
-import { Button, Checkbox, Flex, Typography } from 'antd';
+import { Checkbox, Flex, Typography } from 'antd';
 import Footer from '../../components/elements/Footer';
 import Header from '../../components/elements/Header';
 import ProductList from '../../components/elements/Lists/ProductList';
-import { useEffect, useState } from 'react';
 import CartItem from './components/CartItem';
 import Summary from './components/Summary';
-
-const data = [
-  {
-    shop: {
-      id: 1,
-    },
-    products: [
-      {
-        productID: 11,
-      },
-      {
-        productID: 12,
-      },
-    ],
-  },
-  {
-    shop: {
-      id: 2,
-    },
-    products: [
-      {
-        productID: 21,
-      },
-      {
-        productID: 22,
-      },
-    ],
-  },
-];
+import useCart, { data } from './useCartPage';
 
 const CartPage = () => {
-  const [checkedList, setCheckedList] = useState<any[]>([]);
-
-  const singleCheckBoxHandler = (event: any) => {
-    let isSelected = event.target.checked;
-    let value = event.target.value;
-
-    if (isSelected) {
-      setCheckedList([...checkedList, value]);
-    } else {
-      setCheckedList((prevData) => {
-        return prevData.filter((key) => {
-          return key !== value;
-        });
-      });
-    }
-  };
-
-  const groupCheckBoxHandler = (event: any) => {
-    let isSelected = event.target.checked;
-    let value = event.target.value;
-
-    const selectedGroup = data.find((group: any) => {
-      return group.shop.id === value;
-    });
-    const selectedList =
-      selectedGroup?.products?.map((product: any) => {
-        return product.productID;
-      }) || [];
-
-    if (isSelected) {
-      setCheckedList([...checkedList, ...selectedList]);
-    } else {
-      selectedList.forEach((id: any) => {
-        setCheckedList((prevData) => {
-          return prevData.filter((key) => {
-            return key !== id;
-          });
-        });
-      });
-    }
-  };
-
-  useEffect(() => {
-    console.log(checkedList);
-  }, [checkedList]);
+  const {checkedList, isCheckedAll, allCheckBoxHandler, groupCheckBoxHandler, singleCheckBoxHandler} = useCart();
 
   return (
     <>
@@ -90,7 +17,10 @@ const CartPage = () => {
           <div id="head" className="mb-5 rounded-md bg-white p-8 shadow-sm">
             <Flex>
               <Flex gap={'large'} className="w-1/2">
-                <Checkbox />
+                <Checkbox
+                  onChange={allCheckBoxHandler}
+                  checked={isCheckedAll}
+                />
                 <Typography.Paragraph className="m-0 text-base">Product</Typography.Paragraph>
               </Flex>
               <Flex justify="space-between" className="w-1/2">
@@ -119,7 +49,7 @@ const CartPage = () => {
               />
             ))}
           </div>
-          <Summary checkedList={checkedList} />
+          <Summary checkedList={checkedList} allCheckBoxHandler={allCheckBoxHandler} checked={isCheckedAll} />
           <div id="recommend-products" className="mt-10">
             <Typography.Title level={3} className="m-0">
               Recommended Products

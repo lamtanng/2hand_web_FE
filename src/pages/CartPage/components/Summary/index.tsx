@@ -1,11 +1,11 @@
 import { Button, Checkbox, Flex, Typography } from 'antd';
 
-const Summary = ({checkedList}: {checkedList: any[]}) => {
+const Summary = ({checkedList, allCheckBoxHandler, checked}: {checkedList: any[], allCheckBoxHandler: (event: any) => void, checked: boolean}) => {
   return (
     <div id="summary" className="rounded-md bg-white p-8 shadow-sm">
       <Flex justify="space-between" align="center">
         <Flex gap={'middle'} align="center" className="w-1/2">
-          <Checkbox />
+          <Checkbox onChange={allCheckBoxHandler} checked={checked} />
           <Button variant="link" color="default" className="p-0 text-base hover:text-inherit">
             Select All
           </Button>

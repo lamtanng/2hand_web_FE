@@ -1,7 +1,20 @@
 import { DeleteOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Divider, Flex, Image, Typography } from 'antd';
+import { Button, Checkbox, Divider, Flex, Image, InputNumber, Modal, Typography } from 'antd';
 import defaultPic from '../../../../assets/blob.jpg';
-import NumberInput from '../../../../components/elements/NumberInput';
+
+const { confirm } = Modal;
+
+const showConfirm = () => {
+  confirm({
+    title: 'Do you want to delete this item?',
+    onOk() {
+      console.log('OK');
+    },
+    onCancel() {
+      console.log('Cancel');
+    },
+  });
+};
 
 const CartDetail = ({product, singleCheckBoxHandler, checkedList}:{product: any, singleCheckBoxHandler: (event: any) => void, checkedList: any[]}) => {
   return (
@@ -24,13 +37,13 @@ const CartDetail = ({product, singleCheckBoxHandler, checkedList}:{product: any,
             <Typography.Paragraph className="m-0 text-base">0</Typography.Paragraph>
           </div>
           <div id="quantity" className="flex w-1/4 shrink-0 items-center justify-center">
-            <NumberInput/>
+            <InputNumber min={1} max={5} defaultValue={1} />
           </div>
           <div id="total" className="flex w-1/4 shrink-0 items-center justify-center">
             <Typography.Paragraph className="m-0 text-base">0</Typography.Paragraph>
           </div>
           <div id="actions" className="flex w-1/4 shrink-0 items-center justify-center">
-            <Button variant="link" color="primary">
+            <Button variant="link" color="danger" onClick={showConfirm}>
               <DeleteOutlined /> Delete
             </Button>
           </div>
