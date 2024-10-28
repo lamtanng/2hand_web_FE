@@ -153,6 +153,14 @@
   top: 198px;
 }
 
+#root .end-0{
+  inset-inline-end: 0px;
+}
+
+#root .right-0{
+  right: 0px;
+}
+
 #root .z-0{
   z-index: 0;
 }
@@ -163,6 +171,10 @@
 
 #root .z-20{
   z-index: 20;
+}
+
+#root .float-end{
+  float: inline-end;
 }
 
 #root .-m-5{
@@ -225,6 +237,26 @@
 
 #root .mt-5{
   margin-top: 1.25rem;
+}
+
+#root .mb-6{
+  margin-bottom: 1.5rem;
+}
+
+#root .mb-4{
+  margin-bottom: 1rem;
+}
+
+#root .mb-0{
+  margin-bottom: 0px;
+}
+
+#root .mt-0{
+  margin-top: 0px;
+}
+
+#root .mt-6{
+  margin-top: 1.5rem;
 }
 
 #root .inline{
@@ -340,6 +372,22 @@
   width: 100%;
 }
 
+#root .w-1\/12{
+  width: 8.333333%;
+}
+
+#root .w-4\/6{
+  width: 66.666667%;
+}
+
+#root .w-2\/5{
+  width: 40%;
+}
+
+#root .w-3\/5{
+  width: 60%;
+}
+
 #root .shrink-0{
   flex-shrink: 0;
 }
@@ -373,8 +421,20 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+#root .content-end{
+  align-content: flex-end;
+}
+
+#root .items-end{
+  align-items: flex-end;
+}
+
 #root .items-center{
   align-items: center;
+}
+
+#root .justify-end{
+  justify-content: flex-end;
 }
 
 #root .justify-center{
@@ -413,6 +473,20 @@
 
 #root .rounded-xl{
   border-radius: 0.75rem;
+}
+
+#root .border-t{
+  border-top-width: 1px;
+}
+
+#root .border-t-slate-50{
+  --tw-border-opacity: 1;
+  border-top-color: rgb(248 250 252 / var(--tw-border-opacity));
+}
+
+#root .border-r-slate-50{
+  --tw-border-opacity: 1;
+  border-right-color: rgb(248 250 252 / var(--tw-border-opacity));
 }
 
 #root .bg-black{
@@ -543,6 +617,10 @@
 
 #root .text-center{
   text-align: center;
+}
+
+#root .text-end{
+  text-align: end;
 }
 
 #root .\!font-sans{

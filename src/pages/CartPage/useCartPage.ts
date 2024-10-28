@@ -1,4 +1,6 @@
+import { Modal } from 'antd';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const data = [
   {
@@ -33,8 +35,17 @@ export const data = [
   },
 ];
 
+const { confirm } = Modal;
+
+const showConfirm = () => {
+  confirm({
+    title: 'Please choose at least one product',
+  });
+};
+
 const useCart = () => {
   const [checkedList, setCheckedList] = useState<any[]>([]);
+  const navigate = useNavigate();
 
   const singleCheckBoxHandler = (event: any) => {
     let isSelected = event.target.checked;
@@ -108,13 +119,23 @@ const useCart = () => {
     return acc;
   }, {});
 
+  const groupedByShopArray = Object.entries(groupedByShop).map(([shopID, products]) => ({
+    shopID: Number(shopID), // Convert the shopID back to a number
+    products,
+  }));
+
   const handleOnClick = () => {
-    sessionStorage.setItem('checkout', JSON.stringify(groupedByShop));
-  }
+    if (checkedList.length === 0) {
+        showConfirm()
+    } else {
+        sessionStorage.setItem('checkout', JSON.stringify(groupedByShopArray));
+    navigate('/checkout');
+    }
+  };
 
   useEffect(() => {
     console.log(checkedList);
-    console.log(groupedByShop);
+    console.log(groupedByShopArray);
   }, [checkedList]);
 
   return {
