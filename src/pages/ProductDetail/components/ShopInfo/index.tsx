@@ -19,7 +19,7 @@ const ShopInfo = () => {
                 <Button variant="filled" color="primary" className="w-1/2">
                   <MessageOutlined /> Chat now
                 </Button>
-                <Button variant="outlined" color="primary" className="w-1/2">
+                <Button variant="outlined" color="primary" className="w-1/2" href='/store'>
                   <ShopOutlined /> Visit shop
                 </Button>
               </Flex>
