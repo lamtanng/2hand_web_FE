@@ -21,7 +21,7 @@ const ShipmentInfo = () => {
           </Flex>
         </Flex>
       </div>
-      <Divider className="m-0" />
+      <Divider className="m-0" variant='dashed' />
       <Flex gap={'middle'} justify="end" className="p-8">
         <Typography.Paragraph className="m-0 text-base">Total Price (0 product):</Typography.Paragraph>
         <Typography.Title level={4} className="m-0 font-normal text-blue-600">

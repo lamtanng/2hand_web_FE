@@ -21,13 +21,13 @@ const CheckoutPage = () => {
                 <Typography.Paragraph className="m-0 text-base">Product</Typography.Paragraph>
               </Flex>
               <Flex justify="space-between" className="w-1/2">
-                <Typography.Paragraph className="m-0 flex w-1/4 shrink-0 items-center justify-center text-base">
+                <Typography.Paragraph className="m-0 flex w-1/3 shrink-0 items-center justify-center text-base">
                   Price
                 </Typography.Paragraph>
-                <Typography.Paragraph className="m-0 flex w-1/4 shrink-0 items-center justify-center text-base">
+                <Typography.Paragraph className="m-0 flex w-1/3 shrink-0 items-center justify-center text-base">
                   Quantity
                 </Typography.Paragraph>
-                <Typography.Paragraph className="m-0 flex w-1/4 shrink-0 items-center justify-center text-base">
+                <Typography.Paragraph className="m-0 flex w-1/3 shrink-0 items-center justify-center text-base">
                   Total
                 </Typography.Paragraph>
               </Flex>

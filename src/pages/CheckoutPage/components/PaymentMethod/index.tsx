@@ -9,7 +9,7 @@ const PaymentMethod = () => {
         </Typography.Title>
         <Flex align="center" gap={'large'}>
           <Typography.Paragraph className="m-0 text-base">Cash on delivery</Typography.Paragraph>
-          <Button variant="text" color="primary" className="p-0 text-base">
+          <Button variant="text" color="primary" className="p-0 text-base hover:bg-transparent">
             Change
           </Button>
         </Flex>
@@ -33,7 +33,7 @@ const PaymentMethod = () => {
           </Flex>
         </Flex>
       </Flex>
-      <Divider className="m-0" />
+      <Divider className="m-0" variant="dashed" />
       <Flex className="p-8" justify="space-between" align="center">
         <Typography.Paragraph className="m-0 text-gray-500">
           By clicking "Place Order", you have agreed with our policies.

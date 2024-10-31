@@ -1,7 +1,14 @@
-import { EnvironmentOutlined } from "@ant-design/icons";
-import { Button, Divider, Flex, Tag, Typography } from "antd";
+import { EnvironmentOutlined } from '@ant-design/icons';
+import { Button, Divider, Flex, Tag, Typography } from 'antd';
+import { useState } from 'react';
+import AddressModal from './components/AddressModal';
 
 const ReceiverAddress = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
   return (
     <div id="receiver-address" className="mb-6 rounded-md bg-white p-8 shadow-sm">
       <Typography.Title level={4} className="m-0 text-blue-600">
@@ -20,9 +27,10 @@ const ReceiverAddress = () => {
           <Tag color="geekblue">Default</Tag>
         </div>
         <div className="w-1/12">
-          <Button variant="text" color="primary" className="p-0 hover:bg-transparent">
+          <Button variant="text" color="primary" className="p-0 hover:bg-transparent" onClick={showModal}>
             Change
           </Button>
+          <AddressModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
         </div>
       </Flex>
     </div>

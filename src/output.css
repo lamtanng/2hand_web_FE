@@ -117,6 +117,18 @@
   }
 }
 
+#root .visible{
+  visibility: visible;
+}
+
+#root .\!visible{
+  visibility: visible !important;
+}
+
+#root .invisible{
+  visibility: hidden;
+}
+
 #root .fixed{
   position: fixed;
 }
@@ -127,6 +139,10 @@
 
 #root .relative{
   position: relative;
+}
+
+#root .inset-0{
+  inset: 0px;
 }
 
 #root .-right-2{
@@ -145,20 +161,20 @@
   left: 198px;
 }
 
+#root .right-2{
+  right: 0.5rem;
+}
+
+#root .top-2{
+  top: 0.5rem;
+}
+
 #root .top-20{
   top: 5rem;
 }
 
 #root .top-\[198px\]{
   top: 198px;
-}
-
-#root .end-0{
-  inset-inline-end: 0px;
-}
-
-#root .right-0{
-  right: 0px;
 }
 
 #root .z-0{
@@ -173,8 +189,8 @@
   z-index: 20;
 }
 
-#root .float-end{
-  float: inline-end;
+#root .z-30{
+  z-index: 30;
 }
 
 #root .-m-5{
@@ -215,12 +231,24 @@
   margin-bottom: 1.25rem;
 }
 
+#root .mb-0{
+  margin-bottom: 0px;
+}
+
 #root .mb-10{
   margin-bottom: 2.5rem;
 }
 
+#root .mb-2{
+  margin-bottom: 0.5rem;
+}
+
 #root .mb-5{
   margin-bottom: 1.25rem;
+}
+
+#root .mb-6{
+  margin-bottom: 1.5rem;
 }
 
 #root .mb-8{
@@ -237,22 +265,6 @@
 
 #root .mt-5{
   margin-top: 1.25rem;
-}
-
-#root .mb-6{
-  margin-bottom: 1.5rem;
-}
-
-#root .mb-4{
-  margin-bottom: 1rem;
-}
-
-#root .mb-0{
-  margin-bottom: 0px;
-}
-
-#root .mt-0{
-  margin-top: 0px;
 }
 
 #root .mt-6{
@@ -308,8 +320,16 @@
   height: 100vh;
 }
 
+#root .max-h-screen{
+  max-height: 100vh;
+}
+
 #root .min-h-screen{
   min-height: 100vh;
+}
+
+#root .w-1\/12{
+  width: 8.333333%;
 }
 
 #root .w-1\/2{
@@ -340,12 +360,24 @@
   width: 66.666667%;
 }
 
+#root .w-2\/5{
+  width: 40%;
+}
+
+#root .w-3\/5{
+  width: 60%;
+}
+
 #root .w-32{
   width: 8rem;
 }
 
 #root .w-4\/5{
   width: 80%;
+}
+
+#root .w-4\/6{
+  width: 66.666667%;
 }
 
 #root .w-5\/12{
@@ -372,22 +404,6 @@
   width: 100%;
 }
 
-#root .w-1\/12{
-  width: 8.333333%;
-}
-
-#root .w-4\/6{
-  width: 66.666667%;
-}
-
-#root .w-2\/5{
-  width: 40%;
-}
-
-#root .w-3\/5{
-  width: 60%;
-}
-
 #root .shrink-0{
   flex-shrink: 0;
 }
@@ -398,6 +414,12 @@
 
 #root .translate-x-1\/2{
   --tw-translate-x: 50%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+#root .scale-100{
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
@@ -425,16 +447,8 @@
   align-content: flex-end;
 }
 
-#root .items-end{
-  align-items: flex-end;
-}
-
 #root .items-center{
   align-items: center;
-}
-
-#root .justify-end{
-  justify-content: flex-end;
 }
 
 #root .justify-center{
@@ -475,23 +489,17 @@
   border-radius: 0.75rem;
 }
 
-#root .border-t{
-  border-top-width: 1px;
-}
-
-#root .border-t-slate-50{
-  --tw-border-opacity: 1;
-  border-top-color: rgb(248 250 252 / var(--tw-border-opacity));
-}
-
-#root .border-r-slate-50{
-  --tw-border-opacity: 1;
-  border-right-color: rgb(248 250 252 / var(--tw-border-opacity));
+#root .border-none{
+  border-style: none;
 }
 
 #root .bg-black{
   --tw-bg-opacity: 1;
   background-color: rgb(0 0 0 / var(--tw-bg-opacity));
+}
+
+#root .bg-black\/20{
+  background-color: rgb(0 0 0 / 0.2);
 }
 
 #root .bg-blue-50{
@@ -552,6 +560,10 @@
 
 #root .p-10{
   padding: 2.5rem;
+}
+
+#root .p-6{
+  padding: 1.5rem;
 }
 
 #root .p-8{
@@ -617,10 +629,6 @@
 
 #root .text-center{
   text-align: center;
-}
-
-#root .text-end{
-  text-align: end;
 }
 
 #root .\!font-sans{
@@ -695,6 +703,11 @@
   color: rgb(37 99 235 / var(--tw-text-opacity));
 }
 
+#root .text-gray-400{
+  --tw-text-opacity: 1;
+  color: rgb(156 163 175 / var(--tw-text-opacity));
+}
+
 #root .text-gray-500{
   --tw-text-opacity: 1;
   color: rgb(107 114 128 / var(--tw-text-opacity));
@@ -712,6 +725,20 @@
 
 #root .no-underline{
   text-decoration-line: none;
+}
+
+#root .opacity-0{
+  opacity: 0;
+}
+
+#root .opacity-100{
+  opacity: 1;
+}
+
+#root .shadow{
+  --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
 #root .shadow-sm{
@@ -734,6 +761,18 @@
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+#root .transition-all{
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+#root .transition-colors{
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
