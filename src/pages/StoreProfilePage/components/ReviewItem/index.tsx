@@ -17,7 +17,7 @@ const ReviewItem = () => {
         <Flex gap={'middle'} className="flex-grow" vertical>
           <Flex gap={'small'} vertical>
             <Typography.Paragraph className="m-0 text-base">User's Name</Typography.Paragraph>
-            <Rate />
+            <Rate allowHalf defaultValue={4} disabled />
             <Typography.Paragraph className="m-0 text-gray-500">Review Date</Typography.Paragraph>
           </Flex>
           <Typography.Paragraph className="m-0 text-base">Content</Typography.Paragraph>

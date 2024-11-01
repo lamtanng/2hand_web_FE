@@ -1,9 +1,9 @@
-import { Avatar, Button, Flex, Pagination, Rate, Typography } from 'antd';
+import { Avatar, Button, Flex, Rate, Typography } from 'antd';
 import Footer from '../../components/elements/Footer';
 import Header from '../../components/elements/Header';
 import { UserOutlined } from '@ant-design/icons';
 import ProductList from '../../components/elements/Lists/ProductList';
-import ReviewItem from './components/ReviewItem';
+import ReviewList from './components/ReviewList';
 
 const StoreProfilePage = () => {
   return (
@@ -11,19 +11,36 @@ const StoreProfilePage = () => {
       <Header />
       <div className="-m-5 min-h-screen bg-slate-50 px-5">
         <div className="mx-5 mb-10 md:mx-10 md:mt-20 md:py-10 md:pb-20 xl:mx-auto xl:w-10/12">
-          <div className="mb-5 rounded-xl bg-white px-24 py-8 shadow-sm">
-            <Flex gap={100}>
+          <div className="mb-6 rounded-xl bg-white px-24 py-8 shadow-sm">
+            <Flex gap={100} align='center'>
               <Avatar size={150} icon={<UserOutlined />} />
-              <Flex id="store-info" vertical gap={'small'}>
-                <Typography.Paragraph className="m-0 text-base">Shop ID:</Typography.Paragraph>
-                <Typography.Paragraph className="m-0 text-base">Shop name:</Typography.Paragraph>
-                <Typography.Paragraph className="m-0 text-base">Rate:</Typography.Paragraph>
-                <Typography.Paragraph className="m-0 text-base">Products:</Typography.Paragraph>
-                <Typography.Paragraph className="m-0 text-base">Orders:</Typography.Paragraph>
-              </Flex>
+              <div id="store-info" className="grid grid-cols-2 gap-6">
+                <Typography.Paragraph className="m-0 text-base">Store ID: ID</Typography.Paragraph>
+                <Typography.Paragraph className="m-0 text-base">Store name: Name</Typography.Paragraph>
+                <Typography.Paragraph className="m-0 text-base">
+                  Rate:
+                  <Rate allowHalf defaultValue={4} disabled className='m-0' />
+                </Typography.Paragraph>
+                <Typography.Paragraph className="m-0 text-base">Products: 0</Typography.Paragraph>
+                <Typography.Paragraph className="m-0 text-base">Orders: 0</Typography.Paragraph>
+              </div>
             </Flex>
           </div>
-          <div className="mb-5 p-8">
+          <div className="mb-6 rounded-xl bg-white p-8 shadow-sm">
+            <Typography.Title level={3} className="m-0 mb-6">
+              About Store
+            </Typography.Title>
+            <Typography.Paragraph className="m-0 text-base">
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis animi, nostrum beatae, officiis incidunt,
+              tempora soluta aut temporibus assumenda dolores sapiente! Architecto, eum autem voluptatum doloremque
+              nulla odit? Minus, pariatur. Fugit perferendis dicta nihil est, illo suscipit. Mollitia corporis ut
+              veritatis magnam harum voluptatibus quibusdam facilis commodi sint sit enim ipsam nihil, blanditiis dicta
+              non praesentium nesciunt! Quod, tenetur consectetur? Excepturi rem exercitationem, labore corrupti omnis
+              cum dolore, hic nisi optio sed esse quibusdam ea repellendus ipsam, illum non tenetur laudantium tempore
+              minima. Voluptatibus nulla necessitatibus corporis eaque voluptatem maxime.
+            </Typography.Paragraph>
+          </div>
+          <div className="mb-6 p-8">
             <Flex align="baseline" gap={'large'}>
               <Typography.Title level={3} className="m-0">
                 Posted Products
@@ -34,48 +51,7 @@ const StoreProfilePage = () => {
             </Flex>
             <ProductList />
           </div>
-          <div className="mb-5 rounded-xl bg-white p-8 shadow-sm">
-            <Typography.Title level={3} className="m-0 mb-6">
-              All Reviews
-            </Typography.Title>
-            <div className="mb-6 rounded-md bg-blue-50 p-6">
-              <Flex gap={'middle'} className="mb-4">
-                <Rate />
-                <Typography.Paragraph className="m-0">(0/5)</Typography.Paragraph>
-                <Typography.Paragraph className="m-0">(number reviews)</Typography.Paragraph>
-              </Flex>
-              <Flex gap={'middle'}>
-                <Button variant="outlined" color="primary" className="px-5 py-3">
-                  All
-                </Button>
-                <Button variant="outlined" color="primary" className="px-5 py-3">
-                  5 stars (0)
-                </Button>
-                <Button variant="outlined" color="primary" className="px-5 py-3">
-                  4 stars (0)
-                </Button>
-                <Button variant="outlined" color="primary" className="px-5 py-3">
-                  3 stars (0)
-                </Button>
-                <Button variant="outlined" color="primary" className="px-5 py-3">
-                  2 stars (0)
-                </Button>
-                <Button variant="outlined" color="primary" className="px-5 py-3">
-                  1 stars (0)
-                </Button>
-                <Button variant="outlined" color="primary" className="px-5 py-3">
-                  Has content (0)
-                </Button>
-                <Button variant="outlined" color="primary" className="px-5 py-3">
-                  Has images/videos (0)
-                </Button>
-              </Flex>
-            </div>
-            <div id="review list">
-              <ReviewItem />
-            </div>
-            <Pagination align="center" defaultCurrent={1} total={10} />
-          </div>
+          <ReviewList />
         </div>
       </div>
       <Footer />

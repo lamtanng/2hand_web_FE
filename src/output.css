@@ -463,6 +463,10 @@
   gap: 4rem;
 }
 
+#root .gap-6{
+  gap: 1.5rem;
+}
+
 #root .overflow-hidden{
   overflow: hidden;
 }
