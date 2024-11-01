@@ -1,16 +1,25 @@
 import { EnvironmentFilled } from '@ant-design/icons';
 import { Card } from 'antd';
 import defaultImg from '../../../../assets/blob.jpg';
+import { Link } from 'react-router-dom';
+import { ProductProps } from '../../../../types/product.type';
 
-const ProductCard = ({product}: {product:any}) => {
+const ProductCard = ({ product }: { product: ProductProps }) => {
   return (
-    <Card key={product.id} cover={<img alt="example" src={defaultImg} />} className='mx-2 md:mx-5'>
-      <p className="truncate text-sm md:text-base">{product.name}</p>
-      <p className="text-base md:text-lg font-bold">{product.price} VND</p>
-      <p className="text-xs md:text-sm text-gray-500">
-        <EnvironmentFilled /> Location
-      </p>
-    </Card>
+    <Link to={'/product-detail'} key={product.id} id="cate-card" className="no-underline">
+      <Card cover={<img alt="example" src={defaultImg} />} className="relative mx-2 md:mx-3">
+        <p className="truncate text-sm md:text-base">{product.name}</p>
+        <p className="text-base font-bold md:text-lg">{product.price} VND</p>
+        <p className="text-xs text-gray-500 md:text-sm">
+          <EnvironmentFilled /> Location
+        </p>
+        {!(product.quantity !== 0) && (
+          <div className="absolute top-20 z-10 translate-x-1/2 rounded-full bg-black bg-opacity-65 px-5 py-10 font-semibold text-white">
+            Sold Out
+          </div>
+        )}
+      </Card>
+    </Link>
   );
 };
 

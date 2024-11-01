@@ -1,5 +1,4 @@
-import { Link } from 'react-router-dom';
-import ProductCard from '../../../../components/elements/Cards/ProductCard';
+import ProductCard from '../../Cards/ProductCard';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 
@@ -14,7 +13,7 @@ const responsive = {
   },
   mobile: {
     breakpoint: { max: 464, min: 0 },
-    items: 1,
+    items: 2,
   },
 };
 
@@ -35,12 +34,10 @@ const ProductSlider = () => {
   return (
     <div className="relative mt-10 w-full overflow-hidden">
       {data && (
-        <Carousel responsive={responsive} itemClass="carousel-item-padding-40-px" className='z-0'>
+        <Carousel responsive={responsive} className='z-0'>
           {data.map((item: any) => (
-            <div>
-              <Link to={'#'} key={item.key} id="cate-card">
-                <ProductCard product={item} />
-              </Link>
+            <div key={item.key}>
+              <ProductCard product={item} />
             </div>
           ))}
         </Carousel>

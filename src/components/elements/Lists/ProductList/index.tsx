@@ -1,24 +1,20 @@
-import { Col, Row } from 'antd';
-import { Link } from 'react-router-dom';
 import ProductCard from '../../Cards/ProductCard';
 import useProductList from './useProductList';
+import { ProductProps } from '../../../../types/product.type';
 
 const ProductList = () => {
-  
   const { product } = useProductList();
-  
+
   return (
-    <Row gutter={[0, 24]} className="mt-10">
-      {product.map((item: any) => (
-        <Col xs={12} md={8} xl={4}>
-          <Link to={'#'} key={item.key} id="cate-card">
-            <div>
-              <ProductCard product={item} />
-            </div>
-          </Link>
-        </Col>
-      ))}
-    </Row>
+    <>
+      <div className="mt-10 grid grid-cols-2 md:grid-cols-3 md:gap-x-0 md:gap-y-6 xl:grid-cols-5">
+        {product.map((item: ProductProps) => (
+          <div key={item.id}>
+            <ProductCard product={item} />
+          </div>
+        ))}
+      </div>
+    </>
   );
 };
 
