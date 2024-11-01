@@ -8,6 +8,7 @@ import { SignupRoute } from '../pages/SignupPage/Signup.routes';
 import { ProductListRoutes } from '../pages/ProductList/ProductList.routes';
 import { ProductDetailRoutes } from '../pages/ProductDetail/ProductDetail.routes';
 import { CartPageRoutes } from '../pages/CartPage/CartPage.routes';
+import { ChekoutPageRoutes } from '../pages/CheckoutPage/CheckoutPage.routes';
 
 const routes = createBrowserRouter([
   {
@@ -24,6 +25,7 @@ const routes = createBrowserRouter([
         children: [adminRoutes],
       },
       CartPageRoutes,
+      ChekoutPageRoutes,
     ],
   },
 ]);
