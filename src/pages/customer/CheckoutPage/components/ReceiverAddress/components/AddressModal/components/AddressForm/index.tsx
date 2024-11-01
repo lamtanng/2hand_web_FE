@@ -1,8 +1,8 @@
 import useAddressForm from './useAddressFrom';
 import { FormProvider } from 'react-hook-form';
 import { Button, Checkbox, Divider, Dropdown, Flex, Form, MenuProps, Space } from 'antd';
-import CustomFormItem from '../../../../../../../../components/elements/ControlledComponents/ControlledInput';
-import SubmitButton from '../../../../../../../../components/elements/Buttons/SubmitButton';
+import CustomFormItem from '../../../../../../../../../components/elements/ControlledComponents/ControlledInput';
+import SubmitButton from '../../../../../../../../../components/elements/Buttons/SubmitButton';
 
 const items: MenuProps['items'] = [
   {

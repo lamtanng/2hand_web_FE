@@ -27,7 +27,7 @@ const Order = () => {
           </Flex>
         </div>
         <Divider />
-        <Link to={'#'}>
+        <Link to={'id'}>
           <div id="order-detail">
             <Flex justify="space-between" align="center">
               <div id="product-info">
