@@ -1,7 +1,7 @@
 const Footer = () => {
   return (
     <div className="mx-auto w-10/12">
-      hello
+      Footer
     </div>
   )
 }
