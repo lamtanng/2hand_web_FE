@@ -7,6 +7,7 @@ import { HomePageRoutes } from '../pages/HomePage/HomePage.routes';
 import { SignupRoute } from '../pages/SignupPage/Signup.routes';
 import { ProductListRoutes } from '../pages/ProductList/ProductList.routes';
 import { ProductDetailRoutes } from '../pages/ProductDetail/ProductDetail.routes';
+import { CartPageRoutes } from '../pages/CartPage/CartPage.routes';
 
 const routes = createBrowserRouter([
   {
@@ -22,6 +23,7 @@ const routes = createBrowserRouter([
         element: <ProtectedRoutes />,
         children: [adminRoutes],
       },
+      CartPageRoutes,
     ],
   },
 ]);
