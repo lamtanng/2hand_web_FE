@@ -1,7 +1,6 @@
 import { Card, Flex, Image, Typography } from 'antd';
 import defaultImg from '../../../../assets/blob.jpg';
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 import useCategorySlider from './useCategorySlider';
 import { CategoryProps } from '../../../../types/category.type';
 import Carousel from 'react-multi-carousel';
@@ -23,35 +22,25 @@ const responsive = {
 };
 
 const CategorySlider = () => {
-  const [category, setCategory] = useState<CategoryProps[]>();
-  const { getAllCategory } = useCategorySlider();
-
-  const getAllCate = async () => {
-    const res = await getAllCategory();
-    setCategory(res?.data.cates);
-  };
-
-  useEffect(() => {
-    getAllCate();
-  }, []);
+  const { category } = useCategorySlider();
 
   return (
     <div className="relative mt-10 w-full overflow-hidden">
       {category && (
-        <Carousel responsive={responsive} className='z-0'>
-        {category.map((item: CategoryProps) => (
-          <div className="card" key={item.id}>
-          <Link to="#">
-            <Card size="small" className='mx-2 md:mx-3 xl:mx-5'>
-              <Flex vertical justify="center" align="center" gap={'middle'}>
-                <Image alt="" src="" fallback={defaultImg} preview={false} className="rounded-md" />
-                <Typography.Paragraph className="m-0 text-sm xl:text-base">{item.name}</Typography.Paragraph>
-              </Flex>
-            </Card>
-          </Link>
-        </div>
-        ))}
-      </Carousel>
+        <Carousel responsive={responsive} className="z-0">
+          {category.map((item: CategoryProps) => (
+            <div className="card" key={item.id}>
+              <Link to={'/product-list'}>
+                <Card size="small" className="mx-2 md:mx-3 xl:mx-5">
+                  <Flex vertical justify="center" align="center" gap={'middle'}>
+                    <Image alt="" src="" fallback={defaultImg} preview={false} className="rounded-md" />
+                    <Typography.Paragraph className="m-0 text-sm xl:text-base">{item.name}</Typography.Paragraph>
+                  </Flex>
+                </Card>
+              </Link>
+            </div>
+          ))}
+        </Carousel>
       )}
     </div>
   );

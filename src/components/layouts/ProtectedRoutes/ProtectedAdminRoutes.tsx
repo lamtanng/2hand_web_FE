@@ -7,6 +7,6 @@ export const ProtectedAdminRoutes = () => {
   const {
     user: { roleID },
   } = useAppSelector(loginSelector);
-  const isAdmin = roleID?.filter((role:any) => role.name === Role.Admin) ? true : false;
+  const isAdmin = roleID?.filter((role:any) => role.name === Role.Admin).length !== 0 ? true : false;
   return isAdmin ? <Outlet /> : <Navigate to={`/`} replace />;
 };
