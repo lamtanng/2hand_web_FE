@@ -9,6 +9,7 @@ import { ProductListRoutes } from '../pages/ProductList/ProductList.routes';
 import { ProductDetailRoutes } from '../pages/ProductDetail/ProductDetail.routes';
 import { CartPageRoutes } from '../pages/CartPage/CartPage.routes';
 import { ChekoutPageRoutes } from '../pages/CheckoutPage/CheckoutPage.routes';
+import { StoreProfilePageRoutes } from '../pages/StoreProfilePage/StoreProfilePage.routes';
 
 const routes = createBrowserRouter([
   {
@@ -26,6 +27,7 @@ const routes = createBrowserRouter([
       },
       CartPageRoutes,
       ChekoutPageRoutes,
+      StoreProfilePageRoutes,
     ],
   },
 ]);
