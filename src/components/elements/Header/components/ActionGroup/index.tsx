@@ -11,7 +11,7 @@ const ActionGroup = () => {
       <Link to={`/${authPaths.loginPath}`} className="font-sans">
         Sign In
       </Link>
-      <Button type="primary" className="hidden h-10 text-base md:inline">
+      <Button type="primary" className="hidden px-10 text-base md:inline" href='store-register'>
         Sell a product
       </Button>
     </Flex>
