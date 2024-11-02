@@ -227,6 +227,10 @@
   margin: -1.25rem;
 }
 
+#root .-m-6{
+  margin: -1.5rem;
+}
+
 #root .m-0{
   margin: 0px;
 }
@@ -718,6 +722,10 @@
 
 #root .text-center{
   text-align: center;
+}
+
+#root .align-middle{
+  vertical-align: middle;
 }
 
 #root .\!font-sans{

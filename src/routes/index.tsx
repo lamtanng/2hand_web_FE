@@ -16,6 +16,7 @@ import { MyReviewsRoutes } from '../pages/customer/AccountPage/MyReviews/MyRevie
 import { CartPageRoutes } from '../pages/customer/CartPage/CartPage.routes';
 import { ChekoutPageRoutes } from '../pages/customer/CheckoutPage/CheckoutPage.routes';
 import { OrderDetailRoutes } from '../pages/customer/AccountPage/OrderDetail/OrderDetail.routes';
+import { StoreRegisterPageRoutes } from '../pages/customer/StoreRegisterPage/StoreRegisterPage.routes';
 
 const routes = createBrowserRouter([
   {
@@ -25,6 +26,7 @@ const routes = createBrowserRouter([
       HomePageRoutes,
       ProductListRoutes,
       ProductDetailRoutes,
+      StoreProfilePageRoutes,
       LoginRoute,
       SignupRoute,
       {
@@ -33,7 +35,7 @@ const routes = createBrowserRouter([
       },
       CartPageRoutes,
       ChekoutPageRoutes,
-      StoreProfilePageRoutes,
+      StoreRegisterPageRoutes,
       {
         path: '/user',
         element: <Account />,

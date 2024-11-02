@@ -55,7 +55,7 @@ const UserInfoGroup = ({ user }: { user: UserProps }) => {
         <BellOutlined className="m-0 text-lg" />
         <p className="absolute -right-2 -top-2 m-0 rounded-full bg-blue-500 px-1 text-xs text-white">0</p>
       </div>
-      <Button type="primary" className="hidden h-10 text-base md:inline">
+      <Button type="primary" className="hidden px-10 text-base md:inline" href='/store-register'>
         Sell a product
       </Button>
     </Flex>
