@@ -55,7 +55,13 @@ const AddressModal = ({
         <Typography.Title level={4} className="m-0 text-blue-600">
           Receiver's Address
         </Typography.Title>
-        <AddressList data={data} setIsModalOpen={setIsModalOpen} hidden={radioHidden} setFormVisible={setFormVisible} setRadioVisible={setRadioVisible} />
+        <AddressList
+          data={data}
+          setIsModalOpen={setIsModalOpen}
+          hidden={radioHidden}
+          setFormVisible={setFormVisible}
+          setRadioVisible={setRadioVisible}
+        />
         <AddressForm hidden={formHidden} setFormVisible={setFormVisible} setRadioVisible={setRadioVisible} />
       </div>
     </div>
