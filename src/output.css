@@ -450,6 +450,11 @@
   width: 100%;
 }
 
+#root .w-fit{
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
 #root .shrink-0{
   flex-shrink: 0;
 }
@@ -499,6 +504,10 @@
 
 #root .justify-center{
   justify-content: center;
+}
+
+#root .gap-12{
+  gap: 3rem;
 }
 
 #root .gap-16{
@@ -722,10 +731,6 @@
 
 #root .text-center{
   text-align: center;
-}
-
-#root .align-middle{
-  vertical-align: middle;
 }
 
 #root .\!font-sans{

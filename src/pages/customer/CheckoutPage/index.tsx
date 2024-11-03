@@ -1,9 +1,9 @@
-import Footer from '../../components/elements/Footer';
-import Header from '../../components/elements/Header';
 import { Flex, Typography } from 'antd';
 import ReceiverAddress from './components/ReceiverAddress';
 import CheckoutItem from './components/CheckoutItem';
 import PaymentMethod from './components/PaymentMethod';
+import Header from '../../../components/elements/Header';
+import Footer from '../../../components/elements/Footer';
 
 const CheckoutPage = () => {
   const checkoutList = sessionStorage.getItem('checkout') || '';

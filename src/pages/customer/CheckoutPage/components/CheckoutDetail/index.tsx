@@ -1,5 +1,5 @@
 import { Divider, Flex, Image, Typography } from 'antd';
-import defaultPic from "../../../../assets/blob.jpg"
+import defaultPic from "../../../../../assets/blob.jpg"
 
 const CheckoutDetail = ({product}: {product: any}) => {
   return (

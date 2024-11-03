@@ -1,6 +1,6 @@
 import { DeleteOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Divider, Flex, Image, InputNumber, Modal, Typography } from 'antd';
-import defaultPic from '../../../../assets/blob.jpg';
+import defaultPic from '../../../../../assets/blob.jpg';
 
 const { confirm } = Modal;
 
