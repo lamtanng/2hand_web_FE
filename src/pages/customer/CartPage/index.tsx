@@ -1,10 +1,10 @@
 import { Checkbox, Flex, Typography } from 'antd';
-import Footer from '../../components/elements/Footer';
-import Header from '../../components/elements/Header';
-import ProductList from '../../components/elements/Lists/ProductList';
 import CartItem from './components/CartItem';
 import Summary from './components/Summary';
 import useCart, { data } from './useCartPage';
+import Header from '../../../components/elements/Header';
+import ProductList from '../../../components/elements/Lists/ProductList';
+import Footer from '../../../components/elements/Footer';
 
 const CartPage = () => {
   const {checkedList, isCheckedAll, allCheckBoxHandler, groupCheckBoxHandler, singleCheckBoxHandler, handleOnClick} = useCart();

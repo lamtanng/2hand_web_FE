@@ -17,6 +17,8 @@ import { CartPageRoutes } from '../pages/customer/CartPage/CartPage.routes';
 import { ChekoutPageRoutes } from '../pages/customer/CheckoutPage/CheckoutPage.routes';
 import { OrderDetailRoutes } from '../pages/customer/AccountPage/OrderDetail/OrderDetail.routes';
 import { StoreRegisterPageRoutes } from '../pages/customer/StoreRegisterPage/StoreRegisterPage.routes';
+import { StoreDashboardRoutes } from '../pages/seller/Dashboard/Dashboard.routes';
+import StoreLayout from '../pages/seller';
 
 const routes = createBrowserRouter([
   {
@@ -45,6 +47,13 @@ const routes = createBrowserRouter([
           MyOrdersRoutes,
           MyReviewsRoutes,
           OrderDetailRoutes,
+        ]
+      },
+      {
+        path: '/seller',
+        element: <StoreLayout />,
+        children: [
+          StoreDashboardRoutes,
         ]
       },
     ],
