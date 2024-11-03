@@ -3,20 +3,23 @@ import { Button, Divider, Flex, Image, InputNumber, Typography } from 'antd';
 import defaultPic from '../../../../assets/blob.jpg';
 import ImageSlider from '../ImageSlider';
 import { Link } from 'react-router-dom';
+import useProductDetail from '../../useProductDetail';
 
 const ProductInfo = () => {
+  const { product } = useProductDetail();
+
   return (
     <div id="product" className="my-5 rounded-xl bg-white p-8 shadow-sm">
       <Flex className="gap-16">
         <div className="w-5/12">
           <Flex vertical gap={'large'}>
             <div className="relative">
-              <Image width={'100%'} src="error" fallback={defaultPic} />
-              {/* {
-                      <div className="absolute left-[198px] top-[198px] z-10 rounded-full bg-black bg-opacity-65 px-7 py-16 text-2xl font-sans font-semibold text-white">
-                        Sold Out
-                      </div>
-                    } */}
+              <Image width={'100%'} src={product?.image[0]} fallback={defaultPic} />
+              {product?.quantity === 0 && (
+                <div className="absolute left-[198px] top-[198px] z-10 rounded-full bg-black bg-opacity-65 px-7 py-16 font-sans text-2xl font-semibold text-white">
+                  Sold Out
+                </div>
+              )}
             </div>
             <ImageSlider />
             <Flex justify="space-between" align="baseline" className="font-sans text-xs text-gray-500">
@@ -40,10 +43,10 @@ const ProductInfo = () => {
         <div className="w-7/12">
           <Flex vertical gap={'large'}>
             <Typography.Title level={3} className="m-0 font-semibold">
-              Name
+              {product?.name}
             </Typography.Title>
             <Typography.Title level={3} className="m-0 font-bold text-blue-600">
-              Price
+              {product && new Intl.NumberFormat().format(product.price)} VND
             </Typography.Title>
             <Flex vertical gap={'large'} className="mx-6">
               <Flex align="baseline" gap={'small'}>
@@ -57,8 +60,10 @@ const ProductInfo = () => {
               </Flex>
               <Flex align="baseline" gap={'small'}>
                 <Typography.Paragraph className="m-0 w-1/6">Quantity: </Typography.Paragraph>
-                <InputNumber min={1} max={10} defaultValue={1} />
-                <Typography.Paragraph className="m-0 ml-6 text-gray-500">Number items in stock</Typography.Paragraph>
+                <InputNumber min={1} max={product?.quantity} defaultValue={1} />
+                <Typography.Paragraph className="m-0 ml-6 text-gray-500">
+                  {product?.quantity} in stock
+                </Typography.Paragraph>
               </Flex>
             </Flex>
             <Flex gap={'large'}>

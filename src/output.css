@@ -235,6 +235,10 @@
   margin: 0px;
 }
 
+#root .-m-10{
+  margin: -2.5rem;
+}
+
 #root .mx-2{
   margin-left: 0.5rem;
   margin-right: 0.5rem;
@@ -446,13 +450,13 @@
   width: 66.666667%;
 }
 
-#root .w-full{
-  width: 100%;
-}
-
 #root .w-fit{
   width: -moz-fit-content;
   width: fit-content;
+}
+
+#root .w-full{
+  width: 100%;
 }
 
 #root .shrink-0{
