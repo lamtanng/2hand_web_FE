@@ -1,7 +1,9 @@
 import { MessageOutlined, ShopOutlined, UserOutlined } from '@ant-design/icons';
 import { Avatar, Button, Col, Divider, Flex, Row, Typography } from 'antd';
+import useProductDetail from '../../useProductDetail';
 
 const ShopInfo = () => {
+  const { product } = useProductDetail();
   return (
     <div id="shop" className="mb-5 rounded-xl bg-white p-8 shadow-sm">
       <Typography.Title level={4} className="m-0 mb-8">
@@ -13,7 +15,7 @@ const ShopInfo = () => {
             <Avatar size={75} icon={<UserOutlined />} />
             <Flex gap={'middle'} vertical className="flex-grow">
               <Typography.Title level={5} className="m-0">
-                Shop name
+                {product?.storeID.name}
               </Typography.Title>
               <Flex gap={'small'}>
                 <Button variant="filled" color="primary" className="w-1/2">

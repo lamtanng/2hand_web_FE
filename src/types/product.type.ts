@@ -1,3 +1,6 @@
+import { CategoryProps } from "./category.type";
+import { StoreProps } from "./store.type";
+
 export interface ProductProps {
     id: string,
     name: string,
@@ -8,8 +11,8 @@ export interface ProductProps {
     quality: string,
     isActive: boolean,
     isSoldOut: boolean,
-    cateID: string,
-    storeID: string,
+    cateID: CategoryProps,
+    storeID: StoreProps,
     slug: string,
     creatAt?: Date,
     updateAt?: Date

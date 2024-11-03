@@ -7,12 +7,15 @@ import ProductList from '../../components/elements/Lists/ProductList';
 import ProductInfo from './components/ProductInfo';
 import ShopInfo from './components/ShopInfo';
 import ProductFeatures from './components/ProductFeatures';
+import useProductDetail from './useProductDetail';
 
 const ProductDetail = () => {
+  const { product } = useProductDetail();
+
   return (
     <>
       <Header />
-      <div className="-m-5 bg-slate-50 px-5">
+      <div className="-m-6 min-h-screen bg-slate-50 px-5">
         <div className="mx-5 mb-10 md:mx-10 md:mt-20 md:py-10 md:pb-20 xl:mx-auto xl:w-10/12">
           <CustomBreadcrumb />
           <ProductInfo />
@@ -23,13 +26,7 @@ const ProductDetail = () => {
               Product's Description
             </Typography.Title>
             <Typography.Paragraph className="m-0">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorum nesciunt minus voluptatem non quaerat
-              vel necessitatibus corrupti excepturi ratione, laudantium exercitationem fuga quos tempore molestias.
-              Praesentium laboriosam aperiam dolores cupiditate? Quos ratione iste at culpa accusantium repellendus
-              odio, molestias amet delectus molestiae aperiam minima saepe, esse enim hic! Ullam ut iusto iste?
-              Expedita, libero nesciunt. Nam voluptatibus sint quisquam aliquam! Distinctio, eos quisquam! Rem error
-              voluptates aliquam ea quisquam ullam, laboriosam exercitationem odio facere hic iusto ipsam enim
-              excepturi? Vero cupiditate placeat fuga libero alias nostrum totam enim praesentium ex.
+              {product?.description}
             </Typography.Paragraph>
           </div>
           <div id="shop-products" className="mb-5 p-8">
