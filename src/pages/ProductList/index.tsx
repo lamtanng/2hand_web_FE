@@ -54,10 +54,9 @@ const ProductList = () => {
                 <Sort setSort={setSort} />
               </Flex>
             </Flex>
-            {isLoading && <p>Loaing products...</p>}
             {product?.length !== 0 ? (
               <>
-                <ListProducts productList={product} />
+                <ListProducts productList={product} isLoading={isLoading} />
                 <CustomPagination limit={limit} setLimit={setLimit} setPage={setPage} totalProducts={totalProducts} />
               </>
             ) : (

@@ -235,6 +235,10 @@
   margin: 0px;
 }
 
+#root .m-auto{
+  margin: auto;
+}
+
 #root .mx-2{
   margin-left: 0.5rem;
   margin-right: 0.5rem;
