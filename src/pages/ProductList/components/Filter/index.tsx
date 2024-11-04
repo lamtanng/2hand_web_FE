@@ -1,73 +1,43 @@
-import { Checkbox, Collapse, CollapseProps, Flex, Radio, Space } from 'antd';
-import { Link } from 'react-router-dom';
+import { Collapse, CollapseProps } from 'antd';
 import { CategoryProps } from '../../../../types/category.type';
+import PriceFilter from './components/PriceFilter';
+import QualityFilter from './components/QualityFilter';
+import CategoryFilter from './components/CategoryFilter';
 
-const price = (
-  <Radio.Group className="font-normal">
-    <Space direction="vertical">
-      <Radio value={1}>Option A</Radio>
-      <Radio value={2}>Option B</Radio>
-      <Radio value={3}>Option C</Radio>
-    </Space>
-  </Radio.Group>
-);
-
-const location = (
-  <Radio.Group className="font-normal">
-    <Space direction="vertical">
-      <Radio value={1}>Option A</Radio>
-      <Radio value={2}>Option B</Radio>
-      <Radio value={3}>Option C</Radio>
-    </Space>
-  </Radio.Group>
-);
-
-const quality = (
-  <Flex vertical className="font-normal">
-    <Checkbox>New</Checkbox>
-    <Checkbox>Good</Checkbox>
-    <Checkbox>Old</Checkbox>
-  </Flex>
-);
-
-const Filter = ({ category }: { category: CategoryProps[] }) => {
-  const cate = (
-    <Flex vertical>
-      <Link to={'/product-list'} className="font-normal text-black hover:text-blue-400 active:font-semibold active:text-blue-700">
-        All Cate
-      </Link>
-      {category?.map((cate: CategoryProps) => (
-        <Link
-          to={'#'}
-          className="font-normal text-black hover:text-blue-600 active:font-semibold active:text-blue-700"
-          style={{ paddingInlineStart: 24 }}
-        >
-          {cate.name}
-        </Link>
-      ))}
-    </Flex>
-  );
+const Filter = ({
+  category,
+  setPrice,
+  setQuality,
+  setPage,
+  quality,
+}: {
+  category: CategoryProps[];
+  setPrice: React.Dispatch<
+    React.SetStateAction<{
+      min?: number;
+      max?: number;
+    }>
+  >;
+  setQuality: React.Dispatch<React.SetStateAction<string[]>>;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
+  quality: string[];
+}) => {
 
   const items: CollapseProps['items'] = [
     {
       key: '1',
       label: 'Category',
-      children: cate,
+      children: <CategoryFilter category={category} />,
     },
     {
       key: '2',
       label: 'Price',
-      children: price,
+      children: <PriceFilter setPage={setPage} setPrice={setPrice}/>,
     },
     {
       key: '3',
-      label: 'Location',
-      children: location,
-    },
-    {
-      key: '4',
       label: 'Quality',
-      children: quality,
+      children: <QualityFilter quality={quality} setPage={setPage} setQuality={setQuality} />,
     },
   ];
   return (

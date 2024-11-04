@@ -235,10 +235,6 @@
   margin: 0px;
 }
 
-#root .-m-10{
-  margin: -2.5rem;
-}
-
 #root .mx-2{
   margin-left: 0.5rem;
   margin-right: 0.5rem;
@@ -315,6 +311,10 @@
 
 #root .mt-6{
   margin-top: 1.5rem;
+}
+
+#root .mt-4{
+  margin-top: 1rem;
 }
 
 #root .inline{
