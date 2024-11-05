@@ -43,7 +43,7 @@ const UserInfoGroup = ({ user }: { user: UserProps }) => {
       <Dropdown menu={{ items }}>
         <Flex gap={'small'} align="center">
           <Avatar size="large" icon={<UserOutlined />} />
-          <p className="m-0 hidden xl:inline">{user.firstName ? `${user.firstName} ${user.lastName}` : user.email}</p>
+          <p className="m-0 hidden xl:inline">{(user.firstName && user.lastName) ? `${user.firstName} ${user.lastName}` : user.email}</p>
         </Flex>
       </Dropdown>
       <Divider type="vertical" className="m-0" />

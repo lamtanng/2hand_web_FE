@@ -1,11 +1,13 @@
+import { UserProps } from "./user.type";
+
 export interface StoreProps {
-    id: string,
+    _id: string,
     name: string,
     description: string,
     address: string[],
     isActive: boolean,
-    userID: string,
+    userID: UserProps,
     slug: string,
-    creatAt?: Date,
-    updateAt?: Date
+    createdAt?: Date,
+    updatedAt?: Date
 }

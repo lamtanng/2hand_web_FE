@@ -1,27 +1,31 @@
-import { MessageOutlined, ShopOutlined, UserOutlined } from '@ant-design/icons';
+import { PhoneOutlined, ShopOutlined, UserOutlined } from '@ant-design/icons';
 import { Avatar, Button, Col, Divider, Flex, Row, Typography } from 'antd';
 import useProductDetail from '../../useProductDetail';
 
 const ShopInfo = () => {
-  const { product } = useProductDetail();
+  const { product, storeProduct } = useProductDetail();
+  const dateString =
+    product && product.storeID.userID.createdAt && new Date(product.storeID.userID.createdAt).toDateString();
   return (
     <div id="shop" className="mb-5 rounded-xl bg-white p-8 shadow-sm">
       <Typography.Title level={4} className="m-0 mb-8">
         Seller's Information
       </Typography.Title>
       <Flex gap={'large'} align="center">
-        <div className="inline w-1/3">
+        <div className="inline w-2/5">
           <Flex gap={'middle'} align="center">
             <Avatar size={75} icon={<UserOutlined />} />
             <Flex gap={'middle'} vertical className="flex-grow">
               <Typography.Title level={5} className="m-0">
-                {product?.storeID.name}
+                {product?.storeID.userID.firstName && product?.storeID.userID.lastName
+                  ? `${product?.storeID.userID.firstName} ${product?.storeID.userID.lastName}`
+                  : product?.storeID.userID.email}
               </Typography.Title>
               <Flex gap={'small'}>
                 <Button variant="filled" color="primary" className="w-1/2">
-                  <MessageOutlined /> Chat now
+                  <PhoneOutlined /> {product?.storeID.userID.phoneNumber}
                 </Button>
-                <Button variant="outlined" color="primary" className="w-1/2" href='/store'>
+                <Button variant="outlined" color="primary" className="w-1/2" href="/store">
                   <ShopOutlined /> Visit shop
                 </Button>
               </Flex>
@@ -29,42 +33,30 @@ const ShopInfo = () => {
           </Flex>
         </div>
         <Divider type="vertical" className="h-20" />
-        <div className="inline w-2/3">
+        <div className="inline w-3/5">
           <Row gutter={[24, 0]}>
-            <Col span={8}>
+            <Col span={12}>
               <Flex justify="space-between">
-                <p>Reviews</p>
-                <p className="text-blue-600">0</p>
+                <p>Store name</p>
+                <p className="text-blue-600">{product?.storeID.name}</p>
               </Flex>
             </Col>
-            <Col span={8}>
+            <Col span={12}>
               <Flex justify="space-between">
                 <p>Joined in</p>
-                <p className="text-blue-600">0</p>
+                <p className="text-blue-600">{dateString}</p>
               </Flex>
             </Col>
-            <Col span={8}>
+            <Col span={12}>
               <Flex justify="space-between">
                 <p>Followers</p>
-                <p className="text-blue-600">0</p>
+                <p className="text-blue-600">{product?.storeID.userID.followerID?.length}</p>
               </Flex>
             </Col>
-            <Col span={8}>
+            <Col span={12}>
               <Flex justify="space-between">
                 <p>Products</p>
-                <p className="text-blue-600">0</p>
-              </Flex>
-            </Col>
-            <Col span={8}>
-              <Flex justify="space-between">
-                <p>Response rate</p>
-                <p className="text-blue-600">0</p>
-              </Flex>
-            </Col>
-            <Col span={8}>
-              <Flex justify="space-between">
-                <p>Response time</p>
-                <p className="text-blue-600">0</p>
+                <p className="text-blue-600">{storeProduct.length}</p>
               </Flex>
             </Col>
           </Row>

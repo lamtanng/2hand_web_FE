@@ -5,7 +5,7 @@ import { useState } from 'react';
 const Sort = ({ setSort }: { setSort: React.Dispatch<React.SetStateAction<string>> }) => {
   const items: MenuProps['items'] = [
     {
-      key: JSON.stringify({}),
+      key: JSON.stringify({ createdAt: -1 }),
       label: 'Default',
     },
     {
@@ -19,6 +19,10 @@ const Sort = ({ setSort }: { setSort: React.Dispatch<React.SetStateAction<string
     {
       key: JSON.stringify({ createdAt: -1 }),
       label: 'Newest First',
+    },
+    {
+      key: JSON.stringify({ createdAt: 1 }),
+      label: 'Oldest First',
     },
   ];
 
