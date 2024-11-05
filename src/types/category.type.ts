@@ -1,8 +1,8 @@
 export interface CategoryProps {
-  id: string;
+  _id: string;
   name: string;
   isActive: boolean;
   parentID?: string;
-  createAt?: Date;
-  updateAt?: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

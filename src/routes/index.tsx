@@ -39,7 +39,7 @@ const routes = createBrowserRouter([
       ChekoutPageRoutes,
       StoreRegisterPageRoutes,
       {
-        path: '/user',
+        path: '/account',
         element: <Account />,
         children: [
           ProfileRoutes,

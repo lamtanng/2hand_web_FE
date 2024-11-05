@@ -10,8 +10,8 @@ import ProductFeatures from './components/ProductFeatures';
 import useProductDetail from './useProductDetail';
 
 const ProductDetail = () => {
-  const { product } = useProductDetail();
-
+  const { product, isLoading, storeProduct } = useProductDetail();
+  console.log(product);
   return (
     <>
       <Header />
@@ -31,7 +31,7 @@ const ProductDetail = () => {
             <Typography.Title level={4} className="m-0 mb-8">
               Other Products From Seller
             </Typography.Title>
-            <ProductSlider />
+            <ProductSlider product={storeProduct} isLoading={isLoading} />
           </div>
           <div id="recommend-products" className="mb-5 p-8">
             <Typography.Title level={4} className="m-0 mb-8">

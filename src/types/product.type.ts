@@ -2,7 +2,7 @@ import { CategoryProps } from "./category.type";
 import { StoreProps } from "./store.type";
 
 export interface ProductProps {
-    id: string,
+    _id: string,
     name: string,
     description: string,
     image: string[],
@@ -14,6 +14,6 @@ export interface ProductProps {
     cateID: CategoryProps,
     storeID: StoreProps,
     slug: string,
-    creatAt?: Date,
-    updateAt?: Date
+    createdAt?: Date,
+    updatedAt?: Date
 }

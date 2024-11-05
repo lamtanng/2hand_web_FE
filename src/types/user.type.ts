@@ -1,5 +1,5 @@
 export interface UserProps {
-  id?: string;
+  _id?: string;
   firstName?: string;
   lastName?: string;
   email?: string;
@@ -9,8 +9,8 @@ export interface UserProps {
   phoneNumber?: string;
   dateOfBirth?: Date;
   address?: string[];
-  createAt?: Date;
-  updateAt?: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
   isActive?: boolean;
   isVerified?: boolean;
   roleID?: string[];

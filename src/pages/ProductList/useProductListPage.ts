@@ -13,10 +13,11 @@ const useListProducts = () => {
   const [page, setPage] = useState<number>(1);
   const [limit, setLimit] = useState<number>(2);
   const [search, setSearch] = useState<string>('');
-  const [sort, setSort] = useState<string>('');
+  const [sort, setSort] = useState<string>(JSON.stringify({ createdAt: -1 }));
   const [quality, setQuality] = useState<string[]>([]);
   const [price, setPrice] = useState<string>('');
   const [cateID, setCateID] = useState<string>('');
+  const [storeID, setStoreID] = useState<string[]>([]);
 
   const getProducts = async (
     page: number,
@@ -26,11 +27,22 @@ const useListProducts = () => {
     quality: string[],
     price: string | undefined,
     cateID: string | undefined,
+    storeID: string[],
   ) => {
     try {
       setLoading(true);
       let qualityGroup = quality.length !== 0 ? JSON.stringify(quality) : '';
-      const res = await productAPIs?.getAllProduct(page, limit, search, sort, qualityGroup, price, cateID);
+      let storeIDGroup = storeID?.length !== 0 ? JSON.stringify(storeID) : '';
+      const res = await productAPIs?.getAllProduct(
+        page,
+        limit,
+        search,
+        sort,
+        qualityGroup,
+        price,
+        cateID,
+        storeIDGroup,
+      );
       setProduct(res?.data?.response?.products);
       setTotalProducts(res?.data?.response?.total);
     } catch (error) {
@@ -55,8 +67,8 @@ const useListProducts = () => {
   }, []);
 
   useEffect(() => {
-    getProducts(page, limit, search, sort, quality, price, cateID);
-  }, [page, limit, search, sort, quality, price, cateID]);
+    getProducts(page, limit, search, sort, quality, price, cateID, storeID);
+  }, [page, limit, search, sort, quality, price, cateID, storeID]);
 
   return {
     getProducts,
@@ -74,6 +86,7 @@ const useListProducts = () => {
     setSort,
     setSearch,
     setQuality,
+    setStoreID,
   };
 };
 

@@ -8,19 +8,19 @@ const useHomePage = () => {
   const [freeProduct, setFreeProduct] = useState<ProductProps[]>([]);
   const [isLoading, setLoading] = useState<boolean>(false);
 
-  const getNewestProducts = async (
-    page: number,
-    limit: number,
-    search: string | undefined,
-    sort: string | undefined,
-    quality: string[],
-    price: string | undefined,
-    cateID: string | undefined,
-  ) => {
+  const getNewestProducts = async (page: number, limit: number, sort: string | undefined) => {
     try {
       setLoading(true);
-      let qualityGroup = quality.length !== 0 ? JSON.stringify(quality) : '';
-      const res = await productAPIs?.getAllProduct(page, limit, search, sort, qualityGroup, price, cateID);
+      const res = await productAPIs?.getAllProduct(
+        page,
+        limit,
+        undefined,
+        sort,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+      );
       setNewestProduct(res?.data?.response?.products);
     } catch (error) {
       handleError(error);
@@ -29,19 +29,19 @@ const useHomePage = () => {
     }
   };
 
-  const getFreeProducts = async (
-    page: number,
-    limit: number,
-    search: string | undefined,
-    sort: string | undefined,
-    quality: string[],
-    price: string | undefined,
-    cateID: string | undefined,
-  ) => {
+  const getFreeProducts = async (page: number, limit: number, price: string | undefined) => {
     try {
       setLoading(true);
-      let qualityGroup = quality.length !== 0 ? JSON.stringify(quality) : '';
-      const res = await productAPIs?.getAllProduct(page, limit, search, sort, qualityGroup, price, cateID);
+      const res = await productAPIs?.getAllProduct(
+        page,
+        limit,
+        undefined,
+        undefined,
+        undefined,
+        price,
+        undefined,
+        undefined,
+      );
       setFreeProduct(res?.data?.response?.products);
     } catch (error) {
       handleError(error);
@@ -53,8 +53,8 @@ const useHomePage = () => {
   useEffect(() => {
     const sort = JSON.stringify({ createdAt: -1 });
     const price = JSON.stringify({ min: 0, max: 0 });
-    getNewestProducts(1, 10, undefined, sort, [], undefined, undefined);
-    getFreeProducts(1, 10, undefined, undefined, [], price, undefined);
+    getNewestProducts(1, 10, sort);
+    getFreeProducts(1, 10, price);
   }, []);
 
   return {

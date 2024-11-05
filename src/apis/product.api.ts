@@ -13,6 +13,7 @@ const getAllProduct = (
   quality: string | undefined,
   price: string | undefined,
   cateID: string | undefined,
+  storeID: string | undefined,
 ) => {
   return axiosClient.get(productUrl, {
     params: {
@@ -23,6 +24,7 @@ const getAllProduct = (
       quality: quality,
       price: price,
       cateID: cateID,
+      storeID: storeID,
     },
   });
 };
