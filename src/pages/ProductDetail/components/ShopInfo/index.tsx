@@ -4,6 +4,8 @@ import useProductDetail from '../../useProductDetail';
 
 const ShopInfo = () => {
   const { product, storeProduct } = useProductDetail();
+  const encodedID =
+    (product && product.storeID.userID._id) && btoa(product.storeID.userID._id);
   const dateString =
     product && product.storeID.userID.createdAt && new Date(product.storeID.userID.createdAt).toDateString();
   return (
@@ -25,7 +27,7 @@ const ShopInfo = () => {
                 <Button variant="filled" color="primary" className="w-1/2">
                   <PhoneOutlined /> {product?.storeID.userID.phoneNumber}
                 </Button>
-                <Button variant="outlined" color="primary" className="w-1/2" href="/store">
+                <Button variant="outlined" color="primary" className="w-1/2" href={`/user/${encodedID}`}>
                   <ShopOutlined /> Visit shop
                 </Button>
               </Flex>

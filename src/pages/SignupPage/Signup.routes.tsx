@@ -1,10 +1,10 @@
 import { Suspense, lazy } from 'react';
 import { RouteObject } from 'react-router-dom';
-import { authPaths } from '../../constants/apiPaths/authPaths';
+import { authUrls } from '../../constants/urlPaths/authUrls';
 const Signup = lazy(() => import('.'));
 
 export const SignupRoute: RouteObject = {
-  path: authPaths.signupPath,
+  path: authUrls.signupUrl,
   element: (
     <Suspense fallback={<div>Loading</div>}>
       <Signup />
