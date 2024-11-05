@@ -12,14 +12,14 @@ const StoreProfilePage = () => {
       <div className="-m-5 min-h-screen bg-slate-50 px-5">
         <div className="mx-5 mb-10 md:mx-10 md:mt-20 md:py-10 md:pb-20 xl:mx-auto xl:w-10/12">
           <div className="mb-6 rounded-xl bg-white px-24 py-8 shadow-sm">
-            <Flex gap={100} align='center'>
+            <Flex gap={100} align="center">
               <Avatar size={150} icon={<UserOutlined />} />
               <div id="store-info" className="grid grid-cols-2 gap-6">
                 <Typography.Paragraph className="m-0 text-base">Store ID: ID</Typography.Paragraph>
                 <Typography.Paragraph className="m-0 text-base">Store name: Name</Typography.Paragraph>
                 <Typography.Paragraph className="m-0 text-base">
                   Rate:
-                  <Rate allowHalf defaultValue={4} disabled className='m-0' />
+                  <Rate allowHalf defaultValue={4} disabled className="m-0" />
                 </Typography.Paragraph>
                 <Typography.Paragraph className="m-0 text-base">Products: 0</Typography.Paragraph>
                 <Typography.Paragraph className="m-0 text-base">Orders: 0</Typography.Paragraph>

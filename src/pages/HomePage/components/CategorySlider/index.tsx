@@ -28,7 +28,7 @@ const CategorySlider = () => {
     <div className="relative mt-10 w-full overflow-hidden">
       {category && (
         <Carousel responsive={responsive} className="z-0">
-          {category.map((item: CategoryProps) => (
+          {category.filter((cate: CategoryProps) => !cate.parentID).map((item: CategoryProps) => (
             <div className="card" key={item.id}>
               <Link to={'/product-list'}>
                 <Card size="small" className="mx-2 md:mx-3 xl:mx-5">

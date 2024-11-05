@@ -25,9 +25,7 @@ const ProductDetail = () => {
             <Typography.Title level={4} className="m-0 mb-8">
               Product's Description
             </Typography.Title>
-            <Typography.Paragraph className="m-0">
-              {product?.description}
-            </Typography.Paragraph>
+            <Typography.Paragraph className="m-0">{product?.description}</Typography.Paragraph>
           </div>
           <div id="shop-products" className="mb-5 p-8">
             <Typography.Title level={4} className="m-0 mb-8">

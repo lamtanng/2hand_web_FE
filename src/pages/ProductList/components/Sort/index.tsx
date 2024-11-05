@@ -2,16 +2,7 @@ import { DownOutlined } from '@ant-design/icons';
 import { Button, Dropdown, MenuProps, Space } from 'antd';
 import { useState } from 'react';
 
-const Sort = ({
-  setSort,
-}: {
-  setSort: React.Dispatch<
-    React.SetStateAction<{
-      price?: number;
-      createAt?: number;
-    }>
-  >;
-}) => {
+const Sort = ({ setSort }: { setSort: React.Dispatch<React.SetStateAction<string>> }) => {
   const items: MenuProps['items'] = [
     {
       key: JSON.stringify({}),
@@ -26,7 +17,7 @@ const Sort = ({
       label: 'Price: High to Low',
     },
     {
-      key: JSON.stringify({ createAt: 1 }),
+      key: JSON.stringify({ createdAt: -1 }),
       label: 'Newest First',
     },
   ];

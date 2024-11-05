@@ -1,3 +1,4 @@
+import { Flex, Spin } from 'antd';
 import { Suspense, lazy } from 'react';
 import { RouteObject } from 'react-router-dom';
 const HomePage = lazy(() => import('.'));
@@ -5,7 +6,13 @@ const HomePage = lazy(() => import('.'));
 export const HomePageRoutes: RouteObject = {
   path: '/',
   element: (
-    <Suspense fallback={<div>Loading</div>}>
+    <Suspense
+      fallback={
+        <Flex className="min-h-screen w-full" justify="center" align="center">
+          <Spin size="large" />
+        </Flex>
+      }
+    >
       <HomePage />
     </Suspense>
   ),

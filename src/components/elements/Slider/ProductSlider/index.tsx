@@ -1,6 +1,7 @@
 import ProductCard from '../../Cards/ProductCard';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
+import { ProductProps } from '../../../../types/product.type';
 
 const responsive = {
   desktop: {
@@ -17,27 +18,15 @@ const responsive = {
   },
 };
 
-const ProductSlider = () => {
-  const data = [
-    { key: 1 },
-    { key: 2 },
-    { key: 3 },
-    { key: 4 },
-    { key: 5 },
-    { key: 6 },
-    { key: 7 },
-    { key: 8 },
-    { key: 9 },
-    { key: 10 },
-  ];
+const ProductSlider = ({ product, isLoading }: { product: ProductProps[]; isLoading: boolean }) => {
 
   return (
     <div className="relative mt-10 w-full overflow-hidden">
-      {data && (
-        <Carousel responsive={responsive} className='z-0'>
-          {data.map((item: any) => (
+      {product && (
+        <Carousel responsive={responsive} className="z-0">
+          {product.map((item: any) => (
             <div key={item.key}>
-              <ProductCard product={item} />
+              <ProductCard product={item} isLoading={isLoading} />
             </div>
           ))}
         </Carousel>
