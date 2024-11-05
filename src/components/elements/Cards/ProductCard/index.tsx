@@ -4,14 +4,12 @@ import defaultImg from '../../../../assets/blob.jpg';
 import { Link } from 'react-router-dom';
 import { ProductProps } from '../../../../types/product.type';
 
-const ProductCard = ({ product }: { product: ProductProps }) => {
+const ProductCard = ({ product, isLoading = false }: { product: ProductProps; isLoading: boolean }) => {
   return (
     <Link to={`/${product.slug}`} key={product.id} id="cate-card" className="no-underline">
-      <Card cover={<img alt="example" src={defaultImg} />} className="relative mx-2 md:mx-3">
+      <Card loading={isLoading} cover={<img alt="example" src={defaultImg} />} className="relative mx-2 md:mx-3">
         <p className="truncate text-sm md:text-base">{product.name}</p>
-        <p className="text-base font-bold md:text-lg">
-        {product && new Intl.NumberFormat().format(product.price)} VND
-        </p>
+        <p className="text-base font-bold md:text-lg">{product && new Intl.NumberFormat().format(product.price)} VND</p>
         <p className="text-xs text-gray-500 md:text-sm">
           <EnvironmentFilled /> Location
         </p>

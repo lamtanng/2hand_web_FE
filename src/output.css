@@ -235,8 +235,8 @@
   margin: 0px;
 }
 
-#root .-m-10{
-  margin: -2.5rem;
+#root .m-auto{
+  margin: auto;
 }
 
 #root .mx-2{
@@ -315,6 +315,10 @@
 
 #root .mt-6{
   margin-top: 1.5rem;
+}
+
+#root .mt-4{
+  margin-top: 1rem;
 }
 
 #root .inline{

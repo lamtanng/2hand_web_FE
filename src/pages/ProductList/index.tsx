@@ -1,4 +1,4 @@
-import { Divider, Flex, Pagination, Typography } from 'antd';
+import { Divider, Flex, Typography } from 'antd';
 import Footer from '../../components/elements/Footer';
 import Header from '../../components/elements/Header';
 import Search from 'antd/es/transfer/search';
@@ -6,19 +6,41 @@ import Filter from './components/Filter';
 import ListProducts from './components/ListProducts';
 import CustomBreadcrumb from '../../components/elements/Breadcrumb';
 import useListProducts from './useProductListPage';
+import CustomPagination from './components/Pagination';
+import Sort from './components/Sort';
+import NoProduct from './components/NoProduct';
 
 const ProductList = () => {
-  const { product, totalProducts, category, isLoading } = useListProducts();
+  const {
+    product,
+    totalProducts,
+    category,
+    setPrice,
+    setQuality,
+    isLoading,
+    setSort,
+    setSearch,
+    quality,
+    limit,
+    setPage,
+    setLimit,
+  } = useListProducts();
 
   return (
     <>
       <Header />
       <div className="mx-5 mb-10 mt-10 md:mx-10 md:mb-20 md:mt-20 md:py-5 xl:mx-auto xl:w-10/12">
         <CustomBreadcrumb />
-        <Flex gap={'large'} className='mt-5'>
+        <Flex gap={'large'} className="mt-5">
           <Flex vertical gap={'large'} className="w-1/5">
-            <Search placeholder="Search for a product" onChange={(event) => console.log(event?.target.value)} />
-            <Filter category={category} />
+            <Search placeholder="Search for a product" onChange={(event) => setSearch(event.target.value)} />
+            <Filter
+              category={category}
+              setPrice={setPrice}
+              setQuality={setQuality}
+              setPage={setPage}
+              quality={quality}
+            />
           </Flex>
           <Divider type="vertical" className="h-screen" />
           <div className="w-4/5">
@@ -27,25 +49,18 @@ const ProductList = () => {
                 <Typography.Title level={3}>Products</Typography.Title>
                 <Typography.Paragraph className="text-gray-600">({totalProducts} products)</Typography.Paragraph>
               </Flex>
-              <Flex gap={'middle'}>
+              <Flex gap={'middle'} align="center">
                 <p>Sort by:</p>
+                <Sort setSort={setSort} />
               </Flex>
             </Flex>
-            {isLoading && <p>Loaing products...</p>}
-            {(product?.length !== 0) ? (
+            {product?.length !== 0 ? (
               <>
-                <ListProducts productList={product} />
-                <Pagination align="center" defaultCurrent={1} total={totalProducts} className="mt-10" />
+                <ListProducts productList={product} isLoading={isLoading} />
+                <CustomPagination limit={limit} setLimit={setLimit} setPage={setPage} totalProducts={totalProducts} />
               </>
             ) : (
-              <Flex vertical align="center">
-                <Typography.Title level={4} className="text-blue-600">
-                  No product is found
-                </Typography.Title>
-                <Typography.Paragraph>
-                  Please try again by reducing filters or checking your spelling.
-                </Typography.Paragraph>
-              </Flex>
+              <NoProduct />
             )}
           </div>
         </Flex>
