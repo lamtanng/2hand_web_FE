@@ -1,14 +1,27 @@
 import { Checkbox, Flex, Typography } from 'antd';
 import CartItem from './components/CartItem';
 import Summary from './components/Summary';
-import useCart, { data } from './useCartPage';
+import useCart from './useCartPage';
 import Header from '../../../components/elements/Header';
 import ProductList from '../../../components/elements/Lists/ProductList';
 import Footer from '../../../components/elements/Footer';
+import { StoreProps } from '../../../types/store.type';
+import { CartItemProps } from '../../../types/cart.type';
 
 const CartPage = () => {
-  const { checkedList, isCheckedAll, allCheckBoxHandler, groupCheckBoxHandler, singleCheckBoxHandler, handleOnClick } =
-    useCart();
+  const {
+    checkedList,
+    isCheckedAll,
+    allCheckBoxHandler,
+    groupCheckBoxHandler,
+    singleCheckBoxHandler,
+    handleCheckout,
+    cart,
+    itemAmount,
+    totalPrice,
+  } = useCart();
+
+  console.log("cart: ",cart);
 
   return (
     <>
@@ -38,7 +51,7 @@ const CartPage = () => {
             </Flex>
           </div>
           <div id="cart-list">
-            {data.map((group: any) => (
+            {cart.map((group: {store: StoreProps, products: CartItemProps[]}) => (
               <CartItem
                 group={group}
                 groupCheckBoxHandler={groupCheckBoxHandler}
@@ -51,7 +64,9 @@ const CartPage = () => {
             checkedList={checkedList}
             allCheckBoxHandler={allCheckBoxHandler}
             checked={isCheckedAll}
-            handleOnClick={handleOnClick}
+            handleOnClick={handleCheckout}
+            itemAmount={itemAmount}
+            totalPrice={totalPrice}
           />
           <div id="recommend-products" className="mt-10">
             <Typography.Title level={3} className="m-0">

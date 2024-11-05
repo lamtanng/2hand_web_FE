@@ -1,39 +1,17 @@
 import { Modal } from 'antd';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-export const data = [
-  {
-    shop: {
-      id: 1,
-    },
-    products: [
-      {
-        productID: 11,
-        shopID: 1,
-      },
-      {
-        productID: 12,
-        shopID: 1,
-      },
-    ],
-  },
-  {
-    shop: {
-      id: 2,
-    },
-    products: [
-      {
-        productID: 21,
-        shopID: 2,
-      },
-      {
-        productID: 22,
-        shopID: 2,
-      },
-    ],
-  },
-];
+import { cartAPIs } from '../../../apis/cart.api';
+import { handleError } from '../../../utils/handleError';
+import { customerUrls } from '../../../constants/urlPaths/customer/customerUrls';
+import { useAppSelector } from '../../../redux/hooks';
+import { loginSelector } from '../../../redux/slices/login.slice';
+import { DeleteCartItemProps, NewCartItemProps } from '../../../types/http/cart.type';
+import { displaySuccess } from '../../../utils/displayToast';
+import eventEmitter from '../../../utils/eventEmitter';
+import { CartItemProps, CartProps } from '../../../types/cart.type';
+import { CheckboxChangeEvent } from 'antd/es/checkbox';
+import { StoreProps } from '../../../types/store.type';
 
 const { confirm } = Modal;
 
@@ -44,10 +22,33 @@ const showConfirm = () => {
 };
 
 const useCart = () => {
-  const [checkedList, setCheckedList] = useState<any[]>([]);
+  const { user } = useAppSelector(loginSelector);
+  const [checkedList, setCheckedList] = useState<CartItemProps[]>([]);
+  const [cart, setCart] = useState<CartProps[]>([]);
+  const [itemAmount, setItemAmount] = useState<number>(0);
+  const [totalPrice, setTotalPrice] = useState<number>(0);
+  const [isLoading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const singleCheckBoxHandler = (event: any) => {
+  const getUserCart = async () => {
+    try {
+      setLoading(true);
+      const res = await cartAPIs.getCart();
+      const cartItemAmount = res.data
+        .map((group: CartProps) => {
+          return group.products;
+        })
+        .flat().length;
+      setCart(res.data);
+      setItemAmount(cartItemAmount);
+    } catch (error) {
+      handleError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const singleCheckBoxHandler = (event: CheckboxChangeEvent) => {
     let isSelected = event.target.checked;
     let value = event.target.value;
 
@@ -62,20 +63,20 @@ const useCart = () => {
     }
   };
 
-  const groupCheckBoxHandler = (event: any) => {
+  const groupCheckBoxHandler = (event: CheckboxChangeEvent) => {
     let isSelected = event.target.checked;
     let value = event.target.value;
 
-    const selectedGroup = data.find((group: any) => {
-      return group.shop.id === value;
+    const selectedGroup: CartProps | undefined = cart.find((group: CartProps) => {
+      return group.store._id === value;
     });
-    const selectedList = selectedGroup?.products || [];
+    const selectedList = selectedGroup ? selectedGroup.products : [];
     const insertedList = [...checkedList, ...selectedList].sort();
 
     if (isSelected) {
       setCheckedList([...new Set(insertedList)]);
     } else {
-      selectedList.forEach((id: any) => {
+      selectedList.forEach((id: CartItemProps) => {
         setCheckedList((prevData) => {
           return prevData.filter((key) => {
             return key !== id;
@@ -85,10 +86,10 @@ const useCart = () => {
     }
   };
 
-  const allCheckBoxHandler = (event: any) => {
+  const allCheckBoxHandler = (event: CheckboxChangeEvent) => {
     let isSelected = event.target.checked;
-    const insertedList = data
-      .map((group: any) => {
+    const insertedList = cart
+      .map((group: CartProps) => {
         return group.products;
       })
       .flat();
@@ -100,42 +101,91 @@ const useCart = () => {
     }
   };
 
+  const sumPrice = checkedList
+    .map((item: any) => {
+      return item.productID.price * item.quantity;
+    })
+    .reduce((accumulator: number, currentValue: number) => accumulator + currentValue, 0);
+
   const isCheckedAll =
+    checkedList.length !== 0 &&
     checkedList.length ===
-    data
-      .map((group: any) => {
-        return group.products;
-      })
-      .flat().length
+      cart
+        .map((group: any) => {
+          return group.products;
+        })
+        .flat().length
       ? true
       : false;
 
-  const groupedByShop = checkedList.reduce((acc, item) => {
-    const { shopID } = item;
-    if (!acc[shopID]) {
-      acc[shopID] = [];
+  interface Accumulator {
+    [key: string]: {
+      store: StoreProps;
+      products: CartItemProps[];
+    };
+  }
+
+  const groupByStore = Object.values(
+    checkedList.reduce<Accumulator>((acc, product) => {
+      const storeID = product.productID.storeID._id;
+      if (!acc[storeID]) {
+        acc[storeID] = {
+          store: product.productID.storeID,
+          products: [],
+        };
+      }
+      acc[storeID].products.push(product);
+      return acc;
+    }, {}),
+  );
+
+  const handleDelete = async (productID: string) => {
+    try {
+      const data: DeleteCartItemProps = { userID: user._id, productID: productID };
+      await cartAPIs.deleteCartItem(data);
+      displaySuccess('Product is deleted successfully');
+      eventEmitter.emit('deleteProduct');
+    } catch (error) {
+      handleError(error);
+    } finally {
     }
-    acc[shopID].push(item);
-    return acc;
-  }, {});
+  };
 
-  const groupedByShopArray = Object.entries(groupedByShop).map(([shopID, products]) => ({
-    shopID: Number(shopID), // Convert the shopID back to a number
-    products,
-  }));
-
-  const handleOnClick = () => {
+  const handleCheckout = () => {
     if (checkedList.length === 0) {
-        showConfirm()
+      showConfirm();
     } else {
-        sessionStorage.setItem('checkout', JSON.stringify(groupedByShopArray));
-    navigate('/checkout');
+      sessionStorage.setItem('checkout', JSON.stringify(groupByStore));
+      navigate(`/${customerUrls.checkoutUrl}`);
+    }
+  };
+
+  const handleQuantityChange = async (productID: string | undefined, value: number) => {
+    try {
+      setCheckedList([]);
+      const data: NewCartItemProps = { userID: user._id, items: [{ productID: productID, quantity: value }] };
+      await cartAPIs.addCartItem(data);
+    } catch (error) {
+      handleError(error);
+    } finally {
     }
   };
 
   useEffect(() => {
-    console.log(checkedList);
-    console.log(groupedByShopArray);
+    getUserCart();
+
+    const deleteListener = eventEmitter.addListener('deleteProduct', getUserCart);
+    const quantityListener = eventEmitter.addListener('qualityChange', getUserCart);
+    return () => {
+      deleteListener.remove();
+      quantityListener.remove();
+    };
+  }, []);
+
+  useEffect(() => {
+    console.log('check list: ', checkedList);
+    console.log('group by shop: ', groupByStore);
+    setTotalPrice(sumPrice);
   }, [checkedList]);
 
   return {
@@ -144,7 +194,13 @@ const useCart = () => {
     groupCheckBoxHandler,
     allCheckBoxHandler,
     isCheckedAll,
-    handleOnClick,
+    handleCheckout,
+    cart,
+    itemAmount,
+    totalPrice,
+    handleDelete,
+    handleQuantityChange,
+    isLoading,
   };
 };
 

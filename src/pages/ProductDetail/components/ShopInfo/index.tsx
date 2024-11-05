@@ -1,11 +1,11 @@
 import { PhoneOutlined, ShopOutlined, UserOutlined } from '@ant-design/icons';
 import { Avatar, Button, Col, Divider, Flex, Row, Typography } from 'antd';
 import useProductDetail from '../../useProductDetail';
+import { Link } from 'react-router-dom';
 
 const ShopInfo = () => {
   const { product, storeProduct } = useProductDetail();
-  const encodedID =
-    (product && product.storeID.userID._id) && btoa(product.storeID.userID._id);
+  const encodedID = product && product.storeID.userID._id && btoa(product.storeID.userID._id);
   const dateString =
     product && product.storeID.userID.createdAt && new Date(product.storeID.userID.createdAt).toDateString();
   return (
@@ -27,9 +27,11 @@ const ShopInfo = () => {
                 <Button variant="filled" color="primary" className="w-1/2">
                   <PhoneOutlined /> {product?.storeID.userID.phoneNumber}
                 </Button>
-                <Button variant="outlined" color="primary" className="w-1/2" href={`/user/${encodedID}`}>
-                  <ShopOutlined /> Visit shop
-                </Button>
+                <Link to={`/user/${encodedID}`} className="w-1/2">
+                  <Button variant="outlined" color="primary" className="w-full">
+                    <ShopOutlined /> Visit shop
+                  </Button>
+                </Link>
               </Flex>
             </Flex>
           </Flex>
