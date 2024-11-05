@@ -2,10 +2,10 @@ import { Flex, Spin } from 'antd';
 import { Suspense, lazy } from 'react';
 import { RouteObject } from 'react-router-dom';
 import { guestUrls } from '../../constants/urlPaths/guestUrls';
-const ProductDetail = lazy(() => import('.'));
+const UserProfilePage = lazy(() => import('.'));
 
-export const ProductDetailRoutes: RouteObject = {
-  path: guestUrls.productDetailUrl,
+export const UserProfilePageRoutes: RouteObject = {
+  path: guestUrls.userProfileUrl,
   element: (
     <Suspense
       fallback={
@@ -14,7 +14,7 @@ export const ProductDetailRoutes: RouteObject = {
         </Flex>
       }
     >
-      <ProductDetail />
+      <UserProfilePage />
     </Suspense>
   ),
 };

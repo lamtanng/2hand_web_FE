@@ -7,7 +7,7 @@ import { HomePageRoutes } from '../pages/HomePage/HomePage.routes';
 import { SignupRoute } from '../pages/SignupPage/Signup.routes';
 import { ProductListRoutes } from '../pages/ProductList/ProductList.routes';
 import { ProductDetailRoutes } from '../pages/ProductDetail/ProductDetail.routes';
-import { StoreProfilePageRoutes } from '../pages/StoreProfilePage/StoreProfilePage.routes';
+import { UserProfilePageRoutes } from '../pages/StoreProfilePage/UserProfilePage.routes';
 import Account from '../pages/customer/AccountPage';
 import { ProfileRoutes } from '../pages/customer/AccountPage/Profile/Profile.routes';
 import { AddressRoutes } from '../pages/customer/AccountPage/Address/Address.routes';
@@ -19,6 +19,7 @@ import { OrderDetailRoutes } from '../pages/customer/AccountPage/OrderDetail/Ord
 import { StoreRegisterPageRoutes } from '../pages/customer/StoreRegisterPage/StoreRegisterPage.routes';
 import { StoreDashboardRoutes } from '../pages/seller/Dashboard/Dashboard.routes';
 import StoreLayout from '../pages/seller';
+import { accountUrls } from '../constants/urlPaths/customer/accountUrls';
 
 const routes = createBrowserRouter([
   {
@@ -28,7 +29,7 @@ const routes = createBrowserRouter([
       HomePageRoutes,
       ProductListRoutes,
       ProductDetailRoutes,
-      StoreProfilePageRoutes,
+      UserProfilePageRoutes,
       LoginRoute,
       SignupRoute,
       {
@@ -39,7 +40,7 @@ const routes = createBrowserRouter([
       ChekoutPageRoutes,
       StoreRegisterPageRoutes,
       {
-        path: '/account',
+        path: accountUrls.accountUrl,
         element: <Account />,
         children: [
           ProfileRoutes,
