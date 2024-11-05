@@ -7,7 +7,8 @@ import ProductList from '../../../components/elements/Lists/ProductList';
 import Footer from '../../../components/elements/Footer';
 
 const CartPage = () => {
-  const {checkedList, isCheckedAll, allCheckBoxHandler, groupCheckBoxHandler, singleCheckBoxHandler, handleOnClick} = useCart();
+  const { checkedList, isCheckedAll, allCheckBoxHandler, groupCheckBoxHandler, singleCheckBoxHandler, handleOnClick } =
+    useCart();
 
   return (
     <>
@@ -17,10 +18,7 @@ const CartPage = () => {
           <div id="head" className="mb-5 rounded-md bg-white p-8 shadow-sm">
             <Flex>
               <Flex gap={'large'} className="w-1/2">
-                <Checkbox
-                  onChange={allCheckBoxHandler}
-                  checked={isCheckedAll}
-                />
+                <Checkbox onChange={allCheckBoxHandler} checked={isCheckedAll} />
                 <Typography.Paragraph className="m-0 text-base">Product</Typography.Paragraph>
               </Flex>
               <Flex justify="space-between" className="w-1/2">
@@ -49,7 +47,12 @@ const CartPage = () => {
               />
             ))}
           </div>
-          <Summary checkedList={checkedList} allCheckBoxHandler={allCheckBoxHandler} checked={isCheckedAll} handleOnClick={handleOnClick} />
+          <Summary
+            checkedList={checkedList}
+            allCheckBoxHandler={allCheckBoxHandler}
+            checked={isCheckedAll}
+            handleOnClick={handleOnClick}
+          />
           <div id="recommend-products" className="mt-10">
             <Typography.Title level={3} className="m-0">
               Recommended Products

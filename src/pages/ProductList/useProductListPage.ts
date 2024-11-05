@@ -13,19 +13,19 @@ const useListProducts = () => {
   const [page, setPage] = useState<number>(1);
   const [limit, setLimit] = useState<number>(2);
   const [search, setSearch] = useState<string>('');
-  const [sort, setSort] = useState<{ price?: number; createAt?: number }>({});
+  const [sort, setSort] = useState<string>('');
   const [quality, setQuality] = useState<string[]>([]);
-  const [price, setPrice] = useState<{ min?: number; max?: number }>({});
-  const [cateID, setCateID] = useState<string[]>([]);
+  const [price, setPrice] = useState<string>('');
+  const [cateID, setCateID] = useState<string>('');
 
   const getProducts = async (
     page: number,
     limit: number,
-    search: string,
-    sort: { price?: number; createAt?: number },
+    search: string | undefined,
+    sort: string | undefined,
     quality: string[],
-    price: { min?: number; max?: number },
-    cateID: string[],
+    price: string | undefined,
+    cateID: string | undefined,
   ) => {
     try {
       setLoading(true);

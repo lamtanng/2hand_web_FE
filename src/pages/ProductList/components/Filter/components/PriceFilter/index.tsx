@@ -40,12 +40,7 @@ const PriceFilter = ({
   setPage,
   setPrice,
 }: {
-  setPrice: React.Dispatch<
-    React.SetStateAction<{
-      min?: number;
-      max?: number;
-    }>
-  >;
+  setPrice: React.Dispatch<React.SetStateAction<string>>;
   setPage: React.Dispatch<React.SetStateAction<number>>;
 }) => {
   return (
@@ -59,7 +54,9 @@ const PriceFilter = ({
     >
       <Space direction="vertical">
         {priceValue.map((price: any) => (
-          <Radio key={price.label} value={JSON.stringify(price.range)}>{price.label}</Radio>
+          <Radio key={price.label} value={JSON.stringify(price.range)}>
+            {price.label}
+          </Radio>
         ))}
       </Space>
     </Radio.Group>

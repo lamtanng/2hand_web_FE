@@ -8,11 +8,11 @@ const productBySlugUrl = getProductUrl(productPaths.slugPath);
 const getAllProduct = (
   page: number,
   limit: number,
-  search: string,
-  sort: { price?: number; createAt?: number },
-  quality: string,
-  price: { min?: number; max?: number },
-  cateID: string[],
+  search: string | undefined,
+  sort: string | undefined,
+  quality: string | undefined,
+  price: string | undefined,
+  cateID: string | undefined,
 ) => {
   return axiosClient.get(productUrl, {
     params: {

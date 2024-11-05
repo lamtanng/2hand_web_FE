@@ -12,17 +12,11 @@ const Filter = ({
   quality,
 }: {
   category: CategoryProps[];
-  setPrice: React.Dispatch<
-    React.SetStateAction<{
-      min?: number;
-      max?: number;
-    }>
-  >;
+  setPrice: React.Dispatch<React.SetStateAction<string>>;
   setQuality: React.Dispatch<React.SetStateAction<string[]>>;
   setPage: React.Dispatch<React.SetStateAction<number>>;
   quality: string[];
 }) => {
-
   const items: CollapseProps['items'] = [
     {
       key: '1',
@@ -32,7 +26,7 @@ const Filter = ({
     {
       key: '2',
       label: 'Price',
-      children: <PriceFilter setPage={setPage} setPrice={setPrice}/>,
+      children: <PriceFilter setPage={setPage} setPrice={setPrice} />,
     },
     {
       key: '3',
