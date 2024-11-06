@@ -6,7 +6,6 @@ const Summary = ({
   checked,
   handleOnClick,
   itemAmount,
-  totalPrice
 }: {
   checkedList: any[];
   allCheckBoxHandler: (event: any) => void;
@@ -15,6 +14,11 @@ const Summary = ({
   itemAmount: number;
   totalPrice: number;
 }) => {
+  const totalPrice = checkedList
+  .map((item: any) => {
+    return item.productID.price * item.quantity;
+  })
+  .reduce((accumulator: number, currentValue: number) => accumulator + currentValue, 0);
   return (
     <div id="summary" className="rounded-md bg-white p-8 shadow-sm">
       <Flex justify="space-between" align="center">

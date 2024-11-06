@@ -25,7 +25,7 @@ const CartDetail = ({
     confirm({
       title: 'Do you want to delete this item?',
       onOk() {
-        handleDelete(product.productID._id);
+        handleDelete(product.productID._id, checkedList);
       },
       onCancel() {},
     });
@@ -61,7 +61,7 @@ const CartDetail = ({
               max={product.productID.quantity}
               defaultValue={product.quantity}
               onChange={(value) => {
-                debounced(value);
+                (value && value <= product.productID.quantity) && debounced(value);
               }}
             />
           </div>
