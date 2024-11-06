@@ -141,12 +141,13 @@ const useCart = () => {
     }, {}),
   );
 
-  const handleDelete = async (productID: string) => {
+  const handleDelete = async (productID: string, oldCheckList: CartItemProps[]) => {
     try {
+      const newCheckedList = oldCheckList.filter((item: CartItemProps) => item.productID._id !== productID);
       const data: DeleteCartItemProps = { userID: user._id, productID: productID };
       await cartAPIs.deleteCartItem(data);
       displaySuccess('Product is deleted successfully');
-      eventEmitter.emit('deleteProduct');
+      eventEmitter.emit('deleteProduct', newCheckedList);
     } catch (error) {
       handleError(error);
     } finally {
@@ -168,7 +169,6 @@ const useCart = () => {
       newCartItem.quantity = value;
       const newCheckedList = oldCheckList.filter((item: CartItemProps) => item.productID._id !== product.productID._id);
       eventEmitter.emit('updateItemQuantity', [...newCheckedList, newCartItem]);
-      setCheckedList([...newCheckedList, newCartItem]);
       const data: NewCartItemProps = {
         userID: user._id,
         items: [{ productID: product?.productID._id, quantity: value }],
@@ -183,7 +183,10 @@ const useCart = () => {
   useEffect(() => {
     getUserCart();
 
-    const deleteListener = eventEmitter.addListener('deleteProduct', getUserCart);
+    const deleteListener = eventEmitter.addListener('deleteProduct', (newCheckedList: CartItemProps[]) => {
+      getUserCart();
+      setCheckedList(newCheckedList);
+    });
     return () => {
       deleteListener.remove();
     };
