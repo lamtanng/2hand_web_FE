@@ -1,7 +1,6 @@
 import { Button, Divider, Flex, Radio, RadioChangeEvent, Space } from 'antd';
 import AddressItem from '../AddressItem';
 import { PlusOutlined } from '@ant-design/icons';
-import { useState } from 'react';
 
 const AddressList = ({
   data,
@@ -9,12 +8,16 @@ const AddressList = ({
   hidden,
   setFormVisible,
   setRadioVisible,
+  setValue,
+  value,
 }: {
   data: any;
   hidden: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setFormVisible: React.Dispatch<React.SetStateAction<boolean>>;
   setRadioVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  setValue: React.Dispatch<React.SetStateAction<string>>;
+  value: string;
 }) => {
   const handleOk = () => {
     setIsModalOpen(false);
@@ -22,9 +25,6 @@ const AddressList = ({
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  const [value, setValue] = useState(
-    `${data.address[0].address}, ${data.address[0].ward}, ${data.address[0].district}, ${data.address[0].city}`,
-  );
 
   const onChange = (e: RadioChangeEvent) => {
     console.log(e.target.value);

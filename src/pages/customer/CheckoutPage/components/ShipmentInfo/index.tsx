@@ -2,6 +2,12 @@ import { Button, Divider, Flex, Input, Typography } from 'antd';
 import { CartItemProps } from '../../../../../types/cart.type';
 
 const ShipmentInfo = ({ product }: { product: CartItemProps[] }) => {
+  const ship = 15000;
+  const totalPrice = product
+    .map((item: CartItemProps) => {
+      return item.productID.price * item.quantity;
+    })
+    .reduce((accumulator: number, currentValue: number) => accumulator + currentValue, 0);
   return (
     <div id="shipment-info" className="mb-6 w-full rounded-md bg-blue-50">
       <div className="p-8">
@@ -17,7 +23,9 @@ const ShipmentInfo = ({ product }: { product: CartItemProps[] }) => {
               <Button variant="text" color="primary" className="m-0 p-0 text-base hover:bg-transparent">
                 Change
               </Button>
-              <Typography.Paragraph className="m-0 text-base">{15000} VND</Typography.Paragraph>
+              <Typography.Paragraph className="m-0 text-base">
+                {new Intl.NumberFormat().format(ship)} VND
+              </Typography.Paragraph>
             </Flex>
           </Flex>
         </Flex>
@@ -28,12 +36,7 @@ const ShipmentInfo = ({ product }: { product: CartItemProps[] }) => {
           Total Price ({product.length} {product.length > 1 ? 'products' : 'product'}):
         </Typography.Paragraph>
         <Typography.Title level={4} className="m-0 font-normal text-blue-600">
-          {product
-            .map((item: CartItemProps) => {
-              return item.productID.price * item.quantity;
-            })
-            .reduce((accumulator: number, currentValue: number) => accumulator + currentValue, 0)}{' '}
-          VND
+          {new Intl.NumberFormat().format(totalPrice + ship)} VND
         </Typography.Title>
       </Flex>
     </div>

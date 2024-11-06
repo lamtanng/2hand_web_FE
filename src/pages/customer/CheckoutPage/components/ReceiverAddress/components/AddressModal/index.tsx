@@ -4,36 +4,20 @@ import AddressList from './components/AddressList';
 import AddressForm from './components/AddressForm';
 import { useState } from 'react';
 
-const data = {
-  userID: 1,
-  name: 'Luong Bui',
-  phoneNumber: '0785352677',
-  address: [
-    {
-      name: 'Luong Bui',
-      phoneNumber: '0785352677',
-      address: '105/14, đường 385, khu phố 6',
-      ward: 'Phường Tăng Nhơn Phú A',
-      district: 'Thành Phố Thủ Đức',
-      city: 'TP. Hồ Chí Minh',
-    },
-    {
-      name: 'Luong Bui',
-      phoneNumber: '0785352677',
-      address: 'Trường Đại Học Sư Phạm Kỹ Thuật, Đường Võ Văn Ngân',
-      ward: 'Phường Linh Chiểu',
-      district: 'Thành Phố Thủ Đức',
-      city: 'TP. Hồ Chí Minh',
-    },
-  ],
-};
+
 
 const AddressModal = ({
   isModalOpen,
   setIsModalOpen,
+  data,
+  setValue,
+  value
 }: {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  data: any;
+  setValue: React.Dispatch<React.SetStateAction<string>>,
+  value: string
 }) => {
   const [radioHidden, setRadioVisible] = useState<boolean>(false);
   const [formHidden, setFormVisible] = useState<boolean>(true);
@@ -61,6 +45,8 @@ const AddressModal = ({
           hidden={radioHidden}
           setFormVisible={setFormVisible}
           setRadioVisible={setRadioVisible}
+          setValue={setValue}
+          value={value}
         />
         <AddressForm hidden={formHidden} setFormVisible={setFormVisible} setRadioVisible={setRadioVisible} />
       </div>
