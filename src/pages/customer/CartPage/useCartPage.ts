@@ -57,7 +57,7 @@ const useCart = () => {
     } else {
       setCheckedList((prevData) => {
         return prevData.filter((key) => {
-          return key !== value;
+          return key.productID._id !== value.productID._id;
         });
       });
     }
@@ -101,11 +101,13 @@ const useCart = () => {
     }
   };
 
-  const sumPrice = checkedList
-    .map((item: any) => {
-      return item.productID.price * item.quantity;
-    })
-    .reduce((accumulator: number, currentValue: number) => accumulator + currentValue, 0);
+  const getSumPrice = (checkedList: CartItemProps[]) => {
+    return checkedList
+      .map((item: any) => {
+        return item.productID.price * item.quantity;
+      })
+      .reduce((accumulator: number, currentValue: number) => accumulator + currentValue, 0);
+  };
 
   const isCheckedAll =
     checkedList.length !== 0 &&
@@ -160,10 +162,17 @@ const useCart = () => {
     }
   };
 
-  const handleQuantityChange = async (productID: string | undefined, value: number) => {
+  const handleQuantityChange = async (product: CartItemProps, value: number, oldCheckList: CartItemProps[]) => {
     try {
-      setCheckedList([]);
-      const data: NewCartItemProps = { userID: user._id, items: [{ productID: productID, quantity: value }] };
+      const newCartItem = product;
+      newCartItem.quantity = value;
+      const newCheckedList = oldCheckList.filter((item: CartItemProps) => item.productID._id !== product.productID._id);
+      eventEmitter.emit('updateItemQuantity', [...newCheckedList, newCartItem]);
+      setCheckedList([...newCheckedList, newCartItem]);
+      const data: NewCartItemProps = {
+        userID: user._id,
+        items: [{ productID: product?.productID._id, quantity: value }],
+      };
       await cartAPIs.addCartItem(data);
     } catch (error) {
       handleError(error);
@@ -175,17 +184,20 @@ const useCart = () => {
     getUserCart();
 
     const deleteListener = eventEmitter.addListener('deleteProduct', getUserCart);
-    const quantityListener = eventEmitter.addListener('qualityChange', getUserCart);
     return () => {
       deleteListener.remove();
-      quantityListener.remove();
     };
   }, []);
 
   useEffect(() => {
-    console.log('check list: ', checkedList);
-    console.log('group by shop: ', groupByStore);
-    setTotalPrice(sumPrice);
+    setTotalPrice(getSumPrice(checkedList));
+
+    const listener = eventEmitter.addListener('updateItemQuantity', (checkedList: CartItemProps[]) => {
+      setTotalPrice(getSumPrice(checkedList));
+    });
+    return () => {
+      listener.remove();
+    };
   }, [checkedList]);
 
   return {

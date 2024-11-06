@@ -11,12 +11,17 @@ const CartItem = ({
   checkedList,
   singleCheckBoxHandler,
 }: {
-  group: {store: StoreProps, products: CartItemProps[]};
+  group: { store: StoreProps; products: CartItemProps[] };
   groupCheckBoxHandler: (event: CheckboxChangeEvent) => void;
   checkedList: any[];
   singleCheckBoxHandler: (event: CheckboxChangeEvent) => void;
 }) => {
-  const isGroupChecked = group.products.every((value: any) => checkedList.includes(value)) ? true : false;
+  const isGroupChecked = group.products.every(
+    (value: CartItemProps) =>
+      checkedList.filter((item: CartItemProps) => item.productID._id === value.productID._id).length !== 0,
+  )
+    ? true
+    : false;
 
   return (
     <div id="cart-item" key={group.store._id} className="mb-5 w-full rounded-md bg-white shadow-sm">

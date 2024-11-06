@@ -5,7 +5,6 @@ import useCart from '../../useCartPage';
 import { useDebouncedCallback } from 'use-debounce';
 import { CartItemProps } from '../../../../../types/cart.type';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
-import eventEmitter from '../../../../../utils/eventEmitter';
 
 const { confirm } = Modal;
 
@@ -18,10 +17,9 @@ const CartDetail = ({
   singleCheckBoxHandler: (event: CheckboxChangeEvent) => void;
   checkedList: any[];
 }) => {
-  const { handleDelete, handleQuantityChange,  } = useCart();
+  const { handleDelete, handleQuantityChange } = useCart();
   const debounced = useDebouncedCallback((value) => {
-    handleQuantityChange(product.productID._id, value);
-    eventEmitter.emit('qualityChange');
+    handleQuantityChange(product, value, checkedList);
   }, 1000);
   const showConfirm = () => {
     confirm({
@@ -36,7 +34,13 @@ const CartDetail = ({
     <>
       <Flex id="cart-detail">
         <Flex gap={'large'} id="product" className="w-1/2">
-          <Checkbox value={product} onChange={singleCheckBoxHandler} checked={checkedList.includes(product)} />
+          <Checkbox
+            value={product}
+            onChange={singleCheckBoxHandler}
+            checked={
+              checkedList.filter((item: CartItemProps) => item.productID._id === product.productID._id).length !== 0
+            }
+          />
           <Image width={'13%'} alt="" src="" fallback={defaultPic} preview={false} />
           <Flex gap={'small'} vertical>
             <Typography.Paragraph className="m-0 text-base">{product.productID.name}</Typography.Paragraph>
