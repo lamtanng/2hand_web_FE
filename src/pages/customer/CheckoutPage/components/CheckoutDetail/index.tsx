@@ -15,13 +15,13 @@ const CheckoutDetail = ({product}: {product: CartItemProps}) => {
         </Flex>
         <Flex justify="space-between" id="info" className="w-1/2">
           <div id="price" className="flex w-1/4 shrink-0 items-center justify-center">
-            <Typography.Paragraph className="m-0 text-base">{product.productID.price}</Typography.Paragraph>
+            <Typography.Paragraph className="m-0 text-base">{new Intl.NumberFormat().format(product.productID.price)}</Typography.Paragraph>
           </div>
           <div id="quantity" className="flex w-1/4 shrink-0 items-center justify-center">
             {product.quantity}
           </div>
           <div id="total" className="flex w-1/4 shrink-0 items-center justify-center">
-            <Typography.Paragraph className="m-0 text-base">{product.quantity * product.productID.price}</Typography.Paragraph>
+            <Typography.Paragraph className="m-0 text-base">{new Intl.NumberFormat().format(product.quantity * product.productID.price)}</Typography.Paragraph>
           </div>
         </Flex>
       </Flex>

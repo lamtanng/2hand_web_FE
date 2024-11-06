@@ -12,7 +12,7 @@ const AddressItem = ({
   return (
     <div>
       <Divider />
-      <Radio value={`${address.address}, ${address.ward}, ${address.district}, ${address.city}`} className="w-full">
+      <Radio value={JSON.stringify(address)} className="w-full">
         <Flex justify="space-between" align="center" className="w-full">
           <Flex align="center">
             <Typography.Paragraph className="m-0 text-base">{address.name}</Typography.Paragraph>
@@ -31,7 +31,7 @@ const AddressItem = ({
           </Button>
         </Flex>
         <Typography.Paragraph className="m-0 mb-2 text-base">{`${address.address}, ${address.ward}, ${address.district}, ${address.city}`}</Typography.Paragraph>
-        <Tag color="geekblue">Default</Tag>
+        {address.isDefault && <Tag color="geekblue">Default</Tag>}
       </Radio>
     </div>
   );
