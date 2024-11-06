@@ -1,6 +1,16 @@
-import { Button, Divider, Flex, Typography } from "antd";
+import { Button, Divider, Flex, Typography } from 'antd';
+import { CartItemProps, CartProps } from '../../../../../types/cart.type';
 
-const PaymentMethod = () => {
+const PaymentMethod = ({ checkoutList }: { checkoutList: CartProps[] }) => {
+  const total = checkoutList
+    .map((cart: CartProps) => {
+      return cart.products.map((item: CartItemProps) => {
+        return item.quantity * item.productID.price;
+      });
+    })
+    .flat()
+    .reduce((accumulator: number, currentValue: number) => accumulator + currentValue, 0);
+  const ship = 15000 * checkoutList.length;
   return (
     <div id="payment-method" className="mb-5 rounded-md bg-white shadow-sm">
       <Flex className="p-8" justify="space-between">
@@ -19,16 +29,16 @@ const PaymentMethod = () => {
         <Flex gap={'middle'} vertical className="w-1/4">
           <Flex justify="space-between">
             <Typography.Paragraph className="m-0 text-base">Product price:</Typography.Paragraph>
-            <Typography.Paragraph className="m-0 text-base">0.000 VND</Typography.Paragraph>
+            <Typography.Paragraph className="m-0 text-base">{total} VND</Typography.Paragraph>
           </Flex>
           <Flex justify="space-between">
             <Typography.Paragraph className="m-0 text-base">Shipment cost:</Typography.Paragraph>
-            <Typography.Paragraph className="m-0 text-base">0.000 VND</Typography.Paragraph>
+            <Typography.Paragraph className="m-0 text-base">{ship} VND</Typography.Paragraph>
           </Flex>
           <Flex justify="space-between">
             <Typography.Paragraph className="m-0 text-base">Total:</Typography.Paragraph>
             <Typography.Title level={4} className="m-0 font-normal text-blue-600">
-              0.000 VND
+              {total + ship} VND
             </Typography.Title>
           </Flex>
         </Flex>

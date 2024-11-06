@@ -4,6 +4,7 @@ import CheckoutItem from './components/CheckoutItem';
 import PaymentMethod from './components/PaymentMethod';
 import Header from '../../../components/elements/Header';
 import Footer from '../../../components/elements/Footer';
+import { CartProps } from '../../../types/cart.type';
 
 const CheckoutPage = () => {
   const checkoutList = sessionStorage.getItem('checkout') || '';
@@ -34,13 +35,13 @@ const CheckoutPage = () => {
             </Flex>
           </div>
           <div id="checkout-list">
-            {checkoutItems.map((group: any) => (
-              <div id="checkout-card" key={group.shopID} className="shadow-sm">
+            {checkoutItems.map((group: CartProps) => (
+              <div id="checkout-card" key={group.store._id} className="shadow-sm">
                 <CheckoutItem group={group} />
               </div>
             ))}
           </div>
-          <PaymentMethod />
+          <PaymentMethod checkoutList={checkoutItems} />
         </div>
       </div>
       <Footer />
