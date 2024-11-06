@@ -34,28 +34,17 @@ const routes = createBrowserRouter([
       SignupRoute,
       {
         element: <ProtectedRoutes />,
-        children: [adminRoutes],
+        children: [adminRoutes, CartPageRoutes, ChekoutPageRoutes, StoreRegisterPageRoutes],
       },
-      CartPageRoutes,
-      ChekoutPageRoutes,
-      StoreRegisterPageRoutes,
       {
         path: accountUrls.accountUrl,
         element: <Account />,
-        children: [
-          ProfileRoutes,
-          AddressRoutes,
-          MyOrdersRoutes,
-          MyReviewsRoutes,
-          OrderDetailRoutes,
-        ]
+        children: [ProfileRoutes, AddressRoutes, MyOrdersRoutes, MyReviewsRoutes, OrderDetailRoutes],
       },
       {
         path: '/seller',
         element: <StoreLayout />,
-        children: [
-          StoreDashboardRoutes,
-        ]
+        children: [StoreDashboardRoutes],
       },
     ],
   },

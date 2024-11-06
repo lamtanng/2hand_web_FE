@@ -3,10 +3,14 @@ import { Card } from 'antd';
 import defaultImg from '../../../../assets/blob.jpg';
 import { Link } from 'react-router-dom';
 import { ProductProps } from '../../../../types/product.type';
+import eventEmitter from '../../../../utils/eventEmitter';
 
 const ProductCard = ({ product, isLoading = false }: { product: ProductProps; isLoading: boolean }) => {
+  const handleLinkClick = () => {
+    eventEmitter.emit('productLinkClick', product.slug);
+  }
   return (
-    <Link to={`/${product.slug}`} key={product.id} id="cate-card" className="no-underline">
+    <Link to={`/${product.slug}`} key={product._id} id="cate-card" className="no-underline" onClick={handleLinkClick}>
       <Card loading={isLoading} cover={<img alt="example" src={defaultImg} />} className="relative mx-2 md:mx-3">
         <p className="truncate text-sm md:text-base">{product.name}</p>
         <p className="text-base font-bold md:text-lg">{product && new Intl.NumberFormat().format(product.price)} VND</p>

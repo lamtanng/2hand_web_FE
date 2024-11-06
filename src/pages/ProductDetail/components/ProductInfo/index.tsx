@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import useProductDetail from '../../useProductDetail';
 
 const ProductInfo = () => {
-  const { product } = useProductDetail();
+  const { product, handleAddToCard, setQuantity, isDirty } = useProductDetail();
 
   return (
     <div id="product" className="my-5 rounded-xl bg-white p-8 shadow-sm">
@@ -60,17 +60,17 @@ const ProductInfo = () => {
               </Flex>
               <Flex align="baseline" gap={'small'}>
                 <Typography.Paragraph className="m-0 w-1/6">Quantity: </Typography.Paragraph>
-                <InputNumber min={1} max={product?.quantity} defaultValue={1} />
+                <InputNumber min={1} max={product?.quantity} defaultValue={1} onChange={(value) => {value && setQuantity(value)}} />
                 <Typography.Paragraph className="m-0 ml-6 text-gray-500">
                   {product?.quantity} in stock
                 </Typography.Paragraph>
               </Flex>
             </Flex>
             <Flex gap={'large'}>
-              <Button color="primary" variant="outlined" className="w-1/2 py-5 font-bold">
+              <Button disabled={isDirty} color="primary" variant="outlined" className="w-1/2 py-5 font-bold" onClick={handleAddToCard}>
                 Add to cart
               </Button>
-              <Button type="primary" className="w-1/2 py-5 font-bold">
+              <Button disabled={isDirty} type="primary" className="w-1/2 py-5 font-bold">
                 Buy now
               </Button>
             </Flex>
