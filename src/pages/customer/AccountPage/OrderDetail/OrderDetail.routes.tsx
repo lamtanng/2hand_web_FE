@@ -5,7 +5,7 @@ import PageSpin from '../../../../components/elements/Spin/PageSpin';
 const OrderDetail = lazy(() => import('.'));
 
 export const OrderDetailRoutes: RouteObject = {
-  path: accountUrls.orderDetailUrl,
+  path: accountUrls.purchasesDetailUrl,
   element: (
     <Suspense fallback={<PageSpin />}>
       <OrderDetail />

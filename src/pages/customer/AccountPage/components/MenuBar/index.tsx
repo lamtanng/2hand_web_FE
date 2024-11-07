@@ -1,4 +1,6 @@
 import {
+  CarryOutOutlined,
+  DashboardOutlined,
   FileTextOutlined,
   HeartOutlined,
   HomeOutlined,
@@ -6,6 +8,7 @@ import {
   NotificationOutlined,
   QuestionCircleOutlined,
   SettingOutlined,
+  ShopOutlined,
   StarOutlined,
   UserOutlined,
 } from '@ant-design/icons';
@@ -23,10 +26,11 @@ function getItem(label: React.ReactNode, key: React.Key, icon?: React.ReactNode,
   } as MenuItem;
 }
 
+const isSeller = true;
+
 const items: MenuItem[] = [
   {
-    key: 'grp',
-    type: 'group',
+    key: 'account',
     label: 'My Account',
     children: [
       getItem('Profile', 'profile', <UserOutlined />),
@@ -35,18 +39,27 @@ const items: MenuItem[] = [
     ],
   },
   {
-    key: 'grp',
-    type: 'group',
-    label: 'Orders',
+    key: 'purchase',
+    label: 'Purchases',
     children: [
-      getItem('My Orders', 'orders', <FileTextOutlined />),
+      getItem('My Purchases', 'purchases', <FileTextOutlined />),
       getItem('My Reviews', 'reviews', <StarOutlined />),
       getItem('Wishlist', 'wishlist', <HeartOutlined />, true),
     ],
   },
   {
-    key: 'grp',
-    type: 'group',
+    key: 'store',
+    label: 'Store Management',
+    children: [
+      getItem('Dashboard', 'dashboard', <DashboardOutlined />),
+      getItem('Products', 'products', <CarryOutOutlined />),
+      getItem('Orders', 'orders', <FileTextOutlined />),
+      getItem('Store Profile', 'store-profile', <ShopOutlined />),
+    ],
+    disabled: !isSeller
+  },
+  {
+    key: 'setting',
     label: 'Settings',
     children: [
       getItem('Change Password', 'changepassword', <SettingOutlined />),
@@ -65,7 +78,8 @@ const MenuBar = () => {
         <Typography.Title level={4}>Name Name</Typography.Title>
       </Flex>
       <Menu
-        defaultSelectedKeys={['1']}
+        defaultSelectedKeys={['profile']}
+        defaultOpenKeys={['account', 'purchase', 'setting']}
         mode="inline"
         items={items}
         className="bg-slate-50 text-base"

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 const Order = () => {
   return (
-    <div>
+    <div className='mb-6'>
       <div id="order" className="rounded-md bg-slate-50 p-6">
         <div id="order-summary">
           <Flex justify="space-between">

@@ -5,7 +5,7 @@ import {
   PercentageOutlined,
   ShoppingOutlined,
 } from '@ant-design/icons';
-import { Button, Flex, Typography } from 'antd';
+import { Button, Divider, Flex, Typography } from 'antd';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, BarChart, Bar } from 'recharts';
 
 const data = [
@@ -38,14 +38,13 @@ const data = [
 const StoreDashboard = () => {
   const currentDate = new Date();
   return (
-    <div>
-      <div className="mb-6 rounded-xl bg-white p-8 shadow-sm">
-        <Typography.Title level={2} className="m-0 mb-2">
-          Dashboard
-        </Typography.Title>
-        <Typography.Paragraph className="m-0 text-base">An overview of your store's activity.</Typography.Paragraph>
+    <div id="container" className="px-12 py-5">
+      <div id="title">
+        <Typography.Title level={3}>Dashboard</Typography.Title>
+        <Typography.Paragraph>An overview of your store's activity.</Typography.Paragraph>
       </div>
-      <div className="mb-6">
+      <Divider/>
+      <div className='mb-6'>
         <Flex justify="end" gap={'middle'}>
           <Button>
             <CalendarOutlined /> Date
@@ -57,7 +56,7 @@ const StoreDashboard = () => {
       </div>
       <div className="mb-6">
         <Flex gap={'large'}>
-          <Flex vertical className="w-full gap-12 rounded-xl bg-white p-8 shadow-sm">
+          <Flex vertical className="w-full gap-10 rounded-xl bg-slate-50 p-8">
             <Typography.Paragraph className="m-0 text-base">
               <ShoppingOutlined /> Number of Products
             </Typography.Paragraph>
@@ -66,7 +65,7 @@ const StoreDashboard = () => {
               <Typography.Paragraph className="m-0">{currentDate.toDateString()}</Typography.Paragraph>
             </Flex>
           </Flex>
-          <Flex vertical className="w-full gap-12 rounded-xl bg-white p-8 shadow-sm">
+          <Flex vertical className="w-full gap-10 rounded-xl bg-slate-50 p-8">
             <Typography.Paragraph className="m-0 text-base">
               <FileTextOutlined /> Number of Orders
             </Typography.Paragraph>
@@ -75,7 +74,7 @@ const StoreDashboard = () => {
               <Typography.Paragraph className="m-0">{currentDate.toDateString()}</Typography.Paragraph>
             </Flex>
           </Flex>
-          <Flex vertical className="w-full gap-12 rounded-xl bg-white p-8 shadow-sm">
+          <Flex vertical className="w-full gap-10 rounded-xl bg-slate-50 p-8">
             <Typography.Paragraph className="m-0 text-base">
               <PercentageOutlined /> Succesful Order Rate
             </Typography.Paragraph>
@@ -86,9 +85,10 @@ const StoreDashboard = () => {
           </Flex>
         </Flex>
       </div>
-      <Flex justify='space-between'>
-        <div className="mb-6 w-fit rounded-xl bg-white p-8 shadow-sm">
-          <LineChart width={610} height={250} data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+      <Flex justify="space-between">
+        <div className="mb-6 w-fit">
+          <Typography.Title level={4} className='m-0 mb-6'>Annual Revenue</Typography.Title>
+          <LineChart width={450} height={250} data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
             <YAxis />
@@ -98,8 +98,9 @@ const StoreDashboard = () => {
             <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
           </LineChart>
         </div>
-        <div className="mb-6 w-fit rounded-xl bg-white p-8 shadow-sm">
-          <BarChart width={610} height={250} data={data}>
+        <div className="mb-6 w-fit">
+          <Typography.Title level={4} className='m-0 mb-6'>Monthly Orders by State</Typography.Title>
+          <BarChart width={450} height={250} data={data}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
             <YAxis />
