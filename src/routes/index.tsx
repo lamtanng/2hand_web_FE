@@ -19,6 +19,7 @@ import { OrderDetailRoutes } from '../pages/customer/AccountPage/OrderDetail/Ord
 import { StoreRegisterPageRoutes } from '../pages/customer/StoreRegisterPage/StoreRegisterPage.routes';
 import { accountUrls } from '../constants/urlPaths/customer/accountUrls';
 import { StoreDashboardRoutes } from '../pages/customer/AccountPage/StoreManagement/Dashboard/Dashboard.routes';
+import { StoreOrderRoutes } from '../pages/customer/AccountPage/StoreManagement/StoreOrder/StoreOrder.routes';
 
 const routes = createBrowserRouter([
   {
@@ -38,7 +39,7 @@ const routes = createBrowserRouter([
       {
         path: accountUrls.accountUrl,
         element: <Account />,
-        children: [ProfileRoutes, AddressRoutes, MyOrdersRoutes, MyReviewsRoutes, OrderDetailRoutes, StoreDashboardRoutes],
+        children: [ProfileRoutes, AddressRoutes, MyOrdersRoutes, MyReviewsRoutes, OrderDetailRoutes, StoreDashboardRoutes, StoreOrderRoutes],
       },
     ],
   },
