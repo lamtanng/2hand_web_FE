@@ -17,7 +17,7 @@ const Address = () => {
         </Flex>
       </div>
       <Divider />
-      <div id="address-list">
+      <div id="address-list" className='mb-6'>
         <div id="adress-item">
           <Flex justify="space-between" align="center">
             <div id="info" className="w-3/5">
