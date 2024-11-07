@@ -1,54 +1,39 @@
-import { BellOutlined, ShoppingCartOutlined, UserOutlined } from '@ant-design/icons';
+import { ShoppingCartOutlined, UserOutlined } from '@ant-design/icons';
 import { Avatar, Button, Divider, Dropdown, Flex, MenuProps } from 'antd';
 import { UserProps } from '../../../../../types/user.type';
 import useUserInfo from './useUserInfo';
 import { Link } from 'react-router-dom';
 import { customerUrls } from '../../../../../constants/urlPaths/customer/customerUrls';
+import { accountUrls } from '../../../../../constants/urlPaths/customer/accountUrls';
 
 const items: MenuProps['items'] = [
   {
     key: '1',
-    label: (
-      <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
-        My Profile
-      </a>
-    ),
+    label: <Link to={`/${accountUrls.accountUrl}/${accountUrls.profileUrl}`}>My Profile</Link>,
   },
   {
     key: '2',
-    label: (
-      <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
-        My Orders
-      </a>
-    ),
+    label: <Link to={`/${accountUrls.accountUrl}/${accountUrls.puchasesUrl}`}>My Orders</Link>,
   },
   {
     key: '3',
-    label: (
-      <a target="_blank" rel="noopener noreferrer" href="https://www.luohanacademy.com">
-        3rd menu item
-      </a>
-    ),
+    label: <Link to={`/${accountUrls.accountUrl}/${accountUrls.reviewUrl}`}>My Reviews</Link>,
   },
   {
     key: '4',
-    label: (
-      <a target="_blank" rel="noopener noreferrer" href="https://www.luohanacademy.com">
-        3rd menu item
-      </a>
-    ),
+    label: <Link to={`logout`}>Logout</Link>,
   },
 ];
 
 const UserInfoGroup = ({ user }: { user: UserProps }) => {
-  const { itemAmount } = useUserInfo();
+  const { itemAmount, profile } = useUserInfo(user);
   return (
     <Flex gap={'large'} justify="center" align="center">
       <Dropdown menu={{ items }}>
         <Flex gap={'small'} align="center">
           <Avatar size="large" icon={<UserOutlined />} />
           <p className="m-0 hidden xl:inline">
-            {user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : user.email}
+            {profile?.firstName && profile?.lastName ? `${profile?.firstName} ${profile?.lastName}` : profile?.email}
           </p>
         </Flex>
       </Dropdown>
