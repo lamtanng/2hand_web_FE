@@ -1,5 +1,5 @@
-import OrderList from '../../../../components/elements/Lists/OrderList';
 import { Tabs, TabsProps } from 'antd';
+import OrderList from '../../../../../components/elements/Lists/OrderList';
 
 const onChange = (key: string) => {
   console.log(key);
@@ -9,36 +9,36 @@ const items: TabsProps['items'] = [
   {
     label: 'All Orders',
     key: '1',
-    children: <OrderList/>,
+    children: <OrderList />,
   },
   {
     label: 'Waiting for confirmation',
     key: '2',
-    children: <OrderList/>,
+    children: <OrderList />,
   },
   {
     label: 'Waiting for shipping',
     key: '3',
-    children: <OrderList/>,
+    children: <OrderList />,
   },
   {
     key: '4',
     label: 'Waiting for delivery',
-    children: <OrderList/>,
+    children: <OrderList />,
   },
   {
     key: '5',
     label: 'Completed Orders',
-    children: <OrderList/>,
+    children: <OrderList />,
   },
   {
     key: '6',
     label: 'Canceled Orders',
-    children: <OrderList/>,
+    children: <OrderList />,
   },
 ];
 
-const MyOrders = () => {
+const StoreOrder = () => {
   return (
     <div>
       <Tabs defaultActiveKey="1" items={items} onChange={onChange} className="px-12 py-5" />
@@ -46,4 +46,4 @@ const MyOrders = () => {
   );
 };
 
-export default MyOrders;
+export default StoreOrder;

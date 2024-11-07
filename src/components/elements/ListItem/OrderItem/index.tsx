@@ -1,11 +1,11 @@
-import { Button, Divider, Flex, Typography, Image } from 'antd';
-import defaultImg from '../../../../../../assets/blob.jpg';
 import { MessageOutlined, ShopOutlined } from '@ant-design/icons';
+import { Button, Divider, Flex, Typography, Image } from 'antd';
 import { Link } from 'react-router-dom';
+import defaultPic from '../../../../assets/blob.jpg'
 
-const Order = () => {
+const OrderItem = () => {
   return (
-    <div className='mb-6'>
+    <div className="mb-6">
       <div id="order" className="rounded-md bg-slate-50 p-6">
         <div id="order-summary">
           <Flex justify="space-between">
@@ -32,7 +32,7 @@ const Order = () => {
             <Flex justify="space-between" align="center">
               <div id="product-info">
                 <Flex gap={'middle'}>
-                  <Image width={75} preview={false} alt="" src="" fallback={defaultImg} />
+                  <Image width={75} preview={false} alt="" src="" fallback={defaultPic} />
                   <div>
                     <Typography.Title level={5} className="m-0">
                       Product name
@@ -69,4 +69,4 @@ const Order = () => {
   );
 };
 
-export default Order;
+export default OrderItem;
