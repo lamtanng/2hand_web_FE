@@ -39,7 +39,15 @@ const routes = createBrowserRouter([
       {
         path: accountUrls.accountUrl,
         element: <Account />,
-        children: [ProfileRoutes, AddressRoutes, MyOrdersRoutes, MyReviewsRoutes, OrderDetailRoutes, StoreDashboardRoutes, StoreOrderRoutes],
+        children: [
+          ProfileRoutes,
+          AddressRoutes,
+          MyOrdersRoutes,
+          MyReviewsRoutes,
+          OrderDetailRoutes,
+          StoreDashboardRoutes,
+          StoreOrderRoutes,
+        ],
       },
     ],
   },

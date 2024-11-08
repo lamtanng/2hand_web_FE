@@ -1,6 +1,7 @@
 import { Button, Flex } from 'antd';
 import { Link } from 'react-router-dom';
 import { authPaths } from '../../../../../constants/apiPaths/authPaths';
+import { customerUrls } from '../../../../../constants/urlPaths/customer/customerUrls';
 
 const ActionGroup = () => {
   return (
@@ -11,9 +12,11 @@ const ActionGroup = () => {
       <Link to={`/${authPaths.loginPath}`} className="font-sans">
         Sign In
       </Link>
-      <Button type="primary" className="hidden px-10 text-base md:inline" href='store-register'>
-        Sell a product
-      </Button>
+      <Link to={`/${customerUrls.storeRegisterUrl}`}>
+        <Button type="primary" className="hidden px-10 text-base md:inline">
+          Sell a product
+        </Button>
+      </Link>
     </Flex>
   );
 };
