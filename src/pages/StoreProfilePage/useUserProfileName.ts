@@ -5,13 +5,26 @@ import { handleError } from '../../utils/handleError';
 import { StoreProps } from '../../types/store.type';
 import { ProductProps } from '../../types/product.type';
 import { productAPIs } from '../../apis/product.api';
+import { UserProps } from '../../types/user.type';
+import { userAPIs } from '../../apis/user.api';
 
 const useUserProfileDetail = () => {
   const param = useParams();
-  const decodedID = (param && param.id) && atob(param.id);
+  const decodedID = param && param.id && atob(param.id);
+  const [profile, setProfile] = useState<UserProps>();
   const [store, setStore] = useState<StoreProps>();
   const [isLoading, setLoading] = useState<boolean>(false);
   const [storeProduct, setStoreProduct] = useState<ProductProps[]>([]);
+
+  const getUserByID = async (userID: string | undefined) => {
+    try {
+      const res = await userAPIs.getUserByUserID(userID);
+      setProfile(res.data);
+    } catch (error) {
+      handleError(error);
+    } finally {
+    }
+  };
 
   const getStore = async (userID: string | undefined) => {
     try {
@@ -21,9 +34,8 @@ const useUserProfileDetail = () => {
     } catch (error) {
       handleError(error);
     } finally {
-
     }
-  }
+  };
 
   const getStoreProducts = async (page: number, limit: number, storeID: (string | undefined)[]) => {
     try {
@@ -49,6 +61,7 @@ const useUserProfileDetail = () => {
 
   useEffect(() => {
     getStore(decodedID);
+    getUserByID(decodedID);
   }, []);
 
   useEffect(() => {
@@ -59,6 +72,7 @@ const useUserProfileDetail = () => {
     store,
     isLoading,
     storeProduct,
+    profile
   };
 };
 

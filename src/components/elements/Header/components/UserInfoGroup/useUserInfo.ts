@@ -13,7 +13,7 @@ const useUserInfo = (user: UserProps) => {
 
   const getUserByID = async (userID: string | undefined) => {
     try {
-      const res = await userAPIs.getUserByUser(userID);
+      const res = await userAPIs.getUserByUserID(userID);
       setProfile(res.data);
     } catch (error) {
       handleError(error);

@@ -27,15 +27,18 @@ const items: MenuProps['items'] = [
 
 const UserInfoGroup = ({ user }: { user: UserProps }) => {
   const { itemAmount, profile } = useUserInfo(user);
+  const userID = profile && profile._id && btoa(profile._id);
   return (
     <Flex gap={'large'} justify="center" align="center">
       <Dropdown menu={{ items }}>
-        <Flex gap={'small'} align="center">
-          <Avatar size="large" icon={<UserOutlined />} />
-          <p className="m-0 hidden xl:inline">
-            {profile?.firstName && profile?.lastName ? `${profile?.firstName} ${profile?.lastName}` : profile?.email}
-          </p>
-        </Flex>
+        <Link to={`/user/${userID}`}>
+          <Flex gap={'small'} align="center">
+            <Avatar size="large" icon={<UserOutlined />} />
+            <p className="m-0 hidden font-sans xl:inline">
+              {profile?.firstName && profile?.lastName ? `${profile?.firstName} ${profile?.lastName}` : profile?.email}
+            </p>
+          </Flex>
+        </Link>
       </Dropdown>
       <Divider type="vertical" className="m-0" />
       <Link to={`/${customerUrls.cartUrl}`}>
@@ -48,9 +51,11 @@ const UserInfoGroup = ({ user }: { user: UserProps }) => {
         <BellOutlined className="m-0 text-lg" />
         <p className="absolute -right-2 -top-2 m-0 rounded-full bg-blue-500 px-1 text-xs text-white">0</p>
       </div> */}
-      <Button type="primary" className="hidden px-10 text-base md:inline" href="/store-register">
-        Sell a product
-      </Button>
+      <Link to={`/${customerUrls.storeRegisterUrl}`}>
+        <Button type="primary" className="hidden px-10 text-base md:inline">
+          Sell a product
+        </Button>
+      </Link>
     </Flex>
   );
 };

@@ -5,7 +5,7 @@ import { axiosClient } from './axios';
 const getUserUrl = (url: string) => `${userPaths.userPath}/${url}`;
 const userUrl = getUserUrl('');
 
-const getUserByUser = (userID: string | undefined) => {
+const getUserByUserID = (userID: string | undefined) => {
     const url = `${userUrl}/${userID}`;
     return axiosClient.get(url);
 }
@@ -14,4 +14,4 @@ const updateUser = (data: any) => {
     return axiosClient.put(userUrl, data);
 }
 
-export const userAPIs = { getUserByUser, updateUser };
+export const userAPIs = { getUserByUserID, updateUser };

@@ -26,7 +26,7 @@ const useProfileForm = () => {
 
   const getUserByID = async (userID: string | undefined) => {
     try {
-      const res = await userAPIs.getUserByUser(userID);
+      const res = await userAPIs.getUserByUserID(userID);
       reset(res.data);
     } catch (error) {
       handleError(error);
@@ -36,6 +36,7 @@ const useProfileForm = () => {
 
   const onDateChange: DatePickerProps['onChange'] = (date: any, dateString: any) => {
     setDob(dateString);
+    console.log(date);
   };
 
   const handleUpdateUser = async (account: ProfileProps) => {

@@ -3,8 +3,8 @@ import { Avatar, Button, Flex, Typography } from 'antd';
 import useUserProfileDetail from '../../useUserProfileName';
 
 const UserInfo = () => {
-  const { store } = useUserProfileDetail();
-  const dateString = store && store.userID.createdAt && new Date(store.userID.createdAt).toDateString();
+  const { profile } = useUserProfileDetail();
+  const dateString = profile && profile.createdAt && new Date(profile.createdAt).toDateString();
 
   return (
     <div className="mb-6 rounded-xl bg-white px-24 py-8 shadow-sm">
@@ -12,20 +12,20 @@ const UserInfo = () => {
         <Avatar size={150} icon={<UserOutlined />} />
         <Flex vertical gap={'large'}>
           <Typography.Title level={3} className="m-0">
-            {store?.userID.firstName && store.userID.lastName
-              ? `${store.userID.firstName} ${store.userID.lastName}`
-              : store?.userID.email}
+            {profile?.firstName && profile?.lastName
+              ? `${profile?.firstName} ${profile?.lastName}`
+              : profile?.email}
           </Typography.Title>
           <div id="store-info" className="grid grid-cols-2 gap-6">
             <Typography.Paragraph className="m-0 text-base">
-              Phone number: {store?.userID.phoneNumber}
+              Phone number: {profile?.phoneNumber}
             </Typography.Paragraph>
             <Typography.Paragraph className="m-0 text-base">Joined in: {dateString}</Typography.Paragraph>
             <Typography.Paragraph className="m-0 text-base">
-              Followers: {store?.userID.followerID?.length}
+              Followers: {profile?.followerID?.length}
             </Typography.Paragraph>
             <Typography.Paragraph className="m-0 text-base">
-              Following: {store?.userID.followingID?.length}
+              Following: {profile?.followingID?.length}
             </Typography.Paragraph>
           </div>
           <Flex gap={'large'}>

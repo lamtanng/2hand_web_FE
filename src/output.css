@@ -235,6 +235,11 @@
   margin: 0px;
 }
 
+#root .mx-0{
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
 #root .mx-2{
   margin-left: 0.5rem;
   margin-right: 0.5rem;
@@ -263,6 +268,10 @@
 #root .my-5{
   margin-top: 1.25rem;
   margin-bottom: 1.25rem;
+}
+
+#root .-mt-4{
+  margin-top: -1rem;
 }
 
 #root .mb-0{
@@ -799,6 +808,10 @@
   font-weight: 600;
 }
 
+#root .italic{
+  font-style: italic;
+}
+
 #root .text-black{
   --tw-text-opacity: 1;
   color: rgb(0 0 0 / var(--tw-text-opacity));
@@ -1021,6 +1034,10 @@
 
   #root .xl\:w-10\/12{
     width: 83.333333%;
+  }
+
+  #root .xl\:w-8\/12{
+    width: 66.666667%;
   }
 
   #root .xl\:w-full{

@@ -2,6 +2,8 @@ import { Button, Divider, Flex, Typography } from 'antd';
 import ProfileForm from './components/ProfileForm';
 import UploadAvatar from './components/UploadAvatar';
 import { ShopOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
+import { customerUrls } from '../../../../constants/urlPaths/customer/customerUrls';
 
 const Profile = () => {
   return (
@@ -11,7 +13,11 @@ const Profile = () => {
           <Typography.Title level={3}>My Profile</Typography.Title>
           <Typography.Paragraph>Manage your profile for security purpose.</Typography.Paragraph>
         </div>
-        <Button type="primary" className="h-10 text-base"><ShopOutlined /> Become seller</Button>
+        <Link to={`/${customerUrls.storeRegisterUrl}`}>
+          <Button type="primary" className="h-10 text-base">
+            <ShopOutlined /> Become seller
+          </Button>
+        </Link>
       </Flex>
       <Divider />
       <div id="profile">
