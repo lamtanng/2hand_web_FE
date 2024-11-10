@@ -9,10 +9,12 @@ import { loginSelector } from '../../../../../../redux/slices/login.slice';
 import { displaySuccess } from '../../../../../../utils/displayToast';
 import eventEmitter from '../../../../../../utils/eventEmitter';
 import { userAPIs } from '../../../../../../apis/user.api';
+import { UserProps } from '../../../../../../types/user.type';
 
 const useProfileForm = () => {
   const { user } = useAppSelector(loginSelector);
   const [dob, setDob] = useState<Date | undefined>(user.dateOfBirth);
+  const [isSubmitting, setSubmitting] = useState<boolean>(false);
   const method = useForm<ProfileProps>({
     resolver: yupResolver(profileSchema),
     defaultValues: {
@@ -41,7 +43,8 @@ const useProfileForm = () => {
 
   const handleUpdateUser = async (account: ProfileProps) => {
     try {
-      const data = {
+      setSubmitting(true);
+      const data: UserProps = {
         _id: user._id,
         firstName: account.firstName,
         lastName: account.lastName,
@@ -55,6 +58,7 @@ const useProfileForm = () => {
     } catch (error) {
       handleError(error);
     } finally {
+      setSubmitting(false);
     }
   };
 
@@ -69,6 +73,7 @@ const useProfileForm = () => {
     reset,
     onDateChange,
     dob,
+    isSubmitting
   };
 };
 

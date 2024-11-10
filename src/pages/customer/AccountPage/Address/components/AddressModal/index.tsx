@@ -1,39 +1,34 @@
 import { CloseOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Divider, Dropdown, Flex, Form, MenuProps, Space, Typography } from 'antd';
+import { Button, Divider, Flex, Form, Typography } from 'antd';
 import { FormProvider } from 'react-hook-form';
-import CustomFormItem from '../../../../../../components/elements/ControlledComponents/ControlledInput';
 import SubmitButton from '../../../../../../components/elements/Buttons/SubmitButton';
-import useAddressForm from './useAddressForm';
-
-const items: MenuProps['items'] = [
-    {
-      label: <a href="https://www.antgroup.com">1st menu item</a>,
-      key: '0',
-    },
-    {
-      label: <a href="https://www.aliyun.com">2nd menu item</a>,
-      key: '1',
-    },
-    {
-      type: 'divider',
-    },
-    {
-      label: '3rd menu item',
-      key: '3',
-    },
-  ];
+import AddressForm from '../../../../../../components/elements/Form/AddressForm';
+import useAddressModal from './useAddressModal';
 
 const AddressModal = ({
+  userID,
   isModalOpen,
   setIsModalOpen,
 }: {
+  userID: string | undefined;
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const { handleSubmit, method } = useAddressForm();
-  const handleClose = () => {
-    setIsModalOpen(false);
-  };
+  const {
+    handleSubmit,
+    method,
+    handleAddAddress,
+    selectedDistrict,
+    selectedProvince,
+    selectedWard,
+    setDefault,
+    setSelectedDistrict,
+    setSelectedProvince,
+    setSelectedWard,
+    handleClose,
+    isSubmitting
+  } = useAddressModal(setIsModalOpen, userID);
+
   return (
     <div
       onClick={handleClose}
@@ -52,46 +47,22 @@ const AddressModal = ({
         <div>
           <Divider />
           <FormProvider {...method}>
-            <Form name="normal_login" layout="vertical" className="w-full" onFinish={handleSubmit}>
-              <Flex justify="space-between" gap={'large'}>
-                <div className="w-1/2">
-                  <CustomFormItem name="name" hint="Name" label="Name" isRequired={true} />
-                </div>
-                <div className="w-1/2">
-                  <CustomFormItem name="phoneNumber" hint="Phone Number" label="Phone Number" isRequired={true} />
-                </div>
-              </Flex>
-              <CustomFormItem name="address" hint="Address" label="Address" isRequired={true} />
-              <Flex justify="space-between">
-                <Form.Item>
-                  <Dropdown.Button menu={{ items }} trigger={['click']}>
-                    <a onClick={(e) => e.preventDefault()}>
-                      <Space>Click me</Space>
-                    </a>
-                  </Dropdown.Button>
-                </Form.Item>
-                <Form.Item>
-                  <Dropdown.Button menu={{ items }} trigger={['click']}>
-                    <a onClick={(e) => e.preventDefault()}>
-                      <Space>Click me</Space>
-                    </a>
-                  </Dropdown.Button>
-                </Form.Item>
-                <Form.Item>
-                  <Dropdown.Button menu={{ items }} trigger={['click']}>
-                    <a onClick={(e) => e.preventDefault()}>
-                      <Space>Click me</Space>
-                    </a>
-                  </Dropdown.Button>
-                </Form.Item>
-              </Flex>
-              <Form.Item>
-                <Checkbox>Set as default address</Checkbox>
-              </Form.Item>
+            <Form name="normal_login" layout="vertical" className="w-full" onFinish={handleSubmit(handleAddAddress)}>
+              <AddressForm
+                selectedDistrict={selectedDistrict}
+                selectedProvince={selectedProvince}
+                selectedWard={selectedWard}
+                setDefault={setDefault}
+                setSelectedDistrict={setSelectedDistrict}
+                setSelectedProvince={setSelectedProvince}
+                setSelectedWard={setSelectedWard}
+              />
               <Flex justify="end" gap={'large'}>
-                <Button size='large' onClick={handleClose}>Cancel</Button>
+                <Button size="large" onClick={handleClose}>
+                  Cancel
+                </Button>
                 <Form.Item className="m-0">
-                  <SubmitButton />
+                  <SubmitButton isSubmitting={isSubmitting} />
                 </Form.Item>
               </Flex>
             </Form>

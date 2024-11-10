@@ -14,7 +14,7 @@ const Account = () => {
             <p className="w-1/5">
               <MenuBar />
             </p>
-            <div className="w-4/5 h-fit rounded-xl bg-white shadow-sm">
+            <div className="h-fit w-4/5 rounded-xl bg-white shadow-sm">
               <Outlet />
             </div>
           </Flex>
