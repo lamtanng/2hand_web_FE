@@ -19,9 +19,12 @@ const CartPage = () => {
     cart,
     itemAmount,
     totalPrice,
+    handleDelete,
+    handleQuantityChange,
   } = useCart();
 
-  console.log("cart: ",cart);
+  console.log('cart: ', cart);
+  console.log('checklist', checkedList);
 
   return (
     <>
@@ -51,12 +54,14 @@ const CartPage = () => {
             </Flex>
           </div>
           <div id="cart-list">
-            {cart.map((group: {store: StoreProps, products: CartItemProps[]}) => (
+            {cart.map((group: { store: StoreProps; products: CartItemProps[] }) => (
               <CartItem
                 group={group}
                 groupCheckBoxHandler={groupCheckBoxHandler}
                 checkedList={checkedList}
                 singleCheckBoxHandler={singleCheckBoxHandler}
+                handleDelete={handleDelete}
+                handleQuantityChange={handleQuantityChange}
               />
             ))}
           </div>
