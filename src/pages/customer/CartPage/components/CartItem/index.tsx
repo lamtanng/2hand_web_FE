@@ -4,18 +4,25 @@ import CartDetail from '../CartDetail';
 import { StoreProps } from '../../../../../types/store.type';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
 import { CartItemProps } from '../../../../../types/cart.type';
+import { Link } from 'react-router-dom';
+import { guestUrls } from '../../../../../constants/urlPaths/guestUrls';
 
 const CartItem = ({
   group,
   groupCheckBoxHandler,
   checkedList,
   singleCheckBoxHandler,
+  handleDelete,
+  handleQuantityChange,
 }: {
   group: { store: StoreProps; products: CartItemProps[] };
   groupCheckBoxHandler: (event: CheckboxChangeEvent) => void;
   checkedList: any[];
   singleCheckBoxHandler: (event: CheckboxChangeEvent) => void;
+  handleDelete: (productID: string, oldCheckList: CartItemProps[]) => Promise<void>;
+  handleQuantityChange: (product: CartItemProps, value: number, oldCheckList: CartItemProps[]) => Promise<void>;
 }) => {
+  const encodedID = group && group.store.userID._id && btoa(group.store.userID._id);
   const isGroupChecked = group.products.every(
     (value: CartItemProps) =>
       checkedList.filter((item: CartItemProps) => item.productID._id === value.productID._id).length !== 0,
@@ -29,7 +36,9 @@ const CartItem = ({
         <Checkbox value={group.store._id} onChange={groupCheckBoxHandler} checked={isGroupChecked} />
         <Flex align="center" gap={'small'}>
           <ShopOutlined className="text-base" />
-          <Typography.Paragraph className="m-0 text-base">{group.store.name}</Typography.Paragraph>
+          <Link to={`/${guestUrls.userProfileUrl}/${encodedID}`}>
+            <Typography.Paragraph className="m-0 text-base">{group.store.name}</Typography.Paragraph>
+          </Link>
           <Button variant="text" color="primary" className="p-0 text-base hover:bg-transparent">
             <MessageOutlined />
           </Button>
@@ -38,7 +47,7 @@ const CartItem = ({
       <Divider />
       {group.products.map((product: CartItemProps) => (
         <div key={product.productID._id} id="detail-container" className="px-8">
-          <CartDetail product={product} singleCheckBoxHandler={singleCheckBoxHandler} checkedList={checkedList} />
+          <CartDetail product={product} singleCheckBoxHandler={singleCheckBoxHandler} checkedList={checkedList} handleDelete={handleDelete} handleQuantityChange={handleQuantityChange} />
         </div>
       ))}
     </div>

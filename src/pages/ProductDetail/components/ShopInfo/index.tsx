@@ -1,10 +1,9 @@
 import { PhoneOutlined, ShopOutlined, UserOutlined } from '@ant-design/icons';
 import { Avatar, Button, Col, Divider, Flex, Row, Typography } from 'antd';
-import useProductDetail from '../../useProductDetail';
 import { Link } from 'react-router-dom';
+import { ProductProps } from '../../../../types/product.type';
 
-const ShopInfo = () => {
-  const { product, storeProduct } = useProductDetail();
+const ShopInfo = ({ product, storeProduct }: {product: ProductProps | undefined, storeProduct: ProductProps[]}) => {
   const encodedID = product && product.storeID.userID._id && btoa(product.storeID.userID._id);
   const dateString =
     product && product.storeID.userID.createdAt && new Date(product.storeID.userID.createdAt).toDateString();

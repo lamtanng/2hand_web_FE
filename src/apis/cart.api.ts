@@ -10,7 +10,7 @@ const getCart = () => {
 };
 
 const getCartItem = (productID: string | undefined) => {
-  const url = `${userCartUrl}/${productID}`;
+  const url = `${userCartUrl}${productID}`;
   return axiosClient.get(url);
 };
 

@@ -1,10 +1,10 @@
 import { DeleteOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Divider, Flex, Image, InputNumber, Modal, Typography } from 'antd';
 import defaultPic from '../../../../../assets/blob.jpg';
-import useCart from '../../useCartPage';
 import { useDebouncedCallback } from 'use-debounce';
 import { CartItemProps } from '../../../../../types/cart.type';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
+import { Link } from 'react-router-dom';
 
 const { confirm } = Modal;
 
@@ -12,12 +12,15 @@ const CartDetail = ({
   product,
   singleCheckBoxHandler,
   checkedList,
+  handleDelete,
+  handleQuantityChange,
 }: {
   product: CartItemProps;
   singleCheckBoxHandler: (event: CheckboxChangeEvent) => void;
   checkedList: any[];
+  handleDelete: (productID: string, oldCheckList: CartItemProps[]) => Promise<void>;
+  handleQuantityChange: (product: CartItemProps, value: number, oldCheckList: CartItemProps[]) => Promise<void>;
 }) => {
-  const { handleDelete, handleQuantityChange } = useCart();
   const debounced = useDebouncedCallback((value) => {
     handleQuantityChange(product, value, checkedList);
   }, 1000);
@@ -41,13 +44,17 @@ const CartDetail = ({
               checkedList.filter((item: CartItemProps) => item.productID._id === product.productID._id).length !== 0
             }
           />
-          <Image width={'13%'} alt="" src="" fallback={defaultPic} preview={false} />
-          <Flex gap={'small'} vertical>
-            <Typography.Paragraph className="m-0 text-base">{product.productID.name}</Typography.Paragraph>
-            <Typography.Paragraph className="m-0 text-base text-gray-500">
-              {product.productID.quality}
-            </Typography.Paragraph>
-          </Flex>
+          <Link to={`/${product.productID.slug}`} className="no-underline">
+            <Flex gap={'large'}>
+              <Image width={'20%'} alt="" src="" fallback={defaultPic} preview={false} />
+              <Flex gap={'small'} vertical>
+                <Typography.Paragraph className="m-0 text-base">{product.productID.name}</Typography.Paragraph>
+                <Typography.Paragraph className="m-0 text-base text-gray-500">
+                  {product.productID.quality}
+                </Typography.Paragraph>
+              </Flex>
+            </Flex>
+          </Link>
         </Flex>
         <Flex justify="space-between" id="info" className="w-1/2">
           <div id="price" className="flex w-1/4 shrink-0 items-center justify-center">
@@ -61,7 +68,7 @@ const CartDetail = ({
               max={product.productID.quantity}
               defaultValue={product.quantity}
               onChange={(value) => {
-                (value && value <= product.productID.quantity) && debounced(value);
+                value && value <= product.productID.quantity && debounced(value);
               }}
             />
           </div>

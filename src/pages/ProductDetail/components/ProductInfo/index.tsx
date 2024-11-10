@@ -3,11 +3,21 @@ import { Button, Divider, Flex, Image, InputNumber, Typography } from 'antd';
 import defaultPic from '../../../../assets/blob.jpg';
 import ImageSlider from '../ImageSlider';
 import { Link } from 'react-router-dom';
-import useProductDetail from '../../useProductDetail';
+import { ProductProps } from '../../../../types/product.type';
 
-const ProductInfo = () => {
-  const { product, handleAddToCard, setQuantity, isDirty } = useProductDetail();
-
+const ProductInfo = ({
+  product,
+  handleAddToCart,
+  setQuantity,
+  isDirty,
+  handleBuyNow,
+}: {
+  product: ProductProps | undefined;
+  handleAddToCart: () => void;
+  setQuantity: React.Dispatch<React.SetStateAction<number>>;
+  isDirty: boolean;
+  handleBuyNow: () => void;
+}) => {
   return (
     <div id="product" className="my-5 rounded-xl bg-white p-8 shadow-sm">
       <Flex className="gap-16">
@@ -60,17 +70,30 @@ const ProductInfo = () => {
               </Flex>
               <Flex align="baseline" gap={'small'}>
                 <Typography.Paragraph className="m-0 w-1/6">Quantity: </Typography.Paragraph>
-                <InputNumber min={1} max={product?.quantity} defaultValue={1} onChange={(value) => {value && setQuantity(value)}} />
+                <InputNumber
+                  min={1}
+                  max={product?.quantity}
+                  defaultValue={1}
+                  onChange={(value) => {
+                    value && setQuantity(value);
+                  }}
+                />
                 <Typography.Paragraph className="m-0 ml-6 text-gray-500">
                   {product?.quantity} in stock
                 </Typography.Paragraph>
               </Flex>
             </Flex>
             <Flex gap={'large'}>
-              <Button disabled={isDirty} color="primary" variant="outlined" className="w-1/2 py-5 font-bold" onClick={handleAddToCard}>
+              <Button
+                disabled={isDirty}
+                color="primary"
+                variant="outlined"
+                className="w-1/2 py-5 font-bold"
+                onClick={handleAddToCart}
+              >
                 Add to cart
               </Button>
-              <Button disabled={isDirty} type="primary" className="w-1/2 py-5 font-bold">
+              <Button disabled={isDirty} type="primary" className="w-1/2 py-5 font-bold" onClick={handleBuyNow}>
                 Buy now
               </Button>
             </Flex>

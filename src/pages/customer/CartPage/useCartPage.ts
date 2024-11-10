@@ -183,12 +183,26 @@ const useCart = () => {
   useEffect(() => {
     getUserCart();
 
+    // Listen for buyNow event
+    const buyNowListener = eventEmitter.addListener('buyNow', async (productID: string) => {
+      const res = await cartAPIs.getCart();
+      const selectedProduct = res.data
+        .map((cart: CartProps) => {
+          return cart.products;
+        })
+        .flat()
+        .filter((item: CartItemProps) => item.productID._id === productID);
+      setCheckedList(selectedProduct);
+    });
+
     const deleteListener = eventEmitter.addListener('deleteProduct', (newCheckedList: CartItemProps[]) => {
       getUserCart();
       setCheckedList(newCheckedList);
     });
+
     return () => {
       deleteListener.remove();
+      buyNowListener.remove();
     };
   }, []);
 

@@ -1,8 +1,7 @@
 import { Divider, Flex, Typography } from 'antd';
-import useProductDetail from '../../useProductDetail';
+import { ProductProps } from '../../../../types/product.type';
 
-const ProductFeatures = () => {
-  const { product } = useProductDetail();
+const ProductFeatures = ({ product }: { product: ProductProps | undefined }) => {
   return (
     <div id="features" className="mb-5 rounded-xl bg-white p-8 shadow-sm">
       <Typography.Title level={4} className="m-0 mb-8">
