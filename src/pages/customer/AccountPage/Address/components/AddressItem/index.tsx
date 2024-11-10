@@ -5,12 +5,10 @@ import AddressModal from '../AddressModal';
 import { AddressProps } from '../../../../../../types/address.type';
 
 const AddressItem = ({
-  userID,
   address,
   isModalOpen,
   setIsModalOpen,
 }: {
-  userID: string | undefined;
   address: AddressProps;
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -33,7 +31,7 @@ const AddressItem = ({
         >
           <EditOutlined /> Edit
         </Button>
-        <AddressModal userID={userID} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+        <AddressModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
         <Button>Set as default</Button>
       </Flex>
     </Flex>

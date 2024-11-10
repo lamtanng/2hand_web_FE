@@ -1,8 +1,8 @@
 import { CloseOutlined } from '@ant-design/icons';
 import { Button, Typography } from 'antd';
 import AddressList from './components/AddressList';
-import AddressForm from './components/AddressForm';
 import { useState } from 'react';
+import ReceiverAddressForm from './components/AddressForm';
 
 
 
@@ -48,7 +48,7 @@ const AddressModal = ({
           setValue={setValue}
           value={value}
         />
-        <AddressForm hidden={formHidden} setFormVisible={setFormVisible} setRadioVisible={setRadioVisible} />
+        <ReceiverAddressForm hidden={formHidden} setFormVisible={setFormVisible} setRadioVisible={setRadioVisible} />
       </div>
     </div>
   );

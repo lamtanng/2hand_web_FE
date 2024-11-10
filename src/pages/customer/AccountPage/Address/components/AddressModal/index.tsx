@@ -6,11 +6,9 @@ import AddressForm from '../../../../../../components/elements/Form/AddressForm'
 import useAddressModal from './useAddressModal';
 
 const AddressModal = ({
-  userID,
   isModalOpen,
   setIsModalOpen,
 }: {
-  userID: string | undefined;
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
@@ -27,7 +25,7 @@ const AddressModal = ({
     setSelectedWard,
     handleClose,
     isSubmitting
-  } = useAddressModal(setIsModalOpen, userID);
+  } = useAddressModal(setIsModalOpen);
 
   return (
     <div
