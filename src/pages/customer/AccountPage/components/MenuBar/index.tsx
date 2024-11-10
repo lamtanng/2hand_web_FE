@@ -14,6 +14,8 @@ import {
 } from '@ant-design/icons';
 import { Avatar, Flex, Menu, MenuProps, Typography } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import useAccountPage from '../../useAccountPage';
+import { Role } from '../../../../../types/enum/role.enum';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -26,7 +28,9 @@ function getItem(label: React.ReactNode, key: React.Key, icon?: React.ReactNode,
   } as MenuItem;
 }
 
-const isSeller = true;
+const MenuBar = () => {
+  const { profile } = useAccountPage();
+  const isSeller = profile?.roleID?.filter((role:any) => role.name === Role.Seller).length !== 0 ? true : false;
 
 const items: MenuItem[] = [
   {
@@ -70,13 +74,12 @@ const items: MenuItem[] = [
   },
 ];
 
-const MenuBar = () => {
   const navigate = useNavigate();
   return (
     <>
       <Flex align="center" gap={'middle'} className="mb-3 px-3">
         <Avatar icon={<UserOutlined />} size={75} className="shrink-0" />
-        <Typography.Title level={4}>Name Name</Typography.Title>
+        <Typography.Title level={4}>{`${profile?.firstName} ${profile?.lastName}`}</Typography.Title>
       </Flex>
       <Menu
         defaultSelectedKeys={['profile']}

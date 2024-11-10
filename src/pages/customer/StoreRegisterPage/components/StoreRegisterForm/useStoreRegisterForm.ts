@@ -74,7 +74,7 @@ const useStoreForm = () => {
 
   const getProvinceData = async () => {
     try {
-      const res = await addressAPIs.getProvince();
+      const res = await addressAPIs.getProvinces();
       setProvince(res.data);
       console.log(res);
     } catch (error) {

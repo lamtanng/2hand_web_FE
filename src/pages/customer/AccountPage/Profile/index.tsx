@@ -4,8 +4,13 @@ import UploadAvatar from './components/UploadAvatar';
 import { ShopOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { customerUrls } from '../../../../constants/urlPaths/customer/customerUrls';
+import useAccountPage from '../useAccountPage';
+import { Role } from '../../../../types/enum/role.enum';
 
 const Profile = () => {
+  const { profile } = useAccountPage();
+  const isSeller = profile?.roleID?.filter((role: any) => role.name === Role.Seller).length !== 0 ? true : false;
+  console.log('user', profile);
   return (
     <div id="container" className="px-12 py-5">
       <Flex justify="space-between" align="center">
@@ -13,11 +18,13 @@ const Profile = () => {
           <Typography.Title level={3}>My Profile</Typography.Title>
           <Typography.Paragraph>Manage your profile for security purpose.</Typography.Paragraph>
         </div>
-        <Link to={`/${customerUrls.storeRegisterUrl}`}>
-          <Button type="primary" className="h-10 text-base">
-            <ShopOutlined /> Become seller
-          </Button>
-        </Link>
+        {!isSeller && (
+          <Link to={`/${customerUrls.storeRegisterUrl}`}>
+            <Button hidden={!isSeller} type="primary" className="h-10 text-base">
+              <ShopOutlined /> Become seller
+            </Button>
+          </Link>
+        )}
       </Flex>
       <Divider />
       <div id="profile">

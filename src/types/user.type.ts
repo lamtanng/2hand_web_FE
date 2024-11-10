@@ -1,3 +1,5 @@
+import { AddressProps } from "./address.type";
+
 export interface UserProps {
   _id?: string;
   firstName?: string;
@@ -8,7 +10,7 @@ export interface UserProps {
   otp?: string;
   phoneNumber?: string;
   dateOfBirth?: Date;
-  address?: string[];
+  address?: AddressProps[];
   createdAt?: Date;
   updatedAt?: Date;
   isActive?: boolean;

@@ -6,7 +6,7 @@ import SubmitButton from '../../../../../../components/elements/Buttons/SubmitBu
 import dayjs from 'dayjs';
 
 const ProfileForm = () => {
-  const { handleSubmit, method, handleUpdateUser, onDateChange, dob } = useProfileForm();
+  const { handleSubmit, method, handleUpdateUser, onDateChange, dob, isSubmitting } = useProfileForm();
 
   return (
     <FormProvider {...method}>
@@ -25,7 +25,7 @@ const ProfileForm = () => {
           <DatePicker defaultValue={dayjs(dob)} className="h-10 w-full text-base" allowClear={false} onChange={onDateChange} />
         </Form.Item>
         <Form.Item>
-          <SubmitButton />
+          <SubmitButton isSubmitting={isSubmitting} />
         </Form.Item>
       </Form>
     </FormProvider>
