@@ -1,28 +1,10 @@
 import useAddressForm from './useAddressFrom';
 import { FormProvider } from 'react-hook-form';
-import { Button, Checkbox, Divider, Dropdown, Flex, Form, MenuProps, Space } from 'antd';
-import CustomFormItem from '../../../../../../../../../components/elements/ControlledComponents/ControlledInput';
+import { Button, Divider, Flex, Form } from 'antd';
 import SubmitButton from '../../../../../../../../../components/elements/Buttons/SubmitButton';
+import AddressForm from '../../../../../../../../../components/elements/Form/AddressForm';
 
-const items: MenuProps['items'] = [
-  {
-    label: <a href="https://www.antgroup.com">1st menu item</a>,
-    key: '0',
-  },
-  {
-    label: <a href="https://www.aliyun.com">2nd menu item</a>,
-    key: '1',
-  },
-  {
-    type: 'divider',
-  },
-  {
-    label: '3rd menu item',
-    key: '3',
-  },
-];
-
-const AddressForm = ({
+const ReceiverAddressForm = ({
   hidden,
   setFormVisible,
   setRadioVisible,
@@ -31,48 +13,34 @@ const AddressForm = ({
   setFormVisible: React.Dispatch<React.SetStateAction<boolean>>;
   setRadioVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const { handleSubmit, method } = useAddressForm();
+  const {
+    handleSubmit,
+    method,
+    handleAddAddress,
+    setDefault,
+    setSelectedDistrict,
+    setSelectedProvince,
+    setSelectedWard,
+    selectedDistrict,
+    selectedProvince,
+    selectedWard,
+    isSubmitting,
+  } = useAddressForm();
 
   return (
     <div hidden={hidden}>
       <Divider />
       <FormProvider {...method}>
-        <Form name="normal_login" layout="vertical" className="w-full" onFinish={handleSubmit}>
-          <Flex justify="space-between" gap={'large'}>
-            <div className="w-1/2">
-              <CustomFormItem name="name" hint="Name" label="Name" isRequired={true} />
-            </div>
-            <div className="w-1/2">
-              <CustomFormItem name="phoneNumber" hint="Phone Number" label="Phone Number" isRequired={true} />
-            </div>
-          </Flex>
-          <CustomFormItem name="address" hint="Address" label="Address" isRequired={true} />
-          <Flex justify="space-between">
-            <Form.Item>
-              <Dropdown.Button menu={{ items }} trigger={['click']}>
-                <a onClick={(e) => e.preventDefault()}>
-                  <Space>Click me</Space>
-                </a>
-              </Dropdown.Button>
-            </Form.Item>
-            <Form.Item>
-              <Dropdown.Button menu={{ items }} trigger={['click']}>
-                <a onClick={(e) => e.preventDefault()}>
-                  <Space>Click me</Space>
-                </a>
-              </Dropdown.Button>
-            </Form.Item>
-            <Form.Item>
-              <Dropdown.Button menu={{ items }} trigger={['click']}>
-                <a onClick={(e) => e.preventDefault()}>
-                  <Space>Click me</Space>
-                </a>
-              </Dropdown.Button>
-            </Form.Item>
-          </Flex>
-          <Form.Item>
-            <Checkbox>Set as default address</Checkbox>
-          </Form.Item>
+        <Form name="normal_login" layout="vertical" className="w-full" onFinish={handleSubmit(handleAddAddress)}>
+          <AddressForm
+            selectedDistrict={selectedDistrict}
+            selectedProvince={selectedProvince}
+            selectedWard={selectedWard}
+            setDefault={setDefault}
+            setSelectedDistrict={setSelectedDistrict}
+            setSelectedProvince={setSelectedProvince}
+            setSelectedWard={setSelectedWard}
+          />
           <Flex justify="end" gap={'large'}>
             <Button
               size="large"
@@ -84,7 +52,7 @@ const AddressForm = ({
               Cancel
             </Button>
             <Form.Item className="m-0">
-              <SubmitButton />
+              <SubmitButton isSubmitting={isSubmitting} />
             </Form.Item>
           </Flex>
         </Form>
@@ -93,4 +61,4 @@ const AddressForm = ({
   );
 };
 
-export default AddressForm;
+export default ReceiverAddressForm;

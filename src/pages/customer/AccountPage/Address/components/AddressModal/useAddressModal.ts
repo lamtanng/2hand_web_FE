@@ -12,10 +12,10 @@ import {
 import { userAPIs } from '../../../../../../apis/user.api';
 import eventEmitter from '../../../../../../utils/eventEmitter';
 
-const useAddressModal = (setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>, userID: string | undefined) => {
-  const [selectedProvince, setSelectedProvince] = useState<ProvincesAddressProps>();
-  const [selectedDistrict, setSelectedDistrict] = useState<DistrictAddressProps>();
-  const [selectedWard, setSelectedWard] = useState<WardAddressProps>();
+const useAddressModal = (setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>) => {
+  const [selectedProvince, setSelectedProvince] = useState<ProvincesAddressProps | null>(null);
+  const [selectedDistrict, setSelectedDistrict] = useState<DistrictAddressProps | null>(null);
+  const [selectedWard, setSelectedWard] = useState<WardAddressProps | null>(null);
   const [isDefault, setDefault] = useState<boolean>(false);
   const [isSubmitting, setSubmitting] = useState<boolean>(false);
   const method = useForm<FormAddressProps>({
@@ -34,7 +34,6 @@ const useAddressModal = (setIsModalOpen: React.Dispatch<React.SetStateAction<boo
     try {
       setSubmitting(true);
       const data: AddressProps = {
-        _id: userID,
         address: detailAddress.detailAddress,
         ward: selectedWard,
         district: selectedDistrict,

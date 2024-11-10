@@ -1,35 +1,25 @@
 import useStoreForm from './useStoreRegisterForm';
 import { FormProvider } from 'react-hook-form';
 import CustomFormItem from '../../../../../components/elements/ControlledComponents/ControlledInput';
-import { Button, Checkbox, Dropdown, Flex, Form, Menu, Radio, Tag, Typography } from 'antd';
+import { Flex, Form, Radio, Tag, Typography } from 'antd';
 import SubmitButton from '../../../../../components/elements/Buttons/SubmitButton';
 import CustomTextArea from '../../../../../components/elements/ControlledComponents/ControlledTextArea';
-import { DownOutlined } from '@ant-design/icons';
+import AddressForm from '../../../../../components/elements/Form/AddressForm';
 
 const StoreRegisterForm = () => {
   const {
     method,
     handleSubmit,
     handleStoreRegister,
-    province,
-    district,
-    ward,
-    onDistrictChange,
-    onProvinceChange,
-    onWardChange,
     selectedDistrict,
     selectedProvince,
     selectedWard,
-    onDefaultChange,
+    setDefault,
+    setSelectedDistrict,
+    setSelectedProvince,
+    setSelectedWard,
   } = useStoreForm();
 
-  const items = (data: any, onClick: any) => (
-    <Menu style={{ maxHeight: '200px', overflowY: 'auto' }} onClick={onClick}>
-      {data.map((item: any) => (
-        <Menu.Item key={item.code}>{item.name}</Menu.Item>
-      ))}
-    </Menu>
-  );
   return (
     <div className="mb-5 rounded-xl bg-white p-8 shadow-sm">
       <FormProvider {...method}>
@@ -63,57 +53,15 @@ const StoreRegisterForm = () => {
               </Flex>
             </Radio.Group>
           </Form.Item>
-          <Flex gap={'large'} className="w-full">
-            <Form.Item className="w-full">
-              <div>
-                <Typography.Paragraph className="m-0 mb-2">Province</Typography.Paragraph>
-                <Dropdown overlay={items(province, onProvinceChange)} trigger={['click']} placement="bottom">
-                  <Button className="w-full">
-                    <Flex justify="space-between" className="w-full">
-                      <Typography.Paragraph className="m-0 truncate">
-                        {selectedProvince ? selectedProvince.ProvinceName : 'Select'}
-                      </Typography.Paragraph>
-                      <DownOutlined />
-                    </Flex>
-                  </Button>
-                </Dropdown>
-              </div>
-            </Form.Item>
-            <Form.Item className="w-full">
-              <div>
-                <Typography.Paragraph className="m-0 mb-2">District</Typography.Paragraph>
-                <Dropdown overlay={items(district, onDistrictChange)} trigger={['click']}>
-                  <Button className="w-full">
-                    <Flex justify="space-between" className="w-full">
-                      <Typography.Paragraph className="m-0 truncate">
-                        {selectedDistrict ? selectedDistrict.DistrictName : 'Select'}
-                      </Typography.Paragraph>
-                      <DownOutlined />
-                    </Flex>
-                  </Button>
-                </Dropdown>
-              </div>
-            </Form.Item>
-            <Form.Item className="w-full">
-              <div>
-                <Typography.Paragraph className="m-0 mb-2">Ward</Typography.Paragraph>
-                <Dropdown overlay={items(ward, onWardChange)} trigger={['click']}>
-                  <Button className="w-full">
-                    <Flex justify="space-between" className="w-full">
-                      <Typography.Paragraph className="m-0 truncate">
-                        {selectedWard ? selectedWard.WardName : 'Select'}
-                      </Typography.Paragraph>
-                      <DownOutlined />
-                    </Flex>
-                  </Button>
-                </Dropdown>
-              </div>
-            </Form.Item>
-          </Flex>
-          <CustomFormItem name="detailAddress" hint="5X, ABC Street" label="Detail address" isRequired={true} />
-          <Form.Item>
-            <Checkbox onChange={onDefaultChange}>Set as default address</Checkbox>
-          </Form.Item>
+          <AddressForm
+            selectedDistrict={selectedDistrict}
+            selectedProvince={selectedProvince}
+            selectedWard={selectedWard}
+            setDefault={setDefault}
+            setSelectedDistrict={setSelectedDistrict}
+            setSelectedProvince={setSelectedProvince}
+            setSelectedWard={setSelectedWard}
+          />
           <Form.Item>
             <SubmitButton />
           </Form.Item>

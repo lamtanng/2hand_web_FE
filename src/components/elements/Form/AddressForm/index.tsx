@@ -13,12 +13,12 @@ const AddressForm = ({
   setSelectedWard,
   setDefault,
 }: {
-  selectedDistrict: DistrictAddressProps | undefined;
-  selectedProvince: ProvincesAddressProps | undefined;
-  selectedWard: WardAddressProps | undefined;
-  setSelectedDistrict: React.Dispatch<React.SetStateAction<DistrictAddressProps | undefined>>;
-  setSelectedProvince: React.Dispatch<React.SetStateAction<ProvincesAddressProps | undefined>>;
-  setSelectedWard: React.Dispatch<React.SetStateAction<WardAddressProps | undefined>>;
+  selectedDistrict: DistrictAddressProps | null;
+  selectedProvince: ProvincesAddressProps | null;
+  selectedWard: WardAddressProps | null;
+  setSelectedDistrict: React.Dispatch<React.SetStateAction<DistrictAddressProps | null>>;
+  setSelectedProvince: React.Dispatch<React.SetStateAction<ProvincesAddressProps | null>>;
+  setSelectedWard: React.Dispatch<React.SetStateAction<WardAddressProps | null>>;
   setDefault: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const { district, province, ward, onDistrictChange, onProvinceChange, onWardChange, onDefaultChange } =
@@ -31,25 +31,25 @@ const AddressForm = ({
       setSelectedWard,
       setDefault,
     );
-  const provinceItems = (data: any[], onClick: any) => (
+  const provinceItems = (data: ProvincesAddressProps[], onClick: any) => (
     <Menu style={{ maxHeight: '200px', overflowY: 'auto' }} onClick={onClick}>
-      {data.map((item: any) => (
+      {data.map((item: ProvincesAddressProps) => (
         <Menu.Item key={item.ProvinceID}>{item.ProvinceName}</Menu.Item>
       ))}
     </Menu>
   );
 
-  const districtItems = (data: any[], onClick: any) => (
+  const districtItems = (data: DistrictAddressProps[], onClick: any) => (
     <Menu style={{ maxHeight: '200px', overflowY: 'auto' }} onClick={onClick}>
-      {data.map((item: any) => (
+      {data.map((item: DistrictAddressProps) => (
         <Menu.Item key={item.DistrictID}>{item.DistrictName}</Menu.Item>
       ))}
     </Menu>
   );
 
-  const wardItems = (data: any[], onClick: any) => (
+  const wardItems = (data: WardAddressProps[], onClick: any) => (
     <Menu style={{ maxHeight: '200px', overflowY: 'auto' }} onClick={onClick}>
-      {data.map((item: any) => (
+      {data.map((item: WardAddressProps) => (
         <Menu.Item key={item.WardCode}>{item.WardName}</Menu.Item>
       ))}
     </Menu>

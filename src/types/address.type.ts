@@ -33,10 +33,10 @@ export interface WardAddressProps extends GHNAddressProps {
 }
 
 export interface AddressProps {
-  _id: string | undefined;
+  _id?: string | undefined;
   address: string | undefined;
-  ward: WardAddressProps | undefined;
-  district: DistrictAddressProps | undefined;
-  province: ProvincesAddressProps | undefined;
+  ward: WardAddressProps | null;
+  district: DistrictAddressProps | null;
+  province: ProvincesAddressProps | null;
   isDefault: boolean;
 }

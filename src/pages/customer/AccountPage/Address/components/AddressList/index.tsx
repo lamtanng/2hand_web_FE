@@ -16,7 +16,7 @@ const AddressList = ({
     {profile?.address?.map((item: AddressProps) => (
       <div id="adress-item">
         <Divider />
-        <AddressItem userID={profile._id} address={item} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+        <AddressItem address={item} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
       </div>
     ))}
   </div>
