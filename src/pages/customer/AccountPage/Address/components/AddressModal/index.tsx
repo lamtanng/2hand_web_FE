@@ -4,18 +4,20 @@ import { FormProvider } from 'react-hook-form';
 import SubmitButton from '../../../../../../components/elements/Buttons/SubmitButton';
 import AddressForm from '../../../../../../components/elements/Form/AddressForm';
 import useAddressModal from './useAddressModal';
+import { AddressProps } from '../../../../../../types/address.type';
 
 const AddressModal = ({
+  address,
   isModalOpen,
   setIsModalOpen,
 }: {
+  address?: AddressProps;
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const {
     handleSubmit,
     method,
-    handleAddAddress,
     selectedDistrict,
     selectedProvince,
     selectedWard,
@@ -24,8 +26,10 @@ const AddressModal = ({
     setSelectedProvince,
     setSelectedWard,
     handleClose,
-    isSubmitting
-  } = useAddressModal(setIsModalOpen);
+    isSubmitting,
+    isDefault,
+    submitButtonClick
+  } = useAddressModal(setIsModalOpen, address);
 
   return (
     <div
@@ -45,7 +49,7 @@ const AddressModal = ({
         <div>
           <Divider />
           <FormProvider {...method}>
-            <Form name="normal_login" layout="vertical" className="w-full" onFinish={handleSubmit(handleAddAddress)}>
+            <Form name="normal_login" layout="vertical" className="w-full" onFinish={handleSubmit(submitButtonClick)}>
               <AddressForm
                 selectedDistrict={selectedDistrict}
                 selectedProvince={selectedProvince}
@@ -54,6 +58,7 @@ const AddressModal = ({
                 setSelectedDistrict={setSelectedDistrict}
                 setSelectedProvince={setSelectedProvince}
                 setSelectedWard={setSelectedWard}
+                isDefault={isDefault}
               />
               <Flex justify="end" gap={'large'}>
                 <Button size="large" onClick={handleClose}>

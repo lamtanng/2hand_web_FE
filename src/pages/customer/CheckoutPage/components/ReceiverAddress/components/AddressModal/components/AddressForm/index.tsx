@@ -25,6 +25,7 @@ const ReceiverAddressForm = ({
     selectedProvince,
     selectedWard,
     isSubmitting,
+    isDefault
   } = useAddressForm();
 
   return (
@@ -40,6 +41,7 @@ const ReceiverAddressForm = ({
             setSelectedDistrict={setSelectedDistrict}
             setSelectedProvince={setSelectedProvince}
             setSelectedWard={setSelectedWard}
+            isDefault={isDefault}
           />
           <Flex justify="end" gap={'large'}>
             <Button

@@ -2,7 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { addressSchema, FormAddressProps } from '../../Address.constants';
 import { handleError } from '../../../../../../utils/handleError';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   AddressProps,
   DistrictAddressProps,
@@ -11,8 +11,12 @@ import {
 } from '../../../../../../types/address.type';
 import { userAPIs } from '../../../../../../apis/user.api';
 import eventEmitter from '../../../../../../utils/eventEmitter';
+import { displaySuccess } from '../../../../../../utils/displayToast';
 
-const useAddressModal = (setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>) => {
+const useAddressModal = (
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>,
+  address: AddressProps | undefined,
+) => {
   const [selectedProvince, setSelectedProvince] = useState<ProvincesAddressProps | null>(null);
   const [selectedDistrict, setSelectedDistrict] = useState<DistrictAddressProps | null>(null);
   const [selectedWard, setSelectedWard] = useState<WardAddressProps | null>(null);
@@ -28,22 +32,19 @@ const useAddressModal = (setIsModalOpen: React.Dispatch<React.SetStateAction<boo
 
   const handleClose = () => {
     setIsModalOpen(false);
+    method.reset(); // Reset form
+    setSelectedDistrict(null);
+    setSelectedProvince(null);
+    setSelectedWard(null);
+    setDefault(false);
   };
 
-  const handleAddAddress = async (detailAddress: FormAddressProps) => {
+  const handleAddAddress = async (data: AddressProps) => {
     try {
       setSubmitting(true);
-      const data: AddressProps = {
-        address: detailAddress.detailAddress,
-        ward: selectedWard,
-        district: selectedDistrict,
-        province: selectedProvince,
-        isDefault: isDefault,
-      };
-      console.log(detailAddress);
-      console.log(data);
       await userAPIs.createAddress(data);
       eventEmitter.emit('addAddress');
+      displaySuccess('New address has been added successfully.');
     } catch (error) {
       handleError(error);
     } finally {
@@ -52,6 +53,47 @@ const useAddressModal = (setIsModalOpen: React.Dispatch<React.SetStateAction<boo
       setIsModalOpen(false);
     }
   };
+
+  const handleUpdateAddress = async (data: AddressProps) => {
+    try {
+      setSubmitting(true);
+      console.log(data);
+      // await userAPIs.createAddress(data);
+      eventEmitter.emit('updateAddress');
+      displaySuccess('Address has been updated successfully.');
+    } catch (error) {
+      handleError(error);
+    } finally {
+      reset;
+      setSubmitting(false);
+      setIsModalOpen(false);
+    }
+  };
+
+  const submitButtonClick = (detailAddress: FormAddressProps) => {
+    const data: AddressProps = {
+      address: detailAddress.detailAddress,
+      ward: selectedWard,
+      district: selectedDistrict,
+      province: selectedProvince,
+      isDefault: isDefault,
+    };
+    if (address) {
+      handleUpdateAddress(data);
+    } else {
+      handleAddAddress(data);
+    }
+  };
+
+  useEffect(() => {
+    if (address) {
+      reset({ detailAddress: address.address });
+      setSelectedProvince(address.province);
+      setSelectedDistrict(address.district);
+      setSelectedWard(address.ward);
+      setDefault(address.isDefault);
+    }
+  }, []);
 
   return {
     handleSubmit,
@@ -67,6 +109,8 @@ const useAddressModal = (setIsModalOpen: React.Dispatch<React.SetStateAction<boo
     selectedWard,
     handleClose,
     isSubmitting,
+    isDefault,
+    submitButtonClick,
   };
 };
 

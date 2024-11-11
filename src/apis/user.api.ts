@@ -10,7 +10,7 @@ const userUrl = getUserUrl('');
 const addressUrl = getUserUrl(addressPaths.addressPath);
 
 const getUserByUserID = (userID: string | undefined) => {
-    const url = `${userUrl}/${userID}`;
+    const url = `${userUrl}${userID}`;
     return axiosClient.get(url);
 }
 
@@ -26,4 +26,9 @@ const updateAddress = (data: AddressProps) => {
     return axiosClient.put(addressUrl, data);
 }
 
-export const userAPIs = { getUserByUserID, updateUser, updateAddress, createAddress };
+const deleteAddress = (addressID: string | undefined) => {
+    const url = `${addressUrl}/${addressID}`
+    return axiosClient.put(url);
+}
+
+export const userAPIs = { getUserByUserID, updateUser, updateAddress, createAddress, deleteAddress };

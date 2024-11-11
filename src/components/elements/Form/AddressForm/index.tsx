@@ -8,6 +8,7 @@ const AddressForm = ({
   selectedDistrict,
   selectedProvince,
   selectedWard,
+  isDefault,
   setSelectedDistrict,
   setSelectedProvince,
   setSelectedWard,
@@ -16,6 +17,7 @@ const AddressForm = ({
   selectedDistrict: DistrictAddressProps | null;
   selectedProvince: ProvincesAddressProps | null;
   selectedWard: WardAddressProps | null;
+  isDefault: boolean;
   setSelectedDistrict: React.Dispatch<React.SetStateAction<DistrictAddressProps | null>>;
   setSelectedProvince: React.Dispatch<React.SetStateAction<ProvincesAddressProps | null>>;
   setSelectedWard: React.Dispatch<React.SetStateAction<WardAddressProps | null>>;
@@ -105,7 +107,7 @@ const AddressForm = ({
       </Flex>
       <CustomFormItem name="detailAddress" hint="5X, ABC Street" label="Detail address" isRequired={true} />
       <Form.Item>
-        <Checkbox onChange={onDefaultChange}>Set as default address</Checkbox>
+        <Checkbox onChange={onDefaultChange} checked={isDefault}>Set as default address</Checkbox>
       </Form.Item>
     </>
   );
