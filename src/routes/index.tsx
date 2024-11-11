@@ -20,6 +20,7 @@ import { StoreRegisterPageRoutes } from '../pages/customer/StoreRegisterPage/Sto
 import { accountUrls } from '../constants/urlPaths/customer/accountUrls';
 import { StoreDashboardRoutes } from '../pages/customer/AccountPage/StoreManagement/Dashboard/Dashboard.routes';
 import { StoreOrderRoutes } from '../pages/customer/AccountPage/StoreManagement/StoreOrder/StoreOrder.routes';
+import { StoreProfileRoutes } from '../pages/customer/AccountPage/StoreManagement/StoreProfile/StoreProfile.routes';
 
 const routes = createBrowserRouter([
   {
@@ -47,6 +48,7 @@ const routes = createBrowserRouter([
           OrderDetailRoutes,
           StoreDashboardRoutes,
           StoreOrderRoutes,
+          StoreProfileRoutes,
         ],
       },
     ],
