@@ -18,6 +18,7 @@ const StoreRegisterForm = () => {
     setSelectedDistrict,
     setSelectedProvince,
     setSelectedWard,
+    isDefault
   } = useStoreForm();
 
   return (
@@ -61,6 +62,7 @@ const StoreRegisterForm = () => {
             setSelectedDistrict={setSelectedDistrict}
             setSelectedProvince={setSelectedProvince}
             setSelectedWard={setSelectedWard}
+            isDefault={isDefault}
           />
           <Form.Item>
             <SubmitButton />

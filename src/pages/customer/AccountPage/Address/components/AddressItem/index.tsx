@@ -1,18 +1,18 @@
-import { EditOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { Button, Flex, Tag } from 'antd';
-import React from 'react';
+import { useState } from 'react';
 import AddressModal from '../AddressModal';
 import { AddressProps } from '../../../../../../types/address.type';
+import useAddressItem from './useAddressItem';
 
 const AddressItem = ({
-  address,
-  isModalOpen,
-  setIsModalOpen,
+  address
 }: {
   address: AddressProps;
-  isModalOpen: boolean;
-  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
+  const { handleDeleteAddress } = useAddressItem(address);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
   return (
     <Flex justify="space-between" align="center">
       <div id="info" className="w-3/5">
@@ -22,16 +22,21 @@ const AddressItem = ({
         {address.isDefault && <Tag color="geekblue">Default address</Tag>}
       </div>
       <Flex id="actions" vertical align="end">
-        <Button
-          type="link"
-          className="p-0"
-          onClick={() => {
-            setIsModalOpen(true);
-          }}
-        >
-          <EditOutlined /> Edit
-        </Button>
-        <AddressModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+        <Flex gap={'middle'}>
+          <Button
+            type="link"
+            className="p-0"
+            onClick={() => {
+              setIsModalOpen(true);
+            }}
+          >
+            <EditOutlined /> Edit
+          </Button>
+          <Button variant="link" color="danger" className="p-0" onClick={handleDeleteAddress}>
+            <DeleteOutlined /> Delete
+          </Button>
+        </Flex>
+        {isModalOpen && <AddressModal address={address} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />}
         <Button>Set as default</Button>
       </Flex>
     </Flex>

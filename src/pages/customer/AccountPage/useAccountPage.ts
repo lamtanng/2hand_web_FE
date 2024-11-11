@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
-import { userAPIs } from "../../../apis/user.api";
-import { useAppSelector } from "../../../redux/hooks";
-import { loginSelector } from "../../../redux/slices/login.slice";
-import { handleError } from "../../../utils/handleError";
-import eventEmitter from "../../../utils/eventEmitter";
-import { UserProps } from "../../../types/user.type";
+import { useEffect, useState } from 'react';
+import { userAPIs } from '../../../apis/user.api';
+import { useAppSelector } from '../../../redux/hooks';
+import { loginSelector } from '../../../redux/slices/login.slice';
+import { handleError } from '../../../utils/handleError';
+import eventEmitter from '../../../utils/eventEmitter';
+import { UserProps } from '../../../types/user.type';
 
 const useAccountPage = () => {
   const { user } = useAppSelector(loginSelector);
@@ -23,16 +23,25 @@ const useAccountPage = () => {
   useEffect(() => {
     getUserByID(user._id);
 
-    const profileListener = eventEmitter.addListener('updateProfile', (userID: string) => {
-        getUserByID(userID);
-    })
+    const addAddressListener = eventEmitter.addListener('addAddress', () => {
+      getUserByID(user._id);
+    });
+    const deleteAddressListener = eventEmitter.addListener('deleteAddress', () => {
+      getUserByID(user._id);
+    });
+    const updateProfileListener = eventEmitter.addListener('updateProfile', (userID: string) => {
+      getUserByID(userID);
+    });
     return () => {
-        profileListener.remove();
-    }
+      updateProfileListener.remove();
+      addAddressListener.remove();
+      deleteAddressListener.remove();
+    };
   }, []);
 
   return {
     profile,
+    user,
   };
 };
 
