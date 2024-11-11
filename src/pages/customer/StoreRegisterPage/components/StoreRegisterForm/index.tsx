@@ -5,6 +5,7 @@ import { Flex, Form, Radio, Tag, Typography } from 'antd';
 import SubmitButton from '../../../../../components/elements/Buttons/SubmitButton';
 import CustomTextArea from '../../../../../components/elements/ControlledComponents/ControlledTextArea';
 import AddressForm from '../../../../../components/elements/Form/AddressForm';
+import { AddressProps } from '../../../../../types/address.type';
 
 const StoreRegisterForm = () => {
   const {
@@ -18,7 +19,9 @@ const StoreRegisterForm = () => {
     setSelectedDistrict,
     setSelectedProvince,
     setSelectedWard,
-    isDefault
+    isDefault,
+    profile,
+    handleChooseAddress
   } = useStoreForm();
 
   return (
@@ -33,24 +36,25 @@ const StoreRegisterForm = () => {
           </Typography.Paragraph>
           <Form.Item>
             <Typography.Paragraph>Recommend Address</Typography.Paragraph>
-            <Radio.Group className="w-full">
+            <Radio.Group className="w-full" onChange={handleChooseAddress} defaultValue={"new"}>
               <Flex vertical gap={'large'}>
-                <Radio value={1} className="mx-0 w-full">
-                  <Flex justify="space-between" gap={'large'}>
-                    <Typography.Paragraph className="m-0 text-base">
-                      Trường Đại Học Sư Phạm Kỹ Thuật, Đường Võ Văn Ngân Phường Linh Chiểu, Thành Phố Thủ Đức, TP. Hồ
-                      Chí Minh
-                    </Typography.Paragraph>
-                    <Tag color="geekblue">Default</Tag>
-                  </Flex>
-                </Radio>
-                <Radio value={2} className="mx-0 w-full">
-                  <Flex justify="space-between" gap={'large'}>
-                    <Typography.Paragraph className="m-0 text-base">
-                      105/14, đường 385, khu phố 6, Phường Tăng Nhơn Phú A, Thành Phố Thủ Đức, TP. Hồ Chí Minh
-                    </Typography.Paragraph>
-                  </Flex>
-                </Radio>
+                {profile?.address?.map((address: AddressProps) => (
+                  <Radio value={address} className="mx-0 w-full">
+                    <Flex justify="space-between" gap={'large'}>
+                      <Typography.Paragraph className="m-0 text-base">
+                        {`${address.address}, ${address.ward?.WardName}, ${address.district?.DistrictName}, ${address.province?.ProvinceName}`}
+                      </Typography.Paragraph>
+                      {address.isDefault && <Tag color="geekblue">Default</Tag>}
+                    </Flex>
+                  </Radio>
+                ))}
+                <Radio value={'new'} className="mx-0 w-full">
+                    <Flex justify="space-between" gap={'large'}>
+                      <Typography.Paragraph className="m-0 text-base">
+                        New Address
+                      </Typography.Paragraph>
+                    </Flex>
+                  </Radio>
               </Flex>
             </Radio.Group>
           </Form.Item>
