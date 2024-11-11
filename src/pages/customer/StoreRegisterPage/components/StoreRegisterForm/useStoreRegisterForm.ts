@@ -69,17 +69,19 @@ const useStoreForm = () => {
   const handleStoreRegister = async (store: FormStoreProps) => {
     try {
       const data = {
-        name: store.name,
-        description: store.description,
-        address: [
+        "name": store.name,
+        "description": store.description,
+        "address": [
           {
             address: store.detailAddress,
             ward: selectedWard,
             district: selectedDistrict,
             province: selectedProvince,
-            isDefault: isDefault,
+            isDefault: isDefault.toString(),
           },
         ],
+        "phoneNumber": store.phoneNumber,
+        "userID": profile?._id,
       };
       console.log(data);
       await storeAPIs.addStore(data);

@@ -73,7 +73,7 @@ const useAddressForm = (
     const chosenWard = ward.find((item: WardAddressProps) => Number(item.WardCode) === Number(e.key));
     if (chosenWard && selectedDistrict) {
       const data: WardAddressProps = {
-        WardCode: chosenWard.WardCode,
+        WardCode: chosenWard.WardCode?.toString(),
         DistrictID: selectedDistrict.DistrictID,
         WardName: chosenWard.WardName,
       };
