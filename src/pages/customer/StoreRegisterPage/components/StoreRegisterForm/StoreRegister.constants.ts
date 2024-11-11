@@ -10,6 +10,6 @@ export interface FormStoreProps {
 export const storeSchema: yup.ObjectSchema<FormStoreProps> = yup.object({
   name: yup.string().required(),
   description: yup.string().required(),
-  phoneNumber: yup.string().length(10).required().default("0000000000"),
+  phoneNumber: yup.string().length(10).required(),
   detailAddress: yup.string().required(),
 });

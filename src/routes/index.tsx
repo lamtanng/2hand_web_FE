@@ -23,6 +23,7 @@ import { StoreOrderRoutes } from '../pages/customer/AccountPage/StoreManagement/
 import { StoreProfileRoutes } from '../pages/customer/AccountPage/StoreManagement/StoreProfile/StoreProfile.routes';
 import { StoreReviewRoutes } from '../pages/customer/AccountPage/StoreManagement/StoreReview/StoreReview.routes';
 import { StoreOrderDetailRoutes } from '../pages/customer/AccountPage/StoreManagement/StoreOrderDetail/StoreOrderDetail.routes';
+import { StoreProductsRoutes } from '../pages/customer/AccountPage/StoreManagement/Products/StoreProducts.routes';
 
 const routes = createBrowserRouter([
   {
@@ -52,7 +53,8 @@ const routes = createBrowserRouter([
           StoreOrderRoutes,
           StoreProfileRoutes,
           StoreReviewRoutes,
-          StoreOrderDetailRoutes
+          StoreOrderDetailRoutes,
+          StoreProductsRoutes
         ],
       },
     ],
