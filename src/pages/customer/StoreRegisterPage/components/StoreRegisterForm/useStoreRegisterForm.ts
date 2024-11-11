@@ -17,6 +17,8 @@ import {
 import { userAPIs } from '../../../../../apis/user.api';
 import { UserProps } from '../../../../../types/user.type';
 import { RadioChangeEvent } from 'antd/es/radio';
+import { accountUrls } from '../../../../../constants/urlPaths/customer/accountUrls';
+import { Modal } from 'antd';
 
 const useStoreForm = () => {
   const { user } = useAppSelector(loginSelector);
@@ -39,14 +41,24 @@ const useStoreForm = () => {
   const [isDefault, setDefault] = useState<boolean>(false);
   const [profile, setProfile] = useState<UserProps>();
 
+  const { confirm } = Modal;
+
+  const showConfirm = () => {
+    confirm({
+      title: 'Please update your information before registing for a store.',
+      onOk() {
+        navigate(`/${accountUrls.accountUrl}/${accountUrls.profileUrl}`)
+      },
+      onCancel() {
+        navigate('/');
+      },
+    });
+  };
+
   const getUserByID = async (userID: string | undefined) => {
     try {
       const res = await userAPIs.getUserByUserID(userID);
       setProfile(res.data);
-      reset({
-        name: `${res.data.firstName} ${res.data.lastName}`,
-        phoneNumber: res.data.phoneNumber,
-      });
     } catch (error) {
       handleError(error);
     } finally {
@@ -69,9 +81,9 @@ const useStoreForm = () => {
   const handleStoreRegister = async (store: FormStoreProps) => {
     try {
       const data = {
-        "name": store.name,
-        "description": store.description,
-        "address": [
+        name: store.name,
+        description: store.description,
+        address: [
           {
             address: store.detailAddress,
             ward: selectedWard,
@@ -80,8 +92,8 @@ const useStoreForm = () => {
             isDefault: isDefault.toString(),
           },
         ],
-        "phoneNumber": store.phoneNumber,
-        "userID": profile?._id,
+        phoneNumber: store.phoneNumber,
+        userID: profile?._id,
       };
       console.log(data);
       await storeAPIs.addStore(data);
@@ -95,6 +107,19 @@ const useStoreForm = () => {
   useEffect(() => {
     getUserByID(user._id);
   }, []);
+
+  useEffect(() => {
+    if (profile) {
+      if (!profile?.phoneNumber) {
+        showConfirm();
+      } else {
+        reset({
+          name: `${profile.firstName} ${profile.lastName}`,
+          phoneNumber: profile.phoneNumber,
+        });
+      }
+    }
+  }, [profile]);
 
   return {
     handleSubmit,

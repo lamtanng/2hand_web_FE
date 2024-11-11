@@ -5,12 +5,10 @@ import { ShopOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { customerUrls } from '../../../../constants/urlPaths/customer/customerUrls';
 import useAccountPage from '../useAccountPage';
-import { Role } from '../../../../types/enum/role.enum';
 
 const Profile = () => {
   const { profile } = useAccountPage();
-  const isSeller = profile?.roleID?.filter((role: any) => role.name === Role.Seller).length !== 0 ? true : false;
-  console.log('user', profile);
+  const isSeller = profile?.roleID?.filter((role: any) => role === "670d2db6d696affd52e661c3").length !== 0 ? true : false;
   return (
     <div id="container" className="px-12 py-5">
       <Flex justify="space-between" align="center">
