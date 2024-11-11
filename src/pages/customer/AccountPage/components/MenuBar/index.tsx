@@ -13,7 +13,7 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import { Avatar, Flex, Menu, MenuProps, Typography } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import useAccountPage from '../../useAccountPage';
 import { Role } from '../../../../../types/enum/role.enum';
 
@@ -23,7 +23,7 @@ function getItem(label: React.ReactNode, key: React.Key, icon?: React.ReactNode,
   return {
     key,
     icon,
-    label,
+    label: (<Link to={`${key}`}>{label}</Link>),
     disabled,
   } as MenuItem;
 }

@@ -1,6 +1,6 @@
 import { MessageOutlined, ShopOutlined } from "@ant-design/icons"
 import { Button, Divider, Flex, Typography, Image } from "antd"
-import defaultPic from '../../../../../../assets/blob.jpg';
+import defaultPic from '../../../../../../../assets/blob.jpg';
 
 
 const OrderInfo = () => {
