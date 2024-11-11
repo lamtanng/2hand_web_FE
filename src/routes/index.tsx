@@ -21,6 +21,8 @@ import { accountUrls } from '../constants/urlPaths/customer/accountUrls';
 import { StoreDashboardRoutes } from '../pages/customer/AccountPage/StoreManagement/Dashboard/Dashboard.routes';
 import { StoreOrderRoutes } from '../pages/customer/AccountPage/StoreManagement/StoreOrder/StoreOrder.routes';
 import { StoreProfileRoutes } from '../pages/customer/AccountPage/StoreManagement/StoreProfile/StoreProfile.routes';
+import { StoreReviewRoutes } from '../pages/customer/AccountPage/StoreManagement/StoreReview/StoreReview.routes';
+import { StoreOrderDetailRoutes } from '../pages/customer/AccountPage/StoreManagement/StoreOrderDetail/StoreOrderDetail.routes';
 
 const routes = createBrowserRouter([
   {
@@ -49,6 +51,8 @@ const routes = createBrowserRouter([
           StoreDashboardRoutes,
           StoreOrderRoutes,
           StoreProfileRoutes,
+          StoreReviewRoutes,
+          StoreOrderDetailRoutes
         ],
       },
     ],

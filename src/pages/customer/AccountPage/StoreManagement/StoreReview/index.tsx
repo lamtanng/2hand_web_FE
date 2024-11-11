@@ -1,7 +1,7 @@
-import { Button, Divider, Flex, Typography, Image, TabsProps, Tabs, Avatar, Rate } from 'antd';
-import { Link } from 'react-router-dom';
-import defaultPic from '../../../../assets/blob.jpg';
 import { UserOutlined } from '@ant-design/icons';
+import { Divider, Flex, Typography, Image, Button, Avatar, Rate, TabsProps, Tabs } from 'antd';
+import { Link } from 'react-router-dom';
+import defaultPic from '../../../../../assets/blob.jpg';
 
 const onChange = (key: string) => {
   console.log(key);
@@ -10,13 +10,45 @@ const onChange = (key: string) => {
 const waitingList = (
   <div id="order-list">
     <div id="order" className="mb-6 rounded-md bg-slate-50 p-6">
-      <div id="order-summary">
+      <Flex id="order-summary" gap={'small'} align="center">
+        <Avatar size={'large'} icon={<UserOutlined />} className="w-1/10" />
         <Typography.Title level={5} className="m-0 inline w-1/3 truncate">
-          Shop nameShop name
+          Customer name Customer name
         </Typography.Title>
-      </div>
+      </Flex>
       <Divider />
-      <Link to={'/account/purchases/id'}>
+      <Link to={'/account/orders/id'}>
+        <div id="order-detail">
+          <div id="product-info">
+            <Flex gap={'middle'}>
+              <Image width={75} preview={false} alt="" src="" fallback={defaultPic} />
+              <div>
+                <Typography.Title level={5} className="m-0">
+                  Product name
+                </Typography.Title>
+                <Typography.Paragraph className="text-xs">quantity</Typography.Paragraph>
+              </div>
+            </Flex>
+          </div>
+        </div>
+      </Link>
+      <Divider />
+      <div id="total-price"></div>
+    </div>
+  </div>
+);
+
+const reviewedList = (
+  <div id="order-list">
+    <div id="order" className="mb-6 rounded-md bg-slate-50 p-6">
+      <Flex id="order-summary" gap={'small'} align="center">
+        <Avatar size={'large'} icon={<UserOutlined />} className="w-1/10" />
+        <Typography.Title level={5} className="m-0 inline w-1/3 truncate">
+          Customer name Customer name
+        </Typography.Title>
+      </Flex>
+      <Divider />
+      <Link to={'/account/orders/id'}>
         <div id="order-detail">
           <div id="product-info">
             <Flex gap={'middle'}>
@@ -34,12 +66,9 @@ const waitingList = (
       <Divider />
       <div id="total-price"></div>
       <div id="actions" className="mt-6">
-        <Flex justify="space-between" align="center">
-          <Typography.Paragraph className="m-0 text-gray-500">
-            You have xx day left to review this order.
-          </Typography.Paragraph>
+        <Flex justify="end" align="center">
           <Button type="primary" className="px-10 py-5 text-base">
-            Review
+            Response
           </Button>
         </Flex>
       </div>
@@ -47,7 +76,7 @@ const waitingList = (
   </div>
 );
 
-const reviewedList = (
+const responsedList = (
   <div id="reviewed-list">
     <div id="review">
       <Flex gap={'large'}>
@@ -72,7 +101,6 @@ const reviewedList = (
               aut doloremque? Amet nulla itaque quis.
             </Typography.Paragraph>
           </Flex>
-          
         </Flex>
       </Flex>
       <Divider />
@@ -88,12 +116,17 @@ const items: TabsProps['items'] = [
   },
   {
     key: '2',
-    label: 'My Reivews',
+    label: 'Reviewed Orders',
     children: reviewedList,
+  },
+  {
+    key: '3',
+    label: 'Responsed reviews',
+    children: responsedList,
   },
 ];
 
-const MyReviews = () => {
+const StoreReview = () => {
   return (
     <div>
       <Tabs defaultActiveKey="1" items={items} onChange={onChange} className="px-12 py-5" />
@@ -101,4 +134,4 @@ const MyReviews = () => {
   );
 };
 
-export default MyReviews;
+export default StoreReview;
