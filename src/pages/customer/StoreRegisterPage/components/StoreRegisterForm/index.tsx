@@ -25,6 +25,7 @@ const StoreRegisterForm = () => {
   } = useStoreForm();
 
   return (
+    <>
     <div className="mb-5 rounded-xl bg-white p-8 shadow-sm">
       <FormProvider {...method}>
         <Form name="normal_login" layout="vertical" className="w-full" onFinish={handleSubmit(handleStoreRegister)}>
@@ -74,6 +75,8 @@ const StoreRegisterForm = () => {
         </Form>
       </FormProvider>
     </div>
+    
+    </>
   );
 };
 

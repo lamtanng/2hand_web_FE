@@ -28,6 +28,8 @@ const items: MenuProps['items'] = [
 const UserInfoGroup = ({ user }: { user: UserProps }) => {
   const { itemAmount, profile } = useUserInfo(user);
   const userID = profile && profile._id && btoa(profile._id);
+  const isSeller = profile?.roleID?.filter((role: any) => role === "670d2db6d696affd52e661c3").length !== 0 ? true : false;
+  const actionLink = isSeller ? `/product/upload` : `/${customerUrls.storeRegisterUrl}`
   return (
     <Flex gap={'large'} justify="center" align="center">
       <Dropdown menu={{ items }}>
@@ -51,7 +53,7 @@ const UserInfoGroup = ({ user }: { user: UserProps }) => {
         <BellOutlined className="m-0 text-lg" />
         <p className="absolute -right-2 -top-2 m-0 rounded-full bg-blue-500 px-1 text-xs text-white">0</p>
       </div> */}
-      <Link to={`/${customerUrls.storeRegisterUrl}`}>
+      <Link to={actionLink}>
         <Button type="primary" className="hidden px-10 text-base md:inline">
           Sell a product
         </Button>
