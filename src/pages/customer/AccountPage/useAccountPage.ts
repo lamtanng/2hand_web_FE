@@ -29,6 +29,9 @@ const useAccountPage = () => {
     const deleteAddressListener = eventEmitter.addListener('deleteAddress', () => {
       getUserByID(user._id);
     });
+    const updateAddressListener = eventEmitter.addListener('updateAddress', () => {
+      getUserByID(user._id);
+    });
     const updateProfileListener = eventEmitter.addListener('updateProfile', (userID: string) => {
       getUserByID(userID);
     });
@@ -36,6 +39,7 @@ const useAccountPage = () => {
       updateProfileListener.remove();
       addAddressListener.remove();
       deleteAddressListener.remove();
+      updateAddressListener.remove();
     };
   }, []);
 

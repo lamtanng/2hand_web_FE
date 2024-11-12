@@ -4,7 +4,6 @@ import { addressSchema, FormAddressProps } from '../../Address.constants';
 import { handleError } from '../../../../../../utils/handleError';
 import { useEffect, useState } from 'react';
 import {
-  AddressProps,
   DistrictAddressProps,
   ProvincesAddressProps,
   WardAddressProps,
@@ -12,10 +11,13 @@ import {
 import { userAPIs } from '../../../../../../apis/user.api';
 import eventEmitter from '../../../../../../utils/eventEmitter';
 import { displaySuccess } from '../../../../../../utils/displayToast';
+import { AddressRequestProps } from '../../../../../../types/http/address.type';
+import { UserProps } from '../../../../../../types/user.type';
 
 const useAddressModal = (
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>,
-  address: AddressProps | undefined,
+  address: AddressRequestProps | undefined,
+  profile: UserProps | undefined,
 ) => {
   const [selectedProvince, setSelectedProvince] = useState<ProvincesAddressProps | null>(null);
   const [selectedDistrict, setSelectedDistrict] = useState<DistrictAddressProps | null>(null);
@@ -39,7 +41,7 @@ const useAddressModal = (
     setDefault(false);
   };
 
-  const handleAddAddress = async (data: AddressProps) => {
+  const handleAddAddress = async (data: AddressRequestProps) => {
     try {
       setSubmitting(true);
       await userAPIs.createAddress(data);
@@ -54,11 +56,11 @@ const useAddressModal = (
     }
   };
 
-  const handleUpdateAddress = async (data: AddressProps) => {
+  const handleUpdateAddress = async (data: AddressRequestProps) => {
     try {
       setSubmitting(true);
       console.log(data);
-      // await userAPIs.createAddress(data);
+      await userAPIs.updateAddress(data);
       eventEmitter.emit('updateAddress');
       displaySuccess('Address has been updated successfully.');
     } catch (error) {
@@ -71,12 +73,16 @@ const useAddressModal = (
   };
 
   const submitButtonClick = (detailAddress: FormAddressProps) => {
-    const data: AddressProps = {
-      address: detailAddress.detailAddress,
-      ward: selectedWard,
-      district: selectedDistrict,
-      province: selectedProvince,
-      isDefault: isDefault,
+    const data: AddressRequestProps = {
+      _id: profile?._id,
+      address: {
+        _id: address?._id,
+        address: detailAddress.detailAddress,
+        ward: selectedWard,
+        district: selectedDistrict,
+        province: selectedProvince,
+        isDefault: isDefault,
+      },
     };
     if (address) {
       handleUpdateAddress(data);
@@ -87,11 +93,11 @@ const useAddressModal = (
 
   useEffect(() => {
     if (address) {
-      reset({ detailAddress: address.address });
-      setSelectedProvince(address.province);
-      setSelectedDistrict(address.district);
-      setSelectedWard(address.ward);
-      setDefault(address.isDefault);
+      reset({ detailAddress: address.address.address });
+      setSelectedProvince(address.address.province);
+      setSelectedDistrict(address.address.district);
+      setSelectedWard(address.address.ward);
+      setDefault(address.address.isDefault);
     }
   }, []);
 

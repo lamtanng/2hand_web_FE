@@ -22,10 +22,10 @@ const Address = () => {
           >
             <PlusOutlined /> Add new address
           </Button>
-          {isModalOpen && <AddressModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />}
+          {isModalOpen && <AddressModal profile={profile} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />}
         </Flex>
       </div>
-      <AddressList profile={profile} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+      <AddressList profile={profile}/>
     </div>
   );
 };
