@@ -608,10 +608,6 @@
   border-style: dashed;
 }
 
-#root .border-dotted{
-  border-style: dotted;
-}
-
 #root .border-none{
   border-style: none;
 }

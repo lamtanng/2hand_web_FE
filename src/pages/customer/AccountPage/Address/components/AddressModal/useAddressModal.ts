@@ -4,6 +4,7 @@ import { addressSchema, FormAddressProps } from '../../Address.constants';
 import { handleError } from '../../../../../../utils/handleError';
 import { useEffect, useState } from 'react';
 import {
+  AddressProps,
   DistrictAddressProps,
   ProvincesAddressProps,
   WardAddressProps,
@@ -16,7 +17,7 @@ import { UserProps } from '../../../../../../types/user.type';
 
 const useAddressModal = (
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>,
-  address: AddressRequestProps | undefined,
+  address: AddressProps | undefined,
   profile: UserProps | undefined,
 ) => {
   const [selectedProvince, setSelectedProvince] = useState<ProvincesAddressProps | null>(null);
@@ -93,11 +94,11 @@ const useAddressModal = (
 
   useEffect(() => {
     if (address) {
-      reset({ detailAddress: address.address.address });
-      setSelectedProvince(address.address.province);
-      setSelectedDistrict(address.address.district);
-      setSelectedWard(address.address.ward);
-      setDefault(address.address.isDefault);
+      reset({ detailAddress: address.address });
+      setSelectedProvince(address.province);
+      setSelectedDistrict(address.district);
+      setSelectedWard(address.ward);
+      setDefault(address.isDefault);
     }
   }, []);
 

@@ -1,11 +1,11 @@
 import { userAPIs } from '../../../../../../apis/user.api';
-import { AddressRequestProps } from '../../../../../../types/http/address.type';
+import { AddressProps } from '../../../../../../types/address.type';
 import { UserProps } from '../../../../../../types/user.type';
 import { displaySuccess } from '../../../../../../utils/displayToast';
 import eventEmitter from '../../../../../../utils/eventEmitter';
 import { handleError } from '../../../../../../utils/handleError';
 
-const useAddressItem = (address: AddressRequestProps, profile: UserProps | undefined) => {
+const useAddressItem = (address: AddressProps, profile: UserProps | undefined) => {
   const handleDeleteAddress = async () => {
     try {
       const data = {
