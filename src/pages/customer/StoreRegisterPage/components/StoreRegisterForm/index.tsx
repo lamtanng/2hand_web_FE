@@ -5,8 +5,7 @@ import { Flex, Form, Radio, Tag, Typography } from 'antd';
 import SubmitButton from '../../../../../components/elements/Buttons/SubmitButton';
 import CustomTextArea from '../../../../../components/elements/ControlledComponents/ControlledTextArea';
 import AddressForm from '../../../../../components/elements/Form/AddressForm';
-// import { AddressProps } from '../../../../../types/address.type';
-import { AddressRequestProps } from '../../../../../types/http/address.type';
+import { AddressProps } from '../../../../../types/address.type';
 
 const StoreRegisterForm = () => {
   const {
@@ -40,13 +39,13 @@ const StoreRegisterForm = () => {
             <Typography.Paragraph>Recommend Address</Typography.Paragraph>
             <Radio.Group className="w-full" onChange={handleChooseAddress} defaultValue={"new"}>
               <Flex vertical gap={'large'}>
-                {profile?.address?.map((address: AddressRequestProps) => (
-                  <Radio value={address.address} className="mx-0 w-full">
+                {profile?.address?.map((address: AddressProps) => (
+                  <Radio value={address} className="mx-0 w-full">
                     <Flex justify="space-between" gap={'large'}>
                       <Typography.Paragraph className="m-0 text-base">
-                        {`${address.address.address}, ${address.address?.ward?.WardName}, ${address.address?.district?.DistrictName}, ${address.address?.province?.ProvinceName}`}
+                        {`${address.address}, ${address.ward?.WardName}, ${address.district?.DistrictName}, ${address.province?.ProvinceName}`}
                       </Typography.Paragraph>
-                      {address.address?.isDefault && <Tag color="geekblue">Default</Tag>}
+                      {address.isDefault && <Tag color="geekblue">Default</Tag>}
                     </Flex>
                   </Radio>
                 ))}

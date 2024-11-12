@@ -1,4 +1,4 @@
-import { AddressRequestProps } from "./http/address.type";
+import { AddressProps } from "./address.type";
 
 export interface UserProps {
   _id?: string;
@@ -10,7 +10,7 @@ export interface UserProps {
   otp?: string;
   phoneNumber?: string;
   dateOfBirth?: Date;
-  address?: AddressRequestProps[];
+  address?: AddressProps[];
   createdAt?: Date;
   updatedAt?: Date;
   isActive?: boolean;

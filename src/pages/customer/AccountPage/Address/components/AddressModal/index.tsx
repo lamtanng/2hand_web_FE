@@ -5,7 +5,7 @@ import SubmitButton from '../../../../../../components/elements/Buttons/SubmitBu
 import AddressForm from '../../../../../../components/elements/Form/AddressForm';
 import useAddressModal from './useAddressModal';
 import { UserProps } from '../../../../../../types/user.type';
-import { AddressRequestProps } from '../../../../../../types/http/address.type';
+import { AddressProps } from '../../../../../../types/address.type';
 
 const AddressModal = ({
   profile,
@@ -14,7 +14,7 @@ const AddressModal = ({
   setIsModalOpen,
 }: {
   profile: UserProps | undefined,
-  address?: AddressRequestProps;
+  address?: AddressProps;
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
