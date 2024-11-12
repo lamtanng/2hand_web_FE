@@ -1,7 +1,6 @@
-
 import { addressPaths } from '../constants/apiPaths/addressPaths';
 import { userPaths } from '../constants/apiPaths/userPaths';
-import { AddressProps } from '../types/address.type';
+import { AddressRequestProps } from '../types/http/address.type';
 import { UserProps } from '../types/user.type';
 import { axiosClient } from './axios';
 
@@ -18,17 +17,17 @@ const updateUser = (data: UserProps) => {
     return axiosClient.put(userUrl, data);
 }
 
-const createAddress = (data: AddressProps) => {
+const createAddress = (data: AddressRequestProps) => {
     return axiosClient.post(addressUrl, data);
 }
 
-const updateAddress = (data: AddressProps) => {
+const updateAddress = (data: AddressRequestProps) => {
     return axiosClient.put(addressUrl, data);
 }
 
-const deleteAddress = (addressID: string | undefined) => {
-    const url = `${addressUrl}/${addressID}`
-    return axiosClient.put(url);
+const deleteAddress = (data: any) => {
+    const url = `${addressUrl}/${data.addressID}`
+    return axiosClient.delete(url, data);
 }
 
 export const userAPIs = { getUserByUserID, updateUser, updateAddress, createAddress, deleteAddress };

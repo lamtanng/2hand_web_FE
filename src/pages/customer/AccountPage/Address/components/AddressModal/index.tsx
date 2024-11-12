@@ -4,14 +4,17 @@ import { FormProvider } from 'react-hook-form';
 import SubmitButton from '../../../../../../components/elements/Buttons/SubmitButton';
 import AddressForm from '../../../../../../components/elements/Form/AddressForm';
 import useAddressModal from './useAddressModal';
-import { AddressProps } from '../../../../../../types/address.type';
+import { UserProps } from '../../../../../../types/user.type';
+import { AddressRequestProps } from '../../../../../../types/http/address.type';
 
 const AddressModal = ({
+  profile,
   address,
   isModalOpen,
   setIsModalOpen,
 }: {
-  address?: AddressProps;
+  profile: UserProps | undefined,
+  address?: AddressRequestProps;
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
@@ -29,7 +32,7 @@ const AddressModal = ({
     isSubmitting,
     isDefault,
     submitButtonClick
-  } = useAddressModal(setIsModalOpen, address);
+  } = useAddressModal(setIsModalOpen, address, profile);
 
   return (
     <div
