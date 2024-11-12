@@ -23,7 +23,7 @@ export default function CustomFormItem({
           rules={[{ required: isRequired}]}
           validateStatus={fieldState.error ? "error" : ""}
           help={fieldState.error?.message}
-          className='text-base'
+          className='text-base w-full'
         >
           <InputComponent className="inputs w-full text-base h-10" disabled={isDisabled} placeholder={hint} {...field} />
         </Form.Item>
