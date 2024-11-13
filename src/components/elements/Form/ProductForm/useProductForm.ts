@@ -115,7 +115,7 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
         setFree(true);
       }
     }
-  }, []);
+  }, [currentProduct]);
 
   return {
     handleSubmit,
