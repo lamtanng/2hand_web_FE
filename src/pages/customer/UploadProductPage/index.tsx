@@ -1,8 +1,8 @@
 import { Typography } from 'antd';
 import Footer from '../../../components/elements/Footer';
 import Header from '../../../components/elements/Header';
-import ProductForm from './components/ProductForm';
 import useUploadProductPage from './useUploadProductPage';
+import ProductForm from '../../../components/elements/Form/ProductForm';
 
 const UploadProductPage = () => {
   const { category, store } = useUploadProductPage();

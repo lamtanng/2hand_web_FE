@@ -327,6 +327,10 @@
   margin-top: 2.5rem;
 }
 
+#root .mt-3{
+  margin-top: 0.75rem;
+}
+
 #root .mt-4{
   margin-top: 1rem;
 }

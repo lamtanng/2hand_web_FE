@@ -25,6 +25,7 @@ import { StoreReviewRoutes } from '../pages/customer/AccountPage/StoreManagement
 import { StoreOrderDetailRoutes } from '../pages/customer/AccountPage/StoreManagement/StoreOrderDetail/StoreOrderDetail.routes';
 import { StoreProductsRoutes } from '../pages/customer/AccountPage/StoreManagement/Products/StoreProducts.routes';
 import { UploadProductPageRoutes } from '../pages/customer/UploadProductPage/UploadProductPage.routes';
+import { StoreProductsDetailRoutes } from '../pages/customer/AccountPage/StoreManagement/ProductDetail/StoreProductDetail.routes';
 
 const routes = createBrowserRouter([
   {
@@ -55,7 +56,8 @@ const routes = createBrowserRouter([
           StoreProfileRoutes,
           StoreReviewRoutes,
           StoreOrderDetailRoutes,
-          StoreProductsRoutes
+          StoreProductsRoutes,
+          StoreProductsDetailRoutes
         ],
       },
     ],
