@@ -1,4 +1,5 @@
 import { productPaths } from '../constants/apiPaths/productPaths';
+import { ProductRequestBodyProps } from '../types/http/product.type';
 import { axiosClient } from './axios';
 
 const getProductUrl = (url: string) => `${productPaths.productPath}/${url}`;
@@ -34,4 +35,8 @@ const getProductBySlug = (slug: string | undefined) => {
   return axiosClient.get(url);
 };
 
-export const productAPIs = { getAllProduct, getProductBySlug };
+const addProduct = (data: ProductRequestBodyProps) => {
+  return axiosClient.post(productUrl, data);
+};
+
+export const productAPIs = { getAllProduct, getProductBySlug, addProduct };
