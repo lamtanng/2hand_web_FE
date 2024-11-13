@@ -39,4 +39,8 @@ const addProduct = (data: ProductRequestBodyProps) => {
   return axiosClient.post(productUrl, data);
 };
 
-export const productAPIs = { getAllProduct, getProductBySlug, addProduct };
+const deleteProduct = (productID: string) => {
+  return axiosClient.delete(productUrl, { params: { _id: productID } });
+};
+
+export const productAPIs = { getAllProduct, getProductBySlug, addProduct, deleteProduct };

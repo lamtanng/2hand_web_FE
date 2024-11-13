@@ -1,14 +1,8 @@
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Divider, Flex, TableProps, Typography, Image, Space, Table } from 'antd';
 import defaultPic from '../../../../../assets/blob.jpg';
-
-const data = [{
-  picture: '',
-  name: 'product A',
-  price: 5000,
-  quantity: 1,
-  quality: 'new',
-}];
+import useAccountPage from '../../useAccountPage';
+import useStoreProducts from './useStoreProducts';
 
 export interface CustomTableColumns {
   picture: string;
@@ -19,6 +13,10 @@ export interface CustomTableColumns {
 }
 
 const StoreProducts = () => {
+  const { profile } = useAccountPage();
+  const { product, showConfirm, isLoading } = useStoreProducts(profile);
+  console.log(profile);
+  console.log(product);
   const columns: TableProps['columns'] = [
     {
       title: 'Product Picture',
@@ -61,12 +59,12 @@ const StoreProducts = () => {
       title: 'Action',
       key: 'action',
       width: '15%',
-      render: (_) => (
+      render: (_, record) => (
         <Space size="middle">
-          <Button variant='filled' color='primary'>
+          <Button variant="filled" color="primary">
             <EditOutlined />
           </Button>
-          <Button variant='filled' color='danger'>
+          <Button variant="filled" color="danger" onClick={() => {showConfirm(record._id)}}>
             <DeleteOutlined />
           </Button>
         </Space>
@@ -78,14 +76,14 @@ const StoreProducts = () => {
     <div id="container" className="px-12 py-5">
       <div id="title">
         <Flex justify="space-between" align="baseline">
-          <Typography.Title level={3}>My Addresses</Typography.Title>
+          <Typography.Title level={3}>All Products</Typography.Title>
           <Button type="primary" className="h-10 text-base">
             <PlusOutlined /> Add new product
           </Button>
         </Flex>
       </div>
       <Divider />
-      <Table dataSource={data} columns={columns} scroll={{ x: 'max-content' }} />
+      <Table loading={isLoading} dataSource={product} columns={columns} scroll={{ x: 'max-content' }} />
     </div>
   );
 };
