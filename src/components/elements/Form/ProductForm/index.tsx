@@ -1,18 +1,27 @@
 import { FormProvider } from 'react-hook-form';
-import useProductForm from './useProductForm';
 import { Checkbox, Flex, Form, InputNumber, Typography } from 'antd';
-import CustomFormItem from '../../../../../components/elements/ControlledComponents/ControlledInput';
-import CustomTextArea from '../../../../../components/elements/ControlledComponents/ControlledTextArea';
-import SubmitButton from '../../../../../components/elements/Buttons/SubmitButton';
-import ConditionRadio from '../ConditionRadio';
-import { CategoryProps } from '../../../../../types/category.type';
-import { StoreProps } from '../../../../../types/store.type';
 import CategoryDropdown from './components/CategoryDropdown';
 import ImageUploader from './components/ImageUploader';
+import { CategoryProps } from '../../../../types/category.type';
+import { StoreProps } from '../../../../types/store.type';
+import { ProductProps } from '../../../../types/product.type';
+import useProductForm from './useProductForm';
+import CustomFormItem from '../../ControlledComponents/ControlledInput';
+import CustomTextArea from '../../ControlledComponents/ControlledTextArea';
+import ConditionRadio from './components/ConditionRadio';
+import SubmitButton from '../../Buttons/SubmitButton';
 
-const ProductForm = ({ category, store }: { category: CategoryProps[]; store: StoreProps | undefined }) => {
+const ProductForm = ({
+  category,
+  store,
+  product,
+}: {
+  category: CategoryProps[];
+  store: StoreProps | undefined;
+  product?: ProductProps;
+}) => {
   const {
-    handleAddProduct,
+    handleSubmitForm,
     handleSubmit,
     method,
     condition,
@@ -23,11 +32,11 @@ const ProductForm = ({ category, store }: { category: CategoryProps[]; store: St
     onFreeChange,
     setQuantity,
     isSubmitting,
-  } = useProductForm(store);
+  } = useProductForm(store, product);
 
   return (
     <FormProvider {...method}>
-      <Form name="normal_login" layout="vertical" className="w-full" onFinish={handleSubmit(handleAddProduct)}>
+      <Form name="normal_login" layout="vertical" className="w-full" onFinish={handleSubmit(handleSubmitForm)}>
         <Form.Item>
           <ImageUploader />
         </Form.Item>
@@ -47,7 +56,9 @@ const ProductForm = ({ category, store }: { category: CategoryProps[]; store: St
               min={1}
               defaultValue={1}
               onChange={(e) => {
-                setQuantity(e);
+                if (e) {
+                  setQuantity(e);
+                }
               }}
               className="h-10 w-full text-base"
             />
@@ -55,7 +66,9 @@ const ProductForm = ({ category, store }: { category: CategoryProps[]; store: St
           <CustomFormItem name="weight" hint="Weight" label="Weight" className="w-full" />
           <Flex vertical className="w-full">
             <CustomFormItem name="price" hint="Price" label="Price" className="w-full" isDisabled={isFree} />
-            <Checkbox onChange={onFreeChange}>Free Product</Checkbox>
+            <Checkbox onChange={onFreeChange} checked={isFree}>
+              Free Product
+            </Checkbox>
           </Flex>
         </Flex>
         <CustomTextArea name="description" hint="Description" label="Description" isRequired={true} />

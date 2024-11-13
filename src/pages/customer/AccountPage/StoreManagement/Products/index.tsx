@@ -3,6 +3,7 @@ import { Button, Divider, Flex, TableProps, Typography, Image, Space, Table } fr
 import defaultPic from '../../../../../assets/blob.jpg';
 import useAccountPage from '../../useAccountPage';
 import useStoreProducts from './useStoreProducts';
+import { Link } from 'react-router-dom';
 
 export interface CustomTableColumns {
   picture: string;
@@ -33,7 +34,7 @@ const StoreProducts = () => {
       title: 'Product Name',
       dataIndex: 'name',
       key: 'name',
-      render: (text) => <a>{text}</a>,
+      render: (text, record) => <Link to={`/${record.slug}`} >{text}</Link>,
       responsive: ['xs', 'md'],
     },
     {
@@ -61,10 +62,18 @@ const StoreProducts = () => {
       width: '15%',
       render: (_, record) => (
         <Space size="middle">
-          <Button variant="filled" color="primary">
-            <EditOutlined />
-          </Button>
-          <Button variant="filled" color="danger" onClick={() => {showConfirm(record._id)}}>
+          <Link to={record._id}>
+            <Button variant="filled" color="primary">
+              <EditOutlined />
+            </Button>
+          </Link>
+          <Button
+            variant="filled"
+            color="danger"
+            onClick={() => {
+              showConfirm(record._id);
+            }}
+          >
             <DeleteOutlined />
           </Button>
         </Space>

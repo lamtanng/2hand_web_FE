@@ -1,4 +1,4 @@
-import { ProductQuality } from "../../../../../types/enum/productQuality.enum";
+import { ProductQuality } from "../../../../../../types/enum/productQuality.enum";
 
 export const conditions = [
     {
