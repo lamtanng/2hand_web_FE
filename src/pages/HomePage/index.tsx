@@ -10,6 +10,7 @@ import ProductList from '../../components/elements/Lists/ProductList';
 import SystemInfo from './components/SystemInfo';
 import Collection from './components/Collection';
 import useHomePage from './useHomePage';
+import PhoneVerification from '../PhoneVerification';
 
 const HomePage = () => {
   const {freeProduct, isLoading, newestProduct} = useHomePage();
@@ -22,6 +23,7 @@ const HomePage = () => {
           <CustomCarousel />
         </div>
         <Flex vertical gap={45} className="mx-5 md:mx-10 xl:mx-auto xl:w-10/12">
+          <PhoneVerification />
           <div>
             <Typography.Title level={2}>Categories</Typography.Title>
             <CategorySlider />

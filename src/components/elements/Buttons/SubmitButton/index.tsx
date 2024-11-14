@@ -22,6 +22,7 @@ export default function SubmitButton({
       loading={isSubmitting}
       disabled={isDirty ? false : true}
       onClick={onClick}
+      id="sign-in-button"
     >
       <span>{text}</span>
     </Button>
