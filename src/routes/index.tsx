@@ -26,6 +26,7 @@ import { StoreOrderDetailRoutes } from '../pages/customer/AccountPage/StoreManag
 import { StoreProductsRoutes } from '../pages/customer/AccountPage/StoreManagement/Products/StoreProducts.routes';
 import { UploadProductPageRoutes } from '../pages/customer/UploadProductPage/UploadProductPage.routes';
 import { StoreProductsDetailRoutes } from '../pages/customer/AccountPage/StoreManagement/ProductDetail/StoreProductDetail.routes';
+import { ImagePageRoute } from '../pages/ImagePage/ImagePage.routes';
 
 const routes = createBrowserRouter([
   {
@@ -38,6 +39,7 @@ const routes = createBrowserRouter([
       UserProfilePageRoutes,
       LoginRoute,
       SignupRoute,
+      ImagePageRoute,
       {
         element: <ProtectedRoutes />,
         children: [adminRoutes, CartPageRoutes, ChekoutPageRoutes, StoreRegisterPageRoutes, UploadProductPageRoutes],
