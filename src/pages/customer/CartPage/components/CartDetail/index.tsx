@@ -18,7 +18,7 @@ const CartDetail = ({
   product: CartItemProps;
   singleCheckBoxHandler: (event: CheckboxChangeEvent) => void;
   checkedList: any[];
-  handleDelete: (productID: string, oldCheckList: CartItemProps[]) => Promise<void>;
+  handleDelete: (productID: string | undefined, oldCheckList: CartItemProps[]) => Promise<void>;
   handleQuantityChange: (product: CartItemProps, value: number, oldCheckList: CartItemProps[]) => Promise<void>;
 }) => {
   const debounced = useDebouncedCallback((value) => {
