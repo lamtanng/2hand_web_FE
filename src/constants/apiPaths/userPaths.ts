@@ -1,5 +1,9 @@
 const userPath = 'users';
+const sendOTPPath = 'sendotp';
+const verifyPath = 'verify';
 
 export const userPaths = {
-    userPath,
+  userPath,
+  sendOTPPath,
+  verifyPath,
 };

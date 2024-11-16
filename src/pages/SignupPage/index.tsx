@@ -15,7 +15,7 @@ const Signup = () => {
     setHiddenVerify(false);
     setAccount(account);
     setCounting(true);
-  };
+  }; 
 
   const handleBackOnClick = () => {
     setHiddenSignup(false);

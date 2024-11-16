@@ -5,10 +5,14 @@ import { ShopOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { customerUrls } from '../../../../constants/urlPaths/customer/customerUrls';
 import useAccountPage from '../useAccountPage';
+import { useState } from 'react';
+import PhoneModal from './components/PhoneModal';
 
 const Profile = () => {
   const { profile } = useAccountPage();
-  const isSeller = profile?.roleID?.filter((role: any) => role === "670d2db6d696affd52e661c3").length !== 0 ? true : false;
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const isSeller =
+    profile?.roleID?.filter((role: any) => role === '670d2db6d696affd52e661c3').length !== 0 ? true : false;
   return (
     <div id="container" className="px-12 py-5">
       <Flex justify="space-between" align="center">
@@ -28,7 +32,8 @@ const Profile = () => {
       <div id="profile">
         <Flex gap={50} justify="space-between" align="center" className="px-10">
           <div className="w-2/3">
-            <ProfileForm />
+            <ProfileForm profile={profile} setIsModalOpen={setIsModalOpen} />
+            <PhoneModal profile={profile} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
           </div>
           <Divider type="vertical" className="h-96" />
           <div className="w-1/3">

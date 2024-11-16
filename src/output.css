@@ -279,6 +279,11 @@
   margin-bottom: 1.25rem;
 }
 
+#root .my-6{
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
 #root .-mt-4{
   margin-top: -1rem;
 }
@@ -325,6 +330,10 @@
 
 #root .mt-10{
   margin-top: 2.5rem;
+}
+
+#root .mt-2{
+  margin-top: 0.5rem;
 }
 
 #root .mt-3{
@@ -826,6 +835,11 @@
 #root .text-2xl{
   font-size: 1.5rem;
   line-height: 2rem;
+}
+
+#root .text-4xl{
+  font-size: 2.25rem;
+  line-height: 2.5rem;
 }
 
 #root .text-\[46px\]{

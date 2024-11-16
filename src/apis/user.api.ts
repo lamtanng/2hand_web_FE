@@ -7,27 +7,45 @@ import { axiosClient } from './axios';
 const getUserUrl = (url: string) => `${userPaths.userPath}/${url}`;
 const userUrl = getUserUrl('');
 const addressUrl = getUserUrl(addressPaths.addressPath);
+const sendOTPUrl = getUserUrl(userPaths.sendOTPPath);
+const verifyUrl = getUserUrl(userPaths.verifyPath);
 
 const getUserByUserID = (userID: string | undefined) => {
-    const url = `${userUrl}${userID}`;
-    return axiosClient.get(url);
-}
+  const url = `${userUrl}${userID}`;
+  return axiosClient.get(url);
+};
 
 const updateUser = (data: UserProps) => {
-    return axiosClient.put(userUrl, data);
-}
+  return axiosClient.put(userUrl, data);
+};
 
 const createAddress = (data: AddressRequestProps) => {
-    return axiosClient.post(addressUrl, data);
-}
+  return axiosClient.post(addressUrl, data);
+};
 
 const updateAddress = (data: AddressRequestProps) => {
-    return axiosClient.put(addressUrl, data);
-}
+  return axiosClient.put(addressUrl, data);
+};
 
 const deleteAddress = (data: any) => {
-    const url = `${addressUrl}/${data.addressID}`
-    return axiosClient.delete(url, data);
-}
+  const url = `${addressUrl}/${data.addressID}`;
+  return axiosClient.delete(url, data);
+};
 
-export const userAPIs = { getUserByUserID, updateUser, updateAddress, createAddress, deleteAddress };
+const sendPhoneOTP = (data: any) => {
+  return axiosClient.post(sendOTPUrl, data);
+};
+
+const verifyPhoneNumber = (data: any) => {
+  return axiosClient.post(verifyUrl, data);
+};
+
+export const userAPIs = {
+  getUserByUserID,
+  updateUser,
+  updateAddress,
+  createAddress,
+  deleteAddress,
+  sendPhoneOTP,
+  verifyPhoneNumber,
+};
