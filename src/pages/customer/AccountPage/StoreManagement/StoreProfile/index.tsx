@@ -5,8 +5,13 @@ import CustomFormItem from '../../../../../components/elements/ControlledCompone
 import SubmitButton from '../../../../../components/elements/Buttons/SubmitButton';
 import useStoreProfileForm from './useStoreProfileForm';
 import AddressForm from '../../../../../components/elements/Form/AddressForm';
+import useAccountPage from '../../useAccountPage';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import { useState } from 'react';
 
 const StoreProfile = () => {
+  const { profile } = useAccountPage();
   const {
     method,
     handleSubmit,
@@ -19,7 +24,9 @@ const StoreProfile = () => {
     setSelectedWard,
     isDefault,
     isSubmitting,
-  } = useStoreProfileForm();
+  } = useStoreProfileForm(profile);
+
+  const [value, setValue] = useState('');
   return (
     <div id="container" className="px-12 py-5">
       <Flex justify="space-between" align="center">
@@ -35,6 +42,9 @@ const StoreProfile = () => {
               <Form name="normal_login" layout="vertical" className="w-full" onFinish={handleSubmit}>
                 <Typography.Paragraph className="m-0 mb-6 text-base">Store ID: ID</Typography.Paragraph>
                 <CustomFormItem name="storeName" hint="Store's name" label="Store's Name" isRequired={true} />
+                <Form.Item>
+                  <ReactQuill theme="snow" value={value} onChange={setValue} />
+                </Form.Item>
                 <AddressForm
                   isDefault={isDefault}
                   selectedDistrict={selectedDistrict}

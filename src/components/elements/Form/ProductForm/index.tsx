@@ -7,9 +7,9 @@ import { StoreProps } from '../../../../types/store.type';
 import { ProductProps } from '../../../../types/product.type';
 import useProductForm from './useProductForm';
 import CustomFormItem from '../../ControlledComponents/ControlledInput';
-import CustomTextArea from '../../ControlledComponents/ControlledTextArea';
 import ConditionRadio from './components/ConditionRadio';
 import SubmitButton from '../../Buttons/SubmitButton';
+import TextEditor from '../../TextEditor';
 
 const ProductForm = ({
   category,
@@ -32,6 +32,8 @@ const ProductForm = ({
     onFreeChange,
     setQuantity,
     isSubmitting,
+    description,
+    setDescription
   } = useProductForm(store, product);
 
   return (
@@ -71,7 +73,10 @@ const ProductForm = ({
             </Checkbox>
           </Flex>
         </Flex>
-        <CustomTextArea name="description" hint="Description" label="Description" isRequired={true} />
+        <Form.Item>
+              <Typography.Paragraph className="m-0 mb-2">Descripition</Typography.Paragraph>
+              <TextEditor setValue={setDescription} value={description} />
+            </Form.Item>
         <ConditionRadio onChange={setCondition} selected={condition} />
         <Form.Item>
           <SubmitButton isSubmitting={isSubmitting} />

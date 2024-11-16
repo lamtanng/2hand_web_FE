@@ -8,6 +8,7 @@ import ProductInfo from './components/ProductInfo';
 import ShopInfo from './components/ShopInfo';
 import ProductFeatures from './components/ProductFeatures';
 import useProductDetail from './useProductDetail';
+import parse from 'html-react-parser';
 
 const ProductDetail = () => {
   const { product, isLoading, storeProduct, handleAddToCart, setQuantity, isDirty, handleBuyNow } = useProductDetail();
@@ -31,7 +32,7 @@ const ProductDetail = () => {
             <Typography.Title level={4} className="m-0 mb-8">
               Product's Description
             </Typography.Title>
-            <Typography.Paragraph className="m-0">{product?.description}</Typography.Paragraph>
+            <Typography.Paragraph className="m-0">{product && product.description && parse(product.description)}</Typography.Paragraph>
           </div>
           <div id="shop-products" className="mb-5 p-8">
             <Typography.Title level={4} className="m-0 mb-8">
