@@ -28,7 +28,6 @@ const useStoreForm = () => {
     resolver: yupResolver(storeSchema),
     defaultValues: {
       name: '',
-      description: '',
       phoneNumber: '',
       detailAddress: '',
     },
@@ -40,6 +39,7 @@ const useStoreForm = () => {
   const [selectedWard, setSelectedWard] = useState<WardAddressProps | null>(null);
   const [isDefault, setDefault] = useState<boolean>(false);
   const [profile, setProfile] = useState<UserProps>();
+  const [description, setDescription] = useState<string>('');
 
   const { confirm } = Modal;
 
@@ -82,7 +82,7 @@ const useStoreForm = () => {
     try {
       const data = {
         name: store.name,
-        description: store.description,
+        description: description,
         address: [
           {
             address: store.detailAddress,
@@ -129,10 +129,12 @@ const useStoreForm = () => {
     selectedDistrict,
     selectedProvince,
     selectedWard,
+    description,
     setDefault,
     setSelectedDistrict,
     setSelectedProvince,
     setSelectedWard,
+    setDescription,
     isDefault,
     profile,
     handleChooseAddress,

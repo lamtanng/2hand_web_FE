@@ -14,4 +14,8 @@ const addStore = (data: any) => {
     return axiosClient.post(storeUrl, data);
 }
 
+// const updateStore = (data: any) => {
+//     return axiosClient.post(storeUrl, data);
+// }
+
 export const storeAPIs = { getStoreByUser, addStore };

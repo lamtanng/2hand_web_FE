@@ -18,7 +18,6 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
   const method = useForm<FormProductProps>({
     resolver: yupResolver(productSchema),
     defaultValues: {
-      description: '',
       name: '',
     },
   });
@@ -29,7 +28,7 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
   const [isFree, setFree] = useState<boolean>(false);
   const [quantity, setQuantity] = useState<number>(1);
   const [isSubmitting, setSubmitting] = useState<boolean>(false);
-  console.log(quantity);
+  const [description, setDescription] = useState<string>('');
 
   const onFreeChange = (e: CheckboxChangeEvent) => {
     let isSelected = e.target.checked;
@@ -79,7 +78,7 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
   const handleSubmitForm = (product: FormProductProps) => {
     const newProduct: ProductRequestBodyProps = {
       name: product.name,
-      description: product.description,
+      description: description,
       image: [],
       price: product.price,
       quantity: quantity,
@@ -104,13 +103,13 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
     if (currentProduct) {
       reset({
         name: currentProduct.name,
-        description: currentProduct.description,
         price: currentProduct.price,
         weight: currentProduct.weight,
       });
       setCondition(currentProduct.quality);
       setQuantity(currentProduct.quantity);
       setSelectedCategory(currentProduct.cateID);
+      setDescription(currentProduct.description);
       if (currentProduct.price === 0) {
         setFree(true);
       }
@@ -130,6 +129,8 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
     handleSubmitForm,
     setQuantity,
     isSubmitting,
+    description,
+    setDescription
   };
 };
 

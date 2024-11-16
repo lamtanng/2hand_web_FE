@@ -352,6 +352,10 @@
   margin-top: 1.5rem;
 }
 
+#root .block{
+  display: block;
+}
+
 #root .inline{
   display: inline;
 }
@@ -942,6 +946,10 @@
 #root .text-white{
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+#root .underline{
+  text-decoration-line: underline;
 }
 
 #root .no-underline{
