@@ -2,34 +2,58 @@ import { ShoppingCartOutlined, UserOutlined } from '@ant-design/icons';
 import { Avatar, Button, Divider, Dropdown, Flex, MenuProps } from 'antd';
 import { UserProps } from '../../../../../types/user.type';
 import useUserInfo from './useUserInfo';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { customerUrls } from '../../../../../constants/urlPaths/customer/customerUrls';
 import { accountUrls } from '../../../../../constants/urlPaths/customer/accountUrls';
-
-const items: MenuProps['items'] = [
-  {
-    key: '1',
-    label: <Link to={`/${accountUrls.accountUrl}/${accountUrls.profileUrl}`}>My Profile</Link>,
-  },
-  {
-    key: '2',
-    label: <Link to={`/${accountUrls.accountUrl}/${accountUrls.puchasesUrl}`}>My Orders</Link>,
-  },
-  {
-    key: '3',
-    label: <Link to={`/${accountUrls.accountUrl}/${accountUrls.reviewUrl}`}>My Reviews</Link>,
-  },
-  {
-    key: '4',
-    label: <Link to={`logout`}>Logout</Link>,
-  },
-];
+import { useAppDispatch } from '../../../../../redux/hooks';
+import { authAPIs } from '../../../../../apis/auth.api';
+import { deleteAuth } from '../../../../../redux/slices/login.slice';
+import { handleError } from '../../../../../utils/handleError';
 
 const UserInfoGroup = ({ user }: { user: UserProps }) => {
   const { itemAmount, profile } = useUserInfo(user);
   const userID = profile && profile._id && btoa(profile._id);
-  const isSeller = profile?.roleID?.filter((role: any) => role === "670d2db6d696affd52e661c3").length !== 0 ? true : false;
-  const actionLink = isSeller ? `/product/upload` : `/${customerUrls.storeRegisterUrl}`
+  const isSeller =
+    profile?.roleID?.filter((role: any) => role === '670d2db6d696affd52e661c3').length !== 0 ? true : false;
+  const actionLink = isSeller ? `/product/upload` : `/${customerUrls.storeRegisterUrl}`;
+
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const handleLogOut = async () => {
+    try {
+      await authAPIs.logout();
+      dispatch(deleteAuth());
+      navigate('/');
+    } catch (error) {
+      handleError(error);
+    } finally {
+    }
+  };
+
+  const items: MenuProps['items'] = [
+    {
+      key: '1',
+      label: <Link to={`/${accountUrls.accountUrl}/${accountUrls.profileUrl}`}>My Profile</Link>,
+    },
+    {
+      key: '2',
+      label: <Link to={`/${accountUrls.accountUrl}/${accountUrls.puchasesUrl}`}>My Orders</Link>,
+    },
+    {
+      key: '3',
+      label: <Link to={`/${accountUrls.accountUrl}/${accountUrls.reviewUrl}`}>My Reviews</Link>,
+    },
+    {
+      key: '4',
+      label: (
+        <Button type='link' variant='link' color='default' className="m-0 p-0" onClick={handleLogOut}>
+          Logout
+        </Button>
+      ),
+    },
+  ];
+
   return (
     <Flex gap={'large'} justify="center" align="center">
       <Dropdown menu={{ items }}>

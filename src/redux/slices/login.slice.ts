@@ -24,6 +24,10 @@ const loginSlice = createSlice({
       state.token = action.payload.data;
       state.user = user;
     },
+    deleteAuth: (state) => {
+      state.token = initialState.token;
+      state.user = initialState.user;
+    },
   },
   // extraReducers: (builder) => {
   //   builder
@@ -45,4 +49,4 @@ const loginSlice = createSlice({
 
 export const loginSelector = (state: RootState) => state.login;
 export default loginSlice.reducer = loginSlice.reducer;
-export const { storeAuth } = loginSlice.actions;
+export const { storeAuth, deleteAuth } = loginSlice.actions;
