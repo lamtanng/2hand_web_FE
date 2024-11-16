@@ -15,6 +15,10 @@ import {
 import { Avatar, Flex, Menu, MenuProps, Typography } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import useAccountPage from '../../useAccountPage';
+import { handleError } from '../../../../../utils/handleError';
+import { authAPIs } from '../../../../../apis/auth.api';
+import { useAppDispatch } from '../../../../../redux/hooks';
+import { deleteAuth } from '../../../../../redux/slices/login.slice';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -69,12 +73,23 @@ const MenuBar = () => {
       children: [
         getItem('Change Password', 'changepassword', <SettingOutlined />),
         getItem('Help Center', 'helpcenter', <QuestionCircleOutlined />, true),
-        getItem('Log Out', '/', <LogoutOutlined />),
+        getItem('Log Out', 'logout', <LogoutOutlined />),
       ],
     },
   ];
 
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const handleLogOut = async () => {
+    try {
+      await authAPIs.logout();
+      dispatch(deleteAuth());
+    } catch (error) {
+      handleError(error);
+    } finally {
+    }
+  };
   return (
     <>
       <Flex align="center" gap={'middle'} className="mb-3 px-3">
@@ -88,9 +103,10 @@ const MenuBar = () => {
         items={items}
         className="bg-slate-50 text-base"
         onClick={({ key }) => {
-          if (key === '/signin') {
+          if (key === 'logout') {
+            handleLogOut();
+            navigate('/');
           }
-          navigate(key);
         }}
       />
     </>
