@@ -11,30 +11,18 @@ import eventEmitter from '../../../../../../utils/eventEmitter';
 import { userAPIs } from '../../../../../../apis/user.api';
 import { UserProps } from '../../../../../../types/user.type';
 
-const useProfileForm = () => {
+const useProfileForm = (profile: UserProps | undefined) => {
   const { user } = useAppSelector(loginSelector);
-  const [dob, setDob] = useState<Date | undefined>(user.dateOfBirth);
+  const [dob, setDob] = useState<Date | undefined>();
   const [isSubmitting, setSubmitting] = useState<boolean>(false);
   const method = useForm<ProfileProps>({
     resolver: yupResolver(profileSchema),
     defaultValues: {
       firstName: '',
       lastName: '',
-      email: '',
-      phoneNumber: '',
     },
   });
   const { handleSubmit, reset } = method;
-
-  const getUserByID = async (userID: string | undefined) => {
-    try {
-      const res = await userAPIs.getUserByUserID(userID);
-      reset(res.data);
-    } catch (error) {
-      handleError(error);
-    } finally {
-    }
-  };
 
   const onDateChange: DatePickerProps['onChange'] = (date: any, dateString: any) => {
     setDob(dateString);
@@ -48,8 +36,6 @@ const useProfileForm = () => {
         _id: user._id,
         firstName: account.firstName,
         lastName: account.lastName,
-        email: account.email,
-        phoneNumber: account.phoneNumber,
         dateOfBirth: dob,
       };
       await userAPIs.updateUser(data);
@@ -63,8 +49,11 @@ const useProfileForm = () => {
   };
 
   useEffect(() => {
-    getUserByID(user._id);
-  }, []);
+    if (profile) {
+      reset(profile);
+      setDob(profile.dateOfBirth)
+    }
+  }, [profile]);
 
   return {
     handleSubmit,
@@ -73,7 +62,8 @@ const useProfileForm = () => {
     reset,
     onDateChange,
     dob,
-    isSubmitting
+    isSubmitting,
+    profile,
   };
 };
 

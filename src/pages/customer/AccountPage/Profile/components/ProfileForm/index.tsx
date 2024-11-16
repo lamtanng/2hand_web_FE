@@ -1,12 +1,19 @@
 import { FormProvider } from 'react-hook-form';
 import useProfileForm from './useProfileForm';
-import { DatePicker, Flex, Form } from 'antd';
+import { Button, DatePicker, Flex, Form } from 'antd';
 import CustomFormItem from '../../../../../../components/elements/ControlledComponents/ControlledInput';
 import SubmitButton from '../../../../../../components/elements/Buttons/SubmitButton';
 import dayjs from 'dayjs';
+import { UserProps } from '../../../../../../types/user.type';
 
-const ProfileForm = () => {
-  const { handleSubmit, method, handleUpdateUser, onDateChange, dob, isSubmitting } = useProfileForm();
+const ProfileForm = ({
+  profile,
+  setIsModalOpen,
+}: {
+  profile: UserProps | undefined;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
+  const { handleSubmit, method, handleUpdateUser, onDateChange, dob, isSubmitting } = useProfileForm(profile);
 
   return (
     <FormProvider {...method}>
@@ -20,9 +27,25 @@ const ProfileForm = () => {
           </div>
         </Flex>
         <CustomFormItem name="email" hint="Email" label="Email" isRequired={true} isDisabled={true} />
-        <CustomFormItem name="phoneNumber" hint="Phone number" label="Phone Number" isRequired={true} />
+        <Flex align="center" gap={'large'}>
+          <CustomFormItem name="phoneNumber" hint="Phone number" label="Phone Number" isDisabled={true} />
+          <Button
+            type="primary"
+            className="mt-2 h-10"
+            onClick={() => {
+              setIsModalOpen(true);
+            }}
+          >
+            Change
+          </Button>
+        </Flex>
         <Form.Item>
-          <DatePicker defaultValue={dayjs(dob)} className="h-10 w-full text-base" allowClear={false} onChange={onDateChange} />
+          <DatePicker
+            defaultValue={dayjs(dob)}
+            className="h-10 w-full text-base"
+            allowClear={false}
+            onChange={onDateChange}
+          />
         </Form.Item>
         <Form.Item>
           <SubmitButton isSubmitting={isSubmitting} />
