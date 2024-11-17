@@ -1,6 +1,6 @@
 const productListUrl = 'product-list';
 const productDetailUrl = ':productSlug';
-const userProfileUrl = 'user/:id';
+const userProfileUrl = 'user/:slug';
 
 export const guestUrls = {
     productListUrl,

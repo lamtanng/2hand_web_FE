@@ -15,6 +15,14 @@ const getUserByUserID = (userID: string | undefined) => {
   return axiosClient.get(url);
 };
 
+const getUserByUserSlug = (slug: string | undefined) => {
+  return axiosClient.get(userUrl, {
+    params: {
+      slug: slug,
+    },
+  });
+};
+
 const updateUser = (data: UserProps) => {
   return axiosClient.put(userUrl, data);
 };
@@ -42,6 +50,7 @@ const verifyPhoneNumber = (data: any) => {
 
 export const userAPIs = {
   getUserByUserID,
+  getUserByUserSlug,
   updateUser,
   updateAddress,
   createAddress,

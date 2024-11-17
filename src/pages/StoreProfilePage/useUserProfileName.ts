@@ -10,15 +10,14 @@ import { userAPIs } from '../../apis/user.api';
 
 const useUserProfileDetail = () => {
   const param = useParams();
-  const decodedID = param && param.id && atob(param.id);
   const [profile, setProfile] = useState<UserProps>();
   const [store, setStore] = useState<StoreProps>();
   const [isLoading, setLoading] = useState<boolean>(false);
   const [storeProduct, setStoreProduct] = useState<ProductProps[]>([]);
 
-  const getUserByID = async (userID: string | undefined) => {
+  const getUserBySlug = async (slug: string | undefined) => {
     try {
-      const res = await userAPIs.getUserByUserID(userID);
+      const res = await userAPIs.getUserByUserSlug(slug);
       setProfile(res.data);
     } catch (error) {
       handleError(error);
@@ -30,7 +29,6 @@ const useUserProfileDetail = () => {
     try {
       const res = await storeAPIs.getStoreByUser(userID);
       setStore(res.data);
-      console.log(res.data);
     } catch (error) {
       handleError(error);
     } finally {
@@ -60,19 +58,26 @@ const useUserProfileDetail = () => {
   };
 
   useEffect(() => {
-    getStore(decodedID);
-    getUserByID(decodedID);
+    getUserBySlug(param.slug);
   }, []);
 
   useEffect(() => {
-    getStoreProducts(1, 10, [store?._id]);
+    if (profile) {
+      getStore(profile._id);
+    }
+  }, [profile]);
+
+  useEffect(() => {
+    if (store) {
+      getStoreProducts(1, 10, [store._id]);
+    }
   }, [store]);
 
   return {
     store,
     isLoading,
     storeProduct,
-    profile
+    profile,
   };
 };
 
