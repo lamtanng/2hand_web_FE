@@ -12,6 +12,7 @@ import { ProductRequestBodyProps } from '../../../../types/http/product.type';
 import { productAPIs } from '../../../../apis/product.api';
 import { displaySuccess } from '../../../../utils/displayToast';
 import { handleError } from '../../../../utils/handleError';
+import { DistrictAddressProps, ProvincesAddressProps, WardAddressProps } from '../../../../types/address.type';
 
 const useProductForm = (store: StoreProps | undefined, currentProduct: ProductProps | undefined) => {
   const navigate = useNavigate();
@@ -29,6 +30,10 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
   const [quantity, setQuantity] = useState<number>(1);
   const [isSubmitting, setSubmitting] = useState<boolean>(false);
   const [description, setDescription] = useState<string>('');
+  const [selectedProvince, setSelectedProvince] = useState<ProvincesAddressProps | null>(null);
+  const [selectedDistrict, setSelectedDistrict] = useState<DistrictAddressProps | null>(null);
+  const [selectedWard, setSelectedWard] = useState<WardAddressProps | null>(null);
+  const [isDefault, setDefault] = useState<boolean>(false);
 
   const onFreeChange = (e: CheckboxChangeEvent) => {
     let isSelected = e.target.checked;
@@ -76,6 +81,7 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
   };
 
   const handleSubmitForm = (product: FormProductProps) => {
+    const storeID = store && store._id && store._id
     const newProduct: ProductRequestBodyProps = {
       name: product.name,
       description: description,
@@ -83,9 +89,30 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
       price: product.price,
       quantity: quantity,
       quality: condition,
-      weight: product.weight,
       cateID: selectedCategory?._id,
-      storeID: store?._id,
+      storeID: storeID,
+      weight: product.weight,
+      height: product.height,
+      length: product.length,
+      width: product.width,
+      address: {
+        address: product.detailAddress,
+        district: {
+          DistrictID: selectedDistrict?.DistrictID,
+          ProvinceID: selectedDistrict?.ProvinceID,
+          DistrictName: selectedDistrict?.DistrictName
+        },
+        province: {
+          ProvinceID: selectedProvince?.ProvinceID,
+          ProvinceName: selectedProvince?.ProvinceName
+        },
+        ward: {
+          WardCode: selectedWard?.WardCode,
+          DistrictID: selectedWard?.DistrictID,
+          WardName: selectedWard?.WardName
+        },
+        isDefault: isDefault,
+      },
     };
 
     const updateProduct: ProductRequestBodyProps = {
@@ -100,11 +127,27 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
   };
 
   useEffect(() => {
+    if (store) {
+      reset({
+        detailAddress: store.address[0].address,
+      });
+      setSelectedDistrict(store.address[0].district);
+      setSelectedProvince(store.address[0].province);
+      setSelectedWard(store.address[0].ward);
+      setDefault(store.address[0].isDefault);
+    }
+  }, [store]);
+
+  useEffect(() => {
     if (currentProduct) {
       reset({
         name: currentProduct.name,
         price: currentProduct.price,
         weight: currentProduct.weight,
+        height: currentProduct.height,
+        length: currentProduct.length,
+        width: currentProduct.width,
+        detailAddress: currentProduct.address.address,
       });
       setCondition(currentProduct.quality);
       setQuantity(currentProduct.quantity);
@@ -113,6 +156,10 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
       if (currentProduct.price === 0) {
         setFree(true);
       }
+      setSelectedDistrict(currentProduct.address.district);
+      setSelectedProvince(currentProduct.address.province);
+      setSelectedWard(currentProduct.address.ward);
+      setDefault(currentProduct.address.isDefault);
     }
   }, [currentProduct]);
 
@@ -130,7 +177,16 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
     setQuantity,
     isSubmitting,
     description,
-    setDescription
+    setDescription,
+    selectedDistrict,
+    selectedProvince,
+    selectedWard,
+    isDefault,
+    setSelectedDistrict,
+    setSelectedProvince,
+    setSelectedWard,
+    setDefault,
+    quantity
   };
 };
 

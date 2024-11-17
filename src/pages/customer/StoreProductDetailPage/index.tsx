@@ -8,8 +8,10 @@ import ProductForm from '../../../components/elements/Form/ProductForm';
 const StoreProductsDetail = () => {
   const { profile } = useAccountPage();
   const { category, store, product } = useStoreProductsDetail(profile);
-  console.log(product)
   const navigate = useNavigate()
+  console.log("store: ",store)
+  console.log("product: ",product)
+  console.log("category: ",category)
   return (
     <div id="container" className="px-12 py-5">
       <Button

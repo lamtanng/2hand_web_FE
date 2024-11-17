@@ -15,7 +15,7 @@ const ProductCard = ({ product, isLoading = false }: { product: ProductProps; is
         <p className="truncate text-sm md:text-base">{product.name}</p>
         <p className="text-base font-bold md:text-lg">{product && new Intl.NumberFormat().format(product.price)} VND</p>
         <p className="text-xs text-gray-500 md:text-sm">
-          <EnvironmentFilled /> Location
+          <EnvironmentFilled /> {product.address.province?.ProvinceName}
         </p>
         {!(product.quantity !== 0) && (
           <div className="absolute top-20 z-10 translate-x-1/2 rounded-full bg-black bg-opacity-65 px-5 py-10 font-semibold text-white">
