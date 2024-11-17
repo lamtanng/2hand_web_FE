@@ -48,17 +48,17 @@ const useStoreProductsDetail = (profile: UserProps | undefined) => {
   };
 
   useEffect(() => {
-    getCategory();
-    getSingleProductByID(param.id);
     if (profile) {
+      getCategory();
+      getSingleProductByID(param.id);
       getStoreByUserID(profile._id);
     }
-  }, []);
+  }, [profile]);
 
   return {
     category,
     store,
-    product
+    product,
   };
 };
 
