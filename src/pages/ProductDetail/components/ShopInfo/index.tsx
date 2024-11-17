@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { ProductProps } from '../../../../types/product.type';
 
 const ShopInfo = ({ product, storeProduct }: {product: ProductProps | undefined, storeProduct: ProductProps[]}) => {
-  const encodedID = product && product.storeID.userID._id && btoa(product.storeID.userID._id);
   const dateString =
     product && product.storeID.userID.createdAt && new Date(product.storeID.userID.createdAt).toDateString();
   return (
@@ -26,7 +25,7 @@ const ShopInfo = ({ product, storeProduct }: {product: ProductProps | undefined,
                 <Button variant="filled" color="primary" className="w-1/2">
                   <PhoneOutlined /> {product?.storeID.userID.phoneNumber}
                 </Button>
-                <Link to={`/user/${encodedID}`} className="w-1/2">
+                <Link to={`/user/${product?.storeID.userID.slug}`} className="w-1/2">
                   <Button variant="outlined" color="primary" className="w-full">
                     <ShopOutlined /> Visit shop
                   </Button>

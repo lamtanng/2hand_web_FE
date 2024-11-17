@@ -11,6 +11,7 @@ export interface UserProps {
   phoneNumber?: string;
   dateOfBirth?: Date;
   address?: AddressProps[];
+  slug: string;
   createdAt?: Date;
   updatedAt?: Date;
   isActive?: boolean;

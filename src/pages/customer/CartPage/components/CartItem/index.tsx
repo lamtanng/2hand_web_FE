@@ -5,7 +5,7 @@ import { StoreProps } from '../../../../../types/store.type';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
 import { CartItemProps } from '../../../../../types/cart.type';
 import { Link } from 'react-router-dom';
-import { guestUrls } from '../../../../../constants/urlPaths/guestUrls';
+import useCartItem from './useCartItem';
 
 const CartItem = ({
   group,
@@ -22,7 +22,7 @@ const CartItem = ({
   handleDelete: (productID: string | undefined, oldCheckList: CartItemProps[]) => Promise<void>;
   handleQuantityChange: (product: CartItemProps, value: number, oldCheckList: CartItemProps[]) => Promise<void>;
 }) => {
-  const encodedID = group && group.store.userID._id && btoa(group.store.userID._id);
+  const { profile } = useCartItem(JSON.stringify(group.store.userID));
   const isGroupChecked = group.products.every(
     (value: CartItemProps) =>
       checkedList.filter((item: CartItemProps) => item.productID._id === value.productID._id).length !== 0,
@@ -36,7 +36,7 @@ const CartItem = ({
         <Checkbox value={group.store._id} onChange={groupCheckBoxHandler} checked={isGroupChecked} />
         <Flex align="center" gap={'small'}>
           <ShopOutlined className="text-base" />
-          <Link to={`/${guestUrls.userProfileUrl}/${encodedID}`}>
+          <Link to={`/user/${profile?.slug}`}>
             <Typography.Paragraph className="m-0 text-base">{group.store.name}</Typography.Paragraph>
           </Link>
           <Button variant="text" color="primary" className="p-0 text-base hover:bg-transparent">
@@ -47,7 +47,13 @@ const CartItem = ({
       <Divider />
       {group.products.map((product: CartItemProps) => (
         <div key={product.productID._id} id="detail-container" className="px-8">
-          <CartDetail product={product} singleCheckBoxHandler={singleCheckBoxHandler} checkedList={checkedList} handleDelete={handleDelete} handleQuantityChange={handleQuantityChange} />
+          <CartDetail
+            product={product}
+            singleCheckBoxHandler={singleCheckBoxHandler}
+            checkedList={checkedList}
+            handleDelete={handleDelete}
+            handleQuantityChange={handleQuantityChange}
+          />
         </div>
       ))}
     </div>
