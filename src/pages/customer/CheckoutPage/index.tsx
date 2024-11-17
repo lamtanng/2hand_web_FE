@@ -5,17 +5,19 @@ import PaymentMethod from './components/PaymentMethod';
 import Header from '../../../components/elements/Header';
 import Footer from '../../../components/elements/Footer';
 import { CartProps } from '../../../types/cart.type';
+import useCheckoutPage from './useCheckoutPage';
 
 const CheckoutPage = () => {
   const checkoutList = sessionStorage.getItem('checkout') || '';
   const checkoutItems = JSON.parse(checkoutList);
-  console.log(checkoutItems);
+  const { profile, value, setValue } = useCheckoutPage();
+
   return (
     <>
       <Header />
       <div className="-m-5 min-h-screen bg-slate-50 px-5">
         <div className="mx-5 mb-10 md:mx-10 md:mt-20 md:py-10 md:pb-20 xl:mx-auto xl:w-10/12">
-          <ReceiverAddress />
+          <ReceiverAddress profile={profile} value={value} setValue={setValue} />
           <div id="head" className="mb-6 rounded-md bg-white p-8 shadow-sm">
             <Flex>
               <Flex gap={'large'} className="w-1/2">
@@ -37,7 +39,7 @@ const CheckoutPage = () => {
           <div id="checkout-list">
             {checkoutItems.map((group: CartProps) => (
               <div id="checkout-card" key={group.store._id} className="shadow-sm">
-                <CheckoutItem group={group} />
+                <CheckoutItem address={value} group={group} />
               </div>
             ))}
           </div>
