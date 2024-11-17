@@ -141,7 +141,7 @@ const useCart = () => {
     }, {}),
   );
 
-  const handleDelete = async (productID: string, oldCheckList: CartItemProps[]) => {
+  const handleDelete = async (productID: string | undefined, oldCheckList: CartItemProps[]) => {
     try {
       const newCheckedList = oldCheckList.filter((item: CartItemProps) => item.productID._id !== productID);
       const data: DeleteCartItemProps = { userID: user._id, productID: productID };

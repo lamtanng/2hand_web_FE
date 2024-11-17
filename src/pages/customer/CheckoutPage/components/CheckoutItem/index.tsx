@@ -3,8 +3,9 @@ import { Button, Divider, Flex, Typography } from 'antd';
 import CheckoutDetail from '../CheckoutDetail';
 import ShipmentInfo from '../ShipmentInfo';
 import { CartItemProps, CartProps } from '../../../../../types/cart.type';
+import { AddressProps } from '../../../../../types/address.type';
 
-const CheckoutItem = ({group}: {group: CartProps}) => {
+const CheckoutItem = ({group, address}: {group: CartProps, address: AddressProps | undefined}) => {
   return (
     <>
       <div id="checkout-item" className="w-full rounded-md bg-white">
@@ -24,7 +25,7 @@ const CheckoutItem = ({group}: {group: CartProps}) => {
           </div>
         ))}
       </div>
-      <ShipmentInfo product={group.products}/>
+      <ShipmentInfo product={group.products} store={group.store} address={address} />
     </>
   );
 };

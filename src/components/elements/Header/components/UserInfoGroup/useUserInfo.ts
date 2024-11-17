@@ -6,7 +6,6 @@ import { userAPIs } from '../../../../../apis/user.api';
 import { UserProps } from '../../../../../types/user.type';
 
 const useUserInfo = (user: UserProps) => {
-  console.log("user", user)
   const [cart, setCart] = useState([]);
   const [profile, setProfile] = useState<UserProps>();
   const [itemAmount, setItemAmount] = useState<number>(0);

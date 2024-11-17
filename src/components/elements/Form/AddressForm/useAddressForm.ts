@@ -95,6 +95,18 @@ const useAddressForm = (
     getProvinceData();
   }, []);
 
+  useEffect(() => {
+    if (selectedProvince) {
+      getDistrictData(selectedProvince.ProvinceID);
+    }
+  }, [selectedProvince]);
+
+  useEffect(() => {
+    if (selectedDistrict) {
+      getWardData(selectedDistrict.DistrictID);
+    }
+  }, [selectedDistrict]);
+
   return {
     province,
     district,

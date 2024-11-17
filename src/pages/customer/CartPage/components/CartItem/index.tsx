@@ -19,7 +19,7 @@ const CartItem = ({
   groupCheckBoxHandler: (event: CheckboxChangeEvent) => void;
   checkedList: any[];
   singleCheckBoxHandler: (event: CheckboxChangeEvent) => void;
-  handleDelete: (productID: string, oldCheckList: CartItemProps[]) => Promise<void>;
+  handleDelete: (productID: string | undefined, oldCheckList: CartItemProps[]) => Promise<void>;
   handleQuantityChange: (product: CartItemProps, value: number, oldCheckList: CartItemProps[]) => Promise<void>;
 }) => {
   const encodedID = group && group.store.userID._id && btoa(group.store.userID._id);

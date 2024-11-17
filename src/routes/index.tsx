@@ -9,23 +9,23 @@ import { ProductListRoutes } from '../pages/ProductList/ProductList.routes';
 import { ProductDetailRoutes } from '../pages/ProductDetail/ProductDetail.routes';
 import { UserProfilePageRoutes } from '../pages/StoreProfilePage/UserProfilePage.routes';
 import Account from '../pages/customer/AccountPage';
-import { ProfileRoutes } from '../pages/customer/AccountPage/Profile/Profile.routes';
-import { AddressRoutes } from '../pages/customer/AccountPage/Address/Address.routes';
-import { MyOrdersRoutes } from '../pages/customer/AccountPage/MyOrders/MyOrder.routes';
-import { MyReviewsRoutes } from '../pages/customer/AccountPage/MyReviews/MyReviews.routes';
 import { CartPageRoutes } from '../pages/customer/CartPage/CartPage.routes';
 import { ChekoutPageRoutes } from '../pages/customer/CheckoutPage/CheckoutPage.routes';
-import { OrderDetailRoutes } from '../pages/customer/AccountPage/OrderDetail/OrderDetail.routes';
 import { StoreRegisterPageRoutes } from '../pages/customer/StoreRegisterPage/StoreRegisterPage.routes';
 import { accountUrls } from '../constants/urlPaths/customer/accountUrls';
-import { StoreDashboardRoutes } from '../pages/customer/AccountPage/StoreManagement/Dashboard/Dashboard.routes';
-import { StoreOrderRoutes } from '../pages/customer/AccountPage/StoreManagement/StoreOrder/StoreOrder.routes';
-import { StoreProfileRoutes } from '../pages/customer/AccountPage/StoreManagement/StoreProfile/StoreProfile.routes';
-import { StoreReviewRoutes } from '../pages/customer/AccountPage/StoreManagement/StoreReview/StoreReview.routes';
-import { StoreOrderDetailRoutes } from '../pages/customer/AccountPage/StoreManagement/StoreOrderDetail/StoreOrderDetail.routes';
-import { StoreProductsRoutes } from '../pages/customer/AccountPage/StoreManagement/Products/StoreProducts.routes';
 import { UploadProductPageRoutes } from '../pages/customer/UploadProductPage/UploadProductPage.routes';
-import { StoreProductsDetailRoutes } from '../pages/customer/AccountPage/StoreManagement/ProductDetail/StoreProductDetail.routes';
+import { MyOrdersRoutes } from '../pages/customer/CustomerOrderPage/MyOrder.routes';
+import { MyReviewsRoutes } from '../pages/customer/CustomerReviewPage/MyReviews.routes';
+import { AddressRoutes } from '../pages/customer/CustomerAddressPage/Address.routes';
+import { OrderDetailRoutes } from '../pages/customer/CustomerOrderDetailPage/OrderDetail.routes';
+import { ProfileRoutes } from '../pages/customer/CustomerProfilePage/Profile.routes';
+import { StoreDashboardRoutes } from '../pages/customer/StoreDashboardPage/Dashboard.routes';
+import { StoreOrderRoutes } from '../pages/customer/StoreOrderPage/StoreOrder.routes';
+import { StoreProfileRoutes } from '../pages/customer/StoreProfilePage/StoreProfile.routes';
+import { StoreReviewRoutes } from '../pages/customer/StoreReviewPage/StoreReview.routes';
+import { StoreOrderDetailRoutes } from '../pages/customer/StoreOrderDetailPage/StoreOrderDetail.routes';
+import { StoreProductsRoutes } from '../pages/customer/StoreProductsPage/StoreProducts.routes';
+import { StoreProductsDetailRoutes } from '../pages/customer/StoreProductDetailPage/StoreProductDetail.routes';
 
 const routes = createBrowserRouter([
   {
