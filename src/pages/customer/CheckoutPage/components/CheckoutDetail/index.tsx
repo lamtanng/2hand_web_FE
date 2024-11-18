@@ -7,7 +7,7 @@ const CheckoutDetail = ({product}: {product: CartItemProps}) => {
     <>
       <Flex id="checkout-detail" key={product.productID._id} className="mt-6">
         <Flex gap={'large'} id="product" className="w-1/2">
-          <Image width={'13%'} alt="" src="" fallback={defaultPic} preview={false} />
+          <Image width={'13%'} alt="" src={product.productID.image[0]} fallback={defaultPic} preview={false} />
           <Flex gap={'small'} vertical>
             <Typography.Paragraph className="m-0 text-base">{product.productID.name}</Typography.Paragraph>
             <Typography.Paragraph className="m-0 text-base text-gray-500">{product.productID.quality}</Typography.Paragraph>
