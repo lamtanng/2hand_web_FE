@@ -11,6 +11,7 @@ import { deleteAuth } from '../../../../../redux/slices/login.slice';
 import { handleError } from '../../../../../utils/handleError';
 
 const UserInfoGroup = ({ user }: { user: UserProps }) => {
+  console.log('user', user);
   const { itemAmount, profile } = useUserInfo(user);
   const isSeller =
     profile?.roleID?.filter((role: any) => role === '670d2db6d696affd52e661c3').length !== 0 ? true : false;

@@ -21,7 +21,6 @@ const ProductForm = ({
   store: StoreProps | undefined;
   product?: ProductProps;
 }) => {
-  console.log('store', store)
   const {
     handleSubmitForm,
     handleSubmit,

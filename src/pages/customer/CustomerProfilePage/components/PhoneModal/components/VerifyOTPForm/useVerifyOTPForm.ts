@@ -13,6 +13,7 @@ const useVerifyForm = (
   profile: UserProps | undefined,
   handleResendClick: () => void,
   handleVerifyError: () => void,
+  handleClose: () => void,
 ) => {
   const [isSubmitting, setSubmitting] = useState<boolean>(false);
   const method = useForm<VerifyProps>({
@@ -37,6 +38,7 @@ const useVerifyForm = (
         };
       }
       await userAPIs.verifyPhoneNumber(data);
+      handleClose();
     } catch (error: AxiosError | any) {
       handleError(error);
       if (error.statusCode === 410) {

@@ -41,7 +41,7 @@ const AddressModal = ({
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className={`max-h-screen w-1/3 rounded-xl bg-white p-6 shadow transition-all ${isModalOpen ? 'scale-100 opacity-100' : 'scale-100 opacity-0'} `}
+        className={`max-h-screen w-1/2 rounded-xl bg-white p-6 shadow transition-all ${isModalOpen ? 'scale-100 opacity-100' : 'scale-100 opacity-0'} `}
       >
         <Button variant="text" onClick={handleClose} className="absolute right-2 top-2 border-none text-gray-400">
           <CloseOutlined />
