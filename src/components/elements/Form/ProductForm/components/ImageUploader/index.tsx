@@ -24,7 +24,7 @@ const ImageUploader = ({
     <>
       <ImgCrop rotationSlider>
         <Upload listType="picture-card" fileList={fileList} onPreview={handlePreview} onChange={handleChange}>
-          {fileList.length >= 10 ? null : uploadButton}
+          {uploadButton}
         </Upload>
       </ImgCrop>
 

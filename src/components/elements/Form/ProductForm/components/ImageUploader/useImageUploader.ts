@@ -17,47 +17,73 @@ const useImageUploader = (base64Images: string[], setBase64Images: React.Dispatc
     });
 
   const convertStringsToUploadFiles = (strings: string[]): UploadFile[] => {
-    return strings.map((url, index) => {
-      // Extract filename from URL or path
-      const fileName = url.split('/').pop() || `file-${index}`;
+    return strings.map((base64String, index) => {
+      // Determine file type and generate appropriate name
+      const fileType = base64String.split(';')[0].split('/')[1];
+      const fileName = `image-${index + 1}.${fileType || 'png'}`;
 
       return {
-        uid: `-${index}`, // Negative index ensures unique IDs for default files
+        uid: `-${index}`,
         name: fileName,
         status: 'done',
-        url: url,
-        thumbUrl: url, // Only include if the URL points to an image
+        url: base64String,
+        thumbUrl: base64String,
+        type: `image/${fileType || 'png'}`,
+        // Store the original base64 string for later use
+        base64Url: base64String,
       };
     });
   };
 
   const handlePreview = async (file: UploadFile) => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj as FileType);
+    let previewUrl = file.url || file.preview;
+
+    if (!previewUrl && file.originFileObj) {
+      previewUrl = await getBase64(file.originFileObj as FileType);
+      file.preview = previewUrl;
     }
-    setPreviewImage(file.url || (file.preview as string));
+
+    // Use base64Url if available (for existing base64 images)
+    if (!previewUrl && (file as any).base64Url) {
+      previewUrl = (file as any).base64Url;
+    }
+
+    setPreviewImage(previewUrl || '');
     setPreviewOpen(true);
   };
 
   const handleChange: UploadProps['onChange'] = async ({ fileList: newFileList }) => {
+    // Update the file list immediately for UI responsiveness
     setFileList(newFileList);
 
     try {
-      const base64Promises = newFileList
-        .filter((file) => file.originFileObj)
-        .map((file) => getBase64(file.originFileObj as FileType));
+      // Process new files and existing base64 images
+      const base64Results = await Promise.all(
+        newFileList.map(async (file) => {
+          // If it's a new file, convert to base64
+          if (file.originFileObj) {
+            return getBase64(file.originFileObj as FileType);
+          }
+          // If it's an existing base64 image, return the stored base64Url
+          return (file as any).base64Url || file.url || '';
+        }),
+      );
 
-      const base64Results = await Promise.all(base64Promises);
-      setBase64Images(base64Results);
-      console.log('Base64 Images:', base64Results);
+      // Filter out empty strings and update base64Images
+      const validBase64Images = base64Results.filter(Boolean);
+      setBase64Images(validBase64Images);
+      console.log('Updated Base64 Images:', validBase64Images);
     } catch (error) {
-      console.error('Error converting to base64:', error);
+      console.error('Error processing images:', error);
     }
   };
 
   useEffect(() => {
     if (base64Images.length !== 0) {
-      setFileList(convertStringsToUploadFiles(base64Images));
+      const uploadFiles = convertStringsToUploadFiles(base64Images);
+      setFileList(uploadFiles);
+    } else {
+      setFileList([]);
     }
   }, [base64Images]);
 
