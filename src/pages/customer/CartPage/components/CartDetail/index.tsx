@@ -46,7 +46,7 @@ const CartDetail = ({
           />
           <Link to={`/${product.productID.slug}`} className="no-underline">
             <Flex gap={'large'}>
-              <Image width={'20%'} alt="" src="" fallback={defaultPic} preview={false} />
+              <Image width={'15%'} alt="" src={product.productID.image[0]} fallback={defaultPic} preview={false} />
               <Flex gap={'small'} vertical>
                 <Typography.Paragraph className="m-0 text-base">{product.productID.name}</Typography.Paragraph>
                 <Typography.Paragraph className="m-0 text-base text-gray-500">

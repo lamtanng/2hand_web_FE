@@ -23,10 +23,10 @@ const StoreProducts = () => {
       title: 'Product Picture',
       dataIndex: 'picture',
       key: 'picture',
-      width: '15%',
-      render: () => (
+      width: '10%',
+      render: (_, record) => (
         <div className="image-container">
-          <Image width="100px" src="" fallback={defaultPic} preview={false} />
+          <Image width="100px" src={record.image[0]} fallback={defaultPic} preview={false} />
         </div>
       ),
     },
@@ -34,6 +34,7 @@ const StoreProducts = () => {
       title: 'Product Name',
       dataIndex: 'name',
       key: 'name',
+      width: '10%',
       render: (text, record) => <Link to={`/${record.slug}`} >{text}</Link>,
       responsive: ['xs', 'md'],
     },
@@ -41,6 +42,7 @@ const StoreProducts = () => {
       title: 'Product Price',
       key: 'price',
       dataIndex: 'price',
+      width: '10%',
       render: (text: number) => <>{Intl.NumberFormat().format(text)} VND</>,
       responsive: ['xs', 'md'],
     },
@@ -48,18 +50,20 @@ const StoreProducts = () => {
       title: 'In Stock',
       key: 'quantity',
       dataIndex: 'quantity',
+      width: '10%',
       responsive: ['xs', 'md'],
     },
     {
       title: 'Quality',
       key: 'quality',
       dataIndex: 'quality',
+      width: '10%',
       responsive: ['xs', 'md'],
     },
     {
       title: 'Action',
       key: 'action',
-      width: '15%',
+      width: '10%',
       render: (_, record) => (
         <Space size="middle">
           <Link to={record._id}>

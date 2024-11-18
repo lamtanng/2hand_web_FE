@@ -34,6 +34,7 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
   const [selectedDistrict, setSelectedDistrict] = useState<DistrictAddressProps | null>(null);
   const [selectedWard, setSelectedWard] = useState<WardAddressProps | null>(null);
   const [isDefault, setDefault] = useState<boolean>(false);
+  const [base64Images, setBase64Images] = useState<string[]>([]);
 
   const onFreeChange = (e: CheckboxChangeEvent) => {
     let isSelected = e.target.checked;
@@ -71,6 +72,7 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
     try {
       setSubmitting(true);
       await productAPIs.updateProduct(data);
+      console.log(data);
       displaySuccess('Product is updated successfully');
       navigate(-1);
     } catch (error) {
@@ -85,7 +87,7 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
     const newProduct: ProductRequestBodyProps = {
       name: product.name,
       description: description,
-      image: [],
+      image: base64Images,
       price: product.price,
       quantity: quantity,
       quality: condition,
@@ -160,6 +162,7 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
       setSelectedProvince(currentProduct.address.province);
       setSelectedWard(currentProduct.address.ward);
       setDefault(currentProduct.address.isDefault);
+      setBase64Images(currentProduct.image);
     }
   }, [currentProduct]);
 
@@ -186,7 +189,9 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
     setSelectedProvince,
     setSelectedWard,
     setDefault,
-    quantity
+    quantity,
+    setBase64Images,
+    base64Images
   };
 };
 

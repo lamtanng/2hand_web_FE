@@ -44,7 +44,9 @@ const ProductForm = ({
     setSelectedProvince,
     setSelectedWard,
     setDefault,
-    quantity
+    quantity,
+    base64Images,
+    setBase64Images
   } = useProductForm(store, product);
 
   return (
@@ -54,7 +56,7 @@ const ProductForm = ({
           Product Images
         </Typography.Title>
         <Form.Item>
-          <ImageUploader />
+          <ImageUploader base64Images={base64Images} setBase64Images={setBase64Images} />
         </Form.Item>
         <Typography.Title level={3} className="m-0 mb-4">
           Product Information

@@ -4,6 +4,7 @@ import defaultPic from '../../../../assets/blob.jpg';
 import ImageSlider from '../ImageSlider';
 import { Link } from 'react-router-dom';
 import { ProductProps } from '../../../../types/product.type';
+import { useState } from 'react';
 
 const ProductInfo = ({
   product,
@@ -18,20 +19,21 @@ const ProductInfo = ({
   isDirty: boolean;
   handleBuyNow: () => void;
 }) => {
+  const [selectedImage, setSelectedImage] = useState<string>()
   return (
     <div id="product" className="my-5 rounded-xl bg-white p-8 shadow-sm">
       <Flex className="gap-16">
         <div className="w-5/12">
           <Flex vertical gap={'large'}>
             <div className="relative">
-              <Image width={'100%'} src={product?.image[0]} fallback={defaultPic} />
+              <Image width={'100%'} src={selectedImage ? selectedImage : product?.image[0]} fallback={defaultPic} />
               {product?.quantity === 0 && (
                 <div className="absolute left-[198px] top-[198px] z-10 rounded-full bg-black bg-opacity-65 px-7 py-16 font-sans text-2xl font-semibold text-white">
                   Sold Out
                 </div>
               )}
             </div>
-            <ImageSlider />
+            <ImageSlider product={product} setSelectedImage={setSelectedImage} />
             <Flex justify="space-between" align="baseline" className="font-sans text-xs text-gray-500">
               <div>
                 You have similar products? <Link to={'#'}>Sell now</Link>

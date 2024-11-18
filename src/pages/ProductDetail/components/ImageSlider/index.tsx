@@ -2,6 +2,7 @@ import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { Image } from 'antd';
 import defaultPic from '../../../../assets/blob.jpg';
+import { ProductProps } from '../../../../types/product.type';
 
 const responsive = {
   desktop: {
@@ -18,16 +19,32 @@ const responsive = {
   },
 };
 
-const ImageSlider = () => {
+const ImageSlider = ({
+  product,
+  setSelectedImage,
+}: {
+  product: ProductProps | undefined;
+  setSelectedImage: React.Dispatch<React.SetStateAction<string | undefined>>;
+}) => {
   return (
-    <Carousel responsive={responsive} className='z-0'>
-      <Image width={'100%'} src="error" fallback={defaultPic} preview={false} className="pr-3" />
-      <Image width={'100%'} src="error" fallback={defaultPic} preview={false} className="pr-3" />
-      <Image width={'100%'} src="error" fallback={defaultPic} preview={false} className="pr-3" />
-      <Image width={'100%'} src="error" fallback={defaultPic} preview={false} className="pr-3" />
-      <Image width={'100%'} src="error" fallback={defaultPic} preview={false} className="pr-3" />
-      <Image width={'100%'} src="error" fallback={defaultPic} preview={false} className="pr-3" />
-    </Carousel>
+    <>
+      {product && product.image.length !== 0 && (
+        <Carousel responsive={responsive} className="z-0">
+          {product.image.map((image: string) => (
+            <Image
+              width={'100%'}
+              src={image}
+              fallback={defaultPic}
+              preview={false}
+              className="pr-3"
+              onClick={() => {
+                setSelectedImage(image);
+              }}
+            />
+          ))}
+        </Carousel>
+      )}
+    </>
   );
 };
 

@@ -1,6 +1,6 @@
 import { Button, Dropdown, Flex, MenuProps, Typography } from 'antd';
-import { CategoryProps } from '../../../../../../../types/category.type';
 import { DownOutlined } from '@ant-design/icons';
+import { CategoryProps } from '../../../../../../types/category.type';
 
 const CategoryDropdown = ({
   category,
