@@ -69,6 +69,7 @@ const PhoneModal = ({
             isCounting={isCounting}
             phoneNumber={phoneNumber}
             profile={profile}
+            handleClose={handleClose}
           />
         </div>
       </div>

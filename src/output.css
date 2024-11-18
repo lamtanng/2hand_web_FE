@@ -288,6 +288,11 @@
   margin-bottom: 1.5rem;
 }
 
+#root .my-4{
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
 #root .-mt-4{
   margin-top: -1rem;
 }
@@ -419,6 +424,10 @@
 
 #root .max-h-screen{
   max-height: 100vh;
+}
+
+#root .max-h-\[400px\]{
+  max-height: 400px;
 }
 
 #root .min-h-screen{

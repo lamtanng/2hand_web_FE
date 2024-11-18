@@ -15,6 +15,7 @@ const VerifyOTPForm = ({
   setCounting,
   phoneNumber,
   profile,
+  handleClose,
 }: {
   hiddenVerify: boolean;
   handleBackOnClick: () => void;
@@ -22,6 +23,7 @@ const VerifyOTPForm = ({
   setCounting: React.Dispatch<React.SetStateAction<boolean>>;
   phoneNumber: string | undefined;
   profile: UserProps | undefined;
+  handleClose: () => void;
 }) => {
   const [isDirty, setIsDirty] = useState<boolean>(false);
   const [isDisable, setDisable] = useState<boolean>(true);
@@ -50,7 +52,8 @@ const VerifyOTPForm = ({
     phoneNumber,
     profile,
     handleResendClick,
-    handleVerifyError
+    handleVerifyError,
+    handleClose
   );
 
   return (
@@ -66,7 +69,7 @@ const VerifyOTPForm = ({
         {' '}
         <ArrowLeftOutlined /> Back
       </Button>
-      <p className="my-6 text-center font-sans text-4xl font-extrabold">Verify OTP</p>
+      <p className="my-4 text-center font-sans text-4xl font-extrabold">Verify OTP</p>
       <p className="text-center font-sans text-base text-gray-600">
         We have sent an OTP for your phone number's verification process.
       </p>

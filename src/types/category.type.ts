@@ -4,7 +4,7 @@ export interface CategoryProps {
   isActive: boolean;
   image: string;
   slug: string;
-  parentID?: string;
+  parentID?: CategoryProps;
   childrenIDs?: string[];
   createdAt?: Date;
   updatedAt?: Date;

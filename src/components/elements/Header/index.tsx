@@ -13,7 +13,7 @@ export default function Header() {
 
   return (
     <>
-      <div className="nav-bar fixed z-20 mx-auto w-full bg-white py-3 shadow-sm">
+      <div className="nav-bar fixed z-20 mx-auto w-full bg-white py-5 shadow-sm">
         <Flex align="center" justify="space-between" className="mx-5 md:mx-10 xl:mx-auto xl:w-10/12">
           <Flex gap={'large'} justify="start" align="center" className="flex xl:flex-grow">
             <Flex gap="large" className="font-sans">
