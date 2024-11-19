@@ -14,7 +14,7 @@ const ShopInfo = ({ product, storeProduct }: {product: ProductProps | undefined,
       <Flex gap={'large'} align="center">
         <div className="inline w-2/5">
           <Flex gap={'middle'} align="center">
-            <Avatar size={75} icon={<UserOutlined />} />
+            <Avatar size={75} src={product?.storeID.userID.avatar} icon={<UserOutlined />} />
             <Flex gap={'middle'} vertical className="flex-grow">
               <Typography.Title level={5} className="m-0">
                 {product?.storeID.userID.firstName && product?.storeID.userID.lastName

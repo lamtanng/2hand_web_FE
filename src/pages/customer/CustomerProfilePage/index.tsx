@@ -10,7 +10,9 @@ import { customerUrls } from '../../../constants/urlPaths/customer/customerUrls'
 
 const Profile = () => {
   const { profile } = useAccountPage();
+  const [imageUrl, setImageUrl] = useState<string>();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  
   const isSeller =
     profile?.roleID?.filter((role: any) => role === '670d2db6d696affd52e661c3').length !== 0 ? true : false;
   return (
@@ -32,12 +34,12 @@ const Profile = () => {
       <div id="profile">
         <Flex gap={50} justify="space-between" align="center" className="px-10">
           <div className="w-2/3">
-            <ProfileForm profile={profile} setIsModalOpen={setIsModalOpen} />
+            <ProfileForm profile={profile} setIsModalOpen={setIsModalOpen} imgUrl={imageUrl} setImgUrl={setImageUrl} />
             <PhoneModal profile={profile} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
           </div>
           <Divider type="vertical" className="h-96" />
           <div className="w-1/3">
-            <UploadAvatar />
+            <UploadAvatar setImageUrl={setImageUrl} imageUrl={imageUrl} />
           </div>
         </Flex>
       </div>

@@ -11,7 +11,11 @@ import { displaySuccess } from '../../../../../utils/displayToast';
 import eventEmitter from '../../../../../utils/eventEmitter';
 import { handleError } from '../../../../../utils/handleError';
 
-const useProfileForm = (profile: UserProps | undefined) => {
+const useProfileForm = (
+  profile: UserProps | undefined,
+  imgUrl: string | undefined,
+  setImgUrl: React.Dispatch<React.SetStateAction<string | undefined>>,
+) => {
   const { user } = useAppSelector(loginSelector);
   const [dob, setDob] = useState<Date | undefined>();
   const [isSubmitting, setSubmitting] = useState<boolean>(false);
@@ -37,6 +41,7 @@ const useProfileForm = (profile: UserProps | undefined) => {
         firstName: account.firstName,
         lastName: account.lastName,
         dateOfBirth: dob,
+        avatar: imgUrl,
       };
       await userAPIs.updateUser(data);
       displaySuccess('Updated user profile successfully.');
@@ -51,7 +56,8 @@ const useProfileForm = (profile: UserProps | undefined) => {
   useEffect(() => {
     if (profile) {
       reset(profile);
-      setDob(profile.dateOfBirth)
+      setDob(profile.dateOfBirth);
+      setImgUrl(profile.avatar)
     }
   }, [profile]);
 

@@ -1,35 +1,44 @@
 import { UploadOutlined, UserOutlined } from '@ant-design/icons';
-import { Avatar, Button, Flex, message, Typography, Upload, UploadProps } from 'antd';
+import { Avatar, Button, Flex, Typography, Upload, UploadProps } from 'antd';
 import ImgCrop from 'antd-img-crop';
+import useUploadAvatar from './useUploadAvatar';
 
-const UploadAvatar = () => {
+const UploadAvatar = ({
+  imageUrl,
+  setImageUrl,
+}: {
+  imageUrl: string | undefined;
+  setImageUrl: React.Dispatch<React.SetStateAction<string | undefined>>;
+}) => {
+  const { fileList, handleChange, setFileList } = useUploadAvatar(setImageUrl);
+
   const props: UploadProps = {
     name: 'file',
-    action: 'https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload',
-    headers: {
-      authorization: 'authorization-text',
+    fileList: fileList,
+    onChange: handleChange,
+    onRemove: () => {
+      setImageUrl(undefined);
+      setFileList([]);
     },
-    onChange(info) {
-      if (info.file.status !== 'uploading') {
-        console.log('uploading');
-      }
-      if (info.file.status === 'done') {
-        message.success(`file uploaded successfully`);
-      } else if (info.file.status === 'error') {
-        message.error(`file upload failed.`);
-      }
-    },
+    maxCount: 1,
+    showUploadList: false,
   };
+
   return (
     <>
       <Flex justify="center" align="center" vertical gap={'large'}>
-        <Avatar size={150} icon={<UserOutlined />} />
-        <ImgCrop>
+        <Avatar
+          size={150}
+          icon={<UserOutlined />}
+          src={imageUrl}
+          style={{ backgroundColor: imageUrl ? 'transparent' : '#f5f5f5' }}
+        />
+        <ImgCrop rotationSlider aspectSlider>
           <Upload {...props}>
             <Button icon={<UploadOutlined />}>Click to Upload</Button>
           </Upload>
         </ImgCrop>
-        <Typography.Paragraph>Choose an image to upload.</Typography.Paragraph>
+        <Typography.Paragraph>Choose an image to upload avatar.</Typography.Paragraph>
       </Flex>
     </>
   );

@@ -93,7 +93,7 @@ const MenuBar = () => {
   return (
     <>
       <Flex align="center" gap={'middle'} className="mb-3 px-3">
-        <Avatar icon={<UserOutlined />} size={75} className="shrink-0" />
+        <Avatar src={profile?.avatar} icon={<UserOutlined />} size={75} className="shrink-0" />
         <Typography.Title level={4}>{`${profile?.firstName} ${profile?.lastName}`}</Typography.Title>
       </Flex>
       <Menu

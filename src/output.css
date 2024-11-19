@@ -324,6 +324,10 @@
   margin-bottom: 2rem;
 }
 
+#root .ml-2{
+  margin-left: 0.5rem;
+}
+
 #root .ml-6{
   margin-left: 1.5rem;
 }
@@ -354,10 +358,6 @@
 
 #root .mt-6{
   margin-top: 1.5rem;
-}
-
-#root .ml-2{
-  margin-left: 0.5rem;
 }
 
 #root .inline{
@@ -510,20 +510,8 @@
   width: 100%;
 }
 
-#root .min-w-80{
-  min-width: 20rem;
-}
-
-#root .min-w-full{
-  min-width: 100%;
-}
-
 #root .min-w-60{
   min-width: 15rem;
-}
-
-#root .min-w-40{
-  min-width: 10rem;
 }
 
 #root .flex-shrink-0{
@@ -705,6 +693,10 @@
 #root .bg-slate-50{
   --tw-bg-opacity: 1;
   background-color: rgb(248 250 252 / var(--tw-bg-opacity));
+}
+
+#root .bg-transparent{
+  background-color: transparent;
 }
 
 #root .bg-white{

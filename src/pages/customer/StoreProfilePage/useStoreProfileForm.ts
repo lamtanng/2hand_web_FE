@@ -6,6 +6,7 @@ import { UserProps } from '../../../types/user.type';
 import { DistrictAddressProps, ProvincesAddressProps, WardAddressProps } from '../../../types/address.type';
 import { storeAPIs } from '../../../apis/store.api';
 import { handleError } from '../../../utils/handleError';
+import { StoreProps } from '../../../types/store.type';
 
 const useStoreProfileForm = (profile: UserProps | undefined) => {
   const method = useForm<StoreProfileProps>({
@@ -22,23 +23,33 @@ const useStoreProfileForm = (profile: UserProps | undefined) => {
   const [selectedWard, setSelectedWard] = useState<WardAddressProps | null>(null);
   const [isDefault, setDefault] = useState<boolean>(false);
   const [isSubmitting, setSubmitting] = useState<boolean>(false);
+  const [store, setStore] = useState<StoreProps>();
+  const [value, setValue] = useState<string>();
+
 
   const getStoreByUserID = async (userID: string | undefined) => {
     try {
       const res = await storeAPIs.getStoreByUser(userID);
-      setSelectedProvince(res.data.address[0].province);
-      setSelectedDistrict(res.data.address[0].district);
-      setSelectedWard(res.data.address[0].ward);
-      setDefault(res.data.address[0].isDefault);
-      reset({
-        detailAddress: res.data.address[0].address,
-        storeName: res.data.name,
-      });
+      setStore(res.data);
     } catch (error) {
       handleError(error);
     } finally {
     }
   };
+
+  useEffect(() => {
+    if (store) {
+      setSelectedProvince(store.address[0].province);
+      setSelectedDistrict(store.address[0].district);
+      setSelectedWard(store.address[0].ward);
+      setDefault(store.address[0].isDefault);
+      reset({
+        detailAddress: store.address[0].address,
+        storeName: store.name,
+      });
+      setValue(store.description);
+    }
+  }, [store]);
 
   useEffect(() => {
     if (profile) {
@@ -59,7 +70,10 @@ const useStoreProfileForm = (profile: UserProps | undefined) => {
     setSelectedWard,
     isDefault,
     isSubmitting,
-    setSubmitting
+    setSubmitting,
+    store,
+    value,
+    setValue
   };
 };
 

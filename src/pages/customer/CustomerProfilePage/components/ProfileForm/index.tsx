@@ -9,11 +9,15 @@ import SubmitButton from '../../../../../components/elements/Buttons/SubmitButto
 const ProfileForm = ({
   profile,
   setIsModalOpen,
+  imgUrl,
+  setImgUrl,
 }: {
   profile: UserProps | undefined;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  imgUrl: string | undefined;
+  setImgUrl: React.Dispatch<React.SetStateAction<string | undefined>>;
 }) => {
-  const { handleSubmit, method, handleUpdateUser, onDateChange, dob, isSubmitting } = useProfileForm(profile);
+  const { handleSubmit, method, handleUpdateUser, onDateChange, dob, isSubmitting } = useProfileForm(profile, imgUrl, setImgUrl);
 
   return (
     <FormProvider {...method}>
