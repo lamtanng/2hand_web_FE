@@ -9,7 +9,7 @@ const UserInfo = () => {
   return (
     <div className="mb-6 rounded-xl bg-white px-24 py-8 shadow-sm">
       <Flex gap={100} align="center">
-        <Avatar size={150} icon={<UserOutlined />} />
+        <Avatar size={150} src={profile?.avatar} icon={<UserOutlined />} />
         <Flex vertical gap={'large'}>
           <Typography.Title level={3} className="m-0">
             {profile?.firstName && profile?.lastName

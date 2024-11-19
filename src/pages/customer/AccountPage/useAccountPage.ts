@@ -9,6 +9,7 @@ import { UserProps } from '../../../types/user.type';
 const useAccountPage = () => {
   const { user } = useAppSelector(loginSelector);
   const [profile, setProfile] = useState<UserProps>();
+  const [base64Images, setBase64Images] = useState<string[]>([]);
 
   const getUserByID = async (userID: string | undefined) => {
     try {
@@ -46,6 +47,8 @@ const useAccountPage = () => {
   return {
     profile,
     user,
+    base64Images,
+    setBase64Images,
   };
 };
 

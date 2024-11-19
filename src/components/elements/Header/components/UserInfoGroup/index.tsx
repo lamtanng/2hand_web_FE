@@ -59,7 +59,7 @@ const UserInfoGroup = ({ user }: { user: UserProps }) => {
       <Dropdown menu={{ items }}>
         <Link to={`/user/${profile?.slug}`}>
           <Flex gap={'small'} align="center">
-            <Avatar size="large" icon={<UserOutlined />} />
+            <Avatar size="large" src={profile?.avatar} icon={<UserOutlined />} />
             <p className="m-0 hidden font-sans xl:inline">
               {profile?.firstName && profile?.lastName ? `${profile?.firstName} ${profile?.lastName}` : profile?.email}
             </p>

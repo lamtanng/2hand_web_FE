@@ -22,7 +22,7 @@ const ImageUploader = ({
 
   return (
     <>
-      <ImgCrop rotationSlider>
+      <ImgCrop rotationSlider showReset>
         <Upload listType="picture-card" fileList={fileList} onPreview={handlePreview} onChange={handleChange}>
           {uploadButton}
         </Upload>
