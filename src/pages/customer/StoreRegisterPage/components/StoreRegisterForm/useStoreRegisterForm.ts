@@ -22,7 +22,6 @@ import { Modal } from 'antd';
 
 const useStoreForm = () => {
   const { user } = useAppSelector(loginSelector);
-  const encodedID = user && user._id && btoa(user._id);
   const navigate = useNavigate();
   const method = useForm<FormStoreProps>({
     resolver: yupResolver(storeSchema),
@@ -98,7 +97,7 @@ const useStoreForm = () => {
       console.log(data);
       await storeAPIs.addStore(data);
       displaySuccess('Registered successfully.');
-      navigate(`/user/${encodedID}`);
+      navigate(`/user/${profile?.slug}`);
     } catch (error) {
       handleError(error);
     }

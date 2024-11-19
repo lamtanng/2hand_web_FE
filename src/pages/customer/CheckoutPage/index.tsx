@@ -9,8 +9,11 @@ import useCheckoutPage from './useCheckoutPage';
 
 const CheckoutPage = () => {
   const checkoutList = sessionStorage.getItem('checkout') || '';
-  const checkoutItems = JSON.parse(checkoutList);
-  const { profile, value, setValue } = useCheckoutPage();
+  const checkoutItems: CartProps[] = JSON.parse(checkoutList);
+  let totalShip: number = 0
+  const { profile, value, setValue, handlePlaceOrder } = useCheckoutPage(totalShip, checkoutItems);
+
+  console.log('total ship:', totalShip)
 
   return (
     <>
@@ -43,7 +46,7 @@ const CheckoutPage = () => {
               </div>
             ))}
           </div>
-          <PaymentMethod checkoutList={checkoutItems} />
+          <PaymentMethod checkoutList={checkoutItems} handlePlaceOrder={handlePlaceOrder} />
         </div>
       </div>
       <Footer />
