@@ -278,19 +278,14 @@
   margin-bottom: 0.75rem;
 }
 
-#root .my-5{
-  margin-top: 1.25rem;
-  margin-bottom: 1.25rem;
-}
-
-#root .my-6{
-  margin-top: 1.5rem;
-  margin-bottom: 1.5rem;
-}
-
 #root .my-4{
   margin-top: 1rem;
   margin-bottom: 1rem;
+}
+
+#root .my-5{
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
 }
 
 #root .-mt-4{
@@ -361,6 +356,10 @@
   margin-top: 1.5rem;
 }
 
+#root .ml-2{
+  margin-left: 0.5rem;
+}
+
 #root .inline{
   display: inline;
 }
@@ -424,10 +423,6 @@
 
 #root .max-h-screen{
   max-height: 100vh;
-}
-
-#root .max-h-\[400px\]{
-  max-height: 400px;
 }
 
 #root .min-h-screen{
@@ -513,6 +508,22 @@
 
 #root .w-full{
   width: 100%;
+}
+
+#root .min-w-80{
+  min-width: 20rem;
+}
+
+#root .min-w-full{
+  min-width: 100%;
+}
+
+#root .min-w-60{
+  min-width: 15rem;
+}
+
+#root .min-w-40{
+  min-width: 10rem;
 }
 
 #root .flex-shrink-0{

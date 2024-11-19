@@ -3,33 +3,24 @@ import { CartItemProps } from '../../../../../types/cart.type';
 import { StoreProps } from '../../../../../types/store.type';
 import { AddressProps } from '../../../../../types/address.type';
 import useShipment from './useShipment';
-import { useState } from 'react';
 import ShipModal from './components/ShipModal';
 
 const ShipmentInfo = ({
   product,
   store,
   address,
+  selectedShipment,
+  setSelectedShipment,
 }: {
   product: CartItemProps[];
   store: StoreProps;
   address: AddressProps | undefined;
+  setSelectedShipment: React.Dispatch<React.SetStateAction<any>>;
+  selectedShipment: any;
 }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { service, isModalOpen, setIsModalOpen, showModal, totalPrice } =
+    useShipment(store, address, product);
 
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const { shippingFee } = useShipment(store, address, product);
-
-  console.log('shipment:', shippingFee);
-
-  const totalPrice = product
-    .map((item: CartItemProps) => {
-      return item.productID.price * item.quantity;
-    })
-    .reduce((accumulator: number, currentValue: number) => accumulator + currentValue, 0);
   return (
     <>
       <div id="shipment-info" className="mb-6 w-full rounded-md bg-blue-50">
@@ -42,7 +33,9 @@ const ShipmentInfo = ({
             <Flex className="w-3/5" gap={'middle'} align="center">
               <Typography.Paragraph className="m-0 w-1/5 text-base">Shipment method:</Typography.Paragraph>
               <Flex gap={'middle'} justify="space-between" align="center" className="w-4/5">
-                <Typography.Paragraph className="m-0 text-base">Fast</Typography.Paragraph>
+                <Typography.Paragraph className="m-0 text-base">
+                  {selectedShipment?.service_type_id === 2 ? 'Light weight' : 'Heavy weight'}
+                </Typography.Paragraph>
                 <Button
                   variant="text"
                   color="primary"
@@ -52,7 +45,7 @@ const ShipmentInfo = ({
                   Change
                 </Button>
                 <Typography.Paragraph className="m-0 text-base">
-                  {new Intl.NumberFormat().format(15000)} VND
+                  {new Intl.NumberFormat().format(selectedShipment?.total)} VND
                 </Typography.Paragraph>
               </Flex>
             </Flex>
@@ -64,11 +57,20 @@ const ShipmentInfo = ({
             Total Price ({product.length} {product.length > 1 ? 'products' : 'product'}):
           </Typography.Paragraph>
           <Typography.Title level={4} className="m-0 font-normal text-blue-600">
-            {new Intl.NumberFormat().format(totalPrice + 15000)} VND
+            {new Intl.NumberFormat().format(totalPrice + selectedShipment?.total)} VND
           </Typography.Title>
         </Flex>
       </div>
-      <ShipModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} shippingFee={shippingFee} />
+      <ShipModal
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        service={service}
+        address={address}
+        product={product}
+        store={store}
+        selectedShipment={selectedShipment}
+        setSelectedShipment={setSelectedShipment}
+      />
     </>
   );
 };

@@ -4,8 +4,25 @@ import CheckoutDetail from '../CheckoutDetail';
 import ShipmentInfo from '../ShipmentInfo';
 import { CartItemProps, CartProps } from '../../../../../types/cart.type';
 import { AddressProps } from '../../../../../types/address.type';
+import { useEffect, useState } from 'react';
+import eventEmitter from '../../../../../utils/eventEmitter';
 
-const CheckoutItem = ({group, address}: {group: CartProps, address: AddressProps | undefined}) => {
+const CheckoutItem = ({
+  group,
+  address,
+}: {
+  group: CartProps;
+  address: AddressProps | undefined;
+}) => {
+  const [selectedShipment, setSelectedShipment] = useState<any>();
+
+  useEffect(() => {
+    if (selectedShipment) {
+      console.log('selected shipment: ', selectedShipment);
+      eventEmitter.emit('selectShipment', selectedShipment);
+    }
+  }, [selectedShipment]);
+
   return (
     <>
       <div id="checkout-item" className="w-full rounded-md bg-white">
@@ -21,11 +38,17 @@ const CheckoutItem = ({group, address}: {group: CartProps, address: AddressProps
         <Divider className="mb-0" />
         {group.products.map((product: CartItemProps) => (
           <div className="px-8" key={product.productID._id}>
-            <CheckoutDetail product={product}/>
+            <CheckoutDetail product={product} />
           </div>
         ))}
       </div>
-      <ShipmentInfo product={group.products} store={group.store} address={address} />
+      <ShipmentInfo
+        product={group.products}
+        store={group.store}
+        address={address}
+        setSelectedShipment={setSelectedShipment}
+        selectedShipment={selectedShipment}
+      />
     </>
   );
 };
