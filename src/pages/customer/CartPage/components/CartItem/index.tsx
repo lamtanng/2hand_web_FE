@@ -47,13 +47,15 @@ const CartItem = ({
       <Divider />
       {group.products.map((product: CartItemProps) => (
         <div key={product.productID._id} id="detail-container" className="px-8">
-          <CartDetail
-            product={product}
-            singleCheckBoxHandler={singleCheckBoxHandler}
-            checkedList={checkedList}
-            handleDelete={handleDelete}
-            handleQuantityChange={handleQuantityChange}
-          />
+          {product.productID.quantity > 0 && (
+            <CartDetail
+              product={product}
+              singleCheckBoxHandler={singleCheckBoxHandler}
+              checkedList={checkedList}
+              handleDelete={handleDelete}
+              handleQuantityChange={handleQuantityChange}
+            />
+          )}
         </div>
       ))}
     </div>

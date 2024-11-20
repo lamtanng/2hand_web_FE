@@ -5,8 +5,8 @@ import useCart from './useCartPage';
 import Header from '../../../components/elements/Header';
 import ProductList from '../../../components/elements/Lists/ProductList';
 import Footer from '../../../components/elements/Footer';
-import { StoreProps } from '../../../types/store.type';
-import { CartItemProps } from '../../../types/cart.type';
+import { CartItemProps, CartProps } from '../../../types/cart.type';
+import SoldoutProduct from './components/SoldoutProducts';
 
 const CartPage = () => {
   const {
@@ -21,10 +21,12 @@ const CartPage = () => {
     totalPrice,
     handleDelete,
     handleQuantityChange,
+    soldoutProducts,
   } = useCart();
 
-  console.log('cart: ', cart);
-  console.log('checklist', checkedList);
+  const actualCart = cart.filter(
+    (item: CartProps) => item.products.filter((product: CartItemProps) => product.productID.quantity > 0).length !== 0,
+  );
 
   return (
     <>
@@ -54,17 +56,22 @@ const CartPage = () => {
             </Flex>
           </div>
           <div id="cart-list">
-            {cart.map((group: { store: StoreProps; products: CartItemProps[] }) => (
-              <CartItem
-                group={group}
-                groupCheckBoxHandler={groupCheckBoxHandler}
-                checkedList={checkedList}
-                singleCheckBoxHandler={singleCheckBoxHandler}
-                handleDelete={handleDelete}
-                handleQuantityChange={handleQuantityChange}
-              />
-            ))}
+            {actualCart.map((group: CartProps) => (
+                <CartItem
+                  group={group}
+                  groupCheckBoxHandler={groupCheckBoxHandler}
+                  checkedList={checkedList}
+                  singleCheckBoxHandler={singleCheckBoxHandler}
+                  handleDelete={handleDelete}
+                  handleQuantityChange={handleQuantityChange}
+                />
+              ))}
           </div>
+          {soldoutProducts.length !== 0 && (
+            <div id="soldout-products">
+              <SoldoutProduct soldoutProducts={soldoutProducts} handleDelete={handleDelete} checkedList={checkedList} />
+            </div>
+          )}
           <Summary
             checkedList={checkedList}
             allCheckBoxHandler={allCheckBoxHandler}

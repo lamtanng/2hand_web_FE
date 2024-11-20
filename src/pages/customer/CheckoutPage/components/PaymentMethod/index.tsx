@@ -1,22 +1,16 @@
 import { Button, Divider, Flex, Typography } from 'antd';
-import { CartItemProps, CartProps } from '../../../../../types/cart.type';
 
 const PaymentMethod = ({
-  checkoutList,
-  handlePlaceOrder
+  handlePlaceOrder,
+  total,
+  totalShip,
+  isLoading,
 }: {
-  checkoutList: CartProps[];
   handlePlaceOrder: () => void;
+  total: number;
+  totalShip: number;
+  isLoading: boolean;
 }) => {
-  const total = checkoutList
-    .map((cart: CartProps) => {
-      return cart.products.map((item: CartItemProps) => {
-        return item.quantity * item.productID.price;
-      });
-    })
-    .flat()
-    .reduce((accumulator: number, currentValue: number) => accumulator + currentValue, 0);
-
   return (
     <div id="payment-method" className="mb-5 rounded-md bg-white shadow-sm">
       <Flex className="p-8" justify="space-between">
@@ -30,7 +24,7 @@ const PaymentMethod = ({
           </Button>
         </Flex>
       </Flex>
-      {/* <Divider className="m-0" />
+      <Divider className="m-0" />
       <Flex justify="end" className="content-end p-8">
         <Flex gap={'middle'} vertical className="w-1/4">
           <Flex justify="space-between">
@@ -52,13 +46,13 @@ const PaymentMethod = ({
             </Typography.Title>
           </Flex>
         </Flex>
-      </Flex> */}
+      </Flex>
       <Divider className="m-0" variant="dashed" />
       <Flex className="p-8" justify="space-between" align="center">
         <Typography.Paragraph className="m-0 text-gray-500">
           By clicking "Place Order", you have agreed with our policies.
         </Typography.Paragraph>
-        <Button type="primary" className="px-10 py-5 text-lg" onClick={handlePlaceOrder}>
+        <Button type="primary" className="px-10 py-5 text-lg" onClick={handlePlaceOrder} loading={isLoading}>
           Place Order
         </Button>
       </Flex>
