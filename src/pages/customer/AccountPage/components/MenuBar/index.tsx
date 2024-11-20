@@ -51,7 +51,7 @@ const MenuBar = () => {
       label: 'Purchases',
       children: [
         getItem('My Purchases', 'purchases', <FileTextOutlined />),
-        getItem('My Reviews', 'reviews', <StarOutlined />),
+        getItem('My Reviews', 'reviews', <StarOutlined />, true),
         getItem('Wishlist', 'wishlist', <HeartOutlined />, true),
       ],
     },
@@ -62,7 +62,7 @@ const MenuBar = () => {
         getItem('Dashboard', 'dashboard', <DashboardOutlined />),
         getItem('Products', 'products', <CarryOutOutlined />),
         getItem('Orders', 'orders', <FileTextOutlined />),
-        getItem('Store Reviews', 'store-reviews', <StarOutlined />),
+        getItem('Store Reviews', 'store-reviews', <StarOutlined />, true),
         getItem('Store Profile', 'store-profile', <ShopOutlined />),
       ],
       disabled: !isSeller,
@@ -71,7 +71,7 @@ const MenuBar = () => {
       key: 'setting',
       label: 'Settings',
       children: [
-        getItem('Change Password', 'changepassword', <SettingOutlined />),
+        getItem('Change Password', 'changepassword', <SettingOutlined />, true),
         getItem('Help Center', 'helpcenter', <QuestionCircleOutlined />, true),
         getItem('Log Out', 'logout', <LogoutOutlined />),
       ],
