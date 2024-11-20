@@ -1,32 +1,21 @@
 import { CloseOutlined } from '@ant-design/icons';
 import { Button, Divider, Flex, Radio, RadioChangeEvent, Typography } from 'antd';
-import React, { useState } from 'react';
+import React from 'react';
 import useShipmentModal from './useShipmentModal';
-import { CartItemProps } from '../../../../../../../types/cart.type';
-import { StoreProps } from '../../../../../../../types/store.type';
-import { AddressProps } from '../../../../../../../types/address.type';
+import eventEmitter from '../../../../../../../utils/eventEmitter';
 
 const ShipModal = ({
   isModalOpen,
   setIsModalOpen,
-  service,
-  product,
-  store,
-  address,
-  selectedShipment,
-  setSelectedShipment,
+  shipment,
 }: {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  service: any[];
-  product: CartItemProps[];
-  store: StoreProps;
-  address: AddressProps | undefined;
-  selectedShipment: any;
-  setSelectedShipment: React.Dispatch<any>;
+  shipment: any[],
+  
 }) => {
-  const { shipment } = useShipmentModal(store, address, product, service, setSelectedShipment);
-  const [chosenShipment, setChosenShipment] = useState<any>(selectedShipment);
+  const { chosenShipment, setChosenShipment } = useShipmentModal();
+  
 
   const handleClose = () => {
     setIsModalOpen(false);
@@ -37,8 +26,8 @@ const ShipModal = ({
   };
 
   const handleOk = () => {
-    setSelectedShipment(chosenShipment);
     setIsModalOpen(false);
+    eventEmitter.emit('shipmentChange', chosenShipment);
   };
 
   return (
@@ -57,7 +46,7 @@ const ShipModal = ({
           Shipping Method
         </Typography.Title>
         <Divider />
-        <div className="max-h-[calc(70vh-120px)] overflow-y-auto px-6 pb-6">
+        <div className="px-6 pb-6">
           <Radio.Group className="w-full" defaultValue={chosenShipment} onChange={onChange}>
             <Flex vertical gap={'large'} className="w-full">
               {shipment.map((item: any) => (
@@ -79,7 +68,7 @@ const ShipModal = ({
             <Button className="px-8 py-5 text-base" onClick={handleClose}>
               Cancel
             </Button>
-            <Button type="primary" className="px-8 py-5 text-base" onClick={handleOk}>
+            <Button type="primary" className="px-8 py-5 text-base" onClick={handleOk} disabled={!chosenShipment}>
               OK
             </Button>
           </Flex>

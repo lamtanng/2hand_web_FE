@@ -4,6 +4,7 @@ import { cartAPIs } from '../../../../../apis/cart.api';
 import eventEmitter from '../../../../../utils/eventEmitter';
 import { userAPIs } from '../../../../../apis/user.api';
 import { UserProps } from '../../../../../types/user.type';
+import { CartProps } from '../../../../../types/cart.type';
 
 const useUserInfo = (user: UserProps) => {
   const [cart, setCart] = useState([]);
@@ -24,7 +25,7 @@ const useUserInfo = (user: UserProps) => {
     try {
       const res = await cartAPIs.getCart();
       const cartItemAmount = res.data
-        .map((group: any) => {
+        .map((group: CartProps) => {
           return group.products;
         })
         .flat().length;
@@ -55,7 +56,7 @@ const useUserInfo = (user: UserProps) => {
     getUserCart,
     cart,
     itemAmount,
-    profile
+    profile,
   };
 };
 

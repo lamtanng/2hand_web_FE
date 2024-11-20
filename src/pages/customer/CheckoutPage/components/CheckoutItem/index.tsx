@@ -3,25 +3,16 @@ import { Button, Divider, Flex, Typography } from 'antd';
 import CheckoutDetail from '../CheckoutDetail';
 import ShipmentInfo from '../ShipmentInfo';
 import { CartItemProps, CartProps } from '../../../../../types/cart.type';
-import { AddressProps } from '../../../../../types/address.type';
-import { useEffect, useState } from 'react';
-import eventEmitter from '../../../../../utils/eventEmitter';
 
 const CheckoutItem = ({
   group,
-  address,
+  shipment,
+  finalShipment,
 }: {
   group: CartProps;
-  address: AddressProps | undefined;
+  shipment: any[];
+  finalShipment: any;
 }) => {
-  const [selectedShipment, setSelectedShipment] = useState<any>();
-
-  useEffect(() => {
-    if (selectedShipment) {
-      console.log('selected shipment: ', selectedShipment);
-      eventEmitter.emit('selectShipment', selectedShipment);
-    }
-  }, [selectedShipment]);
 
   return (
     <>
@@ -44,10 +35,8 @@ const CheckoutItem = ({
       </div>
       <ShipmentInfo
         product={group.products}
-        store={group.store}
-        address={address}
-        setSelectedShipment={setSelectedShipment}
-        selectedShipment={selectedShipment}
+        shipment={shipment}
+        finalShipment={finalShipment}
       />
     </>
   );

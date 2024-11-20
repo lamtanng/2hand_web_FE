@@ -4,16 +4,27 @@ import CheckoutItem from './components/CheckoutItem';
 import PaymentMethod from './components/PaymentMethod';
 import Header from '../../../components/elements/Header';
 import Footer from '../../../components/elements/Footer';
-import { CartProps } from '../../../types/cart.type';
+import { CartItemProps, CartProps } from '../../../types/cart.type';
 import useCheckoutPage from './useCheckoutPage';
 
 const CheckoutPage = () => {
   const checkoutList = sessionStorage.getItem('checkout') || '';
   const checkoutItems: CartProps[] = JSON.parse(checkoutList);
-  let totalShip: number = 0
-  const { profile, value, setValue, handlePlaceOrder } = useCheckoutPage(totalShip, checkoutItems);
+  const total = checkoutItems
+    .map((cart: CartProps) => {
+      return cart.products.map((item: CartItemProps) => {
+        return item.quantity * item.productID.price;
+      });
+    })
+    .flat()
+    .reduce((accumulator: number, currentValue: number) => accumulator + currentValue, 0);
 
-  console.log('total ship:', totalShip)
+  const { profile, value, setValue, handlePlaceOrder, shipment, selectedShipment, isLoading } = useCheckoutPage(
+    checkoutItems,
+    total,
+  );
+
+  const totalShip = selectedShipment.reduce((accumulator: number, item: any) => accumulator + item.total, 0);
 
   return (
     <>
@@ -42,11 +53,15 @@ const CheckoutPage = () => {
           <div id="checkout-list">
             {checkoutItems.map((group: CartProps) => (
               <div id="checkout-card" key={group.store._id} className="shadow-sm">
-                <CheckoutItem address={value} group={group} />
+                <CheckoutItem
+                  group={group}
+                  shipment={shipment.filter((item: any) => item.store._id === group.store._id)}
+                  finalShipment={selectedShipment.find((item: any) => item.store._id === group.store._id)}
+                />
               </div>
             ))}
           </div>
-          <PaymentMethod checkoutList={checkoutItems} handlePlaceOrder={handlePlaceOrder} />
+          <PaymentMethod handlePlaceOrder={handlePlaceOrder} total={total} totalShip={totalShip} isLoading={isLoading} />
         </div>
       </div>
       <Footer />

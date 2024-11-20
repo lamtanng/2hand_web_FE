@@ -26,6 +26,7 @@ const useCart = () => {
   const [checkedList, setCheckedList] = useState<CartItemProps[]>([]);
   const [cart, setCart] = useState<CartProps[]>([]);
   const [itemAmount, setItemAmount] = useState<number>(0);
+  const [soldoutProducts, setSoldoutProduct] = useState<CartItemProps[]>([]);
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [isLoading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -38,9 +39,18 @@ const useCart = () => {
         .map((group: CartProps) => {
           return group.products;
         })
-        .flat().length;
+        .flat()
+        .filter((item: CartItemProps) => item.productID.quantity > 0).length;
       setCart(res.data);
       setItemAmount(cartItemAmount);
+
+      const soldout = res.data
+        .map((group: CartProps) => {
+          return group.products;
+        })
+        .flat()
+        .filter((item: CartItemProps) => item.productID.quantity <= 0);
+      setSoldoutProduct(soldout);
     } catch (error) {
       handleError(error);
     } finally {
@@ -230,6 +240,7 @@ const useCart = () => {
     handleDelete,
     handleQuantityChange,
     isLoading,
+    soldoutProducts
   };
 };
 
