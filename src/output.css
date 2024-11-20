@@ -288,6 +288,11 @@
   margin-bottom: 1.25rem;
 }
 
+#root .my-2{
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
 #root .-mt-4{
   margin-top: -1rem;
 }
@@ -510,10 +515,6 @@
   width: 100%;
 }
 
-#root .w-3\/4{
-  width: 75%;
-}
-
 #root .min-w-60{
   min-width: 15rem;
 }
@@ -694,6 +695,11 @@
   background-color: rgb(59 130 246 / var(--tw-bg-opacity));
 }
 
+#root .bg-gray-100{
+  --tw-bg-opacity: 1;
+  background-color: rgb(243 244 246 / var(--tw-bg-opacity));
+}
+
 #root .bg-slate-50{
   --tw-bg-opacity: 1;
   background-color: rgb(248 250 252 / var(--tw-bg-opacity));
@@ -706,16 +712,6 @@
 
 #root .bg-white\/10{
   background-color: rgb(255 255 255 / 0.1);
-}
-
-#root .bg-gray-50{
-  --tw-bg-opacity: 1;
-  background-color: rgb(249 250 251 / var(--tw-bg-opacity));
-}
-
-#root .bg-gray-100{
-  --tw-bg-opacity: 1;
-  background-color: rgb(243 244 246 / var(--tw-bg-opacity));
 }
 
 #root .bg-opacity-65{
@@ -835,6 +831,11 @@
   padding-bottom: 4rem;
 }
 
+#root .py-2{
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
 #root .py-3{
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
@@ -853,11 +854,6 @@
 #root .py-8{
   padding-top: 2rem;
   padding-bottom: 2rem;
-}
-
-#root .py-4{
-  padding-top: 1rem;
-  padding-bottom: 1rem;
 }
 
 #root .pb-2{

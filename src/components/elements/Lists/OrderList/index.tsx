@@ -1,21 +1,10 @@
 import OrderItem from '../../ListItem/OrderItem';
 
-const OrderList = () => {
-  const data = [
-    {
-      key: 1,
-    },
-    {
-      key: 2,
-    },
-    {
-      key: 3,
-    },
-  ];
+const OrderList = ({orders}: {orders: any[]}) => {
   return (
     <div id="order-list">
-      {data.map((item: any) => (
-        <OrderItem key={item.key} />
+      {orders && orders.map((item: any) => (
+        <OrderItem order={item} />
       ))}
     </div>
   );
