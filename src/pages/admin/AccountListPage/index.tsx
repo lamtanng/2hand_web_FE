@@ -2,6 +2,7 @@ import { Modal, TableProps, Typography, Space, Button, Table } from 'antd';
 import { handleError } from '../../../utils/handleError';
 import { Link } from 'react-router-dom';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import useAccountListPage from './useAccountListPage';
 
 export interface CustomTableColumns {
   name: string;
@@ -12,16 +13,19 @@ export interface CustomTableColumns {
   isActive: boolean;
 }
 
-const data = [{
-  name: 'User Name',
-  email: "example@email.com",
-  phoneNumber: '0987654321',
-  dateOfBirth: '2003-11-13',
-  createdAt: '2024-11-20',
-  isActive: true,
-}]
+const data = [
+  {
+    name: 'User Name',
+    email: 'example@email.com',
+    phoneNumber: '0987654321',
+    dateOfBirth: '2003-11-13',
+    createdAt: '2024-11-20',
+    isActive: true,
+  },
+];
 
 const AccountListPage = () => {
+  const {} = useAccountListPage();
 
   const { confirm } = Modal;
 
@@ -60,19 +64,22 @@ const AccountListPage = () => {
       dataIndex: 'phoneNumber',
       width: '10%',
       responsive: ['xs', 'md'],
-    },{
+    },
+    {
       title: 'Date of birth',
       key: 'dateOfBirth',
       dataIndex: 'email',
       width: '10%',
       responsive: ['xs', 'md'],
-    },{
+    },
+    {
       title: 'Joined in',
       key: 'createdAt',
       dataIndex: 'createdAt',
       width: '10%',
       responsive: ['xs', 'md'],
-    },{
+    },
+    {
       title: 'Active',
       key: 'isActive',
       dataIndex: 'isAvtive',

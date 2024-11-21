@@ -10,6 +10,10 @@ const addressUrl = getUserUrl(addressPaths.addressPath);
 const sendOTPUrl = getUserUrl(userPaths.sendOTPPath);
 const verifyUrl = getUserUrl(userPaths.verifyPath);
 
+const getAllUsers = () => {
+  return axiosClient.get(userUrl);
+};
+
 const getUserByUserID = (userID: string | undefined) => {
   const url = `${userUrl}${userID}`;
   return axiosClient.get(url);
@@ -36,7 +40,7 @@ const updateAddress = (data: AddressRequestProps) => {
 };
 
 const deleteAddress = (data: any) => {
-  return axiosClient.delete(addressUrl, {data: data});
+  return axiosClient.delete(addressUrl, { data: data });
 };
 
 const sendPhoneOTP = (data: any) => {
@@ -48,6 +52,7 @@ const verifyPhoneNumber = (data: any) => {
 };
 
 export const userAPIs = {
+  getAllUsers,
   getUserByUserID,
   getUserByUserSlug,
   updateUser,
