@@ -90,6 +90,7 @@ const MenuBar = () => {
     } finally {
     }
   };
+
   return (
     <>
       <Flex align="center" gap={'middle'} className="mb-3 px-3">

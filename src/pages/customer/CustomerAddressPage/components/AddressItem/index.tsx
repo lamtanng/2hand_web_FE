@@ -10,8 +10,6 @@ const AddressItem = ({ address, profile }: { address: AddressProps; profile: Use
   const { handleDeleteAddress } = useAddressItem(address, profile);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  console.log(address)
-
   return (
     <Flex justify="space-between" align="center">
       <div id="info" className="w-3/5">
