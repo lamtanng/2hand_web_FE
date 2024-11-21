@@ -36,8 +36,7 @@ const updateAddress = (data: AddressRequestProps) => {
 };
 
 const deleteAddress = (data: any) => {
-  const url = `${addressUrl}/${data.addressID}`;
-  return axiosClient.delete(url, data);
+  return axiosClient.delete(addressUrl, {data: data});
 };
 
 const sendPhoneOTP = (data: any) => {
