@@ -1,8 +1,9 @@
 import { TableProps, Typography, Image, Space, Button, Table, Modal } from 'antd';
-import defaultPic from '../../../assets/blob.jpg'
+import defaultPic from '../../../assets/blob.jpg';
 import { Link } from 'react-router-dom';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { handleError } from '../../../utils/handleError';
+import useProductListPage from './useProductListPage';
 
 export interface CustomTableColumns {
   picture: string;
@@ -12,15 +13,9 @@ export interface CustomTableColumns {
   quality: string;
 }
 
-const data = [{
-  picture: '',
-  name: 'Product Name',
-  price: 10000,
-  quantity: 1,
-  quality: "good",
-}]
-
 const ProductListPage = () => {
+  const { products } = useProductListPage();
+
   const { confirm } = Modal;
 
   const showConfirm = (productID: string) => {
@@ -42,10 +37,10 @@ const ProductListPage = () => {
       title: 'Product Picture',
       dataIndex: 'picture',
       key: 'picture',
-      width: '10%',
+      width: '5%',
       render: (_, record) => (
         <div className="image-container">
-          <Image width="100px" src='' fallback={defaultPic} preview={false} />
+          <Image width="100px" src={record.image[0]} fallback={defaultPic} preview={false} />
         </div>
       ),
     },
@@ -53,15 +48,15 @@ const ProductListPage = () => {
       title: 'Product Name',
       dataIndex: 'name',
       key: 'name',
-      width: '10%',
-      render: (text, record) => <Link to={`/${record.slug}`} >{text}</Link>,
+      width: '20%',
+      render: (text, record) => <Link to={`/${record.slug}`}>{text}</Link>,
       responsive: ['xs', 'md'],
     },
     {
       title: 'Product Price',
       key: 'price',
       dataIndex: 'price',
-      width: '10%',
+      width: '5%',
       render: (text: number) => <>{Intl.NumberFormat().format(text)} VND</>,
       responsive: ['xs', 'md'],
     },
@@ -69,14 +64,14 @@ const ProductListPage = () => {
       title: 'In Stock',
       key: 'quantity',
       dataIndex: 'quantity',
-      width: '10%',
+      width: '5%',
       responsive: ['xs', 'md'],
     },
     {
       title: 'Quality',
       key: 'quality',
       dataIndex: 'quality',
-      width: '10%',
+      width: '5%',
       responsive: ['xs', 'md'],
     },
     {
@@ -112,7 +107,7 @@ const ProductListPage = () => {
           Product List
         </Typography.Title>
       </div>
-      <Table dataSource={data} columns={columns} scroll={{ x: 'max-content' }} />
+      <Table dataSource={products} columns={columns} scroll={{ x: 'max-content' }} />
     </div>
   );
 };

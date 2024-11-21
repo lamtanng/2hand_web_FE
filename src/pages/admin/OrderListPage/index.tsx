@@ -1,4 +1,5 @@
 import { TableProps, Typography, Table } from 'antd';
+import useOrderListPage from './useOrderListPage';
 
 export interface CustomTableColumns {
   orderID: string;
@@ -7,26 +8,31 @@ export interface CustomTableColumns {
   products: number;
   status: string;
   total: number;
+  shipmentCost: number;
 }
 
-const data = [
-  {
-    orderID: 'id',
-    customerName: 'Customer Name',
-    storeName: 'Store Name',
-    products: 2,
-    status: 'Waiting for confirmation',
-    total: 100000,
-  },
-];
-
 const OrderListPage = () => {
+  const { orders } = useOrderListPage();
+
+  const data: CustomTableColumns[] = orders.map((order: any) => {
+    const name = (order.userID) ? order.userID.firstName : 'Anonymous'
+    return {
+      orderID: order._id,
+      customerName: name,
+      storeName: order.storeID.name,
+      products: order.orderDetailIDs.length,
+      status: order.orderStatusID.name,
+      total: order.total,
+      shipmentCost: order.shipmentCost,
+    };
+  });
+
   const columns: TableProps['columns'] = [
     {
       title: 'Order ID',
       key: 'orderID',
       dataIndex: 'orderID',
-      width: '10%',
+      width: '5%',
       responsive: ['xs', 'md'],
     },
     {
@@ -47,7 +53,7 @@ const OrderListPage = () => {
       title: 'Number of products',
       dataIndex: 'products',
       key: 'products',
-      width: '10%',
+      width: '5%',
       responsive: ['xs', 'md'],
     },
     {
@@ -61,7 +67,15 @@ const OrderListPage = () => {
       title: 'Total Price',
       key: 'total',
       dataIndex: 'total',
-      width: '10%',
+      width: '5%',
+      render: (text: number) => <>{Intl.NumberFormat().format(text)} VND</>,
+      responsive: ['xs', 'md'],
+    },
+    {
+      title: 'Shipment Cost',
+      key: 'shipmentCost',
+      dataIndex: 'shipmentCost',
+      width: '5%',
       render: (text: number) => <>{Intl.NumberFormat().format(text)} VND</>,
       responsive: ['xs', 'md'],
     },
