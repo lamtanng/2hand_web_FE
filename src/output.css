@@ -288,9 +288,9 @@
   margin-bottom: 1.25rem;
 }
 
-#root .my-2{
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+#root .my-6{
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 #root .-mt-4{
@@ -363,6 +363,10 @@
 
 #root .mt-6{
   margin-top: 1.5rem;
+}
+
+#root .mt-0{
+  margin-top: 0px;
 }
 
 #root .inline{
@@ -592,6 +596,10 @@
 
 #root .gap-10{
   gap: 2.5rem;
+}
+
+#root .gap-12{
+  gap: 3rem;
 }
 
 #root .gap-16{
@@ -829,11 +837,6 @@
 #root .py-16{
   padding-top: 4rem;
   padding-bottom: 4rem;
-}
-
-#root .py-2{
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
 }
 
 #root .py-3{

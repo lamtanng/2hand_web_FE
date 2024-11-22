@@ -8,15 +8,16 @@ import { ProductProps } from '../../types/product.type';
 const useListProducts = () => {
   const [product, setProduct] = useState<ProductProps[]>([]);
   const [category, setCategory] = useState<CategoryProps[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string[]>([]);
   const [isLoading, setLoading] = useState<boolean>(false);
   const [totalProducts, setTotalProducts] = useState<number>(0);
   const [page, setPage] = useState<number>(1);
-  const [limit, setLimit] = useState<number>(2);
+  const [limit, setLimit] = useState<number>(4);
   const [search, setSearch] = useState<string>('');
   const [sort, setSort] = useState<string>(JSON.stringify({ createdAt: -1 }));
   const [quality, setQuality] = useState<string[]>([]);
   const [price, setPrice] = useState<string>('');
-  const [cateID, setCateID] = useState<string>('');
+  // const [cateID, setCateID] = useState<string>('');
   const [storeID, setStoreID] = useState<string[]>([]);
 
   const getProducts = async (
@@ -26,13 +27,14 @@ const useListProducts = () => {
     sort: string | undefined,
     quality: string[],
     price: string | undefined,
-    cateID: string | undefined,
+    cateID: string[],
     storeID: string[],
   ) => {
     try {
       setLoading(true);
       let qualityGroup = quality.length !== 0 ? JSON.stringify(quality) : '';
       let storeIDGroup = storeID?.length !== 0 ? JSON.stringify(storeID) : '';
+      let cateIDGroup = cateID?.length !== 0 ? JSON.stringify(cateID) : '';
       const res = await productAPIs?.getAllProduct(
         page,
         limit,
@@ -40,7 +42,7 @@ const useListProducts = () => {
         sort,
         qualityGroup,
         price,
-        cateID,
+        cateIDGroup,
         storeIDGroup,
       );
       setProduct(res?.data?.response?.products);
@@ -67,8 +69,8 @@ const useListProducts = () => {
   }, []);
 
   useEffect(() => {
-    getProducts(page, limit, search, sort, quality, price, cateID, storeID);
-  }, [page, limit, search, sort, quality, price, cateID, storeID]);
+    getProducts(page, limit, search, sort, quality, price, selectedCategory, storeID);
+  }, [page, limit, search, sort, quality, price, selectedCategory, storeID]);
 
   return {
     getProducts,
@@ -79,7 +81,7 @@ const useListProducts = () => {
     quality,
     limit,
     price,
-    setCateID,
+    // setCateID,
     setPage,
     setLimit,
     setPrice,
@@ -87,6 +89,8 @@ const useListProducts = () => {
     setSearch,
     setQuality,
     setStoreID,
+    setSelectedCategory,
+    selectedCategory,
   };
 };
 

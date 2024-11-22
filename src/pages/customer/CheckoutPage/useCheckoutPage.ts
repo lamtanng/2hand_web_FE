@@ -14,14 +14,15 @@ import { CalcShippingFeeRequestProps, GetAvailableServiceRequestProps } from '..
 import { orderAPIs } from '../../../apis/order.api';
 import { StoreProps } from '../../../types/store.type';
 import { cartAPIs } from '../../../apis/cart.api';
+import { ServiceProps, ShipmentProps } from '../../../types/shipment.type';
 
 const useCheckoutPage = (checkoutItems: CartProps[], total: number) => {
   const { user } = useAppSelector(loginSelector);
   const navigate = useNavigate();
   const [profile, setProfile] = useState<UserProps>();
   const [value, setValue] = useState<AddressProps>();
-  const [service, setService] = useState<any[]>([]);
-  const [shipment, setShipment] = useState<any[]>([]);
+  const [service, setService] = useState<ServiceProps[]>([]);
+  const [shipment, setShipment] = useState<ShipmentProps[]>([]);
   const [allShipmentsFetched, setAllShipmentsFetched] = useState(false);
   const [groupedShipment, setGroupedShipment] = useState<any[]>([]);
   const [selectedShipment, setSelectedShipment] = useState<any[]>([]);
@@ -59,7 +60,8 @@ const useCheckoutPage = (checkoutItems: CartProps[], total: number) => {
           to_district: value?.district?.DistrictID,
         };
         const res = await orderAPIs.getService(data);
-        setService((prevService) => [...prevService, { store: store, services: res.data }]);
+        const newService: ServiceProps = { store: store, services: res.data }
+        setService((prevService) => [...prevService, newService]);
       } catch (error) {
         handleError(error);
       } finally {
@@ -115,8 +117,8 @@ const useCheckoutPage = (checkoutItems: CartProps[], total: number) => {
   useEffect(() => {
     if (service.length === checkoutItems.length) {
       checkoutItems.forEach((cart: CartProps) => {
-        const storeService = service.find((service: any) => service.store._id === cart.store._id);
-        storeService.services.forEach((item: any) => {
+        const storeService = service.find((service: ServiceProps) => service.store._id === cart.store._id);
+        storeService?.services.forEach((item: any) => {
           calcShippingFeeByStore(item.service_type_id, storeService.store, cart.products);
         });
       });
@@ -128,7 +130,7 @@ const useCheckoutPage = (checkoutItems: CartProps[], total: number) => {
   interface Accumulator {
     [key: string]: {
       store: StoreProps;
-      shipment: any[];
+      shipment: ShipmentProps[];
     };
   }
 
@@ -171,9 +173,9 @@ const useCheckoutPage = (checkoutItems: CartProps[], total: number) => {
   }, [groupedShipment.length]);
 
   useEffect(() => {
-    const shipmentChangeListener = eventEmitter.addListener('shipmentChange', (shipment: any) => {
+    const shipmentChangeListener = eventEmitter.addListener('shipmentChange', (shipment: ShipmentProps) => {
       console.log(shipment);
-      const newArr = selectedShipment.filter((item: any) => item.store._id !== shipment.store._id);
+      const newArr = selectedShipment.filter((item: ShipmentProps) => item.store._id !== shipment.store._id);
       console.log(newArr);
       setSelectedShipment([...newArr, shipment]);
     });
@@ -188,7 +190,7 @@ const useCheckoutPage = (checkoutItems: CartProps[], total: number) => {
       const data = {
         userID: user._id,
         receiverAddress: value,
-        total: total + selectedShipment.reduce((accumulator: number, item: any) => accumulator + item.total, 0),
+        total: total + selectedShipment.reduce((accumulator: number, item: ShipmentProps) => accumulator + item.total, 0),
         paymentMethodID: '67029099359e957a9f4ee1f3',
         orders: checkoutItems.map((item: CartProps) => {
           return {
@@ -198,7 +200,7 @@ const useCheckoutPage = (checkoutItems: CartProps[], total: number) => {
                 return item.productID.price * item.quantity;
               })
               .reduce((accumulator: number, currentValue: number) => accumulator + currentValue, 0),
-            shipmentCost: selectedShipment.find((shipment: any) => shipment.store._id === item.store._id).total,
+            shipmentCost: selectedShipment.find((shipment: ShipmentProps) => shipment.store._id === item.store._id).total,
             note: '',
             items: item.products.map((item: CartItemProps) => {
               return {

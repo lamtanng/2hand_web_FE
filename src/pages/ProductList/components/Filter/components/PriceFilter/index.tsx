@@ -14,24 +14,37 @@ const priceValue = [
     },
   },
   {
-    label: '0 VND - 1,000 VND',
+    label: '0 VND - 50,000 VND',
     range: {
       min: 0,
-      max: 1000,
+      max: 50000,
     },
   },
   {
-    label: '1,000 VND - 2,000 VND',
+    label: '50,000 VND - 100,000 VND',
     range: {
-      min: 1000,
-      max: 2000,
+      min: 50000,
+      max: 100000,
     },
   },
   {
-    label: '2,000 VND - 3,000 VND',
+    label: '100,000 VND - 200,000 VND',
     range: {
-      min: 2000,
-      max: 3000,
+      min: 100000,
+      max: 200000,
+    },
+  },
+  {
+    label: '200,000 VND - 500,000 VND',
+    range: {
+      min: 200000,
+      max: 500000,
+    },
+  },
+  {
+    label: 'Over 500,000 VND',
+    range: {
+      min: 500000,
     },
   },
 ];

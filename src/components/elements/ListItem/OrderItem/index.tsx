@@ -28,7 +28,7 @@ const OrderItem = ({ order }: { order: any }) => {
         </div>
         <Divider className='m-0 mt-6' />
         {order.orderDetailIDs.map((item: any) => (
-          <Link to={'id'}>
+          <Link to={order._id}>
             <div id="order-detail" className='mt-6'>
               <Flex justify="space-between" align="center">
                 <div id="product-info">
@@ -56,7 +56,7 @@ const OrderItem = ({ order }: { order: any }) => {
             <p className="m-0 font-sans text-xl text-blue-700">{order.total + order.shipmentCost}</p>
           </Flex>
         </div>
-        <div id="actions" className="mt-6">
+        {/* <div id="actions" className="mt-6">
           <Flex justify="end" gap={'middle'}>
             <Button type="primary" className="h-10 text-base">
               Rebuy
@@ -65,7 +65,7 @@ const OrderItem = ({ order }: { order: any }) => {
               Contact shop
             </Button>
           </Flex>
-        </div>
+        </div> */}
       </div>
     </div>
   );
