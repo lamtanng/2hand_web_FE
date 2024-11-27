@@ -2,8 +2,10 @@ import { MessageOutlined, ShopOutlined } from '@ant-design/icons';
 import { Button, Divider, Flex, Typography, Image } from 'antd';
 import { Link } from 'react-router-dom';
 import defaultPic from '../../../../assets/blob.jpg';
+import { OrderDetailProps } from '../../../../types/orderDetail.type';
+import { OrderProps } from '../../../../types/order.type';
 
-const OrderItem = ({ order }: { order: any }) => {
+const OrderItem = ({ order }: { order: OrderProps }) => {
   return (
     <div className="mb-6">
       <div id="order" className="rounded-md bg-slate-50 p-6">
@@ -12,7 +14,7 @@ const OrderItem = ({ order }: { order: any }) => {
             <Flex id="shop-info" align="center" gap={'small'} className="w-1/3">
               <ShopOutlined />
               <Typography.Title level={5} className="m-0 inline truncate">
-                {order.storeID.name}
+                {order.storeID.name} 
               </Typography.Title>
               <Button type="primary" className="px-2 py-1 text-xs">
                 <MessageOutlined /> Chat
@@ -22,16 +24,18 @@ const OrderItem = ({ order }: { order: any }) => {
               </Button>
             </Flex>
             <div id="order-status">
-              <p className="m-0 font-sans text-blue-700">{order.orderStatusID.name}</p>
+              <p className="m-0 font-sans text-blue-700">
+                {order?.orderStageID?.name && order.orderStageID.name}
+              </p>
             </div>
           </Flex>
         </div>
         <Divider className='m-0 mt-6' />
-        {order.orderDetailIDs.map((item: any) => (
+        {order.orderDetailIDs.map((item: OrderDetailProps) => (
           <Link to={order._id}>
             <div id="order-detail" className='mt-6'>
               <Flex justify="space-between" align="center">
-                <div id="product-info">
+                <div id="product-info" className='w-5/6'>
                   <Flex gap={'middle'}>
                     <Image width={75} preview={false} alt="" src={item.productID.image[0]} fallback={defaultPic} />
                     <div>

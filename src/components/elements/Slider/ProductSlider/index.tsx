@@ -24,8 +24,8 @@ const ProductSlider = ({ product, isLoading }: { product: ProductProps[]; isLoad
     <div className="relative mt-10 w-full overflow-hidden">
       {product && (
         <Carousel responsive={responsive} className="z-0">
-          {product.map((item: any) => (
-            <div key={item.key}>
+          {product.map((item: ProductProps) => (
+            <div key={item._id}>
               <ProductCard product={item} isLoading={isLoading} />
             </div>
           ))}

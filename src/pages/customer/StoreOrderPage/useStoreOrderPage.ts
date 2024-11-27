@@ -4,9 +4,10 @@ import { orderAPIs } from '../../../apis/order.api';
 import { UserProps } from '../../../types/user.type';
 import { storeAPIs } from '../../../apis/store.api';
 import { StoreProps } from '../../../types/store.type';
+import { OrderProps } from '../../../types/order.type';
 
 const useStoreOrderPage = (profile: UserProps | undefined) => {
-  const [orders, setOrders] = useState<any[]>([]);
+  const [orders, setOrders] = useState<OrderProps[]>([]);
   const [store, setStore] = useState<StoreProps>();
 
   const getStoreByUserID = async (userID: string |undefined) => {

@@ -7,6 +7,8 @@ import { AxiosError } from 'axios';
 import { UserProps } from '../../../../../../../types/user.type';
 import { userAPIs } from '../../../../../../../apis/user.api';
 import { handleError } from '../../../../../../../utils/handleError';
+import eventEmitter from '../../../../../../../utils/eventEmitter';
+import { PhoneVerifyRequest } from '../../../../../../../types/http/phone.type';
 
 const useVerifyForm = (
   phoneNumber: string | undefined,
@@ -27,7 +29,7 @@ const useVerifyForm = (
   const handleVerify = async (otp: VerifyProps) => {
     try {
       setSubmitting(true);
-      let data;
+      let data: PhoneVerifyRequest | undefined;
       const sentOTP = otp.otp?.join('');
       const phone = phoneNumber && parsePhoneNumber(phoneNumber, 'VN');
       if (phone) {
@@ -39,6 +41,7 @@ const useVerifyForm = (
       }
       await userAPIs.verifyPhoneNumber(data);
       handleClose();
+      eventEmitter.emit('updateProfile', profile?._id);
     } catch (error: AxiosError | any) {
       handleError(error);
       if (error.statusCode === 410) {

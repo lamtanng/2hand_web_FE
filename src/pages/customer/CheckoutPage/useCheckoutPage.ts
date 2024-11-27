@@ -10,11 +10,12 @@ import { Modal } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { accountUrls } from '../../../constants/urlPaths/customer/accountUrls';
 import { CartItemProps, CartProps } from '../../../types/cart.type';
-import { CalcShippingFeeRequestProps, GetAvailableServiceRequestProps } from '../../../types/http/order.type';
+import { CalcShippingFeeRequestProps, CreateCODPaymentRequestProps, CreatedOrderProps, GetAvailableServiceRequestProps } from '../../../types/http/order.type';
 import { orderAPIs } from '../../../apis/order.api';
 import { StoreProps } from '../../../types/store.type';
 import { cartAPIs } from '../../../apis/cart.api';
 import { ServiceProps, ShipmentProps } from '../../../types/shipment.type';
+import { MoMoPaymentItemsProps } from '../../../types/http/momoPayment.type';
 
 const useCheckoutPage = (checkoutItems: CartProps[], total: number) => {
   const { user } = useAppSelector(loginSelector);
@@ -187,7 +188,7 @@ const useCheckoutPage = (checkoutItems: CartProps[], total: number) => {
   const handlePlaceOrder = async () => {
     try {
       setLoading(true);
-      const data = {
+      const data: CreateCODPaymentRequestProps = {
         userID: user._id,
         receiverAddress: value,
         total: total + selectedShipment.reduce((accumulator: number, item: ShipmentProps) => accumulator + item.total, 0),
@@ -209,9 +210,9 @@ const useCheckoutPage = (checkoutItems: CartProps[], total: number) => {
                 quantity: item.quantity,
                 totalPrice: item.quantity * item.productID.price,
                 description: item.productID.description,
-              };
+              } as MoMoPaymentItemsProps;
             }),
-          };
+          } as CreatedOrderProps;
         }),
       };
 

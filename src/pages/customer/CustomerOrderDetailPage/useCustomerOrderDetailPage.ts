@@ -3,11 +3,12 @@ import { orderAPIs } from '../../../apis/order.api';
 import { handleError } from '../../../utils/handleError';
 import { UserProps } from '../../../types/user.type';
 import { useParams } from 'react-router-dom';
+import { OrderProps } from '../../../types/order.type';
 
 const useCustomerOrderDetailPage = (profile: UserProps | undefined) => {
   const params = useParams();
-  const [orders, setOrders] = useState<any[]>([]);
-  const [order, setOrder] = useState<any>();
+  const [orders, setOrders] = useState<OrderProps[]>([]);
+  const [order, setOrder] = useState<OrderProps>();
 
   const getAllOrder = async (userID: string | undefined) => {
     try {
@@ -27,7 +28,7 @@ const useCustomerOrderDetailPage = (profile: UserProps | undefined) => {
 
   useEffect(() => {
     if (orders.length !== 0) {
-      const selectedOrder = orders.find((item: any) => item._id === params.id);
+      const selectedOrder = orders.find((item: OrderProps) => item._id === params.id);
       setOrder(selectedOrder)
     }
   }, [orders]);

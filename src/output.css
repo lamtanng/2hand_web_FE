@@ -337,6 +337,10 @@
   margin-left: 1.5rem;
 }
 
+#root .mt-0{
+  margin-top: 0px;
+}
+
 #root .mt-0\.5{
   margin-top: 0.125rem;
 }
@@ -365,8 +369,8 @@
   margin-top: 1.5rem;
 }
 
-#root .mt-0{
-  margin-top: 0px;
+#root .block{
+  display: block;
 }
 
 #root .inline{
@@ -568,6 +572,10 @@
 
 #root .cursor-pointer{
   cursor: pointer;
+}
+
+#root .resize{
+  resize: both;
 }
 
 #root .grid-cols-1{
@@ -966,11 +974,6 @@
   line-height: 1.625;
 }
 
-#root .text-black{
-  --tw-text-opacity: 1;
-  color: rgb(0 0 0 / var(--tw-text-opacity));
-}
-
 #root .text-blue-500{
   --tw-text-opacity: 1;
   color: rgb(59 130 246 / var(--tw-text-opacity));
@@ -1082,27 +1085,8 @@
   background-color: transparent;
 }
 
-#root .hover\:text-blue-400:hover{
-  --tw-text-opacity: 1;
-  color: rgb(96 165 250 / var(--tw-text-opacity));
-}
-
-#root .hover\:text-blue-600:hover{
-  --tw-text-opacity: 1;
-  color: rgb(37 99 235 / var(--tw-text-opacity));
-}
-
 #root .hover\:text-inherit:hover{
   color: inherit;
-}
-
-#root .active\:font-semibold:active{
-  font-weight: 600;
-}
-
-#root .active\:text-blue-700:active{
-  --tw-text-opacity: 1;
-  color: rgb(29 78 216 / var(--tw-text-opacity));
 }
 
 @media (min-width: 768px){

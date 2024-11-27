@@ -1,5 +1,6 @@
 import { Button, Checkbox, Flex } from 'antd';
 import { CategoryProps } from '../../../../../../types/category.type';
+import { CheckboxChangeEvent } from 'antd/es/checkbox';
 
 const CategoryFilter = ({
   category,
@@ -12,7 +13,7 @@ const CategoryFilter = ({
   setPage: React.Dispatch<React.SetStateAction<number>>;
   selectedCategory: string[];
 }) => {
-  const handleCheckbox = (event: any) => {
+  const handleCheckbox = (event: CheckboxChangeEvent) => {
     let isSelected = event.target.checked;
     let value = event.target.value;
 

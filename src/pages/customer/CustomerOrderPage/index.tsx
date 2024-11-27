@@ -1,7 +1,7 @@
 import { Tabs, TabsProps } from 'antd';
-import OrderList from '../../../components/elements/Lists/OrderList';
 import useCustomerOrderPage from './useCustomerOrderPage';
 import useAccountPage from '../AccountPage/useAccountPage';
+import OrderList from './components/OrderList';
 
 const MyOrders = () => {
   const { profile } = useAccountPage();
@@ -15,6 +15,26 @@ const MyOrders = () => {
     {
       label: 'All Orders',
       key: '1',
+      children: <OrderList orders={orders.reverse()} />,
+    },
+    {
+      label: 'Waiting for confirmation',
+      key: '2',
+      children: <OrderList orders={orders.reverse()} />,
+    },
+    {
+      label: 'Waiting for delivery',
+      key: '3',
+      children: <OrderList orders={orders.reverse()} />,
+    },
+    {
+      label: 'Delivered',
+      key: '4',
+      children: <OrderList orders={orders.reverse()} />,
+    },
+    {
+      label: 'Canceled',
+      key: '5',
       children: <OrderList orders={orders.reverse()} />,
     },
   ];

@@ -1,58 +1,65 @@
 import { useEffect, useState } from 'react';
-import { StoreProps } from '../../../types/store.type';
-import { storeAPIs } from '../../../apis/store.api';
 import { handleError } from '../../../utils/handleError';
 import { orderAPIs } from '../../../apis/order.api';
-import { UserProps } from '../../../types/user.type';
 import { useParams } from 'react-router-dom';
+import { CalcExpectedDeliveryDateRequest } from '../../../types/http/order.type';
+import { OrderProps } from '../../../types/order.type';
 
-const useStoreOrderDetailPage = (profile: UserProps | undefined) => {
+const useStoreOrderDetailPage = () => {
   const params = useParams();
-  const [orders, setOrders] = useState<any[]>([]);
-  const [store, setStore] = useState<StoreProps>();
-  const [order, setOrder] = useState<any>();
+  const [order, setOrder] = useState<OrderProps>();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [pickupDates, setPickupDates] = useState<any[]>([]);
 
-  const getStoreByUserID = async (userID: string | undefined) => {
+  const getSingleOrder = async (orderID: string | undefined) => {
     try {
-      const res = await storeAPIs.getStoreByUser(userID);
-      setStore(res.data);
+      const res = await orderAPIs.getOrderByID(orderID);
+      setOrder(res.data);
+    } catch (error) {
+      handleError;
+    } finally {
+    }
+  };
+
+  const pickingOrder = async () => {
+    try {
+      const res = await orderAPIs.getPickupDate();
+      setPickupDates(res.data);
+    } catch (error) {
+      handleError(error);
+    } finally {
+      setIsModalOpen(true);
+    }
+  };
+
+  const deliveringOrder = async () => {
+    try {
+      const data: CalcExpectedDeliveryDateRequest = {
+        ShopID: Number(order?.storeID.ghnStoreID),
+        from_district_id: order?.storeID?.address[0]?.district?.DistrictID,
+        from_ward_code: order?.storeID?.address[0]?.ward?.WardCode,
+        to_district_id: order?.receiverAddress?.district?.DistrictID,
+        to_ward_code: order?.receiverAddress?.ward?.WardCode,
+      };
+      const res = await orderAPIs.calcExpectedDeliveryDate(data);
+      console.log(res.data);
     } catch (error) {
       handleError(error);
     } finally {
     }
   };
 
-  const getAllOrder = async (storeID: string | undefined) => {
-    try {
-      const res = await orderAPIs.getSellerOrder(storeID);
-      setOrders(res.data);
-    } catch (error) {
-      handleError(error);
-    } finally {
-    }
-  };
-
   useEffect(() => {
-    if (profile) {
-      getStoreByUserID(profile._id);
-    }
-  }, [profile]);
-
-  useEffect(() => {
-    if (store) {
-      getAllOrder(store._id);
-    }
-  }, [store]);
-
-  useEffect(() => {
-    if (orders.length !== 0) {
-      const selectedOrder = orders.find((item: any) => item._id === params.id);
-      setOrder(selectedOrder);
-    }
-  }, [orders]);
+    getSingleOrder(params.id);
+  }, []);
 
   return {
     order,
+    pickingOrder,
+    isModalOpen,
+    setIsModalOpen,
+    pickupDates,
+    deliveringOrder,
   };
 };
 export default useStoreOrderDetailPage;

@@ -1,8 +1,10 @@
 import { MessageOutlined, ShopOutlined } from '@ant-design/icons';
 import { Button, Divider, Flex, Typography, Image } from 'antd';
 import defaultPic from '../../../../../assets/blob.jpg';
+import { OrderDetailProps } from '../../../../../types/orderDetail.type';
+import { OrderProps } from '../../../../../types/order.type';
 
-const OrderInfo = ({ order }: { order: any | undefined }) => {
+const OrderInfo = ({ order }: { order: OrderProps | undefined }) => {
   return (
     <div id="order-info" className="px-12 py-5">
       <div id="order" className="py-6">
@@ -22,7 +24,7 @@ const OrderInfo = ({ order }: { order: any | undefined }) => {
         </div>
         <Divider className='mb-0' />
         <div id="order-detail">
-          {order?.orderDetailIDs.map((item: any) => (
+          {order?.orderDetailIDs.map((item: OrderDetailProps) => (
             <div id="product-info" className='my-6'>
             <Flex gap={'middle'}>
               <Image width={75} preview={false} alt="" src={item.productID.image[0]} fallback={defaultPic} />
@@ -50,7 +52,7 @@ const OrderInfo = ({ order }: { order: any | undefined }) => {
             </Flex>
             <Flex justify="end" align="center" gap={'middle'}>
               <Typography.Paragraph className="m-0">Total price:</Typography.Paragraph>
-              <Typography.Paragraph className="m-0 text-xl text-blue-700">{order?.total + order?.shipmentCost} VND</Typography.Paragraph>
+              <Typography.Paragraph className="m-0 text-xl text-blue-700">{(order?.total && order.shipmentCost) && order.total + order.shipmentCost} VND</Typography.Paragraph>
             </Flex>
             <Flex justify="end" align="center" gap={'middle'}>
               <Typography.Paragraph className="m-0">Payment method:</Typography.Paragraph>

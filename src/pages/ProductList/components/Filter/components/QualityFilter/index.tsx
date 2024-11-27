@@ -1,5 +1,6 @@
 import { Button, Checkbox, Flex } from 'antd';
 import { ProductQuality } from '../../../../../../types/enum/productQuality.enum';
+import { CheckboxChangeEvent } from 'antd/es/checkbox';
 
 const qualityValue = [
   {
@@ -33,7 +34,7 @@ const QualityFilter = ({
   setPage: React.Dispatch<React.SetStateAction<number>>;
   quality: string[];
 }) => {
-  const handleCheckbox = (event: any) => {
+  const handleCheckbox = (event: CheckboxChangeEvent) => {
     let isSelected = event.target.checked;
     let value = event.target.value;
 

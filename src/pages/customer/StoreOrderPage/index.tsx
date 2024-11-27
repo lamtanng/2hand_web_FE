@@ -1,7 +1,7 @@
 import { Tabs, TabsProps } from 'antd';
-import OrderList from '../../../components/elements/Lists/OrderList';
 import useStoreOrderPage from './useStoreOrderPage';
 import useAccountPage from '../AccountPage/useAccountPage';
+import OrderList from './components/OrderList';
 
 
 const StoreOrder = () => {

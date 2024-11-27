@@ -1,6 +1,7 @@
 import { addressPaths } from '../constants/apiPaths/addressPaths';
 import { userPaths } from '../constants/apiPaths/userPaths';
-import { AddressRequestProps } from '../types/http/address.type';
+import { AddressRequestProps, DeleteAddressRequest } from '../types/http/address.type';
+import { PhoneOTPRequest, PhoneVerifyRequest } from '../types/http/phone.type';
 import { UserProps } from '../types/user.type';
 import { axiosClient } from './axios';
 
@@ -39,15 +40,15 @@ const updateAddress = (data: AddressRequestProps) => {
   return axiosClient.put(addressUrl, data);
 };
 
-const deleteAddress = (data: any) => {
+const deleteAddress = (data: DeleteAddressRequest) => {
   return axiosClient.delete(addressUrl, { data: data });
 };
 
-const sendPhoneOTP = (data: any) => {
+const sendPhoneOTP = (data: PhoneOTPRequest | undefined) => {
   return axiosClient.post(sendOTPUrl, data);
 };
 
-const verifyPhoneNumber = (data: any) => {
+const verifyPhoneNumber = (data: PhoneVerifyRequest | undefined) => {
   return axiosClient.post(verifyUrl, data);
 };
 
