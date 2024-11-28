@@ -1,37 +1,45 @@
-import { CloseOutlined } from '@ant-design/icons';
-import { Button, Divider, Flex, Radio, Space, Typography } from 'antd';
-import { useEffect, useState } from 'react';
+import { CloseOutlined, DownOutlined } from '@ant-design/icons';
+import { Button, Divider, Dropdown, Flex, MenuProps, Typography } from 'antd';
+import TextArea from 'antd/es/input/TextArea';
+import { useState } from 'react';
 
-const DirectCancelModal = ({
+const CancelRequestModal = ({
   isModalOpen,
   setIsModalOpen,
   reasons,
-  directCancel,
+  cancelOrderRequest,
   setDescription,
 }: {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   reasons: any[];
-  directCancel: (reason: any) => Promise<void>;
+  cancelOrderRequest: (reason: any) => Promise<void>;
   setDescription: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const [choosenReason, setChoosenReason] = useState<any>();
-
-  useEffect(() => {
-    setDescription('Direct Cancel');
-  }, []);
 
   const handleClose = () => {
     setIsModalOpen(false);
   };
 
-  const onChange = (e: any) => {
-    setChoosenReason(e.target.value);
+  const handleOk = () => {
+    setIsModalOpen(false);
+    cancelOrderRequest(choosenReason);
   };
 
-  const handleOk = () => {
-    directCancel(choosenReason);
-    setIsModalOpen(false);
+  const items: MenuProps['items'] = reasons.map((reason: any) => ({
+    key: JSON.stringify(reason),
+    label: reason.name,
+  }));
+
+  const handleMenuClick: MenuProps['onClick'] = (e) => {
+    setChoosenReason(JSON.parse(e.key));
+  };
+
+  const menuProps = {
+    items,
+    onClick: handleMenuClick,
+    selectable: true,
   };
 
   return (
@@ -52,15 +60,26 @@ const DirectCancelModal = ({
         <Typography.Paragraph className="m-0">Why do you want to cancel this order?</Typography.Paragraph>
         <Divider />
         <div className="max-h-[calc(70vh-120px)] overflow-y-auto px-6">
-          <Radio.Group className="w-full" onChange={onChange}>
-            <Space direction="vertical" className="w-full">
-              {reasons?.map((reason: any) => (
-                <Radio value={reason} className="w-full text-base">
-                  {reason.name}
-                </Radio>
-              ))}
-            </Space>
-          </Radio.Group>
+          <Dropdown menu={menuProps} trigger={['click']} className="mb-6">
+            <Button className="h-10 w-full">
+              <Flex justify="space-between" className="w-full">
+                <Typography.Paragraph className="m-0 truncate">
+                  {choosenReason ? choosenReason.name : 'Select reason'}
+                </Typography.Paragraph>
+                <DownOutlined />
+              </Flex>
+            </Button>
+          </Dropdown>
+          <Flex vertical gap={'small'} className="mb-6">
+            <Typography.Paragraph className="m-0">Description: </Typography.Paragraph>
+            <TextArea
+              showCount
+              maxLength={500}
+              autoSize={{ minRows: 3 }}
+              onChange={(e) => setDescription(e.target.value)}
+              className="mb-6"
+            />
+          </Flex>
           <Divider />
           <Flex justify="end" gap={'large'}>
             <Button className="px-8 py-5 text-base" onClick={handleClose}>
@@ -76,4 +95,4 @@ const DirectCancelModal = ({
   );
 };
 
-export default DirectCancelModal;
+export default CancelRequestModal;

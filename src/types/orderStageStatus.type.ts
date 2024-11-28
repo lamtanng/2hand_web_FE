@@ -1,4 +1,5 @@
 import { OrderStageStatus } from './enum/orderStageStatus.enum';
+import { OrderRequestProps } from './orderRequest.type';
 
 export interface OrderStageStatusProps {
   _id: string;
@@ -6,5 +7,5 @@ export interface OrderStageStatusProps {
   expectedDate?: Date;
   date?: Date;
   orderStageID: string;
-  orderRequestID?: string;
+  orderRequestID?: OrderRequestProps;
 }

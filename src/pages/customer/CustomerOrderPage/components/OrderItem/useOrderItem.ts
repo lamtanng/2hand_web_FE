@@ -14,6 +14,7 @@ const useOrderItem = (order: OrderProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [cancelReasons, setCancelReasons] = useState<any[]>([]);
   const [returnReasons, setReturnReasons] = useState<any[]>([]);
+  const [description, setDescription] = useState<string>('')
 
   const { confirm } = Modal;
 
@@ -65,13 +66,13 @@ const useOrderItem = (order: OrderProps) => {
     }
   };
 
-  const directCancel = async (reason: any) => {
+  const cancelOrder = async (reason: any) => {
     try {
       const data = {
         name: order.orderStageID.name,
         status: order.orderStageID.orderStageStatusID.status,
         orderStageID: order.orderStageID.orderStageStatusID.orderStageID,
-        description: 'Direct Cancel',
+        description: description,
         taskType: TaskType.Cancel,
         reasonID: reason._id,
       };
@@ -87,6 +88,6 @@ const useOrderItem = (order: OrderProps) => {
     showConfirm();
   };
 
-  return { isModalOpen, setIsModalOpen, receiveOrder, cancelReasons, returnReasons, openCancelModal, directCancel };
+  return { isModalOpen, setIsModalOpen, receiveOrder, cancelReasons, returnReasons, openCancelModal, cancelOrder, setDescription };
 };
 export default useOrderItem;

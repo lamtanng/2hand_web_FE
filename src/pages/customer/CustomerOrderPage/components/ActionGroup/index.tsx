@@ -3,7 +3,7 @@ import { CancelButton, ConfirmReceivedButton, RebuyButton, ReturnButton } from '
 
 export const ConfirmActions = ({openCancelModal}: {openCancelModal: () => void}) => {
   return (
-    <div id="actions" className="mt-6">
+    <div id="actions">
       <Flex justify="end" gap={'middle'}>
         <CancelButton onClick={openCancelModal} />
       </Flex>
@@ -13,7 +13,7 @@ export const ConfirmActions = ({openCancelModal}: {openCancelModal: () => void})
 
 export const DeliveryActions = ({receiveOrder}: {receiveOrder: () => void}) => {
     return (
-      <div id="actions" className="mt-6">
+      <div id="actions">
         <Flex justify="end" gap={'middle'}>
           <ReturnButton onClick={() => {}} />
           <ConfirmReceivedButton onClick={receiveOrder} />
@@ -24,7 +24,7 @@ export const DeliveryActions = ({receiveOrder}: {receiveOrder: () => void}) => {
 
   export const RebuyActions = () => {
     return (
-      <div id="actions" className="mt-6">
+      <div id="actions">
         <Flex justify="end" gap={'middle'}>
           <RebuyButton onClick={() => {}} />
         </Flex>

@@ -2,7 +2,7 @@ import { MessageOutlined, ShopOutlined } from '@ant-design/icons';
 import { Button, Divider, Flex, Typography, Image } from 'antd';
 import { Link } from 'react-router-dom';
 import defaultPic from '../../../../../assets/blob.jpg';
-import { CancelingActions, ConfirmActions, DeliveryActions } from '../ActionGroup';
+import { ConfirmActions, DeliveryActions } from '../ActionGroup';
 import PickupDateModal from '../PickupDateModal';
 import useOrderItem from './useOrderItem';
 import { OrderDetailProps } from '../../../../../types/orderDetail.type';
@@ -10,6 +10,8 @@ import { OrderProps } from '../../../../../types/order.type';
 import { OrderStage } from '../../../../../types/enum/orderStage.enum';
 import { OrderStageStatus } from '../../../../../types/enum/orderStageStatus.enum';
 import DirectCancelModal from '../DirectCancelModal';
+import dayjs from 'dayjs';
+import { ReplyStatus } from '../../../../../types/enum/replyStatus.enum';
 
 const OrderItem = ({ order }: { order: OrderProps }) => {
   const {
@@ -27,15 +29,31 @@ const OrderItem = ({ order }: { order: OrderProps }) => {
     setIsPickupModalOpen,
   } = useOrderItem(order);
   let actionGroup;
+
+  console.log(
+    order.orderStageID.orderStageStatusID.status === OrderStageStatus.Active ||
+      (order.orderStageID.orderStageStatusID.status ===
+        (OrderStageStatus.RequestToSeller || OrderStageStatus.RequestToAdmin) &&
+        order.orderStageID.orderStageStatusID.orderRequestID?.replyStatus === ReplyStatus.Rejected),
+  );
   switch (order.orderStageID.name) {
     case OrderStage.Confirmating:
       actionGroup = <ConfirmActions getPickupDate={pickingOrder} openCancelModal={openCancelModal} />;
       break;
     case OrderStage.Picking:
-      if (order.orderStageID.orderStageStatusID.status === OrderStageStatus.Active)
+      if (
+        order.orderStageID.orderStageStatusID.status === OrderStageStatus.Active ||
+        order.orderStageID.orderStageStatusID.orderRequestID?.replyStatus === ReplyStatus.Rejected
+      )
         actionGroup = <DeliveryActions deliveringOrder={deliveringOrder} isLoading={isLoading} />;
-      if (order.orderStageID.orderStageStatusID.status === OrderStageStatus.RequestToSeller)
-        actionGroup = <CancelingActions />;
+      else
+        actionGroup = (
+          <Flex vertical gap={'large'}>
+            <Typography.Paragraph className="m-0">
+              Cancel request ({order.orderStageID.orderStageStatusID.status.replace(/([A-Z])/g, ' $1').trim()}):{' '}
+            </Typography.Paragraph>
+          </Flex>
+        );
       break;
     default:
       actionGroup = null;
@@ -93,7 +111,21 @@ const OrderItem = ({ order }: { order: OrderProps }) => {
             <p className="m-0 font-sans text-xl text-blue-700">{order.total + order.shipmentCost}</p>
           </Flex>
         </div>
-        {actionGroup}
+        <Flex
+          justify={order.orderStageID.name !== OrderStage.Cancelled ? 'space-between' : 'end'}
+          align="center"
+          className="mt-6"
+        >
+          {order.orderStageID.name === OrderStage.Cancelled ? null : (
+            <Typography.Paragraph className="m-0">
+              {order.orderStageID.name !== OrderStage.Delivered && 'Expected'} {order.orderStageID.name} Date:{' '}
+              {order &&
+                order.orderStageID.orderStageStatusID.expectedDate &&
+                dayjs(order.orderStageID.orderStageStatusID.expectedDate.toString()).format('DD/MM/YYYY')}
+            </Typography.Paragraph>
+          )}
+          {actionGroup}
+        </Flex>
         <PickupDateModal
           isModalOpen={isPickupModalOpen}
           setIsModalOpen={setIsPickupModalOpen}

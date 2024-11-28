@@ -14,6 +14,7 @@ const OrderDetail = ({ order, item }: { order: OrderProps; item: OrderDetailProp
   const openReviewModal = () => {
     setIsModalOpen(true);
   };
+  
   return (
     <div id="order-detail" className="mt-6">
       <Flex justify="space-between" align="center" gap={'large'}>

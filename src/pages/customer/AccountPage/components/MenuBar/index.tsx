@@ -51,7 +51,7 @@ const MenuBar = () => {
       label: 'Purchases',
       children: [
         getItem('My Purchases', 'purchases', <FileTextOutlined />),
-        getItem('My Reviews', 'reviews', <StarOutlined />, true),
+        getItem('My Reviews', 'reviews', <StarOutlined />),
         getItem('Wishlist', 'wishlist', <HeartOutlined />, true),
       ],
     },
@@ -62,7 +62,7 @@ const MenuBar = () => {
         getItem('Dashboard', 'dashboard', <DashboardOutlined />),
         getItem('Products', 'products', <CarryOutOutlined />),
         getItem('Orders', 'orders', <FileTextOutlined />),
-        getItem('Store Reviews', 'store-reviews', <StarOutlined />, true),
+        getItem('Store Reviews', 'store-reviews', <StarOutlined />),
         getItem('Store Profile', 'store-profile', <ShopOutlined />),
       ],
       disabled: !isSeller,

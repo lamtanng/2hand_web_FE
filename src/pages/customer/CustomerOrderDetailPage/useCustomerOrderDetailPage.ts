@@ -18,6 +18,7 @@ const useCustomerOrderDetailPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [cancelReasons, setCancelReasons] = useState<any[]>([]);
   const [returnReasons, setReturnReasons] = useState<any[]>([]);
+  const [description, setDescription] = useState<string>('');
 
   const { confirm } = Modal;
 
@@ -96,6 +97,24 @@ const useCustomerOrderDetailPage = () => {
     }
   };
 
+  const cancelOrder = async (reason: any) => {
+    try {
+      const data = {
+        name: order?.orderStageID.name,
+        status: order?.orderStageID.orderStageStatusID.status,
+        orderStageID: order?.orderStageID.orderStageStatusID.orderStageID,
+        description: description,
+        taskType: TaskType.Cancel,
+        reasonID: reason._id,
+      };
+      console.log(data);
+      await orderRequestsAPIs.createNewRequest(data);
+      eventEmitter.emit('customerOrderDetailStageChanged', order?._id);
+    } catch (error) {
+      handleError(error);
+    }
+  };
+
   const receiveOrder = () => {
     showConfirm();
   };
@@ -121,6 +140,8 @@ const useCustomerOrderDetailPage = () => {
     openCancelModal,
     directCancel,
     receiveOrder,
+    setDescription,
+    cancelOrder,
   };
 };
 export default useCustomerOrderDetailPage;

@@ -36,14 +36,16 @@ const OrderInfo = ({ order }: { order: OrderProps | undefined }) => {
         <div id="order-detail">
           {order?.orderDetailIDs.map((item: OrderDetailProps) => (
             <div id="product-info" className="my-6">
-              <Flex gap={'middle'}>
-                <Image width={75} preview={false} alt="" src={item.productID.image[0]} fallback={defaultPic} />
-                <div>
-                  <Typography.Title level={5} className="m-0">
-                    {item.productID.name}
-                  </Typography.Title>
-                  <Typography.Paragraph className="text-xs">{item.productID.quality}</Typography.Paragraph>
-                </div>
+              <Flex justify='space-between'>
+                <Flex gap={'middle'}>
+                  <Image width={75} preview={false} alt="" src={item.productID.image[0]} fallback={defaultPic} />
+                  <div>
+                    <Typography.Title level={5} className="m-0">
+                      {item.productID.name}
+                    </Typography.Title>
+                    <Typography.Paragraph className="text-xs">{item.productID.quality}</Typography.Paragraph>
+                  </div>
+                </Flex>
                 {order.orderStageID.name === OrderStage.Delivered && <ReviewButton onClick={openReviewModal} />}
                 <ReviewModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} product={item} />
               </Flex>
