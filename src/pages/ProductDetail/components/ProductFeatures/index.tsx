@@ -24,7 +24,7 @@ const ProductFeatures = ({ product }: { product: ProductProps | undefined }) => 
       <Divider className="my-3" />
       <Flex>
         <Typography.Paragraph className="m-0 w-1/6">Send from</Typography.Paragraph>
-        <Typography.Paragraph className="m-0">Location</Typography.Paragraph>
+        <Typography.Paragraph className="m-0">{product?.address.province?.ProvinceName}</Typography.Paragraph>
       </Flex>
       <Divider className="my-3" />
     </div>
