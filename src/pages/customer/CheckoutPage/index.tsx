@@ -19,13 +19,20 @@ const CheckoutPage = () => {
     .flat()
     .reduce((accumulator: number, currentValue: number) => accumulator + currentValue, 0);
 
-  const { profile, value, setValue, handlePlaceOrder, shipment, selectedShipment, isLoading } = useCheckoutPage(
-    checkoutItems,
-    total,
-  );
-
+  const {
+    profile,
+    value,
+    setValue,
+    handlePlaceOrder,
+    shipment,
+    selectedShipment,
+    isLoading,
+    note,
+    paymentMethods,
+    selectedMethod,
+    setSelectedMethod,
+  } = useCheckoutPage(checkoutItems, total);
   const totalShip = selectedShipment.reduce((accumulator: number, item: any) => accumulator + item.total, 0);
-
   return (
     <>
       <Header />
@@ -57,11 +64,20 @@ const CheckoutPage = () => {
                   group={group}
                   shipment={shipment.filter((item: any) => item.store._id === group.store._id)}
                   finalShipment={selectedShipment.find((item: any) => item.store._id === group.store._id)}
+                  note={note.find((item: any) => item.store._id === group.store._id)}
                 />
               </div>
             ))}
           </div>
-          <PaymentMethod handlePlaceOrder={handlePlaceOrder} total={total} totalShip={totalShip} isLoading={isLoading} />
+          <PaymentMethod
+            handlePlaceOrder={handlePlaceOrder}
+            total={total}
+            totalShip={totalShip}
+            isLoading={isLoading}
+            paymentMethods={paymentMethods}
+            selectedMethod={selectedMethod}
+            setSelectedMethod={setSelectedMethod}
+          />
         </div>
       </div>
       <Footer />

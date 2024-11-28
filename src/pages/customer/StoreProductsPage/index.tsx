@@ -71,7 +71,7 @@ const StoreProducts = () => {
               <EditOutlined />
             </Button>
           </Link>
-          {/* <Button
+          <Button
             variant="filled"
             color="danger"
             onClick={() => {
@@ -79,7 +79,7 @@ const StoreProducts = () => {
             }}
           >
             <DeleteOutlined />
-          </Button> */}
+          </Button>
         </Space>
       ),
       responsive: ['xs', 'md'],

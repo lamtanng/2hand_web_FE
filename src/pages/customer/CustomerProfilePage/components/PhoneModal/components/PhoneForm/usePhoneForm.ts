@@ -5,6 +5,7 @@ import { FormPhoneNumberProps, phoneNumberSchema } from '../../PhoneModal.consta
 import parsePhoneNumber from 'libphonenumber-js';
 import { userAPIs } from '../../../../../../../apis/user.api';
 import { handleError } from '../../../../../../../utils/handleError';
+import { PhoneOTPRequest } from '../../../../../../../types/http/phone.type';
 
 const usePhoneForm = (
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>,
@@ -25,7 +26,7 @@ const usePhoneForm = (
   const handleAddPhone = async (phoneNumber: FormPhoneNumberProps) => {
     try {
       const phone = phoneNumber.phoneNumber && parsePhoneNumber(phoneNumber.phoneNumber, 'VN');
-      let data;
+      let data: PhoneOTPRequest | undefined;
       setSubmitting(true);
       if (phone) {
         data = {

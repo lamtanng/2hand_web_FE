@@ -1,15 +1,22 @@
 import { Button, Divider, Flex, Typography } from 'antd';
+import { PaymentMethodProps } from '../../../../../types/paymentMethod.type';
 
 const PaymentMethod = ({
   handlePlaceOrder,
   total,
   totalShip,
   isLoading,
+  paymentMethods,
+  selectedMethod,
+  setSelectedMethod,
 }: {
   handlePlaceOrder: () => void;
   total: number;
   totalShip: number;
   isLoading: boolean;
+  paymentMethods: PaymentMethodProps[];
+  selectedMethod: PaymentMethodProps | undefined;
+  setSelectedMethod: React.Dispatch<React.SetStateAction<PaymentMethodProps | undefined>>;
 }) => {
   return (
     <div id="payment-method" className="mb-5 rounded-md bg-white shadow-sm">
@@ -17,11 +24,31 @@ const PaymentMethod = ({
         <Typography.Title level={4} className="m-0 font-normal">
           Payment Method
         </Typography.Title>
-        <Flex align="center" gap={'large'}>
-          <Typography.Paragraph className="m-0 text-base">Cash on delivery</Typography.Paragraph>
-          <Button variant="text" color="primary" className="p-0 text-base hover:bg-transparent">
-            Change
-          </Button>
+        <Flex gap={'large'}>
+          {paymentMethods.map((payment: PaymentMethodProps) => (
+            <label
+              key={payment._id}
+              className={`relative flex cursor-pointer flex-col items-center rounded-sm border border-solid px-4 py-2  transition-all duration-200 ${
+                selectedMethod?._id === payment._id
+                  ? 'border-blue-600 bg-blue-50'
+                  : 'border-gray-200 hover:border-gray-300'
+              } `}
+            >
+              <input
+                type="radio"
+                name="condition"
+                value={JSON.stringify(payment)}
+                checked={selectedMethod === payment}
+                onChange={(e) => setSelectedMethod(JSON.parse(e.currentTarget.value))}
+                className="hidden"
+              />
+              <span
+                className={`text-base font-medium ${selectedMethod?._id === payment._id ? 'text-blue-600' : 'text-gray-900'} `}
+              >
+                {payment.name}
+              </span>
+            </label>
+          ))}
         </Flex>
       </Flex>
       <Divider className="m-0" />

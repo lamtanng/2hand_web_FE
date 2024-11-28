@@ -5,7 +5,8 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import useAccountListPage from './useAccountListPage';
 
 export interface CustomTableColumns {
-  name: string;
+  _id: string;
+  firstName: string;
   email: string;
   phoneNumber: string;
   dateOfBirth: Date;
@@ -13,19 +14,8 @@ export interface CustomTableColumns {
   isActive: boolean;
 }
 
-const data = [
-  {
-    name: 'User Name',
-    email: 'example@email.com',
-    phoneNumber: '0987654321',
-    dateOfBirth: '2003-11-13',
-    createdAt: '2024-11-20',
-    isActive: true,
-  },
-];
-
 const AccountListPage = () => {
-  const {} = useAccountListPage();
+  const { users } = useAccountListPage();
 
   const { confirm } = Modal;
 
@@ -45,9 +35,16 @@ const AccountListPage = () => {
 
   const columns: TableProps['columns'] = [
     {
+      title: `User ID`,
+      dataIndex: '_id',
+      key: '_id',
+      width: '10%',
+      responsive: ['xs', 'md'],
+    },
+    {
       title: `User's Name`,
-      dataIndex: 'name',
-      key: 'name',
+      dataIndex: 'firstName',
+      key: 'firstName',
       width: '10%',
       responsive: ['xs', 'md'],
     },
@@ -77,6 +74,7 @@ const AccountListPage = () => {
       key: 'createdAt',
       dataIndex: 'createdAt',
       width: '10%',
+      render: (_, record) => <>{record.toDateString()}</>,
       responsive: ['xs', 'md'],
     },
     {
@@ -119,7 +117,7 @@ const AccountListPage = () => {
           Account List
         </Typography.Title>
       </div>
-      <Table dataSource={data} columns={columns} scroll={{ x: 'max-content' }} />
+      <Table dataSource={users} columns={columns} scroll={{ x: 'max-content' }} />
     </div>
   );
 };

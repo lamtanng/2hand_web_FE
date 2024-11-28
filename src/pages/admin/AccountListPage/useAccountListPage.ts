@@ -11,7 +11,7 @@ const useAccountListPage = () => {
     try {
       await adminAPIs.accessDashboard();
       const res = await userAPIs.getAllUsers();
-      console.log(res.data);
+      setUsers(res.data.users);
     } catch (error) {
       handleError;
     } finally {

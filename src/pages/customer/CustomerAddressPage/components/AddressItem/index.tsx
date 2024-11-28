@@ -7,7 +7,7 @@ import { AddressProps } from '../../../../../types/address.type';
 import { UserProps } from '../../../../../types/user.type';
 
 const AddressItem = ({ address, profile }: { address: AddressProps; profile: UserProps | undefined }) => {
-  const { handleDeleteAddress } = useAddressItem(address, profile);
+  const { handleDeleteAddress, handleSetDefault } = useAddressItem(address, profile);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   return (
@@ -36,7 +36,7 @@ const AddressItem = ({ address, profile }: { address: AddressProps; profile: Use
         {isModalOpen && (
           <AddressModal profile={profile} address={address} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
         )}
-        {!address.isDefault && <Button>Set as default</Button>}
+        {!address.isDefault && <Button onClick={handleSetDefault}>Set as default</Button>}
       </Flex>
     </Flex>
   );

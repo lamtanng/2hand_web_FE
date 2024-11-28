@@ -14,6 +14,7 @@ import { StoreRegisterPageRoutes } from '../pages/customer/StoreRegisterPage/Sto
 import { UploadProductPageRoutes } from '../pages/customer/UploadProductPage/UploadProductPage.routes';
 import { accountRoutes } from './account.routes';
 import { ProtectedAdminRoutes } from '../components/layouts/ProtectedRoutes/ProtectedAdminRoutes';
+import { OrderIntermediaryPageRoutes } from '../pages/customer/OrderIntermediaryPage/OrderIntermediaryPage.routes';
 
 const routes = createBrowserRouter([
   {
@@ -28,7 +29,14 @@ const routes = createBrowserRouter([
       SignupRoute,
       {
         element: <ProtectedRoutes />,
-        children: [accountRoutes, CartPageRoutes, ChekoutPageRoutes, StoreRegisterPageRoutes, UploadProductPageRoutes],
+        children: [
+          accountRoutes,
+          CartPageRoutes,
+          ChekoutPageRoutes,
+          StoreRegisterPageRoutes,
+          UploadProductPageRoutes,
+          OrderIntermediaryPageRoutes,
+        ],
       },
       {
         element: <ProtectedAdminRoutes />,

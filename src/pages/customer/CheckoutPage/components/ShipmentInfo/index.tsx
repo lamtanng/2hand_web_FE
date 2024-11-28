@@ -2,18 +2,27 @@ import { Button, Divider, Flex, Input, Typography } from 'antd';
 import { CartItemProps } from '../../../../../types/cart.type';
 import useShipment from './useShipment';
 import ShipModal from './components/ShipModal';
+import eventEmitter from '../../../../../utils/eventEmitter';
 
 const ShipmentInfo = ({
   product,
   shipment,
-  finalShipment
+  finalShipment,
 }: {
   product: CartItemProps[];
-  shipment: any[],
-  finalShipment: any,
+  shipment: any[];
+  finalShipment: any;
+  note: any;
 }) => {
-  const { isModalOpen, setIsModalOpen, showModal, totalPrice } =
-    useShipment(product);
+  const { isModalOpen, setIsModalOpen, showModal, totalPrice } = useShipment(product);
+
+  const onChange = (e: any) => {
+    const newNote = {
+      store: product[0].productID.storeID,
+      note: e.target.value,
+    };
+    eventEmitter.emit('addNote', newNote);
+  };
 
   return (
     <>
@@ -22,7 +31,7 @@ const ShipmentInfo = ({
           <Flex gap={'large'} align="center">
             <Flex gap={'middle'} align="center" className="w-2/5">
               <Typography.Paragraph className="w-1/10 m-0 text-base">Notes: </Typography.Paragraph>
-              <Input className="w-5/6 text-base" />
+              <Input className="w-5/6 text-base" onChange={onChange} />
             </Flex>
             <Flex className="w-3/5" gap={'middle'} align="center">
               <Typography.Paragraph className="m-0 w-1/5 text-base">Shipment method:</Typography.Paragraph>
@@ -55,11 +64,7 @@ const ShipmentInfo = ({
           </Typography.Title>
         </Flex>
       </div>
-      <ShipModal
-        isModalOpen={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
-        shipment={shipment}
-      />
+      <ShipModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} shipment={shipment} />
     </>
   );
 };

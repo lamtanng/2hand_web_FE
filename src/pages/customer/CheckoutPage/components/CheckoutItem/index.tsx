@@ -8,10 +8,12 @@ const CheckoutItem = ({
   group,
   shipment,
   finalShipment,
+  note,
 }: {
   group: CartProps;
   shipment: any[];
   finalShipment: any;
+  note: any
 }) => {
 
   return (
@@ -37,6 +39,7 @@ const CheckoutItem = ({
         product={group.products}
         shipment={shipment}
         finalShipment={finalShipment}
+        note={note}
       />
     </>
   );

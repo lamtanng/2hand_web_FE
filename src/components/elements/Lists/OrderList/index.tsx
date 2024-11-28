@@ -1,9 +1,10 @@
+import { OrderProps } from '../../../../types/order.type';
 import OrderItem from '../../ListItem/OrderItem';
 
-const OrderList = ({orders}: {orders: any[]}) => {
+const OrderList = ({orders}: {orders: OrderProps[]}) => {
   return (
     <div id="order-list">
-      {orders && orders.map((item: any) => (
+      {orders && orders.map((item: OrderProps) => (
         <OrderItem order={item} />
       ))}
     </div>

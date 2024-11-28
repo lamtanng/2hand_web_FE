@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { handleError } from '../../../utils/handleError';
 import { adminAPIs } from '../../../apis/admin.api';
+import { OrderProps } from '../../../types/order.type';
 
 const useOrderListPage = () => {
-  const [orders, setOrders] = useState<any[]>([]);
+  const [orders, setOrders] = useState<OrderProps[]>([]);
 
   const getOrders = async () => {
     try {

@@ -19,6 +19,7 @@ import { UserProps } from '../../../../../types/user.type';
 import { RadioChangeEvent } from 'antd/es/radio';
 import { accountUrls } from '../../../../../constants/urlPaths/customer/accountUrls';
 import { Modal } from 'antd';
+import { NewStoreProps } from '../../../../../types/http/store.type';
 
 const useStoreForm = () => {
   const { user } = useAppSelector(loginSelector);
@@ -79,7 +80,7 @@ const useStoreForm = () => {
 
   const handleStoreRegister = async (store: FormStoreProps) => {
     try {
-      const data = {
+      const data: NewStoreProps = {
         name: store.name,
         description: description,
         address: [
@@ -88,7 +89,7 @@ const useStoreForm = () => {
             ward: selectedWard,
             district: selectedDistrict,
             province: selectedProvince,
-            isDefault: isDefault.toString(),
+            isDefault: isDefault,
           },
         ],
         phoneNumber: store.phoneNumber,

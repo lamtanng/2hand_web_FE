@@ -1,6 +1,7 @@
 import { Carousel } from 'antd';
 import React from 'react';
 
+
 const contentStyle: React.CSSProperties = {
   margin: 0,
   height: '450px',

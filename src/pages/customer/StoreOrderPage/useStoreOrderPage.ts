@@ -4,9 +4,11 @@ import { orderAPIs } from '../../../apis/order.api';
 import { UserProps } from '../../../types/user.type';
 import { storeAPIs } from '../../../apis/store.api';
 import { StoreProps } from '../../../types/store.type';
+import { OrderProps } from '../../../types/order.type';
+import eventEmitter from '../../../utils/eventEmitter';
 
 const useStoreOrderPage = (profile: UserProps | undefined) => {
-  const [orders, setOrders] = useState<any[]>([]);
+  const [orders, setOrders] = useState<OrderProps[]>([]);
   const [store, setStore] = useState<StoreProps>();
 
   const getStoreByUserID = async (userID: string |undefined) => {
@@ -38,10 +40,18 @@ const useStoreOrderPage = (profile: UserProps | undefined) => {
     if (store) {
         getAllOrder(store._id)
     }
+
+    const orderStageChangeListener = eventEmitter.addListener('orderStageChanged', () => {
+      getAllOrder(store?._id);
+    })
+
+    return () => {
+      orderStageChangeListener.remove()
+    }
   }, [store])
 
   return {
-    orders,
+    orders
   };
 };
 export default useStoreOrderPage;

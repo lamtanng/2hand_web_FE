@@ -1,4 +1,6 @@
 import { StoreProps } from '../store.type';
-import { UserProps } from '../user.type';
 
-export type NewStoreProps = StoreProps & Pick<UserProps, 'phoneNumber' | '_id'>;
+export type NewStoreProps = Omit<
+  StoreProps,
+  'userID' | '_id' | 'slug' | 'avatar' | 'coverImg' | 'isActive' | 'ghnStoreID'
+> & { phoneNumber: string | undefined; userID: string | undefined };

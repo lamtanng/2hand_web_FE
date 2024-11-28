@@ -24,6 +24,8 @@ const ProductList = () => {
     limit,
     setPage,
     setLimit,
+    setSelectedCategory,
+    selectedCategory
   } = useListProducts();
 
   return (
@@ -36,6 +38,8 @@ const ProductList = () => {
             <Search placeholder="Search for a product" onChange={(event) => setSearch(event.target.value)} />
             <Filter
               category={category}
+              setSelectedCategory={setSelectedCategory}
+              selectedCategory={selectedCategory}
               setPrice={setPrice}
               setQuality={setQuality}
               setPage={setPage}

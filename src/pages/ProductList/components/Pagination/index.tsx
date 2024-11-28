@@ -17,7 +17,7 @@ const CustomPagination = ({
       defaultCurrent={1}
       total={totalProducts}
       pageSize={limit}
-      pageSizeOptions={[2, 4, 8, 20, 40]}
+      pageSizeOptions={[8, 12, 16, 20, 40]}
       showSizeChanger
       onChange={(pageNumber) => {
         setPage(pageNumber);
