@@ -12,12 +12,12 @@ export const ConfirmActions = () => {
   );
 };
 
-export const DeliveryActions = () => {
+export const DeliveryActions = ({receiveOrder}: {receiveOrder: () => void}) => {
     return (
       <div id="actions" className="mt-6">
         <Flex justify="end" gap={'middle'}>
           <ReturnButton onClick={() => {}} />
-          <ConfirmReceivedButton onClick={() => {}} />
+          <ConfirmReceivedButton onClick={receiveOrder} />
         </Flex>
       </div>
     );

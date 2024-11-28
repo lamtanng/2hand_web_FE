@@ -1,37 +1,26 @@
 import { useEffect, useState } from 'react';
 import { orderAPIs } from '../../../apis/order.api';
 import { handleError } from '../../../utils/handleError';
-import { UserProps } from '../../../types/user.type';
 import { useParams } from 'react-router-dom';
 import { OrderProps } from '../../../types/order.type';
 
-const useCustomerOrderDetailPage = (profile: UserProps | undefined) => {
+const useCustomerOrderDetailPage = () => {
   const params = useParams();
-  const [orders, setOrders] = useState<OrderProps[]>([]);
   const [order, setOrder] = useState<OrderProps>();
 
-  const getAllOrder = async (userID: string | undefined) => {
+  const getSingleOrder = async (orderID: string | undefined) => {
     try {
-      const res = await orderAPIs.getOrder(userID);
-      setOrders(res.data);
+      const res = await orderAPIs.getOrderByID(orderID);
+      setOrder(res.data);
     } catch (error) {
-      handleError(error);
+      handleError;
     } finally {
     }
   };
 
   useEffect(() => {
-    if (profile) {
-      getAllOrder(profile._id);
-    }
-  }, [profile]);
-
-  useEffect(() => {
-    if (orders.length !== 0) {
-      const selectedOrder = orders.find((item: OrderProps) => item._id === params.id);
-      setOrder(selectedOrder)
-    }
-  }, [orders]);
+    getSingleOrder(params.id);
+  }, []);
 
   return {
     order,

@@ -4,8 +4,32 @@ import { ConfirmActions, DeliveryActions, ReviewActions } from '../ActionGroup';
 import OrderDetail from '../OrderDetail';
 import { OrderDetailProps } from '../../../../../types/orderDetail.type';
 import { OrderProps } from '../../../../../types/order.type';
+import { OrderStage } from '../../../../../types/enum/orderStage.enum';
+import { OrderStageStatus } from '../../../../../types/enum/orderStageStatus.enum';
+import useOrderItem from './useOrderItem';
 
 const OrderItem = ({ order }: { order: OrderProps }) => {
+  const { receiveOrder } = useOrderItem(order);
+  let actionGroup;
+  switch (order.orderStageID.name) {
+    case OrderStage.Confirmating:
+      actionGroup = <ConfirmActions />;
+      break;
+    case OrderStage.Picking:
+      if (order.orderStageID.orderStageStatusID.status !== OrderStageStatus.RequestToAdmin)
+        actionGroup = <ConfirmActions />;
+      else actionGroup = null;
+      break;
+    case OrderStage.Delivering:
+      actionGroup = <DeliveryActions receiveOrder={receiveOrder} />;
+      break;
+    case OrderStage.Delivered:
+      actionGroup = <ReviewActions />;
+      break;
+    default:
+      actionGroup = null;
+  }
+
   return (
     <div className="mb-6">
       <div id="order" className="rounded-md bg-slate-50 p-6">
@@ -30,10 +54,7 @@ const OrderItem = ({ order }: { order: OrderProps }) => {
         </div>
         <Divider className="m-0 mt-6" />
         {order.orderDetailIDs.map((item: OrderDetailProps) => (
-          <OrderDetail
-            item={item}
-            order={order}
-          />
+          <OrderDetail item={item} order={order} />
         ))}
         <Divider />
         <div id="total-price">
@@ -42,9 +63,7 @@ const OrderItem = ({ order }: { order: OrderProps }) => {
             <p className="m-0 font-sans text-xl text-blue-700">{order.total + order.shipmentCost}</p>
           </Flex>
         </div>
-        <ConfirmActions />
-        {/* <ReviewActions/>
-        <DeliveryActions/> */}
+        {actionGroup}
       </div>
     </div>
   );

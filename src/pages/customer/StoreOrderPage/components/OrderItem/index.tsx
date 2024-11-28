@@ -7,9 +7,25 @@ import PickupDateModal from '../PickupDateModal';
 import useOrderItem from './useOrderItem';
 import { OrderDetailProps } from '../../../../../types/orderDetail.type';
 import { OrderProps } from '../../../../../types/order.type';
+import { OrderStage } from '../../../../../types/enum/orderStage.enum';
+import { OrderStageStatus } from '../../../../../types/enum/orderStageStatus.enum';
 
 const OrderItem = ({ order }: { order: OrderProps }) => {
-  const { isModalOpen, setIsModalOpen, pickupDates, pickingOrder, deliveringOrder, isLoading } = useOrderItem(order);
+  const { isModalOpen, setIsModalOpen, pickupDates, pickingOrder, deliveringOrder, isLoading, confirmOrder } = useOrderItem(order);
+  let actionGroup;
+  switch (order.orderStageID.name) {
+    case OrderStage.Confirmating:
+      actionGroup = <ConfirmActions getPickupDate={pickingOrder} />;
+      break;
+    case OrderStage.Picking:
+      if(order.orderStageID.orderStageStatusID.status === OrderStageStatus.Active)
+      actionGroup = <DeliveryActions deliveringOrder={deliveringOrder} isLoading={isLoading}/>;
+      if(order.orderStageID.orderStageStatusID.status === OrderStageStatus.RequestToSeller)
+        actionGroup = <CancelingActions/>
+      break;
+    default:
+      actionGroup = null;
+  }
   return (
     <div className="mb-6">
       <div id="order" className="rounded-md bg-slate-50 p-6">
@@ -62,10 +78,8 @@ const OrderItem = ({ order }: { order: OrderProps }) => {
             <p className="m-0 font-sans text-xl text-blue-700">{order.total + order.shipmentCost}</p>
           </Flex>
         </div>
-        {/* <ConfirmActions getPickupDate={pickingOrder} /> */}
-        <DeliveryActions deliveringOrder={deliveringOrder} isLoading={isLoading} />
-        {/* <CancelingActions /> */}
-        <PickupDateModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} pickupDates={pickupDates} />
+        {actionGroup}
+        <PickupDateModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} pickupDates={pickupDates} confirmOrder={confirmOrder} />
       </div>
     </div>
   );

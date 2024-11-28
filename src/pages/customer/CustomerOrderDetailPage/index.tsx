@@ -2,13 +2,11 @@ import { LeftOutlined } from '@ant-design/icons';
 import { Button, Divider, Flex, Typography } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import OrderInfo from './components/OrderInfo';
-import useAccountPage from '../AccountPage/useAccountPage';
 import useCustomerOrderDetailPage from './useCustomerOrderDetailPage';
 import { ConfirmActions, DeliveryActions, ReviewActions } from './components/ActionGroup';
 
 const CustomerOrderDetail = () => {
-  const { profile } = useAccountPage();
-  const { order } = useCustomerOrderDetailPage(profile);
+  const { order } = useCustomerOrderDetailPage();
   const navigate = useNavigate();
   return (
     <div id="container">

@@ -26,7 +26,6 @@ const useStoreProfileForm = (profile: UserProps | undefined) => {
   const [store, setStore] = useState<StoreProps>();
   const [value, setValue] = useState<string>();
 
-
   const getStoreByUserID = async (userID: string | undefined) => {
     try {
       const res = await storeAPIs.getStoreByUser(userID);

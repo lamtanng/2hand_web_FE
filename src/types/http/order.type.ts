@@ -38,7 +38,7 @@ export interface CreatedOrderProps {
 export interface CreateCODPaymentRequestProps {
   userID: string | undefined;
   total: number;
-  paymentMethodID: string;
+  paymentMethodID: string | undefined;
   receiverAddress: AddressProps | undefined;
   orders: CreatedOrderProps[];
 }

@@ -10,12 +10,19 @@ import { Modal } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { accountUrls } from '../../../constants/urlPaths/customer/accountUrls';
 import { CartItemProps, CartProps } from '../../../types/cart.type';
-import { CalcShippingFeeRequestProps, CreateCODPaymentRequestProps, CreatedOrderProps, GetAvailableServiceRequestProps } from '../../../types/http/order.type';
+import {
+  CalcShippingFeeRequestProps,
+  CreateCODPaymentRequestProps,
+  CreatedOrderProps,
+  GetAvailableServiceRequestProps,
+} from '../../../types/http/order.type';
 import { orderAPIs } from '../../../apis/order.api';
 import { StoreProps } from '../../../types/store.type';
 import { cartAPIs } from '../../../apis/cart.api';
 import { ServiceProps, ShipmentProps } from '../../../types/shipment.type';
 import { MoMoPaymentItemsProps } from '../../../types/http/momoPayment.type';
+import { paymentMethodAPIs } from '../../../apis/paymentMethod.api';
+import { PaymentMethodProps } from '../../../types/paymentMethod.type';
 
 const useCheckoutPage = (checkoutItems: CartProps[], total: number) => {
   const { user } = useAppSelector(loginSelector);
@@ -28,6 +35,9 @@ const useCheckoutPage = (checkoutItems: CartProps[], total: number) => {
   const [groupedShipment, setGroupedShipment] = useState<any[]>([]);
   const [selectedShipment, setSelectedShipment] = useState<any[]>([]);
   const [isLoading, setLoading] = useState<boolean>(false);
+  const [note, setNote] = useState<any[]>([]);
+  const [paymentMethods, setPaymentMethods] = useState<PaymentMethodProps[]>([]);
+  const [selectedMethod, setSelectedMethod] = useState<PaymentMethodProps>();
 
   const { confirm } = Modal;
 
@@ -61,7 +71,7 @@ const useCheckoutPage = (checkoutItems: CartProps[], total: number) => {
           to_district: value?.district?.DistrictID,
         };
         const res = await orderAPIs.getService(data);
-        const newService: ServiceProps = { store: store, services: res.data }
+        const newService: ServiceProps = { store: store, services: res.data };
         setService((prevService) => [...prevService, newService]);
       } catch (error) {
         handleError(error);
@@ -115,6 +125,26 @@ const useCheckoutPage = (checkoutItems: CartProps[], total: number) => {
     }
   };
 
+  const getPaymentMethod = async () => {
+    try {
+      const res = await paymentMethodAPIs.getAllMethod();
+      setPaymentMethods(res.data.methods);
+    } catch (error) {
+      handleError(error);
+    } finally {
+    }
+  };
+
+  useEffect(() => {
+    getPaymentMethod();
+  }, []);
+
+  useEffect(() => {
+    if (paymentMethods.length !== 0) {
+      setSelectedMethod(paymentMethods.find((item: PaymentMethodProps) => item.name === 'Cash on delivery'));
+    }
+  }, [paymentMethods]);
+
   useEffect(() => {
     if (service.length === checkoutItems.length) {
       checkoutItems.forEach((cart: CartProps) => {
@@ -152,7 +182,6 @@ const useCheckoutPage = (checkoutItems: CartProps[], total: number) => {
   useEffect(() => {
     if (allShipmentsFetched === true) {
       if (groupByStore.length === checkoutItems.length) {
-        console.log('group by store:', groupByStore);
         setGroupedShipment(groupByStore);
       }
     }
@@ -175,9 +204,7 @@ const useCheckoutPage = (checkoutItems: CartProps[], total: number) => {
 
   useEffect(() => {
     const shipmentChangeListener = eventEmitter.addListener('shipmentChange', (shipment: ShipmentProps) => {
-      console.log(shipment);
       const newArr = selectedShipment.filter((item: ShipmentProps) => item.store._id !== shipment.store._id);
-      console.log(newArr);
       setSelectedShipment([...newArr, shipment]);
     });
     return () => {
@@ -185,14 +212,25 @@ const useCheckoutPage = (checkoutItems: CartProps[], total: number) => {
     };
   }, [selectedShipment]);
 
+  useEffect(() => {
+    const addNoteListener = eventEmitter.addListener('addNote', (newNote: any) => {
+      const newArr = note.filter((item: any) => item.store._id !== newNote.store._id);
+      setNote([...newArr, newNote]);
+    });
+    return () => {
+      addNoteListener.remove();
+    };
+  }, [note]);
+
   const handlePlaceOrder = async () => {
     try {
       setLoading(true);
       const data: CreateCODPaymentRequestProps = {
         userID: user._id,
         receiverAddress: value,
-        total: total + selectedShipment.reduce((accumulator: number, item: ShipmentProps) => accumulator + item.total, 0),
-        paymentMethodID: '67029099359e957a9f4ee1f3',
+        total:
+          total + selectedShipment.reduce((accumulator: number, item: ShipmentProps) => accumulator + item.total, 0),
+        paymentMethodID: selectedMethod?._id,
         orders: checkoutItems.map((item: CartProps) => {
           return {
             storeID: item.store._id,
@@ -201,8 +239,9 @@ const useCheckoutPage = (checkoutItems: CartProps[], total: number) => {
                 return item.productID.price * item.quantity;
               })
               .reduce((accumulator: number, currentValue: number) => accumulator + currentValue, 0),
-            shipmentCost: selectedShipment.find((shipment: ShipmentProps) => shipment.store._id === item.store._id).total,
-            note: '',
+            shipmentCost: selectedShipment.find((shipment: ShipmentProps) => shipment.store._id === item.store._id)
+              .total,
+            note: note.find((note: any) => note.store._id === item.store._id).note,
             items: item.products.map((item: CartItemProps) => {
               return {
                 id: item.productID._id,
@@ -240,7 +279,7 @@ const useCheckoutPage = (checkoutItems: CartProps[], total: number) => {
           });
         });
 
-        navigate(`/${accountUrls.accountUrl}/${accountUrls.orderUrl}`);
+        navigate(`/intermediary`);
       }
     } catch (error) {
       handleError(error);
@@ -281,7 +320,12 @@ const useCheckoutPage = (checkoutItems: CartProps[], total: number) => {
     shipment,
     selectedShipment,
     setSelectedShipment,
-    isLoading
+    isLoading,
+    setNote,
+    note,
+    paymentMethods,
+    selectedMethod,
+    setSelectedMethod,
   };
 };
 export default useCheckoutPage;

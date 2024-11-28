@@ -6,6 +6,7 @@ import defaultPic from '../../../../../assets/blob.jpg';
 import { useState } from 'react';
 import { OrderProps } from '../../../../../types/order.type';
 import { OrderDetailProps } from '../../../../../types/orderDetail.type';
+import { OrderStage } from '../../../../../types/enum/orderStage.enum';
 
 const OrderDetail = ({ order, item }: { order: OrderProps; item: OrderDetailProps }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -15,9 +16,9 @@ const OrderDetail = ({ order, item }: { order: OrderProps; item: OrderDetailProp
   };
   return (
     <div id="order-detail" className="mt-6">
-      <Flex justify="space-between" align="center">
+      <Flex justify="space-between" align="center" gap={'large'}>
         <Link to={order._id}>
-          <div id="product-info" className="w-5/6">
+          <div id="product-info" className="flex-grow-0">
             <Flex gap={'middle'}>
               <Image width={75} preview={false} alt="" src={item.productID.image[0]} fallback={defaultPic} />
               <div>
@@ -29,10 +30,13 @@ const OrderDetail = ({ order, item }: { order: OrderProps; item: OrderDetailProp
             </Flex>
           </div>
         </Link>
-        {/* <div id="prodct-price" className="font-sans">
-        {item.productID.price} VND
-      </div> */}
-        <ReviewButton onClick={openReviewModal} />
+        {order.orderStageID.name === OrderStage.Delivered ? (
+          <ReviewButton onClick={openReviewModal} />
+        ) : (
+          <div id="prodct-price" className="font-sans flex-shrink-0">
+            {item.productID.price} VND
+          </div>
+        )}
         <ReviewModal isModalOpen={isModalOpen} product={item} setIsModalOpen={setIsModalOpen} />
       </Flex>
     </div>

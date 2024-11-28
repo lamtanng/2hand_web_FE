@@ -40,7 +40,7 @@ const getSellerOrder = (storeID: string | undefined) => {
 };
 
 const getPickupDate = () => {
-  return axiosClient.get(getPickupDateUrl);
+  return axiosClient.post(getPickupDateUrl);
 };
 
 const calcExpectedDeliveryDate = (data: CalcExpectedDeliveryDateRequest) => {
