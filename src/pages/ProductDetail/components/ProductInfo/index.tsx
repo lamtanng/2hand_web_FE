@@ -5,6 +5,8 @@ import ImageSlider from '../ImageSlider';
 import { Link } from 'react-router-dom';
 import { ProductProps } from '../../../../types/product.type';
 import { useState } from 'react';
+import { useAppSelector } from '../../../../redux/hooks';
+import { loginSelector } from '../../../../redux/slices/login.slice';
 
 const ProductInfo = ({
   product,
@@ -19,7 +21,8 @@ const ProductInfo = ({
   isDirty: boolean;
   handleBuyNow: () => void;
 }) => {
-  const [selectedImage, setSelectedImage] = useState<string>()
+  const { user } = useAppSelector(loginSelector);
+  const [selectedImage, setSelectedImage] = useState<string>();
   return (
     <div id="product" className="my-5 rounded-xl bg-white p-8 shadow-sm">
       <Flex className="gap-16">
@@ -62,12 +65,9 @@ const ProductInfo = ({
             </Typography.Title>
             <Flex vertical gap={'large'} className="mx-6">
               <Flex align="baseline" gap={'small'}>
-                <Typography.Paragraph className="m-0 w-1/6">Deliver to: </Typography.Paragraph>
+                <Typography.Paragraph className="m-0 w-1/6">Deliver from: </Typography.Paragraph>
                 <Typography.Paragraph className="m-0 w-5/6">
-                  From Location to{' '}
-                  <Button type="link" className="m-0 p-0">
-                    Address
-                  </Button>
+                  {product?.address.province?.ProvinceName}
                 </Typography.Paragraph>
               </Flex>
               <Flex align="baseline" gap={'small'}>
@@ -75,30 +75,38 @@ const ProductInfo = ({
                 <InputNumber
                   min={1}
                   max={product?.quantity}
-                  defaultValue={1}
+                  defaultValue={(product && product.quantity > 0) ? 0 : 1}
                   onChange={(value) => {
                     value && setQuantity(value);
                   }}
+                  disabled={product && product.quantity <= 0}
                 />
                 <Typography.Paragraph className="m-0 ml-6 text-gray-500">
                   {product?.quantity} in stock
                 </Typography.Paragraph>
               </Flex>
             </Flex>
-            <Flex gap={'large'}>
-              <Button
-                disabled={isDirty}
-                color="primary"
-                variant="outlined"
-                className="w-1/2 py-5 font-bold"
-                onClick={handleAddToCart}
-              >
-                Add to cart
+            {user._id === product?.storeID.userID._id ? null : (product && product.quantity > 0) ? (
+              <Flex gap={'large'}>
+                <Button
+                  disabled={isDirty}
+                  color="primary"
+                  variant="outlined"
+                  className="w-1/2 py-5 font-bold"
+                  onClick={handleAddToCart}
+                >
+                  Add to cart
+                </Button>
+                <Button disabled={isDirty} type="primary" className="w-1/2 py-5 font-bold" onClick={handleBuyNow}>
+                  Buy now
+                </Button>
+              </Flex>
+            ) : (
+              <Button disabled type="primary" className="w-full py-5 font-bold">
+                <HeartOutlined />
+                Add to wishlist
               </Button>
-              <Button disabled={isDirty} type="primary" className="w-1/2 py-5 font-bold" onClick={handleBuyNow}>
-                Buy now
-              </Button>
-            </Flex>
+            )}
             <Divider />
           </Flex>
         </div>
