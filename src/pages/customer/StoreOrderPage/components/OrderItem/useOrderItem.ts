@@ -11,14 +11,16 @@ import { reasonAPIs } from '../../../../../apis/reason.api';
 import { ObjectType } from '../../../../../types/enum/objectType.enum';
 import { TaskType } from '../../../../../types/enum/taskType.type';
 import { orderRequestsAPIs } from '../../../../../apis/orderRequest.api';
+import { PickupDateProps } from '../../../../../types/http/pickupDate.type';
+import { ReasonProps } from '../../../../../types/http/reason.type';
 
 const useOrderItem = (order: OrderProps) => {
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
   const [isPickupModalOpen, setIsPickupModalOpen] = useState(false);
-  const [pickupDates, setPickupDates] = useState<any[]>([]);
+  const [pickupDates, setPickupDates] = useState<PickupDateProps[]>([]);
   const [isLoading, setLoading] = useState(false);
-  const [cancelReasons, setCancelReasons] = useState<any[]>([]);
-  const [returnReasons, setReturnReasons] = useState<any[]>([]);
+  const [cancelReasons, setCancelReasons] = useState<ReasonProps[]>([]);
+  const [returnReasons, setReturnReasons] = useState<ReasonProps[]>([]);
 
   const pickingOrder = async () => {
     try {
@@ -47,8 +49,8 @@ const useOrderItem = (order: OrderProps) => {
     }
   };
 
-  const confirmOrder = (date: any) => {
-    const pickingDate = extractISODate(date.title);
+  const confirmOrder = (date: PickupDateProps | undefined) => {
+    const pickingDate = extractISODate(date?.title);
     changeStage(pickingDate, OrderStage.Picking);
   };
 
@@ -77,12 +79,12 @@ const useOrderItem = (order: OrderProps) => {
       const res = await reasonAPIs.getAllReason();
       setCancelReasons(
         res.data.reasons.filter(
-          (item: any) => item.objectType === ObjectType.Order && item.taskType === TaskType.Cancel,
+          (item: ReasonProps) => item.objectType === ObjectType.Order && item.taskType === TaskType.Cancel,
         ),
       );
       setReturnReasons(
         res.data.reasons.filter(
-          (item: any) => item.objectType === ObjectType.Order && item.taskType === TaskType.Return,
+          (item: ReasonProps) => item.objectType === ObjectType.Order && item.taskType === TaskType.Return,
         ),
       );
     } catch (error) {
@@ -95,7 +97,7 @@ const useOrderItem = (order: OrderProps) => {
     getReasons();
   };
 
-  const directCancel = async (reason: any) => {
+  const directCancel = async (reason: ReasonProps | undefined) => {
     try {
       const data = {
         name: order.orderStageID.name,
@@ -103,7 +105,7 @@ const useOrderItem = (order: OrderProps) => {
         orderStageID: order.orderStageID.orderStageStatusID.orderStageID,
         description: 'Direct Cancel',
         taskType: TaskType.Cancel,
-        reasonID: reason._id,
+        reasonID: reason?._id,
       };
       console.log(data);
       await orderRequestsAPIs.createNewRequest(data);

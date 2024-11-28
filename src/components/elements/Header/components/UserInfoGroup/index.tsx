@@ -13,7 +13,7 @@ import { handleError } from '../../../../../utils/handleError';
 const UserInfoGroup = ({ user }: { user: UserProps }) => {
   const { itemAmount, profile } = useUserInfo(user);
   const isSeller =
-    profile?.roleID?.filter((role: any) => role === '670d2db6d696affd52e661c3').length !== 0 ? true : false;
+    profile?.roleID?.filter((role: string) => role === '670d2db6d696affd52e661c3').length !== 0 ? true : false;
   const actionLink = isSeller ? `/product/upload` : `/${customerUrls.storeRegisterUrl}`;
 
   const dispatch = useAppDispatch();

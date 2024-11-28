@@ -113,7 +113,7 @@ const useCart = () => {
 
   const getSumPrice = (checkedList: CartItemProps[]) => {
     return checkedList
-      .map((item: any) => {
+      .map((item: CartItemProps) => {
         return item.productID.price * item.quantity;
       })
       .reduce((accumulator: number, currentValue: number) => accumulator + currentValue, 0);
@@ -123,7 +123,7 @@ const useCart = () => {
     checkedList.length !== 0 &&
     checkedList.length ===
       cart
-        .map((group: any) => {
+        .map((group: CartProps) => {
           return group.products;
         })
         .flat().length

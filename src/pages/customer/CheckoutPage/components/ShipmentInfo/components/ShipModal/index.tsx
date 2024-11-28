@@ -3,6 +3,7 @@ import { Button, Divider, Flex, Radio, RadioChangeEvent, Typography } from 'antd
 import React from 'react';
 import useShipmentModal from './useShipmentModal';
 import eventEmitter from '../../../../../../../utils/eventEmitter';
+import { ShipmentProps } from '../../../../../../../types/shipment.type';
 
 const ShipModal = ({
   isModalOpen,
@@ -11,7 +12,7 @@ const ShipModal = ({
 }: {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  shipment: any[],
+  shipment: ShipmentProps[],
   
 }) => {
   const { chosenShipment, setChosenShipment } = useShipmentModal();
@@ -49,7 +50,7 @@ const ShipModal = ({
         <div className="px-6 pb-6">
           <Radio.Group className="w-full" defaultValue={chosenShipment} onChange={onChange}>
             <Flex vertical gap={'large'} className="w-full">
-              {shipment.map((item: any) => (
+              {shipment.map((item: ShipmentProps) => (
                 <Radio value={item} className="w-full">
                   <Flex className="ml-2 min-w-60" justify="space-between" gap={'large'}>
                     <Typography.Paragraph className="m-0 text-base">

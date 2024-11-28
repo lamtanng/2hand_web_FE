@@ -1,4 +1,6 @@
 import { Button, Checkbox, Flex, Typography } from 'antd';
+import { CartItemProps } from '../../../../../types/cart.type';
+import { CheckboxChangeEvent } from 'antd/es/checkbox';
 
 const Summary = ({
   checkedList,
@@ -7,15 +9,15 @@ const Summary = ({
   handleOnClick,
   itemAmount,
 }: {
-  checkedList: any[];
-  allCheckBoxHandler: (event: any) => void;
+  checkedList: CartItemProps[];
+  allCheckBoxHandler: (event: CheckboxChangeEvent) => void;
   checked: boolean;
   handleOnClick: () => void;
   itemAmount: number;
   totalPrice: number;
 }) => {
   const totalPrice = checkedList
-  .map((item: any) => {
+  .map((item: CartItemProps) => {
     return item.productID.price * item.quantity;
   })
   .reduce((accumulator: number, currentValue: number) => accumulator + currentValue, 0);

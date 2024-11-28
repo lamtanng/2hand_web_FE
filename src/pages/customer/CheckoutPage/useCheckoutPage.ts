@@ -15,6 +15,7 @@ import {
   CreateCODPaymentRequestProps,
   CreatedOrderProps,
   GetAvailableServiceRequestProps,
+  NoteProps,
 } from '../../../types/http/order.type';
 import { orderAPIs } from '../../../apis/order.api';
 import { StoreProps } from '../../../types/store.type';
@@ -35,7 +36,7 @@ const useCheckoutPage = (checkoutItems: CartProps[], total: number) => {
   const [groupedShipment, setGroupedShipment] = useState<any[]>([]);
   const [selectedShipment, setSelectedShipment] = useState<any[]>([]);
   const [isLoading, setLoading] = useState<boolean>(false);
-  const [note, setNote] = useState<any[]>([]);
+  const [note, setNote] = useState<NoteProps[]>([]);
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethodProps[]>([]);
   const [selectedMethod, setSelectedMethod] = useState<PaymentMethodProps>();
 
@@ -213,8 +214,8 @@ const useCheckoutPage = (checkoutItems: CartProps[], total: number) => {
   }, [selectedShipment]);
 
   useEffect(() => {
-    const addNoteListener = eventEmitter.addListener('addNote', (newNote: any) => {
-      const newArr = note.filter((item: any) => item.store._id !== newNote.store._id);
+    const addNoteListener = eventEmitter.addListener('addNote', (newNote: NoteProps) => {
+      const newArr = note.filter((item: NoteProps) => item.store._id !== newNote.store._id);
       setNote([...newArr, newNote]);
     });
     return () => {
@@ -232,8 +233,8 @@ const useCheckoutPage = (checkoutItems: CartProps[], total: number) => {
           total + selectedShipment.reduce((accumulator: number, item: ShipmentProps) => accumulator + item.total, 0),
         paymentMethodID: selectedMethod?._id,
         orders: checkoutItems.map((item: CartProps) => {
-          const orderNote = note.length !== 0 && note.find((note: any) => note.store._id === item.store._id).note
-            ? note.find((note: any) => note.store._id === item.store._id)?.note
+          const orderNote = note.length !== 0 && note?.find((note: NoteProps) => note.store._id === item.store._id)?.note
+            ? note.find((note: NoteProps) => note.store._id === item.store._id)?.note
             : '';
           return {
             storeID: item.store._id,

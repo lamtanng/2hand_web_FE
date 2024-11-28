@@ -9,11 +9,12 @@ import { reasonAPIs } from '../../../../../apis/reason.api';
 import { ObjectType } from '../../../../../types/enum/objectType.enum';
 import { TaskType } from '../../../../../types/enum/taskType.type';
 import { orderRequestsAPIs } from '../../../../../apis/orderRequest.api';
+import { ReasonProps } from '../../../../../types/http/reason.type';
 
 const useOrderItem = (order: OrderProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [cancelReasons, setCancelReasons] = useState<any[]>([]);
-  const [returnReasons, setReturnReasons] = useState<any[]>([]);
+  const [cancelReasons, setCancelReasons] = useState<ReasonProps[]>([]);
+  const [returnReasons, setReturnReasons] = useState<ReasonProps[]>([]);
   const [description, setDescription] = useState<string>('')
 
   const { confirm } = Modal;
@@ -32,12 +33,12 @@ const useOrderItem = (order: OrderProps) => {
       const res = await reasonAPIs.getAllReason();
       setCancelReasons(
         res.data.reasons.filter(
-          (item: any) => item.objectType === ObjectType.Order && item.taskType === TaskType.Cancel,
+          (item: ReasonProps) => item.objectType === ObjectType.Order && item.taskType === TaskType.Cancel,
         ),
       );
       setReturnReasons(
         res.data.reasons.filter(
-          (item: any) => item.objectType === ObjectType.Order && item.taskType === TaskType.Return,
+          (item: ReasonProps) => item.objectType === ObjectType.Order && item.taskType === TaskType.Return,
         ),
       );
     } catch (error) {
@@ -66,7 +67,7 @@ const useOrderItem = (order: OrderProps) => {
     }
   };
 
-  const cancelOrder = async (reason: any) => {
+  const cancelOrder = async (reason: ReasonProps | undefined) => {
     try {
       const data = {
         name: order.orderStageID.name,
@@ -74,7 +75,7 @@ const useOrderItem = (order: OrderProps) => {
         orderStageID: order.orderStageID.orderStageStatusID.orderStageID,
         description: description,
         taskType: TaskType.Cancel,
-        reasonID: reason._id,
+        reasonID: reason?._id,
       };
       console.log(data);
       await orderRequestsAPIs.createNewRequest(data);

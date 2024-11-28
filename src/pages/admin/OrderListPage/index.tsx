@@ -1,12 +1,14 @@
 import { TableProps, Typography, Table } from 'antd';
 import useOrderListPage from './useOrderListPage';
+import { OrderProps } from '../../../types/order.type';
+import { OrderStage } from '../../../types/enum/orderStage.enum';
 
 export interface CustomTableColumns {
   orderID: string;
-  customerName: string;
-  storeName: string;
+  customerName: string | undefined;
+  storeName: string | undefined;
   products: number;
-  status: string;
+  stage: OrderStage;
   total: number;
   shipmentCost: number;
 }
@@ -14,14 +16,14 @@ export interface CustomTableColumns {
 const OrderListPage = () => {
   const { orders } = useOrderListPage();
 
-  const data: CustomTableColumns[] = orders.map((order: any) => {
+  const data: CustomTableColumns[] = orders.map((order: OrderProps) => {
     const name = (order.userID) ? order.userID.firstName : 'Anonymous'
     return {
       orderID: order._id,
       customerName: name,
       storeName: order.storeID.name,
       products: order.orderDetailIDs.length,
-      status: order.orderStatusID.name,
+      stage: order.orderStageID.name,
       total: order.total,
       shipmentCost: order.shipmentCost,
     };

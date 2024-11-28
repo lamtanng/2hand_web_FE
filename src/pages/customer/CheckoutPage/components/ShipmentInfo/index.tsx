@@ -3,6 +3,8 @@ import { CartItemProps } from '../../../../../types/cart.type';
 import useShipment from './useShipment';
 import ShipModal from './components/ShipModal';
 import eventEmitter from '../../../../../utils/eventEmitter';
+import { ShipmentProps } from '../../../../../types/shipment.type';
+import { NoteProps } from '../../../../../types/http/order.type';
 
 const ShipmentInfo = ({
   product,
@@ -10,9 +12,9 @@ const ShipmentInfo = ({
   finalShipment,
 }: {
   product: CartItemProps[];
-  shipment: any[];
-  finalShipment: any;
-  note: any;
+  shipment: ShipmentProps[];
+  finalShipment: ShipmentProps;
+  note: NoteProps | undefined;
 }) => {
   const { isModalOpen, setIsModalOpen, showModal, totalPrice } = useShipment(product);
 

@@ -2,6 +2,7 @@ import { CloseOutlined, DownOutlined } from '@ant-design/icons';
 import { Button, Divider, Dropdown, Flex, MenuProps, Typography } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import { useState } from 'react';
+import { ReasonProps } from '../../../../../types/http/reason.type';
 
 const CancelRequestModal = ({
   isModalOpen,
@@ -12,11 +13,11 @@ const CancelRequestModal = ({
 }: {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  reasons: any[];
-  cancelOrderRequest: (reason: any) => Promise<void>;
+  reasons: ReasonProps[];
+  cancelOrderRequest: (reason: ReasonProps | undefined) => Promise<void>;
   setDescription: React.Dispatch<React.SetStateAction<string>>;
 }) => {
-  const [choosenReason, setChoosenReason] = useState<any>();
+  const [choosenReason, setChoosenReason] = useState<ReasonProps>();
 
   const handleClose = () => {
     setIsModalOpen(false);
@@ -27,7 +28,7 @@ const CancelRequestModal = ({
     cancelOrderRequest(choosenReason);
   };
 
-  const items: MenuProps['items'] = reasons.map((reason: any) => ({
+  const items: MenuProps['items'] = reasons.map((reason: ReasonProps) => ({
     key: JSON.stringify(reason),
     label: reason.name,
   }));

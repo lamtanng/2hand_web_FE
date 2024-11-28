@@ -1,6 +1,7 @@
 import { CloseOutlined } from '@ant-design/icons';
-import { Button, Divider, Flex, Radio, Space, Typography } from 'antd';
+import { Button, Divider, Flex, Radio, RadioChangeEvent, Space, Typography } from 'antd';
 import { useState } from 'react';
+import { PickupDateProps } from '../../../../../types/http/pickupDate.type';
 
 const PickupDateModal = ({
   isModalOpen,
@@ -10,16 +11,16 @@ const PickupDateModal = ({
 }: {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  pickupDates: any[];
-  confirmOrder: (date: any) => void
+  pickupDates: PickupDateProps[];
+  confirmOrder: (date: PickupDateProps | undefined) => void
 }) => {
-  const [choosenDate, setChoosenDate] = useState<any>();
+  const [choosenDate, setChoosenDate] = useState<PickupDateProps>();
 
   const handleClose = () => {
     setIsModalOpen(false);
   };
 
-  const onChange = (e: any) => {
+  const onChange = (e: RadioChangeEvent) => {
     console.log(e.target.value);
     setChoosenDate(e.target.value);
   };
@@ -48,7 +49,7 @@ const PickupDateModal = ({
         <div className="max-h-[calc(70vh-120px)] overflow-y-auto px-6">
           <Radio.Group className="w-full" onChange={onChange}>
             <Space direction="vertical" className="w-full">
-              {pickupDates?.map((date: any) => (
+              {pickupDates?.map((date: PickupDateProps) => (
                 <Radio value={date} className="w-full text-base">
                   {date.title.replace('Ca lấy', 'Picking date:')}
                 </Radio>

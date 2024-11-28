@@ -1,7 +1,15 @@
 import { Radio, Space } from 'antd';
 import React from 'react';
 
-const priceValue = [
+interface PriceProps {
+  label: string,
+  range?: {
+    min?: number,
+    max?: number
+  }
+}
+
+const priceValue: PriceProps[] = [
   {
     label: 'All',
     range: undefined,
@@ -66,7 +74,7 @@ const PriceFilter = ({
       }}
     >
       <Space direction="vertical">
-        {priceValue.map((price: any) => (
+        {priceValue.map((price: PriceProps) => (
           <Radio key={price.label} value={JSON.stringify(price.range)}>
             {price.label}
           </Radio>

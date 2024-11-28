@@ -17,7 +17,7 @@ const CartDetail = ({
 }: {
   product: CartItemProps;
   singleCheckBoxHandler: (event: CheckboxChangeEvent) => void;
-  checkedList: any[];
+  checkedList: CartItemProps[];
   handleDelete: (productID: string | undefined, oldCheckList: CartItemProps[]) => Promise<void>;
   handleQuantityChange: (product: CartItemProps, value: number, oldCheckList: CartItemProps[]) => Promise<void>;
 }) => {
