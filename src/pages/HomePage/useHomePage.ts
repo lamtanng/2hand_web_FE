@@ -21,7 +21,7 @@ const useHomePage = () => {
         undefined,
         undefined,
       );
-      setNewestProduct(res?.data?.response?.products);
+      setNewestProduct(res?.data?.response?.data);
     } catch (error) {
       handleError(error);
     } finally {
@@ -42,7 +42,7 @@ const useHomePage = () => {
         undefined,
         undefined,
       );
-      setFreeProduct(res?.data?.response?.products);
+      setFreeProduct(res?.data?.response?.data);
     } catch (error) {
       handleError(error);
     } finally {

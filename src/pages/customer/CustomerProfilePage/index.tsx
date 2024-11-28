@@ -14,7 +14,7 @@ const Profile = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   
   const isSeller =
-    profile?.roleID?.filter((role: string) => role === '670d2db6d696affd52e661c3').length !== 0 ? true : false;
+    profile?.roleID?.filter((role: any) => role === '670d2db6d696affd52e661c3').length !== 0 ? true : false;
   return (
     <div id="container" className="px-12 py-5">
       <Flex justify="space-between" align="center">

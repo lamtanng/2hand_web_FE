@@ -18,7 +18,7 @@ const useProductListPage = () => {
         undefined,
         undefined,
       );
-      setProducts(res.data.response.products);
+      setProducts(res.data.response.data);
     } catch (error) {
       handleError(error);
     } finally {

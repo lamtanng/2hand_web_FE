@@ -34,7 +34,7 @@ function getItem(label: React.ReactNode, key: React.Key, icon?: React.ReactNode,
 const MenuBar = () => {
   const { profile } = useAccountPage();
   const isSeller =
-    profile?.roleID?.filter((role: string) => role === '670d2db6d696affd52e661c3').length !== 0 ? true : false;
+    profile?.roleID?.filter((role: any) => role === '670d2db6d696affd52e661c3').length !== 0 ? true : false;
 
   const items: MenuItem[] = [
     {

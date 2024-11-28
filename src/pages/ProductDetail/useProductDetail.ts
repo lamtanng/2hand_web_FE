@@ -38,7 +38,7 @@ const useProductDetail = () => {
         undefined,
         storeIDGroup,
       );
-      setStoreProduct(res?.data?.response?.products);
+      setStoreProduct(res?.data?.response?.data);
     } catch (error) {
       handleError(error);
     } finally {

@@ -7,6 +7,7 @@ import { DistrictAddressProps, ProvincesAddressProps, WardAddressProps } from '.
 import { storeAPIs } from '../../../apis/store.api';
 import { handleError } from '../../../utils/handleError';
 import { StoreProps } from '../../../types/store.type';
+import { UpdateStoreRequestProps } from '../../../types/http/store.type';
 
 const useStoreProfileForm = (profile: UserProps | undefined) => {
   const method = useForm<StoreProfileProps>({
@@ -33,6 +34,20 @@ const useStoreProfileForm = (profile: UserProps | undefined) => {
     } catch (error) {
       handleError(error);
     } finally {
+    }
+  };
+
+  const updateStore = async (currentStore: StoreProfileProps) => {
+    try {
+      const data: UpdateStoreRequestProps = {
+        _id: store?._id,
+        description: value,
+        name: currentStore.storeName,
+      };
+      console.log(data);
+      await storeAPIs.updateStore(data);
+    } catch (error) {
+      handleError;
     }
   };
 
@@ -72,7 +87,8 @@ const useStoreProfileForm = (profile: UserProps | undefined) => {
     setSubmitting,
     store,
     value,
-    setValue
+    setValue,
+    updateStore,
   };
 };
 

@@ -24,7 +24,8 @@ const StoreProfile = () => {
     isSubmitting,
     store,
     setValue,
-    value
+    value,
+    updateStore,
   } = useStoreProfileForm(profile);
 
   return (
@@ -39,7 +40,7 @@ const StoreProfile = () => {
         <Flex gap={50} justify="space-between" align="center" className="px-10">
           <div className="w-full">
             <FormProvider {...method}>
-              <Form name="normal_login" layout="vertical" className="w-full" onFinish={handleSubmit}>
+              <Form name="normal_login" layout="vertical" className="w-full" onFinish={handleSubmit(updateStore)}>
                 <Typography.Paragraph className="m-0 mb-6 text-base">Store ID: {store?._id}</Typography.Paragraph>
                 <CustomFormItem name="storeName" hint="Store's name" label="Store's Name" isRequired={true} />
                 <Form.Item>

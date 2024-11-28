@@ -7,8 +7,8 @@ export interface StoreProps {
   slug: string;
   description: string | undefined;
   address: AddressProps[];
-  avatar: string;
-  coverImg: string;
+  avatar?: string;
+  coverImg?: string;
   isActive: boolean;
   createAt?: Date;
   updateAt?: Date;
