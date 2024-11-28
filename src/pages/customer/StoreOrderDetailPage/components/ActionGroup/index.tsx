@@ -7,11 +7,11 @@ import {
   RejectRequestButton,
 } from '../../../../../components/elements/Buttons/StoreOrderButtons';
 
-export const ConfirmActions = ( { getPickupDate }: { getPickupDate: () => void }) => {
+export const ConfirmActions = ( { getPickupDate, openCancelModal }: { getPickupDate: () => void, openCancelModal: () => void }) => {
   return (
     <div className="bg-blue-50">
       <Flex className="px-12 py-5" justify="end">
-        <CancelButton onClick={() => {}} />
+        <CancelButton onClick={openCancelModal} />
       </Flex>
       <Divider variant="dashed" className="m-0" />
       <Flex className="px-12 py-5" justify="end">
@@ -21,11 +21,11 @@ export const ConfirmActions = ( { getPickupDate }: { getPickupDate: () => void }
   );
 };
 
-export const DeliveryActions = ({deliveringOrder}: {deliveringOrder: () => void}) => {
+export const DeliveryActions = ({deliveringOrder, isLoading}: {deliveringOrder: () => void, isLoading: boolean}) => {
   return (
     <div className="bg-blue-50">
       <Flex className="px-12 py-5" justify="end">
-        <DeliveringButton onClick={deliveringOrder} isLoading={false} />
+        <DeliveringButton onClick={deliveringOrder} isLoading={isLoading} />
       </Flex>
     </div>
   );

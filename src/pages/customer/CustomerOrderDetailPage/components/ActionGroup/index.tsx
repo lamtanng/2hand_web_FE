@@ -2,31 +2,25 @@ import { Divider, Flex } from 'antd';
 import {
   CancelButton,
   ConfirmReceivedButton,
-  ContactShopButton,
   RebuyButton,
   ReturnButton,
-  ReviewButton,
 } from '../../../../../components/elements/Buttons/CustomerOrderButtons';
 
-export const ConfirmActions = () => {
+export const ConfirmActions = ({openCancelModal}: {openCancelModal: () => void}) => {
   return (
     <div className="bg-blue-50">
       <Flex className="px-12 py-5" justify="end">
-        <CancelButton onClick={() => {}} />
-      </Flex>
-      <Divider variant="dashed" className="m-0" />
-      <Flex className="px-12 py-5" justify="end">
-        <ContactShopButton onClick={() => {}} />
+        <CancelButton onClick={openCancelModal} />
       </Flex>
     </div>
   );
 };
 
-export const DeliveryActions = () => {
+export const DeliveryActions = ({receiveOrder}: {receiveOrder: () => void}) => {
   return (
     <div className="bg-blue-50">
       <Flex className="px-12 py-5" justify="end">
-        <ConfirmReceivedButton onClick={() => {}} />
+        <ConfirmReceivedButton onClick={receiveOrder} />
       </Flex>
       <Divider variant="dashed" className="m-0" />
       <Flex className="px-12 py-5" justify="end">
@@ -36,13 +30,9 @@ export const DeliveryActions = () => {
   );
 };
 
-export const ReviewActions = () => {
+export const RebuyActions = () => {
   return (
     <div className="bg-blue-50">
-      <Flex className="px-12 py-5" justify="end">
-        <ReviewButton onClick={() => {}} />
-      </Flex>
-      <Divider variant="dashed" className="m-0" />
       <Flex className="px-12 py-5" justify="end">
         <RebuyButton onClick={() => {}} />
       </Flex>

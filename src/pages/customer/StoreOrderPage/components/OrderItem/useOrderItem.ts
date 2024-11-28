@@ -7,11 +7,18 @@ import { OrderStage } from '../../../../../types/enum/orderStage.enum';
 import { orderStageAPIs } from '../../../../../apis/orderStage.api';
 import eventEmitter from '../../../../../utils/eventEmitter';
 import { extractISODate } from '../../../../../utils/extractISODate';
+import { reasonAPIs } from '../../../../../apis/reason.api';
+import { ObjectType } from '../../../../../types/enum/objectType.enum';
+import { TaskType } from '../../../../../types/enum/taskType.type';
+import { orderRequestsAPIs } from '../../../../../apis/orderRequest.api';
 
 const useOrderItem = (order: OrderProps) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
+  const [isPickupModalOpen, setIsPickupModalOpen] = useState(false);
   const [pickupDates, setPickupDates] = useState<any[]>([]);
   const [isLoading, setLoading] = useState(false);
+  const [cancelReasons, setCancelReasons] = useState<any[]>([]);
+  const [returnReasons, setReturnReasons] = useState<any[]>([]);
 
   const pickingOrder = async () => {
     try {
@@ -20,7 +27,7 @@ const useOrderItem = (order: OrderProps) => {
     } catch (error) {
       handleError(error);
     } finally {
-      setIsModalOpen(true);
+      setIsPickupModalOpen(true);
     }
   };
 
@@ -65,14 +72,61 @@ const useOrderItem = (order: OrderProps) => {
     }
   };
 
+  const getReasons = async () => {
+    try {
+      const res = await reasonAPIs.getAllReason();
+      setCancelReasons(
+        res.data.reasons.filter(
+          (item: any) => item.objectType === ObjectType.Order && item.taskType === TaskType.Cancel,
+        ),
+      );
+      setReturnReasons(
+        res.data.reasons.filter(
+          (item: any) => item.objectType === ObjectType.Order && item.taskType === TaskType.Return,
+        ),
+      );
+    } catch (error) {
+      handleError(error);
+    }
+  };
+
+  const openCancelModal = () => {
+    setIsCancelModalOpen(true);
+    getReasons();
+  };
+
+  const directCancel = async (reason: any) => {
+    try {
+      const data = {
+        name: order.orderStageID.name,
+        status: order.orderStageID.orderStageStatusID.status,
+        orderStageID: order.orderStageID.orderStageStatusID.orderStageID,
+        description: 'Direct Cancel',
+        taskType: TaskType.Cancel,
+        reasonID: reason._id,
+      };
+      console.log(data);
+      await orderRequestsAPIs.createNewRequest(data);
+      eventEmitter.emit('orderStageChanged');
+    } catch (error) {
+      handleError(error);
+    }
+  };
+
   return {
-    isModalOpen,
-    setIsModalOpen,
     pickingOrder,
     pickupDates,
     deliveringOrder,
     isLoading,
     confirmOrder,
+    cancelReasons,
+    returnReasons,
+    openCancelModal,
+    directCancel,
+    isCancelModalOpen,
+    isPickupModalOpen,
+    setIsCancelModalOpen,
+    setIsPickupModalOpen
   };
 };
 export default useOrderItem;

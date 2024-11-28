@@ -1,12 +1,11 @@
 import { Flex } from 'antd';
-import { CancelButton, ConfirmReceivedButton, ContactShopButton, RebuyButton, ReturnButton } from '../../../../../components/elements/Buttons/CustomerOrderButtons';
+import { CancelButton, ConfirmReceivedButton, RebuyButton, ReturnButton } from '../../../../../components/elements/Buttons/CustomerOrderButtons';
 
-export const ConfirmActions = () => {
+export const ConfirmActions = ({openCancelModal}: {openCancelModal: () => void}) => {
   return (
     <div id="actions" className="mt-6">
       <Flex justify="end" gap={'middle'}>
-        <ContactShopButton onClick={() => {}} />
-        <CancelButton onClick={() => {}} />
+        <CancelButton onClick={openCancelModal} />
       </Flex>
     </div>
   );
@@ -23,7 +22,7 @@ export const DeliveryActions = ({receiveOrder}: {receiveOrder: () => void}) => {
     );
   };
 
-  export const ReviewActions = () => {
+  export const RebuyActions = () => {
     return (
       <div id="actions" className="mt-6">
         <Flex justify="end" gap={'middle'}>

@@ -232,6 +232,9 @@ const useCheckoutPage = (checkoutItems: CartProps[], total: number) => {
           total + selectedShipment.reduce((accumulator: number, item: ShipmentProps) => accumulator + item.total, 0),
         paymentMethodID: selectedMethod?._id,
         orders: checkoutItems.map((item: CartProps) => {
+          const orderNote = note.length !== 0 && note.find((note: any) => note.store._id === item.store._id).note
+            ? note.find((note: any) => note.store._id === item.store._id)?.note
+            : '';
           return {
             storeID: item.store._id,
             total: item.products
@@ -241,7 +244,7 @@ const useCheckoutPage = (checkoutItems: CartProps[], total: number) => {
               .reduce((accumulator: number, currentValue: number) => accumulator + currentValue, 0),
             shipmentCost: selectedShipment.find((shipment: ShipmentProps) => shipment.store._id === item.store._id)
               .total,
-            note: note.find((note: any) => note.store._id === item.store._id).note,
+            note: orderNote,
             items: item.products.map((item: CartItemProps) => {
               return {
                 id: item.productID._id,

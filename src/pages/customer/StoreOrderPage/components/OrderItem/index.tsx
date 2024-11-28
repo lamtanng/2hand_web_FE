@@ -9,23 +9,38 @@ import { OrderDetailProps } from '../../../../../types/orderDetail.type';
 import { OrderProps } from '../../../../../types/order.type';
 import { OrderStage } from '../../../../../types/enum/orderStage.enum';
 import { OrderStageStatus } from '../../../../../types/enum/orderStageStatus.enum';
+import DirectCancelModal from '../DirectCancelModal';
 
 const OrderItem = ({ order }: { order: OrderProps }) => {
-  const { isModalOpen, setIsModalOpen, pickupDates, pickingOrder, deliveringOrder, isLoading, confirmOrder } = useOrderItem(order);
+  const {
+    pickupDates,
+    pickingOrder,
+    deliveringOrder,
+    isLoading,
+    confirmOrder,
+    cancelReasons,
+    openCancelModal,
+    directCancel,
+    isCancelModalOpen,
+    isPickupModalOpen,
+    setIsCancelModalOpen,
+    setIsPickupModalOpen,
+  } = useOrderItem(order);
   let actionGroup;
   switch (order.orderStageID.name) {
     case OrderStage.Confirmating:
-      actionGroup = <ConfirmActions getPickupDate={pickingOrder} />;
+      actionGroup = <ConfirmActions getPickupDate={pickingOrder} openCancelModal={openCancelModal} />;
       break;
     case OrderStage.Picking:
-      if(order.orderStageID.orderStageStatusID.status === OrderStageStatus.Active)
-      actionGroup = <DeliveryActions deliveringOrder={deliveringOrder} isLoading={isLoading}/>;
-      if(order.orderStageID.orderStageStatusID.status === OrderStageStatus.RequestToSeller)
-        actionGroup = <CancelingActions/>
+      if (order.orderStageID.orderStageStatusID.status === OrderStageStatus.Active)
+        actionGroup = <DeliveryActions deliveringOrder={deliveringOrder} isLoading={isLoading} />;
+      if (order.orderStageID.orderStageStatusID.status === OrderStageStatus.RequestToSeller)
+        actionGroup = <CancelingActions />;
       break;
     default:
       actionGroup = null;
   }
+
   return (
     <div className="mb-6">
       <div id="order" className="rounded-md bg-slate-50 p-6">
@@ -79,7 +94,18 @@ const OrderItem = ({ order }: { order: OrderProps }) => {
           </Flex>
         </div>
         {actionGroup}
-        <PickupDateModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} pickupDates={pickupDates} confirmOrder={confirmOrder} />
+        <PickupDateModal
+          isModalOpen={isPickupModalOpen}
+          setIsModalOpen={setIsPickupModalOpen}
+          pickupDates={pickupDates}
+          confirmOrder={confirmOrder}
+        />
+        <DirectCancelModal
+          directCancel={directCancel}
+          isModalOpen={isCancelModalOpen}
+          reasons={cancelReasons}
+          setIsModalOpen={setIsCancelModalOpen}
+        />
       </div>
     </div>
   );

@@ -1,16 +1,31 @@
 import { CloseOutlined } from '@ant-design/icons';
 import { Button, Divider, Flex, Radio, Space, Typography } from 'antd';
+import { useState } from 'react';
 
 const PickupDateModal = ({
   isModalOpen,
   setIsModalOpen,
   pickupDates,
+  confirmOrder
 }: {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   pickupDates: any[];
+  confirmOrder: (date: any) => void
 }) => {
+  const [choosenDate, setChoosenDate] = useState<any>();
+
   const handleClose = () => {
+    setIsModalOpen(false);
+  };
+
+  const onChange = (e: any) => {
+    console.log(e.target.value);
+    setChoosenDate(e.target.value);
+  };
+
+  const handleOk = () => {
+    confirmOrder(choosenDate);
     setIsModalOpen(false);
   };
 
@@ -31,7 +46,7 @@ const PickupDateModal = ({
         </Typography.Title>
         <Divider />
         <div className="max-h-[calc(70vh-120px)] overflow-y-auto px-6">
-          <Radio.Group className="w-full">
+          <Radio.Group className="w-full" onChange={onChange}>
             <Space direction="vertical" className="w-full">
               {pickupDates?.map((date: any) => (
                 <Radio value={date} className="w-full text-base">
@@ -42,8 +57,8 @@ const PickupDateModal = ({
           </Radio.Group>
           <Divider />
           <Flex justify="end" gap={'large'}>
-            <Button className="px-8 py-5 text-base">Cancel</Button>
-            <Button type="primary" className="px-8 py-5 text-base">
+            <Button className="px-8 py-5 text-base" onClick={handleClose}>Cancel</Button>
+            <Button type="primary" className="px-8 py-5 text-base" onClick={handleOk}>
               OK
             </Button>
           </Flex>

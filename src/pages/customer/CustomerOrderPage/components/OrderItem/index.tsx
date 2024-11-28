@@ -1,30 +1,35 @@
 import { MessageOutlined, ShopOutlined } from '@ant-design/icons';
 import { Button, Divider, Flex, Typography } from 'antd';
-import { ConfirmActions, DeliveryActions, ReviewActions } from '../ActionGroup';
+import { ConfirmActions, DeliveryActions, RebuyActions } from '../ActionGroup';
 import OrderDetail from '../OrderDetail';
 import { OrderDetailProps } from '../../../../../types/orderDetail.type';
 import { OrderProps } from '../../../../../types/order.type';
 import { OrderStage } from '../../../../../types/enum/orderStage.enum';
 import { OrderStageStatus } from '../../../../../types/enum/orderStageStatus.enum';
 import useOrderItem from './useOrderItem';
+import DirectCancelModal from '../DirectCancelModal';
 
 const OrderItem = ({ order }: { order: OrderProps }) => {
-  const { receiveOrder } = useOrderItem(order);
+  const { receiveOrder, cancelReasons, isModalOpen, setIsModalOpen, openCancelModal, directCancel } =
+    useOrderItem(order);
   let actionGroup;
   switch (order.orderStageID.name) {
     case OrderStage.Confirmating:
-      actionGroup = <ConfirmActions />;
+      actionGroup = <ConfirmActions openCancelModal={openCancelModal} />;
       break;
     case OrderStage.Picking:
       if (order.orderStageID.orderStageStatusID.status !== OrderStageStatus.RequestToAdmin)
-        actionGroup = <ConfirmActions />;
+        actionGroup = <ConfirmActions openCancelModal={() => {}} />;
       else actionGroup = null;
       break;
     case OrderStage.Delivering:
       actionGroup = <DeliveryActions receiveOrder={receiveOrder} />;
       break;
     case OrderStage.Delivered:
-      actionGroup = <ReviewActions />;
+      actionGroup = <RebuyActions />;
+      break;
+    case OrderStage.Cancelled:
+      actionGroup = <RebuyActions />;
       break;
     default:
       actionGroup = null;
@@ -64,6 +69,12 @@ const OrderItem = ({ order }: { order: OrderProps }) => {
           </Flex>
         </div>
         {actionGroup}
+        <DirectCancelModal
+          isModalOpen={isModalOpen}
+          reasons={cancelReasons}
+          setIsModalOpen={setIsModalOpen}
+          directCancel={directCancel}
+        />
       </div>
     </div>
   );

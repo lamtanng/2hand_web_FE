@@ -2,30 +2,29 @@ import { CloseOutlined } from '@ant-design/icons';
 import { Button, Divider, Flex, Radio, Space, Typography } from 'antd';
 import { useState } from 'react';
 
-const PickupDateModal = ({
+const DirectCancelModal = ({
   isModalOpen,
   setIsModalOpen,
-  pickupDates,
-  confirmOrder,
+  reasons,
+  directCancel,
 }: {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  pickupDates: any[];
-  confirmOrder: (date: any) => void;
+  reasons: any[];
+  directCancel: (reason: any) => Promise<void>;
 }) => {
-  const [choosenDate, setChoosenDate] = useState<any>();
+  const [choosenReason, setChoosenReason] = useState<any>();
 
   const handleClose = () => {
     setIsModalOpen(false);
   };
 
   const onChange = (e: any) => {
-    console.log(e.target.value);
-    setChoosenDate(e.target.value);
+    setChoosenReason(e.target.value);
   };
 
   const handleOk = () => {
-    confirmOrder(choosenDate);
+    directCancel(choosenReason);
     setIsModalOpen(false);
   };
 
@@ -41,16 +40,17 @@ const PickupDateModal = ({
         <Button variant="text" onClick={handleClose} className="absolute right-2 top-2 border-none text-gray-400">
           <CloseOutlined />
         </Button>
-        <Typography.Title level={4} className="m-0 text-blue-600">
-          Choose pick up date
+        <Typography.Title level={4} className="m-0 mb-2 text-blue-600">
+          Choose a reason
         </Typography.Title>
+        <Typography.Paragraph className="m-0">Why do you want to cancel this order?</Typography.Paragraph>
         <Divider />
         <div className="max-h-[calc(70vh-120px)] overflow-y-auto px-6">
           <Radio.Group className="w-full" onChange={onChange}>
             <Space direction="vertical" className="w-full">
-              {pickupDates?.map((date: any) => (
-                <Radio value={date} className="w-full text-base">
-                  {date.title.replace('Ca lấy', 'Picking date:')}
+              {reasons?.map((reason: any) => (
+                <Radio value={reason} className="w-full text-base">
+                  {reason.name}
                 </Radio>
               ))}
             </Space>
@@ -70,4 +70,4 @@ const PickupDateModal = ({
   );
 };
 
-export default PickupDateModal;
+export default DirectCancelModal;
