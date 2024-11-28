@@ -9,7 +9,7 @@ const useOrderListPage = () => {
   const getOrders = async () => {
     try {
       const res = await adminAPIs.getAllOrders();
-      setOrders(res.data);
+      setOrders(res.data.data);
     } catch (error) {
       handleError(error);
     } finally {

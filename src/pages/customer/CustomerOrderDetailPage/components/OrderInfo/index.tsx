@@ -46,7 +46,7 @@ const OrderInfo = ({ order }: { order: OrderProps | undefined }) => {
                     <Typography.Paragraph className="text-xs">{item.productID.quality}</Typography.Paragraph>
                   </div>
                 </Flex>
-                {order.orderStageID.name === OrderStage.Delivered && <ReviewButton onClick={openReviewModal} />}
+                {(order.orderStageID.name === OrderStage.Delivered && !item.reviewID) && <ReviewButton onClick={openReviewModal} />}
                 <ReviewModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} product={item} />
               </Flex>
             </div>

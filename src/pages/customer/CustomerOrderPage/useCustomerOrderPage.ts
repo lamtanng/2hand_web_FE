@@ -11,7 +11,7 @@ const useCustomerOrderPage = (profile: UserProps | undefined) => {
   const getAllOrder = async (userID: string | undefined) => {
     try {
       const res = await orderAPIs.getOrder(userID);
-      setOrders(res.data);
+      setOrders(res.data.data);
     } catch (error) {
       handleError(error);
     } finally {

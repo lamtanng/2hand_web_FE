@@ -1,5 +1,9 @@
-const reviewPath = 'reviews'
+const reviewPath = 'reviews';
+const reviewerPath = 'reviewer';
+const productPath = 'product';
 
 export const reviewPaths = {
-    reviewPath
-}
+  reviewPath,
+  reviewerPath,
+  productPath,
+};

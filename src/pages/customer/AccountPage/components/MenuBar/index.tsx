@@ -62,7 +62,7 @@ const MenuBar = () => {
         getItem('Dashboard', 'dashboard', <DashboardOutlined />),
         getItem('Products', 'products', <CarryOutOutlined />),
         getItem('Orders', 'orders', <FileTextOutlined />),
-        getItem('Store Reviews', 'store-reviews', <StarOutlined />),
+        // getItem('Store Reviews', 'store-reviews', <StarOutlined />),
         getItem('Store Profile', 'store-profile', <ShopOutlined />),
       ],
       disabled: !isSeller,

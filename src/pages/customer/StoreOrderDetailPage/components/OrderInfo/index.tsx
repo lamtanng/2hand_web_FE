@@ -35,6 +35,7 @@ const OrderInfo = ({ order }: { order: OrderProps | undefined }) => {
                 <Typography.Paragraph className="text-xs">{item.productID.quality}</Typography.Paragraph>
               </div>
             </Flex>
+            
           </div>
           ))}
         </div>

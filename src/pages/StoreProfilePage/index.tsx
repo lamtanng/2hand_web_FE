@@ -1,7 +1,6 @@
 import { Button, Flex, Typography } from 'antd';
 import Footer from '../../components/elements/Footer';
 import Header from '../../components/elements/Header';
-import ReviewList from './components/ReviewList';
 import useUserProfileDetail from './useUserProfileName';
 import ProductSlider from '../../components/elements/Slider/ProductSlider';
 import UserInfo from './components/UserInfo';
@@ -30,7 +29,6 @@ const UserProfilePage = () => {
                 </Flex>
                 <ProductSlider isLoading={isLoading} product={storeProduct} />
               </div>
-              <ReviewList />
             </>
           )}
         </div>

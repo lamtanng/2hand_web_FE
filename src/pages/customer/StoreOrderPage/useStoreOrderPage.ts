@@ -23,7 +23,7 @@ const useStoreOrderPage = (profile: UserProps | undefined) => {
   const getAllOrder = async (storeID: string | undefined) => {
     try {
       const res = await orderAPIs.getSellerOrder(storeID);
-      setOrders(res.data);
+      setOrders(res.data.data);
     } catch (error) {
       handleError(error);
     } finally {

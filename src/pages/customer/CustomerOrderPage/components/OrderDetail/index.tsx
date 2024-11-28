@@ -31,7 +31,7 @@ const OrderDetail = ({ order, item }: { order: OrderProps; item: OrderDetailProp
             </Flex>
           </div>
         </Link>
-        {order.orderStageID.name === OrderStage.Delivered ? (
+        {(order.orderStageID.name === OrderStage.Delivered && (!item.reviewID)) ? (
           <ReviewButton onClick={openReviewModal} />
         ) : (
           <div id="prodct-price" className="font-sans flex-shrink-0">

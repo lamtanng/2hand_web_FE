@@ -9,10 +9,11 @@ import ShopInfo from './components/ShopInfo';
 import ProductFeatures from './components/ProductFeatures';
 import useProductDetail from './useProductDetail';
 import parse from 'html-react-parser';
+import ReviewList from './components/ReviewList';
 
 const ProductDetail = () => {
-  const { product, isLoading, storeProduct, handleAddToCart, setQuantity, isDirty, handleBuyNow } = useProductDetail();
-  console.log(product);
+  const { product, isLoading, storeProduct, handleAddToCart, setQuantity, isDirty, handleBuyNow, reviews } = useProductDetail();
+
   return (
     <>
       <Header />
@@ -32,8 +33,11 @@ const ProductDetail = () => {
             <Typography.Title level={4} className="m-0 mb-8">
               Product's Description
             </Typography.Title>
-            <Typography.Paragraph className="m-0">{product && product.description && parse(product.description)}</Typography.Paragraph>
+            <Typography.Paragraph className="m-0">
+              {product && product.description && parse(product.description)}
+            </Typography.Paragraph>
           </div>
+          <ReviewList reviews={reviews} />
           <div id="shop-products" className="mb-5 p-8">
             <Typography.Title level={4} className="m-0 mb-8">
               Other Products From Seller
