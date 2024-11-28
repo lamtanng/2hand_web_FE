@@ -51,6 +51,7 @@ const OrderItem = ({ order }: { order: OrderProps }) => {
           <Flex vertical gap={'large'}>
             <Typography.Paragraph className="m-0">
               Cancel request ({order.orderStageID.orderStageStatusID.status.replace(/([A-Z])/g, ' $1').trim()}):{' '}
+              {order.orderStageID.orderStageStatusID.orderRequestID?.reasonID.name}
             </Typography.Paragraph>
           </Flex>
         );

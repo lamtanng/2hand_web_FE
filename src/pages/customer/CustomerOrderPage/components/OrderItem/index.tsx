@@ -51,6 +51,7 @@ const OrderItem = ({ order }: { order: OrderProps }) => {
         actionGroup = (
           <Typography.Paragraph className="m-0">
             Cancel request ({order.orderStageID.orderStageStatusID.status.replace(/([A-Z])/g, ' $1').trim()}):{' '}
+            {order.orderStageID.orderStageStatusID.orderRequestID.reasonID.name}
           </Typography.Paragraph>
         );
       }
@@ -58,7 +59,9 @@ const OrderItem = ({ order }: { order: OrderProps }) => {
         order.orderStageID.orderStageStatusID.status === OrderStageStatus.RequestToAdmin &&
         order.orderStageID.orderStageStatusID.orderRequestID?.replyStatus === ReplyStatus.Rejected
       )
-        actionGroup = <Typography.Paragraph className='m-0'>This order has reached its cancel request limit.</Typography.Paragraph>;
+        actionGroup = (
+          <Typography.Paragraph className="m-0">This order has reached its cancel request limit.</Typography.Paragraph>
+        );
       break;
     case OrderStage.Delivering:
       actionGroup = <DeliveryActions receiveOrder={receiveOrder} />;

@@ -10,8 +10,12 @@ const accessDashboard = () => {
   return axiosClient.get(dashboardUrl);
 };
 
-const getAllOrders = () => {
-  return axiosClient.get(orderUrl);
+const getAllOrders = (limit: number | undefined) => {
+  return axiosClient.get(orderUrl, {
+    params: {
+      limit: limit,
+    },
+  });
 };
 
 export const adminAPIs = { accessDashboard, getAllOrders };

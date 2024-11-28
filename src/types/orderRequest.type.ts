@@ -1,5 +1,6 @@
 import { ReplyStatus } from "./enum/replyStatus.enum";
 import { TaskType } from "./enum/taskType.type";
+import { ReasonProps } from "./http/reason.type";
 
 export interface OrderRequestProps {
     _id: string;
@@ -9,7 +10,7 @@ export interface OrderRequestProps {
     taskType: TaskType;
     replyStatus: ReplyStatus;
     replyMessage?: string;
-    reasonID: string;
+    reasonID: ReasonProps;
     orderStageStatusID: string;
     createAt?: Date;
     updateAt?: Date;

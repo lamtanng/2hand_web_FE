@@ -23,11 +23,11 @@ const CancelRequest = ({ order }: { order: OrderProps }) => {
         </Typography.Title>
         <Flex className="mb-2">
           <Typography.Paragraph className="m-0 w-1/6">Reason: </Typography.Paragraph>
-          <Typography.Paragraph className="m-0">reason</Typography.Paragraph>
+          <Typography.Paragraph className="m-0">{order.orderStageID.orderStageStatusID.orderRequestID?.reasonID.name}</Typography.Paragraph>
         </Flex>
         <Flex className="mb-2">
           <Typography.Paragraph className="m-0 w-1/6">Description: </Typography.Paragraph>
-          <Typography.Paragraph className="m-0">reason</Typography.Paragraph>
+          <Typography.Paragraph className="m-0">{order.orderStageID.orderStageStatusID.orderRequestID?.description}</Typography.Paragraph>
         </Flex>
         {order.orderStageID.orderStageStatusID.status === OrderStageStatus.RequestToSeller && (
           <>

@@ -1,9 +1,11 @@
-import { TableProps, Typography, Table } from 'antd';
+import { TableProps, Typography, Table, Button } from 'antd';
 import useOrderListPage from './useOrderListPage';
 import { OrderProps } from '../../../types/order.type';
 import { OrderStage } from '../../../types/enum/orderStage.enum';
 import { OrderStageStatus } from '../../../types/enum/orderStageStatus.enum';
 import { OrderRequestProps } from '../../../types/orderRequest.type';
+import { ReplyStatus } from '../../../types/enum/replyStatus.enum';
+import CancelModal from './components/CancelModal';
 
 export interface CustomTableColumns {
   orderID: string;
@@ -18,7 +20,7 @@ export interface CustomTableColumns {
 }
 
 const OrderListPage = () => {
-  const { orders } = useOrderListPage();
+  const { orders, isModalOpen, setIsModalOpen, setReplyMessage, setRecord, record, processRequest } = useOrderListPage();
 
   const data: CustomTableColumns[] = orders?.map((order: OrderProps) => {
     return {
@@ -76,7 +78,26 @@ const OrderListPage = () => {
       key: 'stageStatus',
       width: '5%',
       responsive: ['xs', 'md'],
-      render: (text: string) => <>{text}</>,
+      render: (text: string, record) => {
+        if (
+          record.stageStatus === OrderStageStatus.RequestToAdmin &&
+          record.orderRequest.replyStatus === ReplyStatus.Pending
+        )
+          return (
+            <Button
+              type="link"
+              onClick={() => {
+                setRecord(record);
+                setIsModalOpen(true);
+              }}
+            >
+              {text}
+            </Button>
+          );
+        else {
+          return <>{text}</>;
+        }
+      },
     },
     {
       title: 'Total Price',
@@ -103,6 +124,7 @@ const OrderListPage = () => {
         </Typography.Title>
       </div>
       <Table dataSource={data} columns={columns} scroll={{ x: 'max-content' }} />
+      <CancelModal isModalOpen={isModalOpen} setDescription={setReplyMessage} setIsModalOpen={setIsModalOpen} record={record} processRequest={processRequest} />
     </div>
   );
 };
