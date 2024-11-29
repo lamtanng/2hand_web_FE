@@ -1,6 +1,7 @@
 import { CloseOutlined } from '@ant-design/icons';
-import { Button, Divider, Flex, Radio, Space, Typography } from 'antd';
+import { Button, Divider, Flex, Radio, RadioChangeEvent, Space, Typography } from 'antd';
 import { useState } from 'react';
+import { ReasonProps } from '../../../../../types/http/reason.type';
 
 const DirectCancelModal = ({
   isModalOpen,
@@ -10,16 +11,16 @@ const DirectCancelModal = ({
 }: {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  reasons: any[];
-  directCancel: (reason: any) => Promise<void>;
+  reasons: ReasonProps[];
+  directCancel: (reason: ReasonProps | undefined) => Promise<void>;
 }) => {
-  const [choosenReason, setChoosenReason] = useState<any>();
+  const [choosenReason, setChoosenReason] = useState<ReasonProps>();
 
   const handleClose = () => {
     setIsModalOpen(false);
   };
 
-  const onChange = (e: any) => {
+  const onChange = (e: RadioChangeEvent) => {
     setChoosenReason(e.target.value);
   };
 
@@ -48,7 +49,7 @@ const DirectCancelModal = ({
         <div className="max-h-[calc(70vh-120px)] overflow-y-auto px-6">
           <Radio.Group className="w-full" onChange={onChange}>
             <Space direction="vertical" className="w-full">
-              {reasons?.map((reason: any) => (
+              {reasons?.map((reason: ReasonProps) => (
                 <Radio value={reason} className="w-full text-base">
                   {reason.name}
                 </Radio>

@@ -13,7 +13,7 @@ const AddressModal = ({
   isModalOpen,
   setIsModalOpen,
 }: {
-  profile: UserProps | undefined,
+  profile: UserProps | undefined;
   address?: AddressProps;
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -24,14 +24,15 @@ const AddressModal = ({
     selectedDistrict,
     selectedProvince,
     selectedWard,
-    setDefault,
     setSelectedDistrict,
     setSelectedProvince,
     setSelectedWard,
     handleClose,
     isSubmitting,
     isDefault,
-    submitButtonClick
+    submitButtonClick,
+    setSelectedDefault,
+    setDefault
   } = useAddressModal(setIsModalOpen, address, profile);
 
   return (

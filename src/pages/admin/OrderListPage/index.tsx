@@ -1,29 +1,38 @@
-import { TableProps, Typography, Table } from 'antd';
+import { TableProps, Typography, Table, Button } from 'antd';
 import useOrderListPage from './useOrderListPage';
+import { OrderProps } from '../../../types/order.type';
+import { OrderStage } from '../../../types/enum/orderStage.enum';
+import { OrderStageStatus } from '../../../types/enum/orderStageStatus.enum';
+import { OrderRequestProps } from '../../../types/orderRequest.type';
+import { ReplyStatus } from '../../../types/enum/replyStatus.enum';
+import CancelModal from './components/CancelModal';
 
 export interface CustomTableColumns {
   orderID: string;
-  customerName: string;
-  storeName: string;
+  customerName: string | undefined;
+  storeName: string | undefined;
   products: number;
-  status: string;
+  stage: OrderStage;
+  stageStatus: OrderStageStatus;
   total: number;
   shipmentCost: number;
+  orderRequest?: OrderRequestProps;
 }
 
 const OrderListPage = () => {
-  const { orders } = useOrderListPage();
+  const { orders, isModalOpen, setIsModalOpen, setReplyMessage, setRecord, record, processRequest } = useOrderListPage();
 
-  const data: CustomTableColumns[] = orders.map((order: any) => {
-    const name = (order.userID) ? order.userID.firstName : 'Anonymous'
+  const data: CustomTableColumns[] = orders?.map((order: OrderProps) => {
     return {
-      orderID: order._id,
-      customerName: name,
-      storeName: order.storeID.name,
-      products: order.orderDetailIDs.length,
-      status: order.orderStatusID.name,
-      total: order.total,
-      shipmentCost: order.shipmentCost,
+      orderID: order?._id,
+      customerName: order?.userID?.firstName,
+      storeName: order?.storeID?.name,
+      products: order?.orderDetailIDs?.length,
+      stage: order?.orderStageID?.name,
+      stageStatus: order?.orderStageID?.orderStageStatusID?.status,
+      total: order?.total,
+      shipmentCost: order?.shipmentCost,
+      orderRequest: order?.orderStageID?.orderStageStatusID?.orderRequestID,
     };
   });
 
@@ -57,11 +66,38 @@ const OrderListPage = () => {
       responsive: ['xs', 'md'],
     },
     {
-      title: 'Order Status',
-      dataIndex: 'status',
-      key: 'status',
-      width: '10%',
+      title: 'Order Stage',
+      dataIndex: 'stage',
+      key: 'satge',
+      width: '5%',
       responsive: ['xs', 'md'],
+    },
+    {
+      title: 'Status',
+      dataIndex: 'stageStatus',
+      key: 'stageStatus',
+      width: '5%',
+      responsive: ['xs', 'md'],
+      render: (text: string, record) => {
+        if (
+          record.stageStatus === OrderStageStatus.RequestToAdmin &&
+          record.orderRequest.replyStatus === ReplyStatus.Pending
+        )
+          return (
+            <Button
+              type="link"
+              onClick={() => {
+                setRecord(record);
+                setIsModalOpen(true);
+              }}
+            >
+              {text}
+            </Button>
+          );
+        else {
+          return <>{text}</>;
+        }
+      },
     },
     {
       title: 'Total Price',
@@ -88,6 +124,7 @@ const OrderListPage = () => {
         </Typography.Title>
       </div>
       <Table dataSource={data} columns={columns} scroll={{ x: 'max-content' }} />
+      <CancelModal isModalOpen={isModalOpen} setDescription={setReplyMessage} setIsModalOpen={setIsModalOpen} record={record} processRequest={processRequest} />
     </div>
   );
 };

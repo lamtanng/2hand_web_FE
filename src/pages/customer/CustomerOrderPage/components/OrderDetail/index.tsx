@@ -14,6 +14,7 @@ const OrderDetail = ({ order, item }: { order: OrderProps; item: OrderDetailProp
   const openReviewModal = () => {
     setIsModalOpen(true);
   };
+  
   return (
     <div id="order-detail" className="mt-6">
       <Flex justify="space-between" align="center" gap={'large'}>
@@ -30,11 +31,11 @@ const OrderDetail = ({ order, item }: { order: OrderProps; item: OrderDetailProp
             </Flex>
           </div>
         </Link>
-        {order.orderStageID.name === OrderStage.Delivered ? (
+        {(order.orderStageID.name === OrderStage.Delivered && (!item.reviewID)) ? (
           <ReviewButton onClick={openReviewModal} />
         ) : (
           <div id="prodct-price" className="font-sans flex-shrink-0">
-            {item.productID.price} VND
+            {new Intl.NumberFormat().format(item.productID.price)} VND
           </div>
         )}
         <ReviewModal isModalOpen={isModalOpen} product={item} setIsModalOpen={setIsModalOpen} />

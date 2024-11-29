@@ -8,19 +8,61 @@ import { OrderStage } from '../../../../../types/enum/orderStage.enum';
 import { OrderStageStatus } from '../../../../../types/enum/orderStageStatus.enum';
 import useOrderItem from './useOrderItem';
 import DirectCancelModal from '../DirectCancelModal';
+import CancelRequestModal from '../CancelRequestModal';
+import dayjs from 'dayjs';
+import { ReplyStatus } from '../../../../../types/enum/replyStatus.enum';
+import { Link } from 'react-router-dom';
 
 const OrderItem = ({ order }: { order: OrderProps }) => {
-  const { receiveOrder, cancelReasons, isModalOpen, setIsModalOpen, openCancelModal, directCancel } =
+  const { receiveOrder, cancelReasons, isModalOpen, setIsModalOpen, openCancelModal, cancelOrder, setDescription } =
     useOrderItem(order);
   let actionGroup;
+  let actionModal;
   switch (order.orderStageID.name) {
     case OrderStage.Confirmating:
       actionGroup = <ConfirmActions openCancelModal={openCancelModal} />;
+      actionModal = (
+        <DirectCancelModal
+          isModalOpen={isModalOpen}
+          reasons={cancelReasons}
+          setIsModalOpen={setIsModalOpen}
+          directCancel={cancelOrder}
+          setDescription={setDescription}
+        />
+      );
       break;
     case OrderStage.Picking:
-      if (order.orderStageID.orderStageStatusID.status !== OrderStageStatus.RequestToAdmin)
-        actionGroup = <ConfirmActions openCancelModal={() => {}} />;
-      else actionGroup = null;
+      if (
+        order.orderStageID.orderStageStatusID.status === OrderStageStatus.Active ||
+        (order.orderStageID.orderStageStatusID.status === OrderStageStatus.RequestToSeller &&
+          order.orderStageID.orderStageStatusID.orderRequestID?.replyStatus === ReplyStatus.Rejected)
+      ) {
+        actionGroup = <ConfirmActions openCancelModal={openCancelModal} />;
+        actionModal = (
+          <CancelRequestModal
+            isModalOpen={isModalOpen}
+            reasons={cancelReasons}
+            setIsModalOpen={setIsModalOpen}
+            cancelOrderRequest={cancelOrder}
+            setDescription={setDescription}
+          />
+        );
+      }
+      if (order.orderStageID.orderStageStatusID.orderRequestID?.replyStatus === ReplyStatus.Pending) {
+        actionGroup = (
+          <Link to={order._id}>
+            Cancel request ({order.orderStageID.orderStageStatusID.status.replace(/([A-Z])/g, ' $1').trim()}):{' '}
+            {order.orderStageID.orderStageStatusID.orderRequestID.reasonID.name}
+          </Link>
+        );
+      }
+      if (
+        order.orderStageID.orderStageStatusID.status === OrderStageStatus.RequestToAdmin &&
+        order.orderStageID.orderStageStatusID.orderRequestID?.replyStatus === ReplyStatus.Rejected
+      )
+        actionGroup = (
+          <Typography.Paragraph className="m-0">This order has reached its cancel request limit.</Typography.Paragraph>
+        );
       break;
     case OrderStage.Delivering:
       actionGroup = <DeliveryActions receiveOrder={receiveOrder} />;
@@ -65,16 +107,25 @@ const OrderItem = ({ order }: { order: OrderProps }) => {
         <div id="total-price">
           <Flex justify="end" align="center" gap={'middle'}>
             <p className="m-0 font-sans">Total price:</p>
-            <p className="m-0 font-sans text-xl text-blue-700">{order.total + order.shipmentCost}</p>
+            <p className="m-0 font-sans text-xl text-blue-700">{new Intl.NumberFormat().format(order.total + order.shipmentCost)} VND</p>
           </Flex>
         </div>
-        {actionGroup}
-        <DirectCancelModal
-          isModalOpen={isModalOpen}
-          reasons={cancelReasons}
-          setIsModalOpen={setIsModalOpen}
-          directCancel={directCancel}
-        />
+        <Flex
+          justify={order.orderStageID.name !== OrderStage.Cancelled ? 'space-between' : 'end'}
+          align="center"
+          className="mt-6"
+        >
+          {order.orderStageID.name === OrderStage.Cancelled ? null : (
+            <Typography.Paragraph className="m-0">
+              {order.orderStageID.name !== OrderStage.Delivered && 'Expected'} {order.orderStageID.name} Date:{' '}
+              {order &&
+                order.orderStageID.orderStageStatusID.expectedDate &&
+                dayjs(order.orderStageID.orderStageStatusID.expectedDate.toString()).format('DD/MM/YYYY')}
+            </Typography.Paragraph>
+          )}
+          {actionGroup}
+        </Flex>
+        {actionModal}
       </div>
     </div>
   );

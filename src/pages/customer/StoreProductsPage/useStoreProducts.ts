@@ -60,7 +60,7 @@ const useStoreProducts = (profile: UserProps | undefined) => {
         undefined,
         store,
       );
-      setProduct(res?.data.response.products);
+      setProduct(res?.data.response.data);
     } catch (error) {
       handleError(error);
     } finally {

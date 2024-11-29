@@ -3,6 +3,8 @@ import { Button, Divider, Flex, Typography } from 'antd';
 import CheckoutDetail from '../CheckoutDetail';
 import ShipmentInfo from '../ShipmentInfo';
 import { CartItemProps, CartProps } from '../../../../../types/cart.type';
+import { ShipmentProps } from '../../../../../types/shipment.type';
+import { NoteProps } from '../../../../../types/http/order.type';
 
 const CheckoutItem = ({
   group,
@@ -11,9 +13,9 @@ const CheckoutItem = ({
   note,
 }: {
   group: CartProps;
-  shipment: any[];
-  finalShipment: any;
-  note: any
+  shipment: ShipmentProps[];
+  finalShipment: ShipmentProps;
+  note: NoteProps | undefined
 }) => {
 
   return (

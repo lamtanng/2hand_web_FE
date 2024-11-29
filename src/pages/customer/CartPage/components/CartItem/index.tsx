@@ -17,7 +17,7 @@ const CartItem = ({
 }: {
   group: { store: StoreProps; products: CartItemProps[] };
   groupCheckBoxHandler: (event: CheckboxChangeEvent) => void;
-  checkedList: any[];
+  checkedList: CartItemProps[];
   singleCheckBoxHandler: (event: CheckboxChangeEvent) => void;
   handleDelete: (productID: string | undefined, oldCheckList: CartItemProps[]) => Promise<void>;
   handleQuantityChange: (product: CartItemProps, value: number, oldCheckList: CartItemProps[]) => Promise<void>;

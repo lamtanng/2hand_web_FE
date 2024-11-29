@@ -45,7 +45,7 @@ const useListProducts = () => {
         cateIDGroup,
         storeIDGroup,
       );
-      setProduct(res?.data?.response?.products);
+      setProduct(res?.data?.response?.data);
       setTotalProducts(res?.data?.response?.total);
     } catch (error) {
       handleError(error);

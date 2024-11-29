@@ -20,32 +20,32 @@ const MyOrders = () => {
     {
       label: 'All Orders',
       key: '1',
-      children: <OrderList orders={sortOrderArray(orders)} />,
+      children: <OrderList orders={sortOrderArray(orders).reverse()} />,
     },
     {
       label: 'Waiting for confirmation',
-      key: '2',
-      children: <OrderList orders={sortOrderArray(confirmatingOrders)} />,
+      key: OrderStage.Confirmating,
+      children: <OrderList orders={sortOrderArray(confirmatingOrders).reverse()} />,
     },
     {
       label: 'Waiting for picking',
-      key: '3',
-      children: <OrderList orders={sortOrderArray(pickingOrders)} />,
+      key: OrderStage.Picking,
+      children: <OrderList orders={sortOrderArray(pickingOrders).reverse()} />,
     },
     {
       label: 'Waiting for delivery',
-      key: '4',
-      children: <OrderList orders={sortOrderArray(deliveringOrders)} />,
+      key: OrderStage.Delivering,
+      children: <OrderList orders={sortOrderArray(deliveringOrders).reverse()} />,
     },
     {
       label: 'Delivered',
-      key: '5',
-      children: <OrderList orders={sortOrderArray(deliveredOrders)} />,
+      key: OrderStage.Delivered,
+      children: <OrderList orders={sortOrderArray(deliveredOrders).reverse()} />,
     },
     {
       label: 'Cancelled',
-      key: '6',
-      children: <OrderList orders={sortOrderArray(cancelledOrders)} />,
+      key: OrderStage.Cancelled,
+      children: <OrderList orders={sortOrderArray(cancelledOrders).reverse()} />,
     },
   ];
 

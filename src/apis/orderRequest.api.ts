@@ -8,6 +8,11 @@ const createNewRequest = (data: any) => {
   return axiosClient.post(orderRequestUrl, data);
 };
 
+const replyRequest = (data: any) => {
+  return axiosClient.put(orderRequestUrl, data);
+};
+
 export const orderRequestsAPIs = {
   createNewRequest,
+  replyRequest
 };

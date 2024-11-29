@@ -1,5 +1,6 @@
 import { AddressProps } from '../address.type';
 import { ProductProps } from '../product.type';
+import { StoreProps } from '../store.type';
 import { MoMoPaymentItemsProps } from './momoPayment.type';
 
 export interface CalcShippingFeeRequestProps {
@@ -50,4 +51,9 @@ export interface CalcExpectedDeliveryDateRequest {
   to_district_id: number | undefined;
   to_ward_code: string | undefined;
   service_id?: string;
+}
+
+export interface NoteProps {
+  store: StoreProps;
+  note: string;
 }

@@ -45,7 +45,7 @@ const AddressList = ({
   return (
     <>
       <div hidden={radioHidden}>
-        <Radio.Group className="w-full" onChange={onChange} value={selectedAddress} defaultValue={selectedAddress}>
+        <Radio.Group className="w-full" onChange={onChange} defaultValue={selectedAddress}>
           <Space direction="vertical" className="w-full">
             {data?.map((address: AddressProps) => (
               <AddressItem

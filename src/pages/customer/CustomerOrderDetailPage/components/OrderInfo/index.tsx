@@ -36,15 +36,17 @@ const OrderInfo = ({ order }: { order: OrderProps | undefined }) => {
         <div id="order-detail">
           {order?.orderDetailIDs.map((item: OrderDetailProps) => (
             <div id="product-info" className="my-6">
-              <Flex gap={'middle'}>
-                <Image width={75} preview={false} alt="" src={item.productID.image[0]} fallback={defaultPic} />
-                <div>
-                  <Typography.Title level={5} className="m-0">
-                    {item.productID.name}
-                  </Typography.Title>
-                  <Typography.Paragraph className="text-xs">{item.productID.quality}</Typography.Paragraph>
-                </div>
-                {order.orderStageID.name === OrderStage.Delivered && <ReviewButton onClick={openReviewModal} />}
+              <Flex justify='space-between'>
+                <Flex gap={'middle'}>
+                  <Image width={75} preview={false} alt="" src={item.productID.image[0]} fallback={defaultPic} />
+                  <div>
+                    <Typography.Title level={5} className="m-0">
+                      {item.productID.name}
+                    </Typography.Title>
+                    <Typography.Paragraph className="text-xs">{item.productID.quality}</Typography.Paragraph>
+                  </div>
+                </Flex>
+                {(order.orderStageID.name === OrderStage.Delivered && !item.reviewID) && <ReviewButton onClick={openReviewModal} />}
                 <ReviewModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} product={item} />
               </Flex>
             </div>
@@ -56,16 +58,16 @@ const OrderInfo = ({ order }: { order: OrderProps | undefined }) => {
           <Flex gap={'middle'} vertical>
             <Flex justify="end" align="center" gap={'middle'}>
               <Typography.Paragraph className="m-0">Total goods price:</Typography.Paragraph>
-              <Typography.Paragraph className="m-0 text-base">{order?.total} VND</Typography.Paragraph>
+              <Typography.Paragraph className="m-0 text-base">{order?.total && new Intl.NumberFormat().format(order.total)} VND</Typography.Paragraph>
             </Flex>
             <Flex justify="end" align="center" gap={'middle'}>
               <Typography.Paragraph className="m-0">Shipment cost:</Typography.Paragraph>
-              <Typography.Paragraph className="m-0 text-base">{order?.shipmentCost} VND</Typography.Paragraph>
+              <Typography.Paragraph className="m-0 text-base">{order?.shipmentCost && new Intl.NumberFormat().format(order.shipmentCost)} VND</Typography.Paragraph>
             </Flex>
             <Flex justify="end" align="center" gap={'middle'}>
               <Typography.Paragraph className="m-0">Total price:</Typography.Paragraph>
               <Typography.Paragraph className="m-0 text-xl text-blue-700">
-                {order?.total && order.shipmentCost && order.total + order.shipmentCost} VND
+                {order?.total && order.shipmentCost && new Intl.NumberFormat().format(order.total + order.shipmentCost)} VND
               </Typography.Paragraph>
             </Flex>
             <Flex justify="end" align="center" gap={'middle'}>

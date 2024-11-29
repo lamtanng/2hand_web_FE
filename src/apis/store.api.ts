@@ -1,5 +1,5 @@
 import { storePaths } from '../constants/apiPaths/storePaths';
-import { NewStoreProps } from '../types/http/store.type';
+import { NewStoreProps, UpdateStoreRequestProps } from '../types/http/store.type';
 import { axiosClient } from './axios';
 
 const getStoreUrl = (url: string) => `${storePaths.storePath}/${url}`;
@@ -15,8 +15,8 @@ const addStore = (data: NewStoreProps) => {
     return axiosClient.post(storeUrl, data);
 }
 
-// const updateStore = (data: any) => {
-//     return axiosClient.post(storeUrl, data);
-// }
+const updateStore = (data: UpdateStoreRequestProps) => {
+    return axiosClient.patch(storeUrl, data);
+}
 
-export const storeAPIs = { getStoreByUser, addStore };
+export const storeAPIs = { getStoreByUser, addStore, updateStore };

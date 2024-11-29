@@ -6,6 +6,8 @@ import Header from '../../../components/elements/Header';
 import Footer from '../../../components/elements/Footer';
 import { CartItemProps, CartProps } from '../../../types/cart.type';
 import useCheckoutPage from './useCheckoutPage';
+import { ShipmentProps } from '../../../types/shipment.type';
+import { NoteProps } from '../../../types/http/order.type';
 
 const CheckoutPage = () => {
   const checkoutList = sessionStorage.getItem('checkout') || '';
@@ -32,7 +34,7 @@ const CheckoutPage = () => {
     selectedMethod,
     setSelectedMethod,
   } = useCheckoutPage(checkoutItems, total);
-  const totalShip = selectedShipment.reduce((accumulator: number, item: any) => accumulator + item.total, 0);
+  const totalShip = selectedShipment.reduce((accumulator: number, item: ShipmentProps) => accumulator + item.total, 0);
   return (
     <>
       <Header />
@@ -62,9 +64,9 @@ const CheckoutPage = () => {
               <div id="checkout-card" key={group.store._id} className="shadow-sm">
                 <CheckoutItem
                   group={group}
-                  shipment={shipment.filter((item: any) => item.store._id === group.store._id)}
-                  finalShipment={selectedShipment.find((item: any) => item.store._id === group.store._id)}
-                  note={note.find((item: any) => item.store._id === group.store._id)}
+                  shipment={shipment.filter((item: ShipmentProps) => item.store._id === group.store._id)}
+                  finalShipment={selectedShipment.find((item: ShipmentProps) => item.store._id === group.store._id)}
+                  note={note.find((item: NoteProps) => item.store._id === group.store._id)}
                 />
               </div>
             ))}

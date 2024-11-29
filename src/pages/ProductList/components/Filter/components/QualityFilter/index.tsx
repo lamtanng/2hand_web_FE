@@ -2,7 +2,12 @@ import { Button, Checkbox, Flex } from 'antd';
 import { ProductQuality } from '../../../../../../types/enum/productQuality.enum';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
 
-const qualityValue = [
+interface QualityProps {
+  label: string;
+  value: string;
+}
+
+const qualityValue: QualityProps[] = [
   {
     label: 'New',
     value: ProductQuality.New,
@@ -52,7 +57,7 @@ const QualityFilter = ({
   return (
     <>
       <Flex vertical className="font-normal">
-        {qualityValue.map((qual: any) => (
+        {qualityValue.map((qual: QualityProps) => (
           <Checkbox value={qual.value} onChange={handleCheckbox} checked={quality.includes(qual.value)}>
             {qual.label}
           </Checkbox>

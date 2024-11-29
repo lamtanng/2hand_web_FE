@@ -15,11 +15,17 @@ import { UploadProductPageRoutes } from '../pages/customer/UploadProductPage/Upl
 import { accountRoutes } from './account.routes';
 import { ProtectedAdminRoutes } from '../components/layouts/ProtectedRoutes/ProtectedAdminRoutes';
 import { OrderIntermediaryPageRoutes } from '../pages/customer/OrderIntermediaryPage/OrderIntermediaryPage.routes';
+import ScrollToTop from '../components/layouts/ScrollToTop';
 
 const routes = createBrowserRouter([
   {
     path: '/',
-    element: <App />,
+    element: (
+      <>
+        <ScrollToTop />
+        <App />
+      </>
+    ),
     children: [
       HomePageRoutes,
       ProductListRoutes,

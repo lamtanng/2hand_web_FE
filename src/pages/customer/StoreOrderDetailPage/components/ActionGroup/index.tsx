@@ -7,7 +7,13 @@ import {
   RejectRequestButton,
 } from '../../../../../components/elements/Buttons/StoreOrderButtons';
 
-export const ConfirmActions = ( { getPickupDate, openCancelModal }: { getPickupDate: () => void, openCancelModal: () => void }) => {
+export const ConfirmActions = ({
+  getPickupDate,
+  openCancelModal,
+}: {
+  getPickupDate: () => void;
+  openCancelModal: () => void;
+}) => {
   return (
     <div className="bg-blue-50">
       <Flex className="px-12 py-5" justify="end">
@@ -21,7 +27,13 @@ export const ConfirmActions = ( { getPickupDate, openCancelModal }: { getPickupD
   );
 };
 
-export const DeliveryActions = ({deliveringOrder, isLoading}: {deliveringOrder: () => void, isLoading: boolean}) => {
+export const DeliveryActions = ({
+  deliveringOrder,
+  isLoading,
+}: {
+  deliveringOrder: () => void;
+  isLoading: boolean;
+}) => {
   return (
     <div className="bg-blue-50">
       <Flex className="px-12 py-5" justify="end">
@@ -31,16 +43,17 @@ export const DeliveryActions = ({deliveringOrder, isLoading}: {deliveringOrder: 
   );
 };
 
-export const CancelingActions = () => {
+export const CancelingActions = ({
+  handleApprove,
+  handleReject,
+}: {
+  handleApprove: () => void;
+  handleReject: () => void;
+}) => {
   return (
-    <div className="bg-blue-50">
-      <Flex className="px-12 py-5" justify="end">
-        <ApproveRequestButton onClick={() => {}} />
-      </Flex>
-      <Divider variant="dashed" className="m-0" />
-      <Flex className="px-12 py-5" justify="end">
-        <RejectRequestButton onClick={() => {}} />
-      </Flex>
-    </div>
+    <Flex gap={'large'} justify="end">
+      <RejectRequestButton onClick={handleReject} />
+      <ApproveRequestButton onClick={handleApprove} />
+    </Flex>
   );
 };

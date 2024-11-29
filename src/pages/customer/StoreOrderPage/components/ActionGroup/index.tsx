@@ -8,7 +8,7 @@ import {
 } from '../../../../../components/elements/Buttons/StoreOrderButtons';
 export const ConfirmActions = ({ getPickupDate, openCancelModal }: { getPickupDate: () => void, openCancelModal: () => void }) => {
   return (
-    <div id="actions" className="mt-6">
+    <div id="actions">
       <Flex justify="end" gap={'middle'}>
         <CancelButton onClick={openCancelModal} />
         <ConfirmButton onClick={getPickupDate} />
@@ -25,7 +25,7 @@ export const DeliveryActions = ({
   isLoading: boolean;
 }) => {
   return (
-    <div id="actions" className="mt-6">
+    <div id="actions">
       <Flex justify="end" gap={'middle'}>
         <DeliveringButton onClick={deliveringOrder} isLoading={isLoading} />
       </Flex>
@@ -35,7 +35,7 @@ export const DeliveryActions = ({
 
 export const CancelingActions = () => {
   return (
-    <div id="actions" className="mt-6">
+    <div id="actions">
       <Flex justify="end" gap={'middle'}>
         <RejectRequestButton onClick={() => {}} />
         <ApproveRequestButton onClick={() => {}} />

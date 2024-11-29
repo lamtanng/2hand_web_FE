@@ -11,13 +11,15 @@ import { orderRequestsAPIs } from '../../../apis/orderRequest.api';
 import { Modal } from 'antd';
 import { OrderStage } from '../../../types/enum/orderStage.enum';
 import { ObjectType } from '../../../types/enum/objectType.enum';
+import { ReasonProps } from '../../../types/http/reason.type';
 
 const useCustomerOrderDetailPage = () => {
   const params = useParams();
   const [order, setOrder] = useState<OrderProps>();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [cancelReasons, setCancelReasons] = useState<any[]>([]);
-  const [returnReasons, setReturnReasons] = useState<any[]>([]);
+  const [cancelReasons, setCancelReasons] = useState<ReasonProps[]>([]);
+  const [returnReasons, setReturnReasons] = useState<ReasonProps[]>([]);
+  const [description, setDescription] = useState<string>('');
 
   const { confirm } = Modal;
 
@@ -45,12 +47,12 @@ const useCustomerOrderDetailPage = () => {
       const res = await reasonAPIs.getAllReason();
       setCancelReasons(
         res.data.reasons.filter(
-          (item: any) => item.objectType === ObjectType.Order && item.taskType === TaskType.Cancel,
+          (item: ReasonProps) => item.objectType === ObjectType.Order && item.taskType === TaskType.Cancel,
         ),
       );
       setReturnReasons(
         res.data.reasons.filter(
-          (item: any) => item.objectType === ObjectType.Order && item.taskType === TaskType.Return,
+          (item: ReasonProps) => item.objectType === ObjectType.Order && item.taskType === TaskType.Return,
         ),
       );
     } catch (error) {
@@ -79,7 +81,7 @@ const useCustomerOrderDetailPage = () => {
     }
   };
 
-  const directCancel = async (reason: any) => {
+  const directCancel = async (reason: ReasonProps | undefined) => {
     try {
       const data = {
         name: order?.orderStageID.name,
@@ -87,8 +89,26 @@ const useCustomerOrderDetailPage = () => {
         orderStageID: order?.orderStageID.orderStageStatusID.orderStageID,
         description: 'Direct Cancel',
         taskType: TaskType.Cancel,
-        reasonID: reason._id,
+        reasonID: reason?._id,
       };
+      await orderRequestsAPIs.createNewRequest(data);
+      eventEmitter.emit('customerOrderDetailStageChanged', order?._id);
+    } catch (error) {
+      handleError(error);
+    }
+  };
+
+  const cancelOrder = async (reason: ReasonProps | undefined) => {
+    try {
+      const data = {
+        name: order?.orderStageID.name,
+        status: order?.orderStageID.orderStageStatusID.status,
+        orderStageID: order?.orderStageID.orderStageStatusID.orderStageID,
+        description: description,
+        taskType: TaskType.Cancel,
+        reasonID: reason?._id,
+      };
+      console.log(data);
       await orderRequestsAPIs.createNewRequest(data);
       eventEmitter.emit('customerOrderDetailStageChanged', order?._id);
     } catch (error) {
@@ -121,6 +141,8 @@ const useCustomerOrderDetailPage = () => {
     openCancelModal,
     directCancel,
     receiveOrder,
+    setDescription,
+    cancelOrder,
   };
 };
 export default useCustomerOrderDetailPage;

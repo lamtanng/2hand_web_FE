@@ -1,6 +1,6 @@
 import { Button } from 'antd';
 
-export const CancelButton = ({onClick}: {onClick: React.MouseEventHandler<HTMLElement> | undefined}) => {
+export const CancelButton = ({ onClick }: { onClick: React.MouseEventHandler<HTMLElement> | undefined }) => {
   return (
     <Button type="primary" className="h-10 text-base" onClick={onClick}>
       Cancel Order
@@ -8,23 +8,23 @@ export const CancelButton = ({onClick}: {onClick: React.MouseEventHandler<HTMLEl
   );
 };
 
-export const RebuyButton = ({onClick}: {onClick: React.MouseEventHandler<HTMLElement> | undefined}) => {
+export const RebuyButton = ({ onClick }: { onClick: React.MouseEventHandler<HTMLElement> | undefined }) => {
   return (
-    <Button type='primary' className="h-10 text-base" onClick={onClick}>
+    <Button type="primary" className="h-10 text-base" onClick={onClick} disabled>
       Rebuy
     </Button>
   );
 };
 
-export const ReviewButton = ({onClick}: {onClick: React.MouseEventHandler<HTMLElement> | undefined}) => {
+export const ReviewButton = ({ onClick }: { onClick: React.MouseEventHandler<HTMLElement> | undefined }) => {
   return (
-    <Button variant='outlined' className="h-10 text-base" onClick={onClick}>
+    <Button variant="outlined" className="h-10 text-base" onClick={onClick}>
       Review
     </Button>
   );
 };
 
-export const ConfirmReceivedButton = ({onClick}: {onClick: React.MouseEventHandler<HTMLElement> | undefined}) => {
+export const ConfirmReceivedButton = ({ onClick }: { onClick: React.MouseEventHandler<HTMLElement> | undefined }) => {
   return (
     <Button type="primary" className="h-10 text-base" onClick={onClick}>
       Received Order
@@ -32,7 +32,7 @@ export const ConfirmReceivedButton = ({onClick}: {onClick: React.MouseEventHandl
   );
 };
 
-export const ContactShopButton = ({onClick}: {onClick: React.MouseEventHandler<HTMLElement> | undefined}) => {
+export const ContactShopButton = ({ onClick }: { onClick: React.MouseEventHandler<HTMLElement> | undefined }) => {
   return (
     <Button variant="outlined" className="h-10 text-base" onClick={onClick} disabled>
       Contact Shop
@@ -40,7 +40,7 @@ export const ContactShopButton = ({onClick}: {onClick: React.MouseEventHandler<H
   );
 };
 
-export const ReturnButton = ({onClick}: {onClick: React.MouseEventHandler<HTMLElement> | undefined}) => {
+export const ReturnButton = ({ onClick }: { onClick: React.MouseEventHandler<HTMLElement> | undefined }) => {
   return (
     <Button variant="outlined" className="h-10 text-base" onClick={onClick} disabled>
       Return Order

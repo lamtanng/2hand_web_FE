@@ -34,7 +34,7 @@ function getItem(label: React.ReactNode, key: React.Key, icon?: React.ReactNode,
 const MenuBar = () => {
   const { profile } = useAccountPage();
   const isSeller =
-    profile?.roleID?.filter((role: string) => role === '670d2db6d696affd52e661c3').length !== 0 ? true : false;
+    profile?.roleID?.filter((role: any) => role === '670d2db6d696affd52e661c3').length !== 0 ? true : false;
 
   const items: MenuItem[] = [
     {
@@ -51,7 +51,7 @@ const MenuBar = () => {
       label: 'Purchases',
       children: [
         getItem('My Purchases', 'purchases', <FileTextOutlined />),
-        getItem('My Reviews', 'reviews', <StarOutlined />, true),
+        getItem('My Reviews', 'reviews', <StarOutlined />),
         getItem('Wishlist', 'wishlist', <HeartOutlined />, true),
       ],
     },
@@ -62,7 +62,7 @@ const MenuBar = () => {
         getItem('Dashboard', 'dashboard', <DashboardOutlined />),
         getItem('Products', 'products', <CarryOutOutlined />),
         getItem('Orders', 'orders', <FileTextOutlined />),
-        getItem('Store Reviews', 'store-reviews', <StarOutlined />, true),
+        // getItem('Store Reviews', 'store-reviews', <StarOutlined />),
         getItem('Store Profile', 'store-profile', <ShopOutlined />),
       ],
       disabled: !isSeller,
@@ -98,7 +98,6 @@ const MenuBar = () => {
         <Typography.Title level={4}>{`${profile?.firstName} ${profile?.lastName}`}</Typography.Title>
       </Flex>
       <Menu
-        defaultSelectedKeys={['profile']}
         defaultOpenKeys={['account', 'purchase', 'setting']}
         mode="inline"
         items={items}

@@ -7,21 +7,54 @@ import { ConfirmActions, DeliveryActions, RebuyActions } from './components/Acti
 import { OrderStage } from '../../../types/enum/orderStage.enum';
 import { OrderStageStatus } from '../../../types/enum/orderStageStatus.enum';
 import DirectCancelModal from './components/DirectCancelModal';
+import CancelRequestModal from './components/CancelRequestModal';
+import { ReplyStatus } from '../../../types/enum/replyStatus.enum';
 
 const CustomerOrderDetail = () => {
-  const { order, isModalOpen, setIsModalOpen, cancelReasons, openCancelModal, directCancel, receiveOrder } =
-    useCustomerOrderDetailPage();
+  const {
+    order,
+    isModalOpen,
+    setIsModalOpen,
+    cancelReasons,
+    openCancelModal,
+    directCancel,
+    receiveOrder,
+    setDescription,
+    cancelOrder,
+  } = useCustomerOrderDetailPage();
   const navigate = useNavigate();
 
   let actionGroup;
+  let actionModal;
   switch (order?.orderStageID.name) {
     case OrderStage.Confirmating:
       actionGroup = <ConfirmActions openCancelModal={openCancelModal} />;
+      actionModal = (
+        <DirectCancelModal
+          directCancel={directCancel}
+          isModalOpen={isModalOpen}
+          reasons={cancelReasons}
+          setIsModalOpen={setIsModalOpen}
+        />
+      );
       break;
     case OrderStage.Picking:
-      if (order.orderStageID.orderStageStatusID.status !== OrderStageStatus.RequestToAdmin)
-        actionGroup = <ConfirmActions openCancelModal={() => {}} />;
-      else actionGroup = null;
+      if (
+        order.orderStageID.orderStageStatusID.status === OrderStageStatus.Active ||
+        (order.orderStageID.orderStageStatusID.status === OrderStageStatus.RequestToSeller &&
+          order.orderStageID.orderStageStatusID.orderRequestID?.replyStatus === ReplyStatus.Rejected)
+      ) {
+        actionGroup = <ConfirmActions openCancelModal={openCancelModal} />;
+        actionModal = (
+          <CancelRequestModal
+            isModalOpen={isModalOpen}
+            reasons={cancelReasons}
+            setIsModalOpen={setIsModalOpen}
+            cancelOrderRequest={cancelOrder}
+            setDescription={setDescription}
+          />
+        );
+      } else actionGroup = null;
       break;
     case OrderStage.Delivering:
       actionGroup = <DeliveryActions receiveOrder={receiveOrder} />;
@@ -63,12 +96,29 @@ const CustomerOrderDetail = () => {
       {actionGroup}
       <Divider className="m-0" />
       <OrderInfo order={order} />
-      <DirectCancelModal
-        directCancel={directCancel}
-        isModalOpen={isModalOpen}
-        reasons={cancelReasons}
-        setIsModalOpen={setIsModalOpen}
-      />
+      {order?.orderStageID.orderStageStatusID.orderRequestID?.replyStatus === ReplyStatus.Pending && (
+        <>
+          <Divider />
+          <div className="px-12 py-5">
+            <Typography.Title level={5} className="m-0 mb-6">
+              Cancel Request ({order.orderStageID.orderStageStatusID.status.replace(/([A-Z])/g, ' $1').trim()})
+            </Typography.Title>
+            <Flex className="mb-2">
+              <Typography.Paragraph className="m-0 w-1/6">Reason: </Typography.Paragraph>
+              <Typography.Paragraph className="m-0">
+                {order.orderStageID.orderStageStatusID.orderRequestID.reasonID.name}
+              </Typography.Paragraph>
+            </Flex>
+            <Flex className="mb-2">
+              <Typography.Paragraph className="m-0 w-1/6">Description: </Typography.Paragraph>
+              <Typography.Paragraph className="m-0">
+                {order.orderStageID.orderStageStatusID.orderRequestID.description}
+              </Typography.Paragraph>
+            </Flex>
+          </div>
+        </>
+      )}
+      {actionModal}
     </div>
   );
 };

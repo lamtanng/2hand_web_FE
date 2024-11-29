@@ -12,6 +12,7 @@ import { displaySuccess } from '../../utils/displayToast';
 import eventEmitter from '../../utils/eventEmitter';
 import { authUrls } from '../../constants/urlPaths/authUrls';
 import { customerUrls } from '../../constants/urlPaths/customer/customerUrls';
+import { reviewAPIs } from '../../apis/review.api';
 
 const useProductDetail = () => {
   const param = useParams();
@@ -23,6 +24,7 @@ const useProductDetail = () => {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [isDirty, setDirty] = useState<boolean>(false);
   const [storeProduct, setStoreProduct] = useState<ProductProps[]>([]);
+  const [reviews, setReviews] = useState<any[]>([]);
 
   const getStoreProducts = async (page: number, limit: number, storeID: (string | undefined)[]) => {
     try {
@@ -38,7 +40,7 @@ const useProductDetail = () => {
         undefined,
         storeIDGroup,
       );
-      setStoreProduct(res?.data?.response?.products);
+      setStoreProduct(res?.data?.response?.data);
     } catch (error) {
       handleError(error);
     } finally {
@@ -63,6 +65,15 @@ const useProductDetail = () => {
       const res = await cartAPIs.getCartItem(productID);
       setItem(res.data);
       console.log('item:', res.data);
+    } catch (error) {
+      handleError(error);
+    }
+  };
+
+  const getReviews = async (productID: string | undefined) => {
+    try {
+      const res = await reviewAPIs.getReviewByProduct(productID);
+      setReviews(res.data);
     } catch (error) {
       handleError(error);
     }
@@ -128,6 +139,10 @@ const useProductDetail = () => {
   useEffect(() => {
     getStoreProducts(1, 10, [product?.storeID._id]);
 
+    if (product) {
+      getReviews(product._id);
+    }
+
     if (user._id && product?._id) {
       getCartItemByID(product._id);
 
@@ -150,6 +165,7 @@ const useProductDetail = () => {
     setQuantity,
     isDirty,
     handleBuyNow,
+    reviews,
   };
 };
 

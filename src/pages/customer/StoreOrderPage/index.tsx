@@ -20,32 +20,32 @@ const StoreOrder = () => {
     {
       label: 'All Orders',
       key: '1',
-      children: <OrderList orders={sortOrderArray(orders)} />,
+      children: <OrderList orders={sortOrderArray(orders).reverse()} />,
     },
     {
       label: 'Waiting for confirmation',
       key: '2',
-      children: <OrderList orders={sortOrderArray(confirmatingOrders)} />,
+      children: <OrderList orders={sortOrderArray(confirmatingOrders).reverse()} />,
     },
     {
       label: 'Waiting for picking',
       key: '3',
-      children: <OrderList orders={sortOrderArray(pickingOrders)} />,
+      children: <OrderList orders={sortOrderArray(pickingOrders).reverse()} />,
     },
     {
       label: 'Waiting for delivery',
       key: '4',
-      children: <OrderList orders={sortOrderArray(deliveringOrders)} />,
+      children: <OrderList orders={sortOrderArray(deliveringOrders).reverse()} />,
     },
     {
       label: 'Delivered',
       key: '5',
-      children: <OrderList orders={sortOrderArray(deliveredOrders)} />,
+      children: <OrderList orders={sortOrderArray(deliveredOrders).reverse()} />,
     },
     {
       label: 'Cancelled',
       key: '6',
-      children: <OrderList orders={sortOrderArray(cancelledOrders)} />,
+      children: <OrderList orders={sortOrderArray(cancelledOrders).reverse()} />,
     },
   ];
 
