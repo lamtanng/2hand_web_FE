@@ -19,6 +19,7 @@ const useAddressModal = (
   const [selectedDistrict, setSelectedDistrict] = useState<DistrictAddressProps | null>(null);
   const [selectedWard, setSelectedWard] = useState<WardAddressProps | null>(null);
   const [isDefault, setDefault] = useState<boolean>(false);
+  const [isSelectedDefault, setSelectedDefault] = useState<boolean>(false);
   const [isSubmitting, setSubmitting] = useState<boolean>(false);
   const method = useForm<FormAddressProps>({
     resolver: yupResolver(addressSchema),
@@ -113,6 +114,7 @@ const useAddressModal = (
     isSubmitting,
     isDefault,
     submitButtonClick,
+    setSelectedDefault,
   };
 };
 

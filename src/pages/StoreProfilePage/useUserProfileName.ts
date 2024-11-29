@@ -17,21 +17,25 @@ const useUserProfileDetail = () => {
 
   const getUserBySlug = async (slug: string | undefined) => {
     try {
+      setLoading(true);
       const res = await userAPIs.getUserByUserSlug(slug);
       setProfile(res.data);
     } catch (error) {
       handleError(error);
     } finally {
+      setLoading(false);
     }
   };
 
   const getStore = async (userID: string | undefined) => {
     try {
+      setLoading(true);
       const res = await storeAPIs.getStoreByUser(userID);
       setStore(res.data);
     } catch (error) {
       handleError(error);
     } finally {
+      setLoading(false);
     }
   };
 

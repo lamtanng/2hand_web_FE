@@ -11,6 +11,7 @@ import DirectCancelModal from '../DirectCancelModal';
 import CancelRequestModal from '../CancelRequestModal';
 import dayjs from 'dayjs';
 import { ReplyStatus } from '../../../../../types/enum/replyStatus.enum';
+import { Link } from 'react-router-dom';
 
 const OrderItem = ({ order }: { order: OrderProps }) => {
   const { receiveOrder, cancelReasons, isModalOpen, setIsModalOpen, openCancelModal, cancelOrder, setDescription } =
@@ -49,10 +50,10 @@ const OrderItem = ({ order }: { order: OrderProps }) => {
       }
       if (order.orderStageID.orderStageStatusID.orderRequestID?.replyStatus === ReplyStatus.Pending) {
         actionGroup = (
-          <Typography.Paragraph className="m-0">
+          <Link to={order._id}>
             Cancel request ({order.orderStageID.orderStageStatusID.status.replace(/([A-Z])/g, ' $1').trim()}):{' '}
             {order.orderStageID.orderStageStatusID.orderRequestID.reasonID.name}
-          </Typography.Paragraph>
+          </Link>
         );
       }
       if (
@@ -106,7 +107,7 @@ const OrderItem = ({ order }: { order: OrderProps }) => {
         <div id="total-price">
           <Flex justify="end" align="center" gap={'middle'}>
             <p className="m-0 font-sans">Total price:</p>
-            <p className="m-0 font-sans text-xl text-blue-700">{order.total + order.shipmentCost}</p>
+            <p className="m-0 font-sans text-xl text-blue-700">{new Intl.NumberFormat().format(order.total + order.shipmentCost)} VND</p>
           </Flex>
         </div>
         <Flex

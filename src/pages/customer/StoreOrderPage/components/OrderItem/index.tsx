@@ -49,10 +49,10 @@ const OrderItem = ({ order }: { order: OrderProps }) => {
       else
         actionGroup = (
           <Flex vertical gap={'large'}>
-            <Typography.Paragraph className="m-0">
+            <Link to={order._id}>
               Cancel request ({order.orderStageID.orderStageStatusID.status.replace(/([A-Z])/g, ' $1').trim()}):{' '}
               {order.orderStageID.orderStageStatusID.orderRequestID?.reasonID.name}
-            </Typography.Paragraph>
+            </Link>
           </Flex>
         );
       break;
@@ -99,7 +99,7 @@ const OrderItem = ({ order }: { order: OrderProps }) => {
                   </Flex>
                 </div>
                 <div id="prodct-price" className="font-sans">
-                  {item.productID.price} VND
+                  {new Intl.NumberFormat().format(item.productID.price)} VND
                 </div>
               </Flex>
             </div>
@@ -109,7 +109,7 @@ const OrderItem = ({ order }: { order: OrderProps }) => {
         <div id="total-price">
           <Flex justify="end" align="center" gap={'middle'}>
             <p className="m-0 font-sans">Total price:</p>
-            <p className="m-0 font-sans text-xl text-blue-700">{order.total + order.shipmentCost}</p>
+            <p className="m-0 font-sans text-xl text-blue-700">{new Intl.NumberFormat().format(order.total + order.shipmentCost)} VND</p>
           </Flex>
         </div>
         <Flex

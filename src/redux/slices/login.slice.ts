@@ -23,6 +23,7 @@ const loginSlice = createSlice({
       const user = decodeToken(action.payload?.data?.accessToken);
       state.token = action.payload.data;
       state.user = user;
+      localStorage.setItem('accessToken', action.payload?.data?.accessToken)
     },
     deleteAuth: (state) => {
       state.token = initialState.token;

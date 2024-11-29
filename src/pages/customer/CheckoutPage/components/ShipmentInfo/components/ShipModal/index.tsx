@@ -12,23 +12,21 @@ const ShipModal = ({
 }: {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  shipment: ShipmentProps[],
-  
+  shipment: ShipmentProps[];
 }) => {
-  const { chosenShipment, setChosenShipment } = useShipmentModal();
-  
+  const { choosenShipment, setChoosenShipment } = useShipmentModal(shipment);
 
   const handleClose = () => {
     setIsModalOpen(false);
   };
 
   const onChange = (e: RadioChangeEvent) => {
-    setChosenShipment(e.target.value);
+    setChoosenShipment(e.target.value);
   };
 
   const handleOk = () => {
     setIsModalOpen(false);
-    eventEmitter.emit('shipmentChange', chosenShipment);
+    eventEmitter.emit('shipmentChange', choosenShipment);
   };
 
   return (
@@ -48,7 +46,7 @@ const ShipModal = ({
         </Typography.Title>
         <Divider />
         <div className="px-6 pb-6">
-          <Radio.Group className="w-full" defaultValue={chosenShipment} onChange={onChange}>
+          <Radio.Group className="w-full" defaultValue={choosenShipment} onChange={onChange}>
             <Flex vertical gap={'large'} className="w-full">
               {shipment.map((item: ShipmentProps) => (
                 <Radio value={item} className="w-full">
@@ -69,7 +67,7 @@ const ShipModal = ({
             <Button className="px-8 py-5 text-base" onClick={handleClose}>
               Cancel
             </Button>
-            <Button type="primary" className="px-8 py-5 text-base" onClick={handleOk} disabled={!chosenShipment}>
+            <Button type="primary" className="px-8 py-5 text-base" onClick={handleOk}>
               OK
             </Button>
           </Flex>

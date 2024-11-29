@@ -53,6 +53,8 @@ const useAddressForm = (
       };
       setSelectedProvince(data);
       getDistrictData(chosenProvince.ProvinceID);
+      setSelectedDistrict(null);
+      setSelectedWard(null);
     }
   };
 

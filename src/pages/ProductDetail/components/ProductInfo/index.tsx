@@ -75,7 +75,7 @@ const ProductInfo = ({
                 <InputNumber
                   min={1}
                   max={product?.quantity}
-                  defaultValue={(product && product.quantity > 0) ? 0 : 1}
+                  defaultValue={(product && product.quantity > 0) ? 1 : 0}
                   onChange={(value) => {
                     value && setQuantity(value);
                   }}

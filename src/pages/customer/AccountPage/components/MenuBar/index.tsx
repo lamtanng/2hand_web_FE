@@ -98,7 +98,6 @@ const MenuBar = () => {
         <Typography.Title level={4}>{`${profile?.firstName} ${profile?.lastName}`}</Typography.Title>
       </Flex>
       <Menu
-        defaultSelectedKeys={['profile']}
         defaultOpenKeys={['account', 'purchase', 'setting']}
         mode="inline"
         items={items}

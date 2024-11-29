@@ -35,7 +35,7 @@ const OrderDetail = ({ order, item }: { order: OrderProps; item: OrderDetailProp
           <ReviewButton onClick={openReviewModal} />
         ) : (
           <div id="prodct-price" className="font-sans flex-shrink-0">
-            {item.productID.price} VND
+            {new Intl.NumberFormat().format(item.productID.price)} VND
           </div>
         )}
         <ReviewModal isModalOpen={isModalOpen} product={item} setIsModalOpen={setIsModalOpen} />

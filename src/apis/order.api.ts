@@ -1,5 +1,10 @@
 import { orderPaths } from '../constants/apiPaths/orderPaths';
-import { CalcExpectedDeliveryDateRequest, CalcShippingFeeRequestProps, CreateCODPaymentRequestProps, GetAvailableServiceRequestProps } from '../types/http/order.type';
+import {
+  CalcExpectedDeliveryDateRequest,
+  CalcShippingFeeRequestProps,
+  CreateCODPaymentRequestProps,
+  GetAvailableServiceRequestProps,
+} from '../types/http/order.type';
 import { axiosClient } from './axios';
 
 const getOrderUrl = (url: string) => `${orderPaths.orderPath}/${url}`;
@@ -26,6 +31,7 @@ const getOrder = (userID: string | undefined) => {
   return axiosClient.get(orderUrl, {
     params: {
       userID: userID,
+      limit: 100,
     },
   });
 };
@@ -35,6 +41,7 @@ const getSellerOrder = (storeID: string | undefined) => {
   return axiosClient.get(url, {
     params: {
       storeID: storeID,
+      limit: 100,
     },
   });
 };
@@ -59,5 +66,5 @@ export const orderAPIs = {
   getSellerOrder,
   getPickupDate,
   calcExpectedDeliveryDate,
-  getOrderByID
+  getOrderByID,
 };
