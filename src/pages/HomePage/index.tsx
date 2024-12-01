@@ -10,6 +10,7 @@ import ProductList from '../../components/elements/Lists/ProductList';
 import SystemInfo from './components/SystemInfo';
 import Collection from './components/Collection';
 import useHomePage from './useHomePage';
+import PageSpin from '../../components/elements/Spin/PageSpin';
 
 const HomePage = () => {
   const {freeProduct, isLoading, newestProduct} = useHomePage();
@@ -17,7 +18,7 @@ const HomePage = () => {
   return (
     <>
       <Header />
-      <Flex vertical className="mb-10 mt-10 w-full md:mb-20 md:mt-20">
+      {isLoading ? <PageSpin /> : (<Flex vertical className="mb-10 mt-10 w-full md:mb-20 md:mt-20">
         <div className="p-10">
           <CustomCarousel />
         </div>
@@ -45,7 +46,7 @@ const HomePage = () => {
             <SystemInfo />
           </div>
         </Flex>
-      </Flex>
+      </Flex>)}
       <Footer />
     </>
   );

@@ -1,5 +1,5 @@
-import { MessageOutlined, ShopOutlined } from '@ant-design/icons';
-import { Button, Divider, Flex, Typography, Image } from 'antd';
+import { MessageOutlined, UserOutlined } from '@ant-design/icons';
+import { Button, Divider, Flex, Typography, Image, Avatar } from 'antd';
 import defaultPic from '../../../../../assets/blob.jpg';
 import { OrderDetailProps } from '../../../../../types/orderDetail.type';
 import { OrderProps } from '../../../../../types/order.type';
@@ -10,15 +10,12 @@ const OrderInfo = ({ order }: { order: OrderProps | undefined }) => {
       <div id="order" className="py-6">
         <div id="order-summary">
           <Flex id="shop-info" align="center" gap={'small'} className="w-1/3">
-            <ShopOutlined />
+          <Avatar size="large" src={order?.userID.avatar} icon={<UserOutlined />} />
             <Typography.Title level={5} className="m-0 inline truncate">
-              {order?.storeID.name}
+              {`${order?.userID.firstName} ${order?.userID.lastName}`}
             </Typography.Title>
             <Button type="primary" className="px-2 py-1 text-xs">
               <MessageOutlined /> Chat
-            </Button>
-            <Button variant="outlined" className="px-2 py-1 text-xs">
-              <ShopOutlined /> Visit shop
             </Button>
           </Flex>
         </div>

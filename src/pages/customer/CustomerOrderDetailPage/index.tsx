@@ -9,6 +9,7 @@ import { OrderStageStatus } from '../../../types/enum/orderStageStatus.enum';
 import DirectCancelModal from './components/DirectCancelModal';
 import CancelRequestModal from './components/CancelRequestModal';
 import { ReplyStatus } from '../../../types/enum/replyStatus.enum';
+import CancelRequest from './components/CancelRequest';
 
 const CustomerOrderDetail = () => {
   const {
@@ -97,26 +98,7 @@ const CustomerOrderDetail = () => {
       <Divider className="m-0" />
       <OrderInfo order={order} />
       {order?.orderStageID.orderStageStatusID.orderRequestID?.replyStatus === ReplyStatus.Pending && (
-        <>
-          <Divider />
-          <div className="px-12 py-5">
-            <Typography.Title level={5} className="m-0 mb-6">
-              Cancel Request ({order.orderStageID.orderStageStatusID.status.replace(/([A-Z])/g, ' $1').trim()})
-            </Typography.Title>
-            <Flex className="mb-2">
-              <Typography.Paragraph className="m-0 w-1/6">Reason: </Typography.Paragraph>
-              <Typography.Paragraph className="m-0">
-                {order.orderStageID.orderStageStatusID.orderRequestID.reasonID.name}
-              </Typography.Paragraph>
-            </Flex>
-            <Flex className="mb-2">
-              <Typography.Paragraph className="m-0 w-1/6">Description: </Typography.Paragraph>
-              <Typography.Paragraph className="m-0">
-                {order.orderStageID.orderStageStatusID.orderRequestID.description}
-              </Typography.Paragraph>
-            </Flex>
-          </div>
-        </>
+        <CancelRequest order={order} />
       )}
       {actionModal}
     </div>

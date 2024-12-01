@@ -1,7 +1,6 @@
-import { MessageOutlined, ShopOutlined } from '@ant-design/icons';
-import { Button, Divider, Flex, Typography, Image } from 'antd';
+import { MessageOutlined, UserOutlined } from '@ant-design/icons';
+import { Avatar, Button, Divider, Flex, Typography } from 'antd';
 import { Link } from 'react-router-dom';
-import defaultPic from '../../../../../assets/blob.jpg';
 import { ConfirmActions, DeliveryActions } from '../ActionGroup';
 import PickupDateModal from '../PickupDateModal';
 import useOrderItem from './useOrderItem';
@@ -12,8 +11,9 @@ import { OrderStageStatus } from '../../../../../types/enum/orderStageStatus.enu
 import DirectCancelModal from '../DirectCancelModal';
 import dayjs from 'dayjs';
 import { ReplyStatus } from '../../../../../types/enum/replyStatus.enum';
+import OrderDetail from '../OrderDetail';
 
-const OrderItem = ({ order }: { order: OrderProps }) => {
+const StoreOrderItem = ({ order }: { order: OrderProps }) => {
   const {
     pickupDates,
     pickingOrder,
@@ -30,12 +30,6 @@ const OrderItem = ({ order }: { order: OrderProps }) => {
   } = useOrderItem(order);
   let actionGroup;
 
-  console.log(
-    order.orderStageID.orderStageStatusID.status === OrderStageStatus.Active ||
-      (order.orderStageID.orderStageStatusID.status ===
-        (OrderStageStatus.RequestToSeller || OrderStageStatus.RequestToAdmin) &&
-        order.orderStageID.orderStageStatusID.orderRequestID?.replyStatus === ReplyStatus.Rejected),
-  );
   switch (order.orderStageID.name) {
     case OrderStage.Confirmating:
       actionGroup = <ConfirmActions getPickupDate={pickingOrder} openCancelModal={openCancelModal} />;
@@ -66,15 +60,12 @@ const OrderItem = ({ order }: { order: OrderProps }) => {
         <div id="order-summary">
           <Flex justify="space-between">
             <Flex id="shop-info" align="center" gap={'small'} className="w-1/3">
-              <ShopOutlined />
+              <Avatar size="large" src={order.userID.avatar} icon={<UserOutlined />} />
               <Typography.Title level={5} className="m-0 inline truncate">
-                {order.storeID.name}
+                {`${order.userID.firstName} ${order.userID.lastName}`}
               </Typography.Title>
               <Button type="primary" className="px-2 py-1 text-xs">
                 <MessageOutlined /> Chat
-              </Button>
-              <Button variant="outlined" className="px-2 py-1 text-xs">
-                <ShopOutlined /> Visit shop
               </Button>
             </Flex>
             <div id="order-status">
@@ -84,32 +75,15 @@ const OrderItem = ({ order }: { order: OrderProps }) => {
         </div>
         <Divider className="m-0 mt-6" />
         {order.orderDetailIDs.map((item: OrderDetailProps) => (
-          <Link to={order._id}>
-            <div id="order-detail" className="mt-6">
-              <Flex justify="space-between" align="center">
-                <div id="product-info" className="w-5/6">
-                  <Flex gap={'middle'}>
-                    <Image width={75} preview={false} alt="" src={item.productID.image[0]} fallback={defaultPic} />
-                    <div>
-                      <Typography.Title level={5} className="m-0 mb-2">
-                        {item.productID.name}
-                      </Typography.Title>
-                      <Typography.Paragraph className="text-xs">x {item.quantity}</Typography.Paragraph>
-                    </div>
-                  </Flex>
-                </div>
-                <div id="prodct-price" className="font-sans">
-                  {new Intl.NumberFormat().format(item.productID.price)} VND
-                </div>
-              </Flex>
-            </div>
-          </Link>
+          <OrderDetail item={item} order={order} />
         ))}
         <Divider />
         <div id="total-price">
           <Flex justify="end" align="center" gap={'middle'}>
             <p className="m-0 font-sans">Total price:</p>
-            <p className="m-0 font-sans text-xl text-blue-700">{new Intl.NumberFormat().format(order.total + order.shipmentCost)} VND</p>
+            <p className="m-0 font-sans text-xl text-blue-700">
+              {new Intl.NumberFormat().format(order.total + order.shipmentCost)} VND
+            </p>
           </Flex>
         </div>
         <Flex
@@ -144,4 +118,4 @@ const OrderItem = ({ order }: { order: OrderProps }) => {
   );
 };
 
-export default OrderItem;
+export default StoreOrderItem;

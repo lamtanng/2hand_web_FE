@@ -13,7 +13,7 @@ import dayjs from 'dayjs';
 import { ReplyStatus } from '../../../../../types/enum/replyStatus.enum';
 import { Link } from 'react-router-dom';
 
-const OrderItem = ({ order }: { order: OrderProps }) => {
+const CustomerOrderItem = ({ order }: { order: OrderProps }) => {
   const { receiveOrder, cancelReasons, isModalOpen, setIsModalOpen, openCancelModal, cancelOrder, setDescription } =
     useOrderItem(order);
   let actionGroup;
@@ -90,9 +90,11 @@ const OrderItem = ({ order }: { order: OrderProps }) => {
               <Button type="primary" className="px-2 py-1 text-xs">
                 <MessageOutlined /> Chat
               </Button>
-              <Button variant="outlined" className="px-2 py-1 text-xs">
-                <ShopOutlined /> Visit shop
-              </Button>
+              <Link to={`/user/${order.storeID.userID.slug}`}>
+                <Button variant="outlined" className="px-2 py-1 text-xs">
+                  <ShopOutlined /> Visit shop
+                </Button>
+              </Link>
             </Flex>
             <div id="order-status">
               <p className="m-0 font-sans text-blue-700">{order?.orderStageID?.name && order.orderStageID.name}</p>
@@ -107,7 +109,9 @@ const OrderItem = ({ order }: { order: OrderProps }) => {
         <div id="total-price">
           <Flex justify="end" align="center" gap={'middle'}>
             <p className="m-0 font-sans">Total price:</p>
-            <p className="m-0 font-sans text-xl text-blue-700">{new Intl.NumberFormat().format(order.total + order.shipmentCost)} VND</p>
+            <p className="m-0 font-sans text-xl text-blue-700">
+              {new Intl.NumberFormat().format(order.total + order.shipmentCost)} VND
+            </p>
           </Flex>
         </div>
         <Flex
@@ -131,4 +135,4 @@ const OrderItem = ({ order }: { order: OrderProps }) => {
   );
 };
 
-export default OrderItem;
+export default CustomerOrderItem;

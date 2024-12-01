@@ -6,6 +6,7 @@ const purchasesDetailUrl = 'purchases/:id';
 const reviewUrl = 'reviews';
 const orderUrl = 'orders';
 const orderDetailUrl = 'orders/:id';
+const productsUrl = 'products'
 
 export const accountUrls = {
     accountUrl,
@@ -15,5 +16,6 @@ export const accountUrls = {
     orderUrl,
     reviewUrl,
     puchasesUrl,
-    purchasesDetailUrl
+    purchasesDetailUrl,
+    productsUrl
 };

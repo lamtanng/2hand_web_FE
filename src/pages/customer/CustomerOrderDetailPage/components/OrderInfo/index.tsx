@@ -7,6 +7,7 @@ import { ReviewButton } from '../../../../../components/elements/Buttons/Custome
 import ReviewModal from '../ReviewModal';
 import { useState } from 'react';
 import { OrderStage } from '../../../../../types/enum/orderStage.enum';
+import { Link } from 'react-router-dom';
 
 const OrderInfo = ({ order }: { order: OrderProps | undefined }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -27,16 +28,18 @@ const OrderInfo = ({ order }: { order: OrderProps | undefined }) => {
             <Button type="primary" className="px-2 py-1 text-xs">
               <MessageOutlined /> Chat
             </Button>
-            <Button variant="outlined" className="px-2 py-1 text-xs">
-              <ShopOutlined /> Visit shop
-            </Button>
+            <Link to={`/user/${order?.storeID.userID.slug}`}>
+              <Button variant="outlined" className="px-2 py-1 text-xs">
+                <ShopOutlined /> Visit shop
+              </Button>
+            </Link>
           </Flex>
         </div>
         <Divider className="mb-0" />
         <div id="order-detail">
           {order?.orderDetailIDs.map((item: OrderDetailProps) => (
             <div id="product-info" className="my-6">
-              <Flex justify='space-between'>
+              <Flex justify="space-between">
                 <Flex gap={'middle'}>
                   <Image width={75} preview={false} alt="" src={item.productID.image[0]} fallback={defaultPic} />
                   <div>
@@ -46,7 +49,9 @@ const OrderInfo = ({ order }: { order: OrderProps | undefined }) => {
                     <Typography.Paragraph className="text-xs">{item.productID.quality}</Typography.Paragraph>
                   </div>
                 </Flex>
-                {(order.orderStageID.name === OrderStage.Delivered && !item.reviewID) && <ReviewButton onClick={openReviewModal} />}
+                {order.orderStageID.name === OrderStage.Delivered && !item.reviewID && (
+                  <ReviewButton onClick={openReviewModal} />
+                )}
                 <ReviewModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} product={item} />
               </Flex>
             </div>
@@ -58,16 +63,21 @@ const OrderInfo = ({ order }: { order: OrderProps | undefined }) => {
           <Flex gap={'middle'} vertical>
             <Flex justify="end" align="center" gap={'middle'}>
               <Typography.Paragraph className="m-0">Total goods price:</Typography.Paragraph>
-              <Typography.Paragraph className="m-0 text-base">{order?.total && new Intl.NumberFormat().format(order.total)} VND</Typography.Paragraph>
+              <Typography.Paragraph className="m-0 text-base">
+                {order?.total && new Intl.NumberFormat().format(order.total)} VND
+              </Typography.Paragraph>
             </Flex>
             <Flex justify="end" align="center" gap={'middle'}>
               <Typography.Paragraph className="m-0">Shipment cost:</Typography.Paragraph>
-              <Typography.Paragraph className="m-0 text-base">{order?.shipmentCost && new Intl.NumberFormat().format(order.shipmentCost)} VND</Typography.Paragraph>
+              <Typography.Paragraph className="m-0 text-base">
+                {order?.shipmentCost && new Intl.NumberFormat().format(order.shipmentCost)} VND
+              </Typography.Paragraph>
             </Flex>
             <Flex justify="end" align="center" gap={'middle'}>
               <Typography.Paragraph className="m-0">Total price:</Typography.Paragraph>
               <Typography.Paragraph className="m-0 text-xl text-blue-700">
-                {order?.total && order.shipmentCost && new Intl.NumberFormat().format(order.total + order.shipmentCost)} VND
+                {order?.total && order.shipmentCost && new Intl.NumberFormat().format(order.total + order.shipmentCost)}{' '}
+                VND
               </Typography.Paragraph>
             </Flex>
             <Flex justify="end" align="center" gap={'middle'}>

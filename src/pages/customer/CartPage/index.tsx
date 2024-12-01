@@ -1,4 +1,4 @@
-import { Checkbox, Flex, Typography } from 'antd';
+import { Checkbox, Flex, Skeleton, Typography } from 'antd';
 import CartItem from './components/CartItem';
 import Summary from './components/Summary';
 import useCart from './useCartPage';
@@ -7,6 +7,7 @@ import ProductList from '../../../components/elements/Lists/ProductList';
 import Footer from '../../../components/elements/Footer';
 import { CartItemProps, CartProps } from '../../../types/cart.type';
 import SoldoutProduct from './components/SoldoutProducts';
+import EmptyCart from './components/EmptyCart';
 
 const CartPage = () => {
   const {
@@ -22,6 +23,7 @@ const CartPage = () => {
     handleDelete,
     handleQuantityChange,
     soldoutProducts,
+    isLoading,
   } = useCart();
 
   const actualCart = cart.filter(
@@ -55,31 +57,41 @@ const CartPage = () => {
               </Flex>
             </Flex>
           </div>
-          <div id="cart-list">
-            {actualCart.map((group: CartProps) => (
-                <CartItem
-                  group={group}
-                  groupCheckBoxHandler={groupCheckBoxHandler}
-                  checkedList={checkedList}
-                  singleCheckBoxHandler={singleCheckBoxHandler}
-                  handleDelete={handleDelete}
-                  handleQuantityChange={handleQuantityChange}
-                />
-              ))}
-          </div>
-          {soldoutProducts.length !== 0 && (
+          {isLoading ? (
+            <Skeleton />
+          ) : (
+            <div id="cart-list">
+              {actualCart.length !== 0 ? (
+                actualCart.map((group: CartProps) => (
+                  <CartItem
+                    group={group}
+                    groupCheckBoxHandler={groupCheckBoxHandler}
+                    checkedList={checkedList}
+                    singleCheckBoxHandler={singleCheckBoxHandler}
+                    handleDelete={handleDelete}
+                    handleQuantityChange={handleQuantityChange}
+                  />
+                ))
+              ) : (
+                <EmptyCart />
+              )}
+            </div>
+          )}
+          {!isLoading && soldoutProducts.length !== 0 && (
             <div id="soldout-products">
               <SoldoutProduct soldoutProducts={soldoutProducts} handleDelete={handleDelete} checkedList={checkedList} />
             </div>
           )}
-          <Summary
-            checkedList={checkedList}
-            allCheckBoxHandler={allCheckBoxHandler}
-            checked={isCheckedAll}
-            handleOnClick={handleCheckout}
-            itemAmount={itemAmount}
-            totalPrice={totalPrice}
-          />
+          {actualCart.length !== 0 && (
+            <Summary
+              checkedList={checkedList}
+              allCheckBoxHandler={allCheckBoxHandler}
+              checked={isCheckedAll}
+              handleOnClick={handleCheckout}
+              itemAmount={itemAmount}
+              totalPrice={totalPrice}
+            />
+          )}
           <div id="recommend-products" className="mt-10">
             <Typography.Title level={3} className="m-0">
               Recommended Products

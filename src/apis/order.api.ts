@@ -27,21 +27,23 @@ const placeOrder = (data: CreateCODPaymentRequestProps) => {
   return axiosClient.post(placeOrderUrl, data);
 };
 
-const getOrder = (userID: string | undefined) => {
+const getOrder = (userID: string | undefined, stages: string | undefined, page: number) => {
   return axiosClient.get(orderUrl, {
     params: {
       userID: userID,
-      limit: 100,
+      stages: stages,
+      page: page,
     },
   });
 };
 
-const getSellerOrder = (storeID: string | undefined) => {
+const getSellerOrder = (storeID: string | undefined, stages: string | undefined, page: number) => {
   const url = `${orderPaths.sellerPath}/${orderUrl}`;
   return axiosClient.get(url, {
     params: {
       storeID: storeID,
-      limit: 100,
+      stages: stages,
+      page: page,
     },
   });
 };

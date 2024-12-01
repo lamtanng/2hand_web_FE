@@ -128,7 +128,7 @@ const useOrderItem = (order: OrderProps) => {
     isCancelModalOpen,
     isPickupModalOpen,
     setIsCancelModalOpen,
-    setIsPickupModalOpen
+    setIsPickupModalOpen,
   };
 };
 export default useOrderItem;

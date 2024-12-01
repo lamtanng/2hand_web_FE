@@ -5,8 +5,12 @@ import {
   PercentageOutlined,
   ShoppingOutlined,
 } from '@ant-design/icons';
-import { Button, Divider, Flex, Typography } from 'antd';
+import { Button, Divider, Flex, Skeleton, Typography } from 'antd';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, BarChart, Bar } from 'recharts';
+import useAccountPage from '../AccountPage/useAccountPage';
+import useStoreDashboardPage from './useStoreDashboardPage';
+import { Link } from 'react-router-dom';
+import { accountUrls } from '../../../constants/urlPaths/customer/accountUrls';
 
 const data = [
   {
@@ -37,14 +41,16 @@ const data = [
 
 const StoreDashboard = () => {
   const currentDate = new Date();
+  const { profile } = useAccountPage();
+  const { isLoading, products, totalDeliveredOrders, totalOrders } = useStoreDashboardPage(profile);
   return (
     <div id="container" className="px-12 py-5">
       <div id="title">
         <Typography.Title level={3}>Dashboard</Typography.Title>
         <Typography.Paragraph>An overview of your store's activity.</Typography.Paragraph>
       </div>
-      <Divider/>
-      <div className='mb-6'>
+      <Divider />
+      <div className="mb-6">
         <Flex justify="end" gap={'middle'}>
           <Button>
             <CalendarOutlined /> Date
@@ -57,37 +63,66 @@ const StoreDashboard = () => {
       <div className="mb-6">
         <Flex gap={'large'}>
           <Flex vertical className="w-full gap-10 rounded-xl bg-slate-50 p-8">
-            <Typography.Paragraph className="m-0 text-base">
-              <ShoppingOutlined /> Number of Products
-            </Typography.Paragraph>
-            <Flex justify="space-between" align="baseline">
-              <Typography.Title className="m-0">0</Typography.Title>
-              <Typography.Paragraph className="m-0">{currentDate.toDateString()}</Typography.Paragraph>
-            </Flex>
+            {isLoading ? (
+              <Skeleton active paragraph={{ rows: 2 }} />
+            ) : (
+              <Link to={`/${accountUrls.accountUrl}/${accountUrls.productsUrl}`}>
+                <Typography.Paragraph className="m-0 mb-10 text-base">
+                  <ShoppingOutlined /> Number of Products
+                </Typography.Paragraph>
+                <Flex justify="space-between" align="baseline">
+                  <Typography.Title level={2} className="m-0">
+                    {products}
+                  </Typography.Title>
+                  <Typography.Paragraph className="m-0">{currentDate.toDateString()}</Typography.Paragraph>
+                </Flex>
+              </Link>
+            )}
           </Flex>
           <Flex vertical className="w-full gap-10 rounded-xl bg-slate-50 p-8">
-            <Typography.Paragraph className="m-0 text-base">
-              <FileTextOutlined /> Number of Orders
-            </Typography.Paragraph>
-            <Flex justify="space-between" align="baseline">
-              <Typography.Title className="m-0">0</Typography.Title>
-              <Typography.Paragraph className="m-0">{currentDate.toDateString()}</Typography.Paragraph>
-            </Flex>
+            {isLoading ? (
+              <Skeleton active paragraph={{ rows: 2 }} />
+            ) : (
+              <Link to={`/${accountUrls.accountUrl}/${accountUrls.orderUrl}`}>
+                <Typography.Paragraph className="m-0 mb-10 text-base">
+                  <FileTextOutlined /> Number of Orders
+                </Typography.Paragraph>
+                <Flex justify="space-between" align="baseline">
+                  <Typography.Title level={2} className="m-0">
+                    {totalOrders}
+                  </Typography.Title>
+                  <Typography.Paragraph className="m-0">{currentDate.toDateString()}</Typography.Paragraph>
+                </Flex>
+              </Link>
+            )}
           </Flex>
           <Flex vertical className="w-full gap-10 rounded-xl bg-slate-50 p-8">
-            <Typography.Paragraph className="m-0 text-base">
-              <PercentageOutlined /> Succesful Order Rate
-            </Typography.Paragraph>
-            <Flex justify="space-between" align="baseline">
-              <Typography.Title className="m-0">0</Typography.Title>
-              <Typography.Paragraph className="m-0">{currentDate.toDateString()}</Typography.Paragraph>
-            </Flex>
+            {isLoading ? (
+              <Skeleton active paragraph={{ rows: 2 }} />
+            ) : (
+              <>
+                <Typography.Paragraph className="m-0 text-base">
+                  <PercentageOutlined /> Succesful Order Rate
+                </Typography.Paragraph>
+                <Flex justify="space-between" align="baseline">
+                  <Typography.Title level={2} className="m-0">
+                    {Number((totalDeliveredOrders / totalOrders) * 100)
+                      ? Number((totalDeliveredOrders / totalOrders) * 100).toFixed(2)
+                      : 0}
+                    %
+                  </Typography.Title>
+                  <Typography.Paragraph className="m-0">{currentDate.toDateString()}</Typography.Paragraph>
+                </Flex>
+              </>
+            )}
           </Flex>
         </Flex>
       </div>
       <Flex justify="space-between">
         <div className="mb-6 w-fit">
-          <Typography.Title level={4} className='m-0 mb-6'>Annual Revenue</Typography.Title>
+          <Typography.Title level={4} className="m-0 mb-6">
+            Annual Revenue
+          </Typography.Title>
           <LineChart width={450} height={250} data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
@@ -99,7 +134,9 @@ const StoreDashboard = () => {
           </LineChart>
         </div>
         <div className="mb-6 w-fit">
-          <Typography.Title level={4} className='m-0 mb-6'>Monthly Orders by State</Typography.Title>
+          <Typography.Title level={4} className="m-0 mb-6">
+            Monthly Orders by State
+          </Typography.Title>
           <BarChart width={450} height={250} data={data}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
