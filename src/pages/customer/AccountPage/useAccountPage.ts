@@ -9,15 +9,18 @@ import { UserProps } from '../../../types/user.type';
 const useAccountPage = () => {
   const { user } = useAppSelector(loginSelector);
   const [profile, setProfile] = useState<UserProps>();
+  const [isLoading, setLoading] = useState<boolean>(false);
   const [base64Images, setBase64Images] = useState<string[]>([]);
 
   const getUserByID = async (userID: string | undefined) => {
     try {
+      setLoading(true);
       const res = await userAPIs.getUserByUserID(userID);
       setProfile(res.data);
     } catch (error) {
       handleError(error);
     } finally {
+      setLoading(false);
     }
   };
 
@@ -49,6 +52,7 @@ const useAccountPage = () => {
     user,
     base64Images,
     setBase64Images,
+    isLoading
   };
 };
 

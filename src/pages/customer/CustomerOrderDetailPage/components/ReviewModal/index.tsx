@@ -2,8 +2,10 @@ import { CloseOutlined } from '@ant-design/icons';
 import { Button, Divider, Typography } from 'antd';
 import { OrderDetailProps } from '../../../../../types/orderDetail.type';
 import ReviewForm from '../../../../../components/elements/Form/ReviewForm';
+import { OrderProps } from '../../../../../types/order.type';
 
 const ReviewModal = ({
+  order,
   isModalOpen,
   setIsModalOpen,
   product,
@@ -11,6 +13,7 @@ const ReviewModal = ({
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   product: OrderDetailProps;
+  order: OrderProps;
 }) => {
   console.log(product.productID.name);
 
@@ -35,7 +38,7 @@ const ReviewModal = ({
         </Typography.Title>
         <Divider />
         <div className="max-h-[calc(70vh-120px)] overflow-y-auto px-6">
-          <ReviewForm product={product} setIsModalOpen={setIsModalOpen} />
+          <ReviewForm product={product} setIsModalOpen={setIsModalOpen} order={order} />
         </div>
       </div>
     </div>

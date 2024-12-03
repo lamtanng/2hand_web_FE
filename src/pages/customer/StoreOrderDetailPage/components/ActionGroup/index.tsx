@@ -1,10 +1,9 @@
 import { Divider, Flex } from 'antd';
 import {
-  ApproveRequestButton,
   CancelButton,
   ConfirmButton,
   DeliveringButton,
-  RejectRequestButton,
+  SendResponseButton,
 } from '../../../../../components/elements/Buttons/StoreOrderButtons';
 
 export const ConfirmActions = ({
@@ -44,16 +43,13 @@ export const DeliveryActions = ({
 };
 
 export const CancelingActions = ({
-  handleApprove,
-  handleReject,
+  handleSend,
 }: {
-  handleApprove: () => void;
-  handleReject: () => void;
+  handleSend: () => void;
 }) => {
   return (
     <Flex gap={'large'} justify="end">
-      <RejectRequestButton onClick={handleReject} />
-      <ApproveRequestButton onClick={handleApprove} />
+      <SendResponseButton onClick={handleSend} />
     </Flex>
   );
 };

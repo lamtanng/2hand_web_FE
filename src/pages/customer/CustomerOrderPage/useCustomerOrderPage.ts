@@ -36,8 +36,13 @@ const useCustomerOrderPage = (profile: UserProps | undefined) => {
       getAllOrder(profile?._id, stages, page);
     });
 
+    const addReviewListener = eventEmitter.addListener('addReview', () => {
+      getAllOrder(profile?._id, stages, page);
+    });
+
     return () => {
       orderStageChangeListener.remove();
+      addReviewListener.remove();
     };
   }, [profile, stages, page]);
 
@@ -47,7 +52,7 @@ const useCustomerOrderPage = (profile: UserProps | undefined) => {
     setPage,
     total,
     isLoading,
-    page
+    page,
   };
 };
 export default useCustomerOrderPage;

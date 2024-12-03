@@ -127,8 +127,13 @@ const useCustomerOrderDetailPage = () => {
       getSingleOrder(orderID);
     });
 
+    const addReviewListener = eventEmitter.addListener('addReview', (orderID: string) => {
+      getSingleOrder(orderID);
+    });
+
     return () => {
       orderStageChangeListener.remove();
+      addReviewListener.remove()
     };
   }, []);
 

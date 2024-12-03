@@ -33,6 +33,7 @@ const getOrder = (userID: string | undefined, stages: string | undefined, page: 
       userID: userID,
       stages: stages,
       page: page,
+      sort: JSON.stringify({ updatedAt: -1 }),
     },
   });
 };
@@ -44,6 +45,7 @@ const getSellerOrder = (storeID: string | undefined, stages: string | undefined,
       storeID: storeID,
       stages: stages,
       page: page,
+      // sort: JSON.stringify({ updatedAt: -1 }),
     },
   });
 };

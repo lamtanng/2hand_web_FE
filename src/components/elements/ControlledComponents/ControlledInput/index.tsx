@@ -1,17 +1,17 @@
 import { CustomFormItemProps } from '../../../../types/input.type';
-import { Form, Input } from "antd";
-import { Controller, useFormContext } from "react-hook-form";
+import { Flex, Form, Input, Typography } from 'antd';
+import { Controller, useFormContext } from 'react-hook-form';
 
 export default function CustomFormItem({
   name,
   hint,
-  type = "text",
-  label = "",
+  type = 'text',
+  label = '',
   isRequired = false,
   isDisabled = false,
 }: CustomFormItemProps) {
   const { control } = useFormContext();
-  const InputComponent = type === "password" ? Input.Password : Input;
+  const InputComponent = type === 'password' ? Input.Password : Input;
 
   return (
     <Controller
@@ -19,13 +19,21 @@ export default function CustomFormItem({
       control={control}
       render={({ field, fieldState }) => (
         <Form.Item
-          label={label}
-          rules={[{ required: isRequired}]}
-          validateStatus={fieldState.error ? "error" : ""}
+          rules={[{ required: isRequired }]}
+          validateStatus={fieldState.error ? 'error' : ''}
           help={fieldState.error?.message}
-          className='text-base w-full'
+          className="w-full text-base"
         >
-          <InputComponent className="inputs w-full text-base h-10" disabled={isDisabled} placeholder={hint} {...field} />
+          <Flex gap={'small'} className='mb-[10px]'>
+            <Typography.Paragraph className='m-0'>{label}</Typography.Paragraph>
+            <Typography.Paragraph className='m-0 text-red-600'>*</Typography.Paragraph>
+          </Flex>
+          <InputComponent
+            className="inputs h-10 w-full text-base"
+            disabled={isDisabled}
+            placeholder={hint}
+            {...field}
+          />
         </Form.Item>
       )}
     />

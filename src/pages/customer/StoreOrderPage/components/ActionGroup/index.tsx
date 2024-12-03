@@ -1,10 +1,8 @@
 import { Flex } from 'antd';
 import {
-  ApproveRequestButton,
   CancelButton,
   ConfirmButton,
   DeliveringButton,
-  RejectRequestButton,
 } from '../../../../../components/elements/Buttons/StoreOrderButtons';
 export const ConfirmActions = ({ getPickupDate, openCancelModal }: { getPickupDate: () => void, openCancelModal: () => void }) => {
   return (
@@ -28,17 +26,6 @@ export const DeliveryActions = ({
     <div id="actions">
       <Flex justify="end" gap={'middle'}>
         <DeliveringButton onClick={deliveringOrder} isLoading={isLoading} />
-      </Flex>
-    </div>
-  );
-};
-
-export const CancelingActions = () => {
-  return (
-    <div id="actions">
-      <Flex justify="end" gap={'middle'}>
-        <RejectRequestButton onClick={() => {}} />
-        <ApproveRequestButton onClick={() => {}} />
       </Flex>
     </div>
   );

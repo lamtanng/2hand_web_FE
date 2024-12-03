@@ -16,18 +16,10 @@ export const CancelButton = ({ onClick }: { onClick: React.MouseEventHandler<HTM
   );
 };
 
-export const RejectRequestButton = ({ onClick }: { onClick: React.MouseEventHandler<HTMLElement> | undefined }) => {
-  return (
-    <Button variant="outlined" className="h-10 text-base" onClick={onClick}>
-      Reject
-    </Button>
-  );
-};
-
-export const ApproveRequestButton = ({ onClick }: { onClick: React.MouseEventHandler<HTMLElement> | undefined }) => {
+export const SendResponseButton = ({ onClick }: { onClick: React.MouseEventHandler<HTMLElement> | undefined }) => {
   return (
     <Button type="primary" className="h-10 text-base" onClick={onClick}>
-      Approve
+      Send
     </Button>
   );
 };

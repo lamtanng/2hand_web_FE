@@ -9,6 +9,7 @@ import useListProducts from './useProductListPage';
 import CustomPagination from './components/Pagination';
 import Sort from './components/Sort';
 import NoProduct from './components/NoProduct';
+import PageSpin from '../../components/elements/Spin/PageSpin';
 
 const ProductList = () => {
   const {
@@ -25,7 +26,7 @@ const ProductList = () => {
     setPage,
     setLimit,
     setSelectedCategory,
-    selectedCategory
+    selectedCategory,
   } = useListProducts();
 
   return (
@@ -58,7 +59,9 @@ const ProductList = () => {
                 <Sort setSort={setSort} />
               </Flex>
             </Flex>
-            {product?.length !== 0 ? (
+            {isLoading ? (
+              <PageSpin />
+            ) : product?.length !== 0 ? (
               <>
                 <ListProducts productList={product} isLoading={isLoading} />
                 <CustomPagination limit={limit} setLimit={setLimit} setPage={setPage} totalProducts={totalProducts} />

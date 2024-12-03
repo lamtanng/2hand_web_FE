@@ -38,7 +38,7 @@ const useProductDetail = () => {
       undefined,
       storeIDGroup,
     );
-    setStoreProduct(res?.data?.response?.data);
+    setStoreProduct(res?.data?.response?.ptoducts);
   };
 
   const getSingleProduct = async (slug: string | undefined) => {

@@ -61,7 +61,7 @@ const CartPage = () => {
             <Skeleton />
           ) : (
             <div id="cart-list">
-              {actualCart.length !== 0 ? (
+              {cart.length !== 0 ? (
                 actualCart.map((group: CartProps) => (
                   <CartItem
                     group={group}

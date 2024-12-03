@@ -52,7 +52,7 @@ const OrderInfo = ({ order }: { order: OrderProps | undefined }) => {
                 {order.orderStageID.name === OrderStage.Delivered && !item.reviewID && (
                   <ReviewButton onClick={openReviewModal} />
                 )}
-                <ReviewModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} product={item} />
+                <ReviewModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} product={item} order={order} />
               </Flex>
             </div>
           ))}
