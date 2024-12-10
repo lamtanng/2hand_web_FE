@@ -16,6 +16,8 @@ import { accountRoutes } from './account.routes';
 import { ProtectedAdminRoutes } from '../components/layouts/ProtectedRoutes/ProtectedAdminRoutes';
 import { OrderIntermediaryPageRoutes } from '../pages/customer/OrderIntermediaryPage/OrderIntermediaryPage.routes';
 import ScrollToTop from '../components/layouts/ScrollToTop';
+import NotFoundPage from '../pages/NotFoundPage';
+import ServerErrorPage from '../pages/ServerErrorPage';
 
 const routes = createBrowserRouter([
   {
@@ -49,6 +51,14 @@ const routes = createBrowserRouter([
         children: [adminRoutes],
       },
     ],
+  },
+  {
+    path: '*',
+    element: <NotFoundPage />,
+  },
+  {
+    path: '/error',
+    element: <ServerErrorPage />,
   },
 ]);
 

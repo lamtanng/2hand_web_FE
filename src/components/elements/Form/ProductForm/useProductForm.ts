@@ -34,6 +34,7 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
   const [selectedDistrict, setSelectedDistrict] = useState<DistrictAddressProps | null>(null);
   const [selectedWard, setSelectedWard] = useState<WardAddressProps | null>(null);
   const [isDefault, setDefault] = useState<boolean>(false);
+  const [isSelectedDefault, setSelectedDefault] = useState<boolean>(false);
   const [base64Images, setBase64Images] = useState<string[]>([]);
 
   const onFreeChange = (e: CheckboxChangeEvent) => {
@@ -113,7 +114,7 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
           DistrictID: selectedWard?.DistrictID,
           WardName: selectedWard?.WardName
         },
-        isDefault: isDefault,
+        isDefault: isSelectedDefault,
       },
     };
 
@@ -191,7 +192,8 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
     setDefault,
     quantity,
     setBase64Images,
-    base64Images
+    base64Images,
+    setSelectedDefault
   };
 };
 

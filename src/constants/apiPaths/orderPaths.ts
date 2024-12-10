@@ -5,6 +5,7 @@ const placeOrderPath = 'place_order';
 const sellerPath = 'se';
 const getPickupDatePath = 'pickup-date';
 const calcExpectedDeliveryDatePath = 'delivery-time';
+const trackingOrderPath = 'tracking';
 
 export const orderPaths = {
   orderPath,
@@ -13,5 +14,6 @@ export const orderPaths = {
   placeOrderPath,
   sellerPath,
   getPickupDatePath,
-  calcExpectedDeliveryDatePath
+  calcExpectedDeliveryDatePath,
+  trackingOrderPath,
 };

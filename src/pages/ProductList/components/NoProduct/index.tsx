@@ -1,10 +1,12 @@
-import { Flex, Typography } from 'antd';
+import { Flex, Image, Typography } from 'antd';
+import emptyProduct from '../../../../assets/emptyProduct.png';
 
 const NoProduct = () => {
   return (
     <Flex vertical align="center">
+      <Image width={'30%'} alt="" src={emptyProduct} preview={false} />
       <Typography.Title level={4} className="text-blue-600">
-        No product is found
+        No product is found.
       </Typography.Title>
       <Typography.Paragraph>Please try again by reducing filters or checking your spelling.</Typography.Paragraph>
     </Flex>

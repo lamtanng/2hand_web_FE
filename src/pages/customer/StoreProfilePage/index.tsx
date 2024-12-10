@@ -51,7 +51,7 @@ const StoreProfile = () => {
                   selectedDistrict={selectedDistrict}
                   selectedProvince={selectedProvince}
                   selectedWard={selectedWard}
-                  setDefault={setDefault}
+                  setSelectedDefault={setDefault}
                   setSelectedDistrict={setSelectedDistrict}
                   setSelectedProvince={setSelectedProvince}
                   setSelectedWard={setSelectedWard}

@@ -14,6 +14,9 @@ import { TaskType } from '../../../types/enum/taskType.type';
 import { orderRequestsAPIs } from '../../../apis/orderRequest.api';
 import { ReasonProps } from '../../../types/http/reason.type';
 import { PickupDateProps } from '../../../types/http/pickupDate.type';
+import { NewRequestProps } from '../../../types/http/orderRequest.type';
+import { NewOrderStage } from '../../../types/http/orderStage.type';
+import { OrderStageTrackingProps } from '../../../types/orderTracking.type';
 
 const useStoreOrderDetailPage = () => {
   const params = useParams();
@@ -24,15 +27,16 @@ const useStoreOrderDetailPage = () => {
   const [isLoading, setLoading] = useState(false);
   const [cancelReasons, setCancelReasons] = useState<ReasonProps[]>([]);
   const [returnReasons, setReturnReasons] = useState<ReasonProps[]>([]);
+  const [stages, setStages] = useState<OrderStageTrackingProps[]>([]);
 
   const getSingleOrder = async (orderID: string | undefined) => {
-    try {
-      const res = await orderAPIs.getOrderByID(orderID);
-      setOrder(res.data);
-    } catch (error) {
-      handleError;
-    } finally {
-    }
+    const res = await orderAPIs.getOrderByID(orderID);
+    setOrder(res.data);
+  };
+
+  const trackingSingleOrder = async (orderID: string | undefined) => {
+    const res = await orderAPIs.trackingOrder(orderID);
+    setStages(res.data);
   };
 
   const pickingOrder = async () => {
@@ -48,7 +52,7 @@ const useStoreOrderDetailPage = () => {
 
   const changeStage = async (date: string | null | undefined, stage: string) => {
     try {
-      const data = {
+      const data: NewOrderStage = {
         name: stage,
         orderID: order?._id,
         expectedDate: date,
@@ -112,7 +116,7 @@ const useStoreOrderDetailPage = () => {
 
   const directCancel = async (reason: ReasonProps | undefined) => {
     try {
-      const data = {
+      const data: NewRequestProps = {
         name: order?.orderStageID.name,
         status: order?.orderStageID.orderStageStatusID.status,
         orderStageID: order?.orderStageID.orderStageStatusID.orderStageID,
@@ -128,11 +132,21 @@ const useStoreOrderDetailPage = () => {
     }
   };
 
+  const fetchData = async (orderID: string | undefined) => {
+    try {
+      await getSingleOrder(orderID);
+      await trackingSingleOrder(orderID);
+    } catch (error) {
+      handleError(error);
+    } finally {
+    }
+  };
+
   useEffect(() => {
-    getSingleOrder(params.id);
+    fetchData(params.id);
 
     const orderStageChangeListener = eventEmitter.addListener('orderDetailStageChanged', (orderID: string) => {
-      getSingleOrder(orderID);
+      fetchData(orderID);
     });
 
     return () => {
@@ -155,6 +169,7 @@ const useStoreOrderDetailPage = () => {
     isPickupModalOpen,
     setIsCancelModalOpen,
     setIsPickupModalOpen,
+    stages,
   };
 };
 export default useStoreOrderDetailPage;

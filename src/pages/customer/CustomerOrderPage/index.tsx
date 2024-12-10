@@ -1,57 +1,54 @@
 import { Tabs, TabsProps } from 'antd';
 import useCustomerOrderPage from './useCustomerOrderPage';
 import useAccountPage from '../AccountPage/useAccountPage';
-import OrderList from './components/OrderList';
-import { OrderProps } from '../../../types/order.type';
 import { OrderStage } from '../../../types/enum/orderStage.enum';
-import { sortOrderArray } from '../../../utils/sortOrderArray';
+import OrderList from '../../../components/elements/Lists/OrderList';
 
 const MyOrders = () => {
   const { profile } = useAccountPage();
-  const { orders } = useCustomerOrderPage(profile);
+  const { orders, setStages, setPage, total, isLoading, page } = useCustomerOrderPage(profile);
 
-  const confirmatingOrders = orders.filter((item: OrderProps) => item.orderStageID.name === OrderStage.Confirmating);
-  const pickingOrders = orders.filter((item: OrderProps) => item.orderStageID.name === OrderStage.Picking);
-  const deliveringOrders = orders.filter((item: OrderProps) => item.orderStageID.name === OrderStage.Delivering);
-  const deliveredOrders = orders.filter((item: OrderProps) => item.orderStageID.name === OrderStage.Delivered);
-  const cancelledOrders = orders.filter((item: OrderProps) => item.orderStageID.name === OrderStage.Cancelled);
-
+  const onChange = (key: string) => {
+    const stage = key ? [key] : [];
+    setStages(stage);
+    setPage(1);
+  };
   const items: TabsProps['items'] = [
     {
       label: 'All Orders',
-      key: '1',
-      children: <OrderList orders={sortOrderArray(orders).reverse()} />,
+      key: '',
+      children: <OrderList orders={orders} setPage={setPage} total={total} isLoading={isLoading} page={page} />,
     },
     {
       label: 'Waiting for confirmation',
       key: OrderStage.Confirmating,
-      children: <OrderList orders={sortOrderArray(confirmatingOrders).reverse()} />,
+      children: <OrderList orders={orders} setPage={setPage} total={total} isLoading={isLoading} page={page} />,
     },
     {
       label: 'Waiting for picking',
       key: OrderStage.Picking,
-      children: <OrderList orders={sortOrderArray(pickingOrders).reverse()} />,
+      children: <OrderList orders={orders} setPage={setPage} total={total} isLoading={isLoading} page={page} />,
     },
     {
       label: 'Waiting for delivery',
       key: OrderStage.Delivering,
-      children: <OrderList orders={sortOrderArray(deliveringOrders).reverse()} />,
+      children: <OrderList orders={orders} setPage={setPage} total={total} isLoading={isLoading} page={page} />,
     },
     {
       label: 'Delivered',
       key: OrderStage.Delivered,
-      children: <OrderList orders={sortOrderArray(deliveredOrders).reverse()} />,
+      children: <OrderList orders={orders} setPage={setPage} total={total} isLoading={isLoading} page={page} />,
     },
     {
       label: 'Cancelled',
       key: OrderStage.Cancelled,
-      children: <OrderList orders={sortOrderArray(cancelledOrders).reverse()} />,
+      children: <OrderList orders={orders} setPage={setPage} total={total} isLoading={isLoading} page={page} />,
     },
   ];
 
   return (
     <div>
-      <Tabs defaultActiveKey="1" items={items} className="px-12 py-5" />
+      <Tabs defaultActiveKey="" items={items} onChange={onChange} className="px-12 py-5" />
     </div>
   );
 };

@@ -10,6 +10,7 @@ import { ObjectType } from '../../../../../types/enum/objectType.enum';
 import { TaskType } from '../../../../../types/enum/taskType.type';
 import { orderRequestsAPIs } from '../../../../../apis/orderRequest.api';
 import { ReasonProps } from '../../../../../types/http/reason.type';
+import { NewOrderStage } from '../../../../../types/http/orderStage.type';
 
 const useOrderItem = (order: OrderProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -53,7 +54,7 @@ const useOrderItem = (order: OrderProps) => {
 
   const changeStage = async (date: string, stage: string) => {
     try {
-      const data = {
+      const data: NewOrderStage = {
         name: stage,
         orderID: order._id,
         expectedDate: date,

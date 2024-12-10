@@ -12,6 +12,9 @@ import { Modal } from 'antd';
 import { OrderStage } from '../../../types/enum/orderStage.enum';
 import { ObjectType } from '../../../types/enum/objectType.enum';
 import { ReasonProps } from '../../../types/http/reason.type';
+import { NewRequestProps } from '../../../types/http/orderRequest.type';
+import { NewOrderStage } from '../../../types/http/orderStage.type';
+import { OrderStageTrackingProps } from '../../../types/orderTracking.type';
 
 const useCustomerOrderDetailPage = () => {
   const params = useParams();
@@ -20,6 +23,7 @@ const useCustomerOrderDetailPage = () => {
   const [cancelReasons, setCancelReasons] = useState<ReasonProps[]>([]);
   const [returnReasons, setReturnReasons] = useState<ReasonProps[]>([]);
   const [description, setDescription] = useState<string>('');
+  const [stages, setStages] = useState<OrderStageTrackingProps[]>([]);
 
   const { confirm } = Modal;
 
@@ -38,6 +42,16 @@ const useCustomerOrderDetailPage = () => {
       setOrder(res.data);
     } catch (error) {
       handleError;
+    } finally {
+    }
+  };
+
+  const trackingSingleOrder = async (orderID: string | undefined) => {
+    try {
+      const res = await orderAPIs.trackingOrder(orderID);
+      setStages(res.data);
+    } catch (error) {
+      handleError(error);
     } finally {
     }
   };
@@ -67,13 +81,12 @@ const useCustomerOrderDetailPage = () => {
 
   const changeStage = async (date: string, stage: string) => {
     try {
-      const data = {
+      const data : NewOrderStage = {
         name: stage,
         orderID: order?._id,
         expectedDate: date,
         orderStageStatusID: order?.orderStageID.orderStageStatusID._id,
       };
-      console.log(data);
       await orderStageAPIs.createOrderStage(data);
       eventEmitter.emit('customerOrderDetailStageChanged', order?._id);
     } catch (error) {
@@ -83,7 +96,7 @@ const useCustomerOrderDetailPage = () => {
 
   const directCancel = async (reason: ReasonProps | undefined) => {
     try {
-      const data = {
+      const data: NewRequestProps = {
         name: order?.orderStageID.name,
         status: order?.orderStageID.orderStageStatusID.status,
         orderStageID: order?.orderStageID.orderStageStatusID.orderStageID,
@@ -100,7 +113,7 @@ const useCustomerOrderDetailPage = () => {
 
   const cancelOrder = async (reason: ReasonProps | undefined) => {
     try {
-      const data = {
+      const data: NewRequestProps = {
         name: order?.orderStageID.name,
         status: order?.orderStageID.orderStageStatusID.status,
         orderStageID: order?.orderStageID.orderStageStatusID.orderStageID,
@@ -108,7 +121,6 @@ const useCustomerOrderDetailPage = () => {
         taskType: TaskType.Cancel,
         reasonID: reason?._id,
       };
-      console.log(data);
       await orderRequestsAPIs.createNewRequest(data);
       eventEmitter.emit('customerOrderDetailStageChanged', order?._id);
     } catch (error) {
@@ -122,13 +134,21 @@ const useCustomerOrderDetailPage = () => {
 
   useEffect(() => {
     getSingleOrder(params?.id);
+    trackingSingleOrder(params?.id);
 
     const orderStageChangeListener = eventEmitter.addListener('customerOrderDetailStageChanged', (orderID: string) => {
       getSingleOrder(orderID);
+      trackingSingleOrder(params?.id);
+    });
+
+    const addReviewListener = eventEmitter.addListener('addReview', (orderID: string) => {
+      getSingleOrder(orderID);
+      trackingSingleOrder(orderID);
     });
 
     return () => {
       orderStageChangeListener.remove();
+      addReviewListener.remove();
     };
   }, []);
 
@@ -143,6 +163,7 @@ const useCustomerOrderDetailPage = () => {
     receiveOrder,
     setDescription,
     cancelOrder,
+    stages
   };
 };
 export default useCustomerOrderDetailPage;

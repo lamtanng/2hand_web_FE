@@ -12,12 +12,11 @@ const useListProducts = () => {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [totalProducts, setTotalProducts] = useState<number>(0);
   const [page, setPage] = useState<number>(1);
-  const [limit, setLimit] = useState<number>(4);
+  const [limit, setLimit] = useState<number>(8);
   const [search, setSearch] = useState<string>('');
   const [sort, setSort] = useState<string>(JSON.stringify({ createdAt: -1 }));
   const [quality, setQuality] = useState<string[]>([]);
   const [price, setPrice] = useState<string>('');
-  // const [cateID, setCateID] = useState<string>('');
   const [storeID, setStoreID] = useState<string[]>([]);
 
   const getProducts = async (
@@ -81,7 +80,6 @@ const useListProducts = () => {
     quality,
     limit,
     price,
-    // setCateID,
     setPage,
     setLimit,
     setPrice,

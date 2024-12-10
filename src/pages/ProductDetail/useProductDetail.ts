@@ -13,6 +13,7 @@ import eventEmitter from '../../utils/eventEmitter';
 import { authUrls } from '../../constants/urlPaths/authUrls';
 import { customerUrls } from '../../constants/urlPaths/customer/customerUrls';
 import { reviewAPIs } from '../../apis/review.api';
+import { ReviewProps } from '../../types/review.type';
 
 const useProductDetail = () => {
   const param = useParams();
@@ -24,59 +25,37 @@ const useProductDetail = () => {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [isDirty, setDirty] = useState<boolean>(false);
   const [storeProduct, setStoreProduct] = useState<ProductProps[]>([]);
-  const [reviews, setReviews] = useState<any[]>([]);
+  const [reviews, setReviews] = useState<ReviewProps[]>([]);
 
   const getStoreProducts = async (page: number, limit: number, storeID: (string | undefined)[]) => {
-    try {
-      setLoading(true);
-      let storeIDGroup = storeID?.length !== 0 ? JSON.stringify(storeID) : '';
-      const res = await productAPIs?.getAllProduct(
-        page,
-        limit,
-        undefined,
-        JSON.stringify({ createdAt: -1 }),
-        undefined,
-        undefined,
-        undefined,
-        storeIDGroup,
-      );
-      setStoreProduct(res?.data?.response?.data);
-    } catch (error) {
-      handleError(error);
-    } finally {
-      setLoading(false);
-    }
+    let storeIDGroup = storeID?.length !== 0 ? JSON.stringify(storeID) : '';
+    const res = await productAPIs?.getAllProduct(
+      page,
+      limit,
+      undefined,
+      JSON.stringify({ createdAt: -1 }),
+      undefined,
+      undefined,
+      undefined,
+      storeIDGroup,
+    );
+    setStoreProduct(res?.data?.response?.data);
   };
 
   const getSingleProduct = async (slug: string | undefined) => {
-    try {
-      setLoading(true);
-      const res = await productAPIs.getProductBySlug(slug);
-      setProduct(res.data);
-    } catch (error) {
-      handleError(error);
-    } finally {
-      setLoading(false);
-    }
+    const res = await productAPIs.getProductBySlug(slug);
+    setProduct(res.data);
+    return res.data;
   };
 
   const getCartItemByID = async (productID: string | undefined) => {
-    try {
-      const res = await cartAPIs.getCartItem(productID);
-      setItem(res.data);
-      console.log('item:', res.data);
-    } catch (error) {
-      handleError(error);
-    }
+    const res = await cartAPIs.getCartItem(productID);
+    setItem(res.data);
   };
 
   const getReviews = async (productID: string | undefined) => {
-    try {
-      const res = await reviewAPIs.getReviewByProduct(productID);
-      setReviews(res.data);
-    } catch (error) {
-      handleError(error);
-    }
+    const res = await reviewAPIs.getReviewByProduct(productID);
+    setReviews(res.data);
   };
 
   const addToCart = async (userID: string, event: string) => {
@@ -125,35 +104,41 @@ const useProductDetail = () => {
     }
   };
 
+  const fetchData = async (slug: string | undefined) => {
+    try {
+      setLoading(true)
+      const productData = await getSingleProduct(slug);
+      if (productData) {
+        getStoreProducts(1, 10, [productData?.storeID._id]);
+        getReviews(productData._id);
+        if (user._id) {
+          getCartItemByID(productData._id);
+
+          const addToCartListener = eventEmitter.addListener('addToCart', (productID: string) => {
+            getCartItemByID(productID);
+          });
+          return () => {
+            addToCartListener.remove();
+          };
+        }
+      }
+    } catch (error) {
+      handleError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    getSingleProduct(param.productSlug);
+    fetchData(param.productSlug)
 
     const productLinkClickListener = eventEmitter.addListener('productLinkClick', (slug: string) => {
-      getSingleProduct(slug);
+      fetchData(slug);
     });
     return () => {
       productLinkClickListener.remove();
     };
   }, []);
-
-  useEffect(() => {
-    getStoreProducts(1, 10, [product?.storeID._id]);
-
-    if (product) {
-      getReviews(product._id);
-    }
-
-    if (user._id && product?._id) {
-      getCartItemByID(product._id);
-
-      const addToCartListener = eventEmitter.addListener('addToCart', (productID: string) => {
-        getCartItemByID(productID);
-      });
-      return () => {
-        addToCartListener.remove();
-      };
-    }
-  }, [product]);
 
   return {
     product,

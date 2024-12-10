@@ -34,7 +34,7 @@ const OrderDetail = ({ order, item }: { order: OrderProps; item: OrderDetailProp
         {(order.orderStageID.name === OrderStage.Delivered && (!item.reviewID)) ? (
           <ReviewButton onClick={openReviewModal} />
         ) : (
-          <div id="prodct-price" className="font-sans flex-shrink-0">
+          <div id="product-price" className="font-sans flex-shrink-0">
             {new Intl.NumberFormat().format(item.productID.price)} VND
           </div>
         )}

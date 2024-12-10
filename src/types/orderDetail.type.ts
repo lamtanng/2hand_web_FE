@@ -1,5 +1,5 @@
 import { ProductProps } from "./product.type";
-import { ReviewProps } from "./review.tpye";
+import { ReviewProps } from "./review.type";
 
 export interface OrderDetailProps {
     _id: string;

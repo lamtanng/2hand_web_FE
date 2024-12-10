@@ -16,44 +16,42 @@ const useUserProfileDetail = () => {
   const [storeProduct, setStoreProduct] = useState<ProductProps[]>([]);
 
   const getUserBySlug = async (slug: string | undefined) => {
-    try {
-      setLoading(true);
-      const res = await userAPIs.getUserByUserSlug(slug);
-      setProfile(res.data);
-    } catch (error) {
-      handleError(error);
-    } finally {
-      setLoading(false);
-    }
+    const res = await userAPIs.getUserByUserSlug(slug);
+    setProfile(res.data);
+    return res.data;
   };
 
   const getStore = async (userID: string | undefined) => {
-    try {
-      setLoading(true);
-      const res = await storeAPIs.getStoreByUser(userID);
-      setStore(res.data);
-    } catch (error) {
-      handleError(error);
-    } finally {
-      setLoading(false);
-    }
+    const res = await storeAPIs.getStoreByUser(userID);
+    setStore(res.data);
+    return res.data;
   };
 
   const getStoreProducts = async (page: number, limit: number, storeID: (string | undefined)[]) => {
+    let storeIDGroup = storeID?.length !== 0 ? JSON.stringify(storeID) : '';
+    const res = await productAPIs?.getAllProduct(
+      page,
+      limit,
+      undefined,
+      JSON.stringify({ createdAt: -1 }),
+      undefined,
+      undefined,
+      undefined,
+      storeIDGroup,
+    );
+    setStoreProduct(res?.data?.response?.data);
+  };
+
+  const fetchData = async (slug: string | undefined) => {
     try {
       setLoading(true);
-      let storeIDGroup = storeID?.length !== 0 ? JSON.stringify(storeID) : '';
-      const res = await productAPIs?.getAllProduct(
-        page,
-        limit,
-        undefined,
-        JSON.stringify({ createdAt: -1 }),
-        undefined,
-        undefined,
-        undefined,
-        storeIDGroup,
-      );
-      setStoreProduct(res?.data?.response?.data);
+      const profileData = await getUserBySlug(slug);
+      if (profileData) {
+        const storeData = await getStore(profileData._id);
+        if (storeData) {
+          getStoreProducts(1, 10, [storeData._id]);
+        }
+      }
     } catch (error) {
       handleError(error);
     } finally {
@@ -62,20 +60,8 @@ const useUserProfileDetail = () => {
   };
 
   useEffect(() => {
-    getUserBySlug(param.slug);
+    fetchData(param.slug);
   }, []);
-
-  useEffect(() => {
-    if (profile) {
-      getStore(profile._id);
-    }
-  }, [profile]);
-
-  useEffect(() => {
-    if (store) {
-      getStoreProducts(1, 10, [store._id]);
-    }
-  }, [store]);
 
   return {
     store,

@@ -35,6 +35,7 @@ const useAddressForm = (
   const [selectedDistrict, setSelectedDistrict] = useState<DistrictAddressProps | null>(null);
   const [selectedWard, setSelectedWard] = useState<WardAddressProps | null>(null);
   const [isDefault, setDefault] = useState<boolean>(false);
+  const [isSelectedDefault, setSelectedDefault] = useState<boolean>(false);
   const [isSubmitting, setSubmitting] = useState<boolean>(false);
 
   const handleAddAddress = async (data: AddressRequestProps) => {
@@ -73,7 +74,7 @@ const useAddressForm = (
         ward: selectedWard,
         district: selectedDistrict,
         province: selectedProvince,
-        isDefault: isDefault,
+        isDefault: isSelectedDefault,
       },
     };
     if (address) {
@@ -113,6 +114,7 @@ const useAddressForm = (
     handleAddAddress,
     isDefault,
     submitButtonClick,
+    setSelectedDefault
   };
 };
 

@@ -78,7 +78,7 @@ const useAddressModal = (
         ward: selectedWard,
         district: selectedDistrict,
         province: selectedProvince,
-        isDefault: isDefault,
+        isDefault: isSelectedDefault,
       },
     };
     if (address) {

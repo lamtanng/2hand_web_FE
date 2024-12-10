@@ -32,7 +32,6 @@ const AddressModal = ({
     isDefault,
     submitButtonClick,
     setSelectedDefault,
-    setDefault
   } = useAddressModal(setIsModalOpen, address, profile);
 
   return (
@@ -58,7 +57,7 @@ const AddressModal = ({
                 selectedDistrict={selectedDistrict}
                 selectedProvince={selectedProvince}
                 selectedWard={selectedWard}
-                setDefault={setDefault}
+                setSelectedDefault={setSelectedDefault}
                 setSelectedDistrict={setSelectedDistrict}
                 setSelectedProvince={setSelectedProvince}
                 setSelectedWard={setSelectedWard}

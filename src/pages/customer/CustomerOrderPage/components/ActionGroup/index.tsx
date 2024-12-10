@@ -3,7 +3,7 @@ import { CancelButton, ConfirmReceivedButton, RebuyButton, ReturnButton } from '
 
 export const ConfirmActions = ({openCancelModal}: {openCancelModal: () => void}) => {
   return (
-    <div id="actions">
+    <div id="actions" className='w-1/2'>
       <Flex justify="end" gap={'middle'}>
         <CancelButton onClick={openCancelModal} />
       </Flex>

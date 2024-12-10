@@ -4,22 +4,26 @@ import { UserOutlined } from '@ant-design/icons';
 import useAccountPage from '../AccountPage/useAccountPage';
 import useCustomerReviewPage from './useCustomerReviewPage';
 import dayjs from 'dayjs';
+import { ReviewProps } from '../../../types/review.type';
 
 const MyReviews = () => {
   const { profile } = useAccountPage();
   const { reviews } = useCustomerReviewPage(profile);
 
-  const reviewedList = reviews.reverse().map((item: any) => (
+  const reviewedList = reviews.reverse().map((item: ReviewProps) => (
     <div id="reviewed-list">
       <div id="review">
         <Flex gap={'large'}>
-          <Avatar size={'large'} icon={<UserOutlined />} className="w-1/10" />
+          <Avatar src={profile?.avatar} size={'large'} icon={<UserOutlined />} className="w-1/10" />
           <Flex gap={'middle'} vertical className="w-full">
             <Flex gap={'small'} vertical>
               <Typography.Paragraph className="m-0 text-base">{`${item.reviewerID.firstName} ${item.reviewerID.lastName}`}</Typography.Paragraph>
               <Rate allowHalf defaultValue={item.rate} disabled />
               <Typography.Paragraph className="m-0 text-gray-500">
-                {dayjs(item.createdAt.toString()).format('DD/MM/YYYY')}
+                {dayjs(item?.createdAt?.toString()).format('DD/MM/YYYY')}
+              </Typography.Paragraph>
+              <Typography.Paragraph className="m-0 text-gray-500">
+                Store name: {item.productID.storeID.name}
               </Typography.Paragraph>
               <Typography.Paragraph className="m-0 text-gray-500">
                 Product name: {item.productID.name}

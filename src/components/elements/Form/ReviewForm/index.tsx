@@ -6,16 +6,19 @@ import { OrderDetailProps } from '../../../../types/orderDetail.type';
 import useReviewForm from './useReviewForm';
 import { useAppSelector } from '../../../../redux/hooks';
 import { loginSelector } from '../../../../redux/slices/login.slice';
+import { OrderProps } from '../../../../types/order.type';
 
 const ReviewForm = ({
+  order,
   product,
   setIsModalOpen,
 }: {
+  order?: OrderProps
   product: OrderDetailProps;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const { user } = useAppSelector(loginSelector);
-  const { base64Images, setBase64Images, addNewReview, setContent, setRate } = useReviewForm(user, product);
+  const { base64Images, setBase64Images, addNewReview, setContent, setRate } = useReviewForm(user, product, order);
 
   const handleClose = () => {
     setIsModalOpen(false);

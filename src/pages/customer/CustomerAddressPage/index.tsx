@@ -4,9 +4,10 @@ import { useState } from 'react';
 import AddressModal from './components/AddressModal';
 import AddressList from './components/AddressList';
 import useAccountPage from '../AccountPage/useAccountPage';
+import PageSpin from '../../../components/elements/Spin/PageSpin';
 
 const Address = () => {
-  const { profile } = useAccountPage();
+  const { profile, isLoading } = useAccountPage();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   return (
     <div id="container" className="px-12 py-5">
@@ -25,7 +26,7 @@ const Address = () => {
           {isModalOpen && <AddressModal profile={profile} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />}
         </Flex>
       </div>
-      <AddressList profile={profile}/>
+      {isLoading ? <PageSpin /> : <AddressList profile={profile} />}
     </div>
   );
 };

@@ -13,6 +13,7 @@ import { TaskType } from '../../../../../types/enum/taskType.type';
 import { orderRequestsAPIs } from '../../../../../apis/orderRequest.api';
 import { PickupDateProps } from '../../../../../types/http/pickupDate.type';
 import { ReasonProps } from '../../../../../types/http/reason.type';
+import { NewOrderStage } from '../../../../../types/http/orderStage.type';
 
 const useOrderItem = (order: OrderProps) => {
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
@@ -35,7 +36,7 @@ const useOrderItem = (order: OrderProps) => {
 
   const changeStage = async (date: string | null | undefined, stage: string) => {
     try {
-      const data = {
+      const data: NewOrderStage = {
         name: stage,
         orderID: order._id,
         expectedDate: date,
@@ -128,7 +129,7 @@ const useOrderItem = (order: OrderProps) => {
     isCancelModalOpen,
     isPickupModalOpen,
     setIsCancelModalOpen,
-    setIsPickupModalOpen
+    setIsPickupModalOpen,
   };
 };
 export default useOrderItem;

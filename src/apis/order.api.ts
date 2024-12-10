@@ -14,6 +14,7 @@ const getServiceUrl = getOrderUrl(orderPaths.getServicePath);
 const placeOrderUrl = getOrderUrl(orderPaths.placeOrderPath);
 const getPickupDateUrl = getOrderUrl(orderPaths.getPickupDatePath);
 const calcExpectedDeliveryDateUrl = getOrderUrl(orderPaths.calcExpectedDeliveryDatePath);
+const trackingOrderUrl = getOrderUrl(orderPaths.trackingOrderPath);
 
 const calcShippingFee = (data: CalcShippingFeeRequestProps) => {
   return axiosClient.post(calcShippingFeeUrl, data);
@@ -27,21 +28,25 @@ const placeOrder = (data: CreateCODPaymentRequestProps) => {
   return axiosClient.post(placeOrderUrl, data);
 };
 
-const getOrder = (userID: string | undefined) => {
+const getOrder = (userID: string | undefined, stages: string | undefined, page: number) => {
   return axiosClient.get(orderUrl, {
     params: {
       userID: userID,
-      limit: 100,
+      stages: stages,
+      page: page,
+      sort: JSON.stringify({ updatedAt: -1 }),
     },
   });
 };
 
-const getSellerOrder = (storeID: string | undefined) => {
+const getSellerOrder = (storeID: string | undefined, stages: string | undefined, page: number) => {
   const url = `${orderPaths.sellerPath}/${orderUrl}`;
   return axiosClient.get(url, {
     params: {
       storeID: storeID,
-      limit: 100,
+      stages: stages,
+      page: page,
+      sort: JSON.stringify({ updatedAt: -1 }),
     },
   });
 };
@@ -58,6 +63,10 @@ const getOrderByID = (orderID: string | undefined) => {
   return axiosClient.get(`${orderUrl}${orderID}`);
 };
 
+const trackingOrder = (orderID: string | undefined) => {
+  return axiosClient.get(`${trackingOrderUrl}/${orderID}`);
+};
+
 export const orderAPIs = {
   calcShippingFee,
   getService,
@@ -67,4 +76,5 @@ export const orderAPIs = {
   getPickupDate,
   calcExpectedDeliveryDate,
   getOrderByID,
+  trackingOrder,
 };

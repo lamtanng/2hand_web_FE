@@ -9,40 +9,40 @@ const useHomePage = () => {
   const [isLoading, setLoading] = useState<boolean>(false);
 
   const getNewestProducts = async (page: number, limit: number, sort: string | undefined) => {
-    try {
-      setLoading(true);
-      const res = await productAPIs?.getAllProduct(
-        page,
-        limit,
-        undefined,
-        sort,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-      );
-      setNewestProduct(res?.data?.response?.data);
-    } catch (error) {
-      handleError(error);
-    } finally {
-      setLoading(false);
-    }
+    const res = await productAPIs?.getAllProduct(
+      page,
+      limit,
+      undefined,
+      sort,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+    );
+    setNewestProduct(res?.data?.response?.data);
   };
 
   const getFreeProducts = async (page: number, limit: number, price: string | undefined) => {
+    const res = await productAPIs?.getAllProduct(
+      page,
+      limit,
+      undefined,
+      undefined,
+      undefined,
+      price,
+      undefined,
+      undefined,
+    );
+    setFreeProduct(res?.data?.response?.data);
+  };
+
+  const fetchData = () => {
     try {
       setLoading(true);
-      const res = await productAPIs?.getAllProduct(
-        page,
-        limit,
-        undefined,
-        undefined,
-        undefined,
-        price,
-        undefined,
-        undefined,
-      );
-      setFreeProduct(res?.data?.response?.data);
+      const sort = JSON.stringify({ createdAt: -1 });
+      const price = JSON.stringify({ min: 0, max: 0 });
+      getNewestProducts(1, 10, sort);
+      getFreeProducts(1, 10, price);
     } catch (error) {
       handleError(error);
     } finally {
@@ -51,10 +51,7 @@ const useHomePage = () => {
   };
 
   useEffect(() => {
-    const sort = JSON.stringify({ createdAt: -1 });
-    const price = JSON.stringify({ min: 0, max: 0 });
-    getNewestProducts(1, 10, sort);
-    getFreeProducts(1, 10, price);
+    fetchData();
   }, []);
 
   return {

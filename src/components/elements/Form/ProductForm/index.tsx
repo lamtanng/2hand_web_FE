@@ -42,7 +42,7 @@ const ProductForm = ({
     setSelectedDistrict,
     setSelectedProvince,
     setSelectedWard,
-    setDefault,
+    setSelectedDefault,
     quantity,
     base64Images,
     setBase64Images
@@ -109,7 +109,7 @@ const ProductForm = ({
           selectedDistrict={selectedDistrict}
           selectedProvince={selectedProvince}
           selectedWard={selectedWard}
-          setDefault={setDefault}
+          setSelectedDefault={setSelectedDefault}
           setSelectedDistrict={setSelectedDistrict}
           setSelectedProvince={setSelectedProvince}
           setSelectedWard={setSelectedWard}
