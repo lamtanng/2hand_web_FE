@@ -13,6 +13,7 @@ import eventEmitter from '../../utils/eventEmitter';
 import { authUrls } from '../../constants/urlPaths/authUrls';
 import { customerUrls } from '../../constants/urlPaths/customer/customerUrls';
 import { reviewAPIs } from '../../apis/review.api';
+import { ReviewProps } from '../../types/review.type';
 
 const useProductDetail = () => {
   const param = useParams();
@@ -24,7 +25,7 @@ const useProductDetail = () => {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [isDirty, setDirty] = useState<boolean>(false);
   const [storeProduct, setStoreProduct] = useState<ProductProps[]>([]);
-  const [reviews, setReviews] = useState<any[]>([]);
+  const [reviews, setReviews] = useState<ReviewProps[]>([]);
 
   const getStoreProducts = async (page: number, limit: number, storeID: (string | undefined)[]) => {
     let storeIDGroup = storeID?.length !== 0 ? JSON.stringify(storeID) : '';

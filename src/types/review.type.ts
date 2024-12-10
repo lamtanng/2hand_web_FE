@@ -1,3 +1,6 @@
+import { ProductProps } from "./product.type";
+import { UserProps } from "./user.type";
+
 export interface ReviewProps{
     _id: string,
     content: string,
@@ -5,11 +8,11 @@ export interface ReviewProps{
     image: string[],
     video: string[],
     likes: number,
-    createAt?: Date,
-    updateAt?: Date,
+    createdAt?: Date,
+    updatedAt?: Date,
     isActive: boolean,
     replyMessage: string,
-    reviewerID: string,
-    productID: string,
+    reviewerID: UserProps,
+    productID: ProductProps,
     orderDetailID: string,
 }

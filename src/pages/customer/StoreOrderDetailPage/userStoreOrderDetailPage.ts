@@ -14,6 +14,9 @@ import { TaskType } from '../../../types/enum/taskType.type';
 import { orderRequestsAPIs } from '../../../apis/orderRequest.api';
 import { ReasonProps } from '../../../types/http/reason.type';
 import { PickupDateProps } from '../../../types/http/pickupDate.type';
+import { NewRequestProps } from '../../../types/http/orderRequest.type';
+import { NewOrderStage } from '../../../types/http/orderStage.type';
+import { OrderStageTrackingProps } from '../../../types/orderTracking.type';
 
 const useStoreOrderDetailPage = () => {
   const params = useParams();
@@ -24,7 +27,7 @@ const useStoreOrderDetailPage = () => {
   const [isLoading, setLoading] = useState(false);
   const [cancelReasons, setCancelReasons] = useState<ReasonProps[]>([]);
   const [returnReasons, setReturnReasons] = useState<ReasonProps[]>([]);
-  const [stages, setStages] = useState<any[]>([]);
+  const [stages, setStages] = useState<OrderStageTrackingProps[]>([]);
 
   const getSingleOrder = async (orderID: string | undefined) => {
     const res = await orderAPIs.getOrderByID(orderID);
@@ -49,7 +52,7 @@ const useStoreOrderDetailPage = () => {
 
   const changeStage = async (date: string | null | undefined, stage: string) => {
     try {
-      const data = {
+      const data: NewOrderStage = {
         name: stage,
         orderID: order?._id,
         expectedDate: date,
@@ -113,7 +116,7 @@ const useStoreOrderDetailPage = () => {
 
   const directCancel = async (reason: ReasonProps | undefined) => {
     try {
-      const data = {
+      const data: NewRequestProps = {
         name: order?.orderStageID.name,
         status: order?.orderStageID.orderStageStatusID.status,
         orderStageID: order?.orderStageID.orderStageStatusID.orderStageID,

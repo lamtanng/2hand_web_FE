@@ -1,7 +1,8 @@
 import { Divider, Flex, Pagination, Typography } from 'antd';
 import ReviewItem from '../ReviewItem';
+import { ReviewProps } from '../../../../types/review.type';
 
-const ReviewList = ({ reviews }: { reviews: any[] }) => {
+const ReviewList = ({ reviews }: { reviews: ReviewProps[] }) => {
   return (
     <div className="mb-6 rounded-xl bg-white p-8 shadow-sm">
       <Flex gap={'small'} align="baseline">
@@ -44,7 +45,7 @@ const ReviewList = ({ reviews }: { reviews: any[] }) => {
           </Button>
         </Flex>
       </div> */}
-      {reviews.map((item: any) => (
+      {reviews.map((item: ReviewProps) => (
         <div id="review list">
           <ReviewItem review={item} />
         </div>

@@ -7,20 +7,20 @@ import useCancelRequest from './useCancelRequest';
 import { ReplyStatus } from '../../../../../types/enum/replyStatus.enum';
 import { DownOutlined } from '@ant-design/icons';
 import TextArea from 'antd/es/input/TextArea';
+import { OrderStageTrackingProps } from '../../../../../types/orderTracking.type';
+import { OrderStageStatusProps } from '../../../../../types/orderStageStatus.type';
 
-const CancelRequest = ({ order, stages }: { order: OrderProps | undefined; stages: any[] }) => {
+const CancelRequest = ({ order, stages }: { order: OrderProps | undefined; stages: OrderStageTrackingProps[] }) => {
   const { processRequest, setReplyMessage, selectedDecision, setSelectedDecision } = useCancelRequest(order);
   const handleSend = () => {
     processRequest();
   };
 
   const cancelRequests = stages
-    .find((item: any) => item?.orderStageStatus?.length > 1)
-    .orderStageStatus?.filter((item: any) => item.status !== OrderStageStatus.Active);
+    .find((item: OrderStageTrackingProps) => item?.orderStageStatus?.length > 1)
+    ?.orderStageStatus?.filter((item: OrderStageStatusProps) => item.status !== OrderStageStatus.Active) || [];
 
-    console.log(cancelRequests)
-
-  const getStatusColor = (status: string) => {
+  const getStatusColor = (status: string | undefined) => {
     switch (status) {
       case ReplyStatus.Pending:
         return 'text-yellow-500';
@@ -58,7 +58,7 @@ const CancelRequest = ({ order, stages }: { order: OrderProps | undefined; stage
         <Typography.Title level={4} className="m-0 px-12 py-6 text-blue-600">
           Cancel Requests ({cancelRequests.length})
         </Typography.Title>
-        {cancelRequests.map((item: any) => (
+        {cancelRequests.map((item: OrderStageStatusProps) => (
           <>
             <Divider variant="dashed" className="m-0" />
             <div className="px-12 py-6">
@@ -78,12 +78,12 @@ const CancelRequest = ({ order, stages }: { order: OrderProps | undefined; stage
               <Flex className="mb-2">
                 <Typography.Paragraph className="m-0 w-1/6">Status: </Typography.Paragraph>
                 <Typography.Paragraph
-                  className={`m-0 font-semibold ${getStatusColor(item.orderRequestID.replyStatus)}`}
+                  className={`m-0 font-semibold ${getStatusColor(item?.orderRequestID?.replyStatus)}`}
                 >
                   {item.orderRequestID?.replyStatus.toUpperCase()}
                 </Typography.Paragraph>
               </Flex>
-              {item.orderRequestID.replyMessage && (
+              {item?.orderRequestID?.replyMessage && (
                 <Flex className="mb-2">
                   <Typography.Paragraph className="m-0 w-1/6">Reply Message: </Typography.Paragraph>
                   <Typography.Paragraph className={`m-0`}>{item.orderRequestID?.replyMessage}</Typography.Paragraph>
@@ -91,7 +91,7 @@ const CancelRequest = ({ order, stages }: { order: OrderProps | undefined; stage
               )}
             </div>
             {item.status === OrderStageStatus.RequestToSeller &&
-              item.orderRequestID.replyStatus === ReplyStatus.Pending && (
+              item.orderRequestID?.replyStatus === ReplyStatus.Pending && (
                 <div className="px-12 pb-6">
                   <Flex gap={'large'}>
                     {decisions.map((item: any) => (

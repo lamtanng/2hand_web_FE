@@ -10,6 +10,7 @@ import DirectCancelModal from './components/DirectCancelModal';
 import CancelRequestModal from './components/CancelRequestModal';
 import { ReplyStatus } from '../../../types/enum/replyStatus.enum';
 import CancelRequest from './components/CancelRequest';
+import { OrderStageTrackingProps } from '../../../types/orderTracking.type';
 
 const CustomerOrderDetail = () => {
   const {
@@ -104,7 +105,7 @@ const CustomerOrderDetail = () => {
         <CancelRequest order={order} />
       )} */}
       {order?.orderStageID.name !== (OrderStage.Delivered && OrderStage.Delivering) &&
-        stages.find((item: any) => item.orderStageStatus.length > 1) && <CancelRequest stages={stages} />}
+        stages.find((item: OrderStageTrackingProps) => item.orderStageStatus.length > 1) && <CancelRequest stages={stages} />}
       {actionModal}
     </div>
   );

@@ -10,6 +10,7 @@ import { OrderStageStatus } from '../../../types/enum/orderStageStatus.enum';
 import DirectCancelModal from './components/DirectCancelModal';
 import CancelRequest from './components/CancelRequest';
 import { ReplyStatus } from '../../../types/enum/replyStatus.enum';
+import { OrderStageTrackingProps } from '../../../types/orderTracking.type';
 
 const StoreOrderDetail = () => {
   const {
@@ -74,7 +75,7 @@ const StoreOrderDetail = () => {
       <Divider className="m-0" />
       <OrderInfo order={order} />
       {order?.orderStageID.name !== (OrderStage.Delivered && OrderStage.Delivering) &&
-        stages.find((item: any) => item.orderStageStatus.length > 1) && <CancelRequest stages={stages} order={order} />}
+        stages.find((item: OrderStageTrackingProps) => item.orderStageStatus.length > 1) && <CancelRequest stages={stages} order={order} />}
       <PickupDateModal
         isModalOpen={isPickupModalOpen}
         setIsModalOpen={setIsPickupModalOpen}

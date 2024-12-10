@@ -2,6 +2,7 @@ import { MoreOutlined, UserOutlined } from '@ant-design/icons';
 import { Avatar, Flex, Typography, Image, Dropdown, MenuProps, Divider, Rate } from 'antd';
 import defaultPic from '../../../../assets/blob.jpg';
 import dayjs from 'dayjs';
+import { ReviewProps } from '../../../../types/review.type';
 
 const items: MenuProps['items'] = [
   {
@@ -10,7 +11,7 @@ const items: MenuProps['items'] = [
   },
 ];
 
-const ReviewItem = ({ review }: { review: any }) => {
+const ReviewItem = ({ review }: { review: ReviewProps }) => {
   return (
     <div id="review-item">
       <Flex gap={'large'} align="start">

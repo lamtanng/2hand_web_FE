@@ -4,6 +4,7 @@ import { handleError } from '../../../../../utils/handleError';
 import { orderRequestsAPIs } from '../../../../../apis/orderRequest.api';
 import eventEmitter from '../../../../../utils/eventEmitter';
 import { ReplyStatus } from '../../../../../types/enum/replyStatus.enum';
+import { ReplyRequestProps } from '../../../../../types/http/orderRequest.type';
 
 const useCancelRequest = (order: OrderProps| undefined) => {
   const [replyMessage, setReplyMessage] = useState<string>('Approved');
@@ -11,7 +12,7 @@ const useCancelRequest = (order: OrderProps| undefined) => {
 
   const processRequest = async () => {
     try {
-      const data = {
+      const data: ReplyRequestProps = {
         _id: order?.orderStageID.orderStageStatusID.orderRequestID?._id,
         replyMessage: replyMessage,
         replyStatus: selectedDecision,
