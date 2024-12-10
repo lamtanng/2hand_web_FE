@@ -20,6 +20,7 @@ const useCustomerOrderDetailPage = () => {
   const [cancelReasons, setCancelReasons] = useState<ReasonProps[]>([]);
   const [returnReasons, setReturnReasons] = useState<ReasonProps[]>([]);
   const [description, setDescription] = useState<string>('');
+  const [stages, setStages] = useState<any[]>([]);
 
   const { confirm } = Modal;
 
@@ -38,6 +39,16 @@ const useCustomerOrderDetailPage = () => {
       setOrder(res.data);
     } catch (error) {
       handleError;
+    } finally {
+    }
+  };
+
+  const trackingSingleOrder = async (orderID: string | undefined) => {
+    try {
+      const res = await orderAPIs.trackingOrder(orderID);
+      setStages(res.data);
+    } catch (error) {
+      handleError(error);
     } finally {
     }
   };
@@ -122,18 +133,21 @@ const useCustomerOrderDetailPage = () => {
 
   useEffect(() => {
     getSingleOrder(params?.id);
+    trackingSingleOrder(params?.id);
 
     const orderStageChangeListener = eventEmitter.addListener('customerOrderDetailStageChanged', (orderID: string) => {
       getSingleOrder(orderID);
+      trackingSingleOrder(params?.id);
     });
 
     const addReviewListener = eventEmitter.addListener('addReview', (orderID: string) => {
       getSingleOrder(orderID);
+      trackingSingleOrder(orderID);
     });
 
     return () => {
       orderStageChangeListener.remove();
-      addReviewListener.remove()
+      addReviewListener.remove();
     };
   }, []);
 
@@ -148,6 +162,7 @@ const useCustomerOrderDetailPage = () => {
     receiveOrder,
     setDescription,
     cancelOrder,
+    stages
   };
 };
 export default useCustomerOrderDetailPage;

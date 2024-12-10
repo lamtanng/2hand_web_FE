@@ -5,7 +5,7 @@ const ReviewList = ({ reviews }: { reviews: any[] }) => {
   return (
     <div className="mb-6 rounded-xl bg-white p-8 shadow-sm">
       <Flex gap={'small'} align="baseline">
-        <Typography.Title level={3} className="m-0 mb-6">
+        <Typography.Title level={3} className="m-0">
           Product Reviews
         </Typography.Title>
         <Typography.Paragraph className="m-0">({reviews.length})</Typography.Paragraph>

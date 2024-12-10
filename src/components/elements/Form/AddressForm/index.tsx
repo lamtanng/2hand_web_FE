@@ -12,7 +12,7 @@ const AddressForm = ({
   setSelectedDistrict,
   setSelectedProvince,
   setSelectedWard,
-  setDefault,
+  setSelectedDefault,
 }: {
   selectedDistrict: DistrictAddressProps | null;
   selectedProvince: ProvincesAddressProps | null;
@@ -21,7 +21,7 @@ const AddressForm = ({
   setSelectedDistrict: React.Dispatch<React.SetStateAction<DistrictAddressProps | null>>;
   setSelectedProvince: React.Dispatch<React.SetStateAction<ProvincesAddressProps | null>>;
   setSelectedWard: React.Dispatch<React.SetStateAction<WardAddressProps | null>>;
-  setDefault: React.Dispatch<React.SetStateAction<boolean>>;
+  setSelectedDefault: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const { district, province, ward, onDistrictChange, onProvinceChange, onWardChange, onDefaultChange } =
     useAddressForm(
@@ -31,7 +31,7 @@ const AddressForm = ({
       setSelectedDistrict,
       setSelectedProvince,
       setSelectedWard,
-      setDefault,
+      setSelectedDefault,
     );
   const provinceItems = (data: ProvincesAddressProps[], onClick: any) => (
     <Menu style={{ maxHeight: '200px', overflowY: 'auto' }} onClick={onClick}>
@@ -106,9 +106,11 @@ const AddressForm = ({
         </Form.Item>
       </Flex>
       <CustomFormItem name="detailAddress" hint="5X, ABC Street" label="Detail address" isRequired={true} />
-      <Form.Item>
-        <Checkbox onChange={onDefaultChange} checked={isDefault}>Set as default address</Checkbox>
-      </Form.Item>
+      {!isDefault && (
+        <Form.Item>
+          <Checkbox onChange={onDefaultChange}>Set as default address</Checkbox>
+        </Form.Item>
+      )}
     </>
   );
 };

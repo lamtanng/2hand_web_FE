@@ -22,6 +22,7 @@ const CustomerOrderDetail = () => {
     receiveOrder,
     setDescription,
     cancelOrder,
+    stages,
   } = useCustomerOrderDetailPage();
   const navigate = useNavigate();
 
@@ -93,13 +94,17 @@ const CustomerOrderDetail = () => {
           </Flex>
         </Flex>
       </div>
+      {/* <Divider className="m-0" />
+      <TrackingOrder stages={stages} /> */}
       <Divider className="m-0" />
       {actionGroup}
       <Divider className="m-0" />
       <OrderInfo order={order} />
-      {order?.orderStageID.orderStageStatusID.orderRequestID?.replyStatus === ReplyStatus.Pending && (
+      {/* {order?.orderStageID.orderStageStatusID.orderRequestID?.replyStatus === ReplyStatus.Pending && (
         <CancelRequest order={order} />
-      )}
+      )} */}
+      {order?.orderStageID.name !== (OrderStage.Delivered && OrderStage.Delivering) &&
+        stages.find((item: any) => item.orderStageStatus.length > 1) && <CancelRequest stages={stages} />}
       {actionModal}
     </div>
   );

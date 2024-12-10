@@ -37,7 +37,7 @@ const useStoreForm = () => {
   const [selectedProvince, setSelectedProvince] = useState<ProvincesAddressProps | null>(null);
   const [selectedDistrict, setSelectedDistrict] = useState<DistrictAddressProps | null>(null);
   const [selectedWard, setSelectedWard] = useState<WardAddressProps | null>(null);
-  const [isDefault, setDefault] = useState<boolean>(false);
+  const [isDefault, setDefault] = useState<boolean>(true);
   const [profile, setProfile] = useState<UserProps>();
   const [description, setDescription] = useState<string>('');
 

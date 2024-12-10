@@ -11,7 +11,7 @@ const useAddressForm = (
   setSelectedDistrict: React.Dispatch<React.SetStateAction<DistrictAddressProps | null>>,
   setSelectedProvince: React.Dispatch<React.SetStateAction<ProvincesAddressProps | null>>,
   setSelectedWard: React.Dispatch<React.SetStateAction<WardAddressProps | null>>,
-  setDefault: React.Dispatch<React.SetStateAction<boolean>>,
+  setSelectedDefault: React.Dispatch<React.SetStateAction<boolean>>,
 ) => {
   const [province, setProvince] = useState<ProvincesAddressProps[]>([]);
   const [district, setDistrict] = useState<DistrictAddressProps[]>([]);
@@ -87,9 +87,9 @@ const useAddressForm = (
     let isSelected = e.target.checked;
 
     if (isSelected) {
-      setDefault(true);
+      setSelectedDefault(true);
     } else {
-      setDefault(false);
+      setSelectedDefault(false);
     }
   };
 

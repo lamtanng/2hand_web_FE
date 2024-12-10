@@ -13,40 +13,46 @@ import useHomePage from './useHomePage';
 import PageSpin from '../../components/elements/Spin/PageSpin';
 
 const HomePage = () => {
-  const {freeProduct, isLoading, newestProduct} = useHomePage();
+  const { freeProduct, isLoading, newestProduct } = useHomePage();
 
   return (
     <>
       <Header />
-      {isLoading ? <PageSpin /> : (<Flex vertical className="mb-10 mt-10 w-full md:mb-20 md:mt-20">
-        <div className="p-10">
-          <CustomCarousel />
-        </div>
-        <Flex vertical gap={45} className="mx-5 md:mx-10 xl:mx-auto xl:w-10/12">
-          <div>
-            <Typography.Title level={2}>Categories</Typography.Title>
-            <CategorySlider />
-            <Collection />
-          </div>
-          <div>
-            <Typography.Title level={2}>New Products</Typography.Title>
-            <ProductSlider product={newestProduct} isLoading={isLoading} />
-          </div>
-          <div>
-            <Typography.Title level={2}>Free Products</Typography.Title>
-            <ProductSlider product={freeProduct} isLoading={isLoading} />
-          </div>
-          <div>
-            <Typography.Title level={2}>Recommended Products</Typography.Title>
-            <ProductList />
-          </div>
-          <Divider />
-          <div>
-            <Typography.Title level={2}>About Us</Typography.Title>
-            <SystemInfo />
-          </div>
-        </Flex>
-      </Flex>)}
+      <div className="bg-slate-50">
+        {isLoading ? (
+          <PageSpin />
+        ) : (
+          <Flex vertical className="mt-10 w-full md:mt-20">
+            <div className="p-10">
+              <CustomCarousel />
+            </div>
+            <Flex vertical gap={45} className="mx-5 md:mx-10 xl:mx-auto xl:w-10/12">
+              <div>
+                <Typography.Title level={2}>Categories</Typography.Title>
+                <CategorySlider />
+                <Collection />
+              </div>
+              <div>
+                <Typography.Title level={2}>New Products</Typography.Title>
+                <ProductSlider product={newestProduct} isLoading={isLoading} />
+              </div>
+              <div>
+                <Typography.Title level={2}>Free Products</Typography.Title>
+                <ProductSlider product={freeProduct} isLoading={isLoading} />
+              </div>
+              <div>
+                <Typography.Title level={2}>Recommended Products</Typography.Title>
+                <ProductList />
+              </div>
+              <Divider />
+              <div className='pb-20'>
+                <Typography.Title level={2}>About Us</Typography.Title>
+                <SystemInfo />
+              </div>
+            </Flex>
+          </Flex>
+        )}
+      </div>
       <Footer />
     </>
   );

@@ -24,15 +24,16 @@ const useStoreOrderDetailPage = () => {
   const [isLoading, setLoading] = useState(false);
   const [cancelReasons, setCancelReasons] = useState<ReasonProps[]>([]);
   const [returnReasons, setReturnReasons] = useState<ReasonProps[]>([]);
+  const [stages, setStages] = useState<any[]>([]);
 
   const getSingleOrder = async (orderID: string | undefined) => {
-    try {
-      const res = await orderAPIs.getOrderByID(orderID);
-      setOrder(res.data);
-    } catch (error) {
-      handleError;
-    } finally {
-    }
+    const res = await orderAPIs.getOrderByID(orderID);
+    setOrder(res.data);
+  };
+
+  const trackingSingleOrder = async (orderID: string | undefined) => {
+    const res = await orderAPIs.trackingOrder(orderID);
+    setStages(res.data);
   };
 
   const pickingOrder = async () => {
@@ -128,11 +129,21 @@ const useStoreOrderDetailPage = () => {
     }
   };
 
+  const fetchData = async (orderID: string | undefined) => {
+    try {
+      await getSingleOrder(orderID);
+      await trackingSingleOrder(orderID);
+    } catch (error) {
+      handleError(error);
+    } finally {
+    }
+  };
+
   useEffect(() => {
-    getSingleOrder(params.id);
+    fetchData(params.id);
 
     const orderStageChangeListener = eventEmitter.addListener('orderDetailStageChanged', (orderID: string) => {
-      getSingleOrder(orderID);
+      fetchData(orderID);
     });
 
     return () => {
@@ -155,6 +166,7 @@ const useStoreOrderDetailPage = () => {
     isPickupModalOpen,
     setIsCancelModalOpen,
     setIsPickupModalOpen,
+    stages,
   };
 };
 export default useStoreOrderDetailPage;

@@ -24,7 +24,7 @@ const ReceiverAddressForm = ({
   const {
     handleSubmit,
     method,
-    setDefault,
+    setSelectedDefault,
     setSelectedDistrict,
     setSelectedProvince,
     setSelectedWard,
@@ -45,7 +45,7 @@ const ReceiverAddressForm = ({
             selectedDistrict={selectedDistrict}
             selectedProvince={selectedProvince}
             selectedWard={selectedWard}
-            setDefault={setDefault}
+            setSelectedDefault={setSelectedDefault}
             setSelectedDistrict={setSelectedDistrict}
             setSelectedProvince={setSelectedProvince}
             setSelectedWard={setSelectedWard}
@@ -61,7 +61,7 @@ const ReceiverAddressForm = ({
                 setSelectedDistrict(null);
                 setSelectedProvince(null);
                 setSelectedWard(null);
-                setDefault(false);
+                setSelectedDefault(false);
                 reset({
                   detailAddress: '',
                 });

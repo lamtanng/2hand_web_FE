@@ -61,7 +61,9 @@ const CustomerOrderItem = ({ order }: { order: OrderProps }) => {
         order.orderStageID.orderStageStatusID.orderRequestID?.replyStatus === ReplyStatus.Rejected
       )
         actionGroup = (
-          <Typography.Paragraph className="m-0">This order has reached its cancel request limit.</Typography.Paragraph>
+          <Typography.Paragraph className="m-0 w-1/2 text-end">
+            This order has reached its cancel request limit.
+          </Typography.Paragraph>
         );
       break;
     case OrderStage.Delivering:
@@ -120,12 +122,27 @@ const CustomerOrderItem = ({ order }: { order: OrderProps }) => {
           className="mt-6"
         >
           {order.orderStageID.name === OrderStage.Cancelled ? null : (
-            <Typography.Paragraph className="m-0">
-              {order.orderStageID.name !== OrderStage.Delivered && 'Expected'} {order.orderStageID.name} Date:{' '}
-              {order &&
-                order.orderStageID.orderStageStatusID.expectedDate &&
-                dayjs(order.orderStageID.orderStageStatusID.expectedDate.toString()).format('DD/MM/YYYY')}
-            </Typography.Paragraph>
+            <Flex vertical className="w-1/2">
+              <Typography.Paragraph className="m-0">
+                {order.orderStageID.name !== OrderStage.Delivered && 'Expected'} {order.orderStageID.name} Date:{' '}
+                {order &&
+                  order.orderStageID.orderStageStatusID.expectedDate &&
+                  dayjs(order.orderStageID.orderStageStatusID.expectedDate.toString()).format('DD/MM/YYYY')}
+              </Typography.Paragraph>
+              {order.orderStageID.orderStageStatusID.orderRequestID?.replyStatus === ReplyStatus.Rejected && (
+                <>
+                  <Typography.Paragraph className="m-0">
+                    Cancel Request ({order?.orderStageID.orderStageStatusID.status.replace(/([A-Z])/g, ' $1').trim()}):{' '}
+                    <span className="font-semibold text-red-500">
+                      {order.orderStageID.orderStageStatusID.orderRequestID.replyStatus.toUpperCase()}
+                    </span>
+                  </Typography.Paragraph>
+                  <Typography.Paragraph className="m-0">
+                    Reply Message: {order.orderStageID.orderStageStatusID.orderRequestID.replyMessage}
+                  </Typography.Paragraph>
+                </>
+              )}
+            </Flex>
           )}
           {actionGroup}
         </Flex>

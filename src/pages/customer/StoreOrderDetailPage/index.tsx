@@ -26,6 +26,7 @@ const StoreOrderDetail = () => {
     isPickupModalOpen,
     setIsCancelModalOpen,
     setIsPickupModalOpen,
+    stages,
   } = useStoreOrderDetailPage();
   const navigate = useNavigate();
 
@@ -72,9 +73,8 @@ const StoreOrderDetail = () => {
       {actionGroup}
       <Divider className="m-0" />
       <OrderInfo order={order} />
-      {order?.orderStageID.orderStageStatusID.orderRequestID?.replyStatus === ReplyStatus.Pending && (
-        <CancelRequest order={order} />
-      )}
+      {order?.orderStageID.name !== (OrderStage.Delivered && OrderStage.Delivering) &&
+        stages.find((item: any) => item.orderStageStatus.length > 1) && <CancelRequest stages={stages} order={order} />}
       <PickupDateModal
         isModalOpen={isPickupModalOpen}
         setIsModalOpen={setIsPickupModalOpen}
