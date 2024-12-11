@@ -19,6 +19,7 @@ import { handleError } from '../../../../../utils/handleError';
 import { authAPIs } from '../../../../../apis/auth.api';
 import { useAppDispatch } from '../../../../../redux/hooks';
 import { deleteAuth } from '../../../../../redux/slices/login.slice';
+import { formattedName } from '../../../../../utils/formatName';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -95,7 +96,7 @@ const MenuBar = () => {
     <>
       <Flex align="center" gap={'middle'} className="mb-3 px-3">
         <Avatar src={profile?.avatar} icon={<UserOutlined />} size={75} className="shrink-0" />
-        <Typography.Title level={4}>{`${profile?.firstName} ${profile?.lastName}`}</Typography.Title>
+        <Typography.Title level={4}>{formattedName(profile)}</Typography.Title>
       </Flex>
       <Menu
         defaultOpenKeys={['account', 'purchase', 'setting']}

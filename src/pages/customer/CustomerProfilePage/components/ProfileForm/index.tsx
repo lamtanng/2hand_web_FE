@@ -30,7 +30,7 @@ const ProfileForm = ({
             <CustomFormItem name="lastName" hint="Last name" label="Last Name" isRequired={true} />
           </div>
         </Flex>
-        <CustomFormItem name="email" hint="Email" label="Email" isRequired={true} isDisabled={true} />
+        {/* <CustomFormItem name="email" hint="Email" label="Email" isRequired={true} isDisabled={true} /> */}
         <Flex align="center" gap={'large'}>
           <CustomFormItem name="phoneNumber" hint="Phone number" label="Phone Number" isDisabled={true} />
           <Button

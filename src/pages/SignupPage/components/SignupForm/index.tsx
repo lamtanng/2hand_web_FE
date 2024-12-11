@@ -23,7 +23,8 @@ const SignupForm = ({ hiddenSignup, handleSignupOnClick, isSubmitting, setSubmit
         <h2 className="font-sans">Sign Up</h2>
         <FormProvider {...method}>
           <Form name="normal_login" layout="vertical" className="w-full" onFinish={handleSubmit(handleSignup)}>
-            <CustomFormItem name="email" hint="Email" label="Email" isRequired={true} />
+            {/* <CustomFormItem name="email" hint="Email" label="Email" isRequired={true} /> */}
+            <CustomFormItem hint="Phone number" name="phoneNumber" label="Phone Number" />
             <CustomFormItem name="password" hint="Password" type="password" label="Password" isRequired={true} />
             <CustomFormItem
               name="confirmPassword"

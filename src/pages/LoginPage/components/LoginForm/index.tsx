@@ -22,7 +22,8 @@ const LoginForm: React.FC = () => {
       <h2 className="font-sans">Sign In</h2>
       <FormProvider {...method}>
         <Form name="normal_login" layout="vertical" className="w-full" onFinish={handleSubmit(handleLogin)}>
-          <CustomFormItem name="email" hint="Email" label="Email" isRequired={true} />
+          {/* <CustomFormItem name="email" hint="Email" label="Email" isRequired={true} /> */}
+          <CustomFormItem name="phoneNumber" hint="Phone Number" label="Phone Number" isRequired={true} />
           <CustomFormItem name="password" hint="Password" type="password" label="Password" isRequired={true} />
           <Form.Item>
             <SubmitButton />

@@ -5,6 +5,7 @@ import AddressModal from '../AddressModal';
 import useAddressItem from './useAddressItem';
 import { AddressProps } from '../../../../../types/address.type';
 import { UserProps } from '../../../../../types/user.type';
+import { formattedAddress } from '../../../../../utils/formattedAddress';
 
 const AddressItem = ({ address, profile }: { address: AddressProps; profile: UserProps | undefined }) => {
   const { handleDeleteAddress, handleSetDefault } = useAddressItem(address, profile);
@@ -14,7 +15,7 @@ const AddressItem = ({ address, profile }: { address: AddressProps; profile: Use
     <Flex justify="space-between" align="center">
       <div id="info" className="w-3/5">
         <p className="font-sans">
-          {`${address.address}, ${address.ward?.WardName}, ${address.district?.DistrictName}, ${address.province?.ProvinceName}`}
+          {formattedAddress(address)}
         </p>
         {address.isDefault && <Tag color="geekblue">Default address</Tag>}
       </div>

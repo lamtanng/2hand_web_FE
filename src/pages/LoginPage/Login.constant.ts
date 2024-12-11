@@ -1,12 +1,13 @@
 import * as yup from 'yup';
 import { getRequiredMsg } from '../../utils/getMessage';
 
-interface LoginProps{
-  email?: string,
-  password?: string,
+interface LoginProps {
+  phoneNumber?: string;
+  password?: string;
 }
 
 export const loginSchema: yup.ObjectSchema<LoginProps> = yup.object({
-  email: yup.string().email().required(getRequiredMsg('Email')),
+  // email: yup.string().email().required(getRequiredMsg('Email')),
+  phoneNumber: yup.string().length(10).required(),
   password: yup.string().required(getRequiredMsg('Password')),
 });
