@@ -9,6 +9,7 @@ import { useAppDispatch } from '../../../../../redux/hooks';
 import { authAPIs } from '../../../../../apis/auth.api';
 import { deleteAuth } from '../../../../../redux/slices/login.slice';
 import { handleError } from '../../../../../utils/handleError';
+import { formattedName } from '../../../../../utils/formatName';
 
 const UserInfoGroup = ({ user }: { user: UserProps }) => {
   const { itemAmount, profile } = useUserInfo(user);
@@ -60,7 +61,7 @@ const UserInfoGroup = ({ user }: { user: UserProps }) => {
           <Flex gap={'small'} align="center">
             <Avatar size="large" src={profile?.avatar} icon={<UserOutlined />} />
             <p className="m-0 hidden font-sans xl:inline">
-              {profile?.firstName && profile?.lastName ? `${profile?.firstName} ${profile?.lastName}` : profile?.email}
+              {formattedName(profile)}
             </p>
           </Flex>
         </Link>

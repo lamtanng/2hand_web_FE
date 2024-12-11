@@ -1,34 +1,45 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
-import { UserProps } from '../../../../types/user.type';
-import { signupSchema } from './Signup.constant';
-import { authAPIs } from '../../../../apis/auth.api';
 import { AxiosError } from 'axios';
+import { parsePhoneNumber } from 'libphonenumber-js';
+import { useForm } from 'react-hook-form';
+import { SignupRequestProps } from '../../../../types/http/signup.type';
 import { handleError } from '../../../../utils/handleError';
+import { SignupProps, signupSchema } from './Signup.constant';
+import { authAPIs } from '../../../../apis/auth.api';
 
 const useSignupForm = (
-  handleSignupOnClick: (account: UserProps) => void,
+  handleSignupOnClick: (account: SignupProps) => void,
   setSubmitting: React.Dispatch<React.SetStateAction<boolean>>,
 ) => {
-  const method = useForm<UserProps>({
+  const method = useForm<SignupProps>({
     resolver: yupResolver(signupSchema),
     defaultValues: {
-      email: '',
+      phoneNumber: '',
       password: '',
       confirmPassword: '',
     },
   });
   const { handleSubmit, reset } = method;
 
-  const handleSignup = async (account: UserProps) => {
+  const handleSignup = async (account: SignupProps) => {
     try {
       setSubmitting(true);
-      await authAPIs.signup(account);
+      console.log(account);
+      const newPhone = account.phoneNumber && parsePhoneNumber(account.phoneNumber, 'VN');
+      let newUser: SignupRequestProps = account;
+      if (newPhone) {
+        newUser = {
+          ...account,
+          phoneNumber: newPhone.number,
+        };
+      }
+      console.log('new user: ', newUser);
+      await authAPIs.signup(newUser);
       handleSignupOnClick(account);
       reset();
     } catch (error: AxiosError | any) {
       handleError(error);
-    } finally{
+    } finally {
       setSubmitting(false);
     }
   };

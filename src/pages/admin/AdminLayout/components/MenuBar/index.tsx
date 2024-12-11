@@ -1,8 +1,10 @@
 import {
+  BookOutlined,
   CarryOutOutlined,
   FileTextOutlined,
   HomeOutlined,
   LogoutOutlined,
+  MenuOutlined,
   ShopOutlined,
   UserOutlined,
 } from '@ant-design/icons';
@@ -28,8 +30,19 @@ const MenuBar = () => {
   const items: MenuItem[] = [
     getItem('Dashboard', 'dashboard', <HomeOutlined />),
     getItem('Accounts', 'accountList', <UserOutlined />),
-    getItem('Products', 'productlist', <CarryOutOutlined />),
+    getItem('Categories', 'categoryList', <MenuOutlined />),
+    getItem('Products', 'productList', <CarryOutOutlined />),
     getItem('Orders', 'orderList', <FileTextOutlined />),
+    {
+      key: 'policies',
+      label: 'Policies',
+      icon: <BookOutlined />,
+      children: [
+        getItem('Cancel Order', 'policies/cancel-order'),
+        getItem('Return Order', 'policies/return-order'),
+        getItem('Report', 'policies/report'),
+      ],
+    },
     getItem('Logout', 'logout', <LogoutOutlined />),
   ];
 

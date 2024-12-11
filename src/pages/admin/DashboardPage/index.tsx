@@ -1,6 +1,12 @@
 import { Button, Flex, Tooltip, Typography } from 'antd';
 import { Bar, BarChart, CartesianGrid, Legend, Line, LineChart, XAxis, YAxis } from 'recharts';
-import { CalendarOutlined, DownloadOutlined, FileTextOutlined, PercentageOutlined, ShoppingOutlined } from '@ant-design/icons';
+import {
+  CalendarOutlined,
+  DownloadOutlined,
+  FileTextOutlined,
+  ShoppingOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
 
 const data = [
   {
@@ -53,6 +59,15 @@ function DashboardPage() {
         <Flex gap={'large'}>
           <Flex vertical className="w-full gap-12 rounded-xl bg-white p-8 shadow-sm">
             <Typography.Paragraph className="m-0 text-base">
+              <UserOutlined /> Number of Users
+            </Typography.Paragraph>
+            <Flex justify="space-between" align="baseline">
+              <Typography.Title className="m-0">0</Typography.Title>
+              <Typography.Paragraph className="m-0">{currentDate.toDateString()}</Typography.Paragraph>
+            </Flex>
+          </Flex>
+          <Flex vertical className="w-full gap-12 rounded-xl bg-white p-8 shadow-sm">
+            <Typography.Paragraph className="m-0 text-base">
               <ShoppingOutlined /> Number of Products
             </Typography.Paragraph>
             <Flex justify="space-between" align="baseline">
@@ -63,15 +78,6 @@ function DashboardPage() {
           <Flex vertical className="w-full gap-12 rounded-xl bg-white p-8 shadow-sm">
             <Typography.Paragraph className="m-0 text-base">
               <FileTextOutlined /> Number of Orders
-            </Typography.Paragraph>
-            <Flex justify="space-between" align="baseline">
-              <Typography.Title className="m-0">0</Typography.Title>
-              <Typography.Paragraph className="m-0">{currentDate.toDateString()}</Typography.Paragraph>
-            </Flex>
-          </Flex>
-          <Flex vertical className="w-full gap-12 rounded-xl bg-white p-8 shadow-sm">
-            <Typography.Paragraph className="m-0 text-base">
-              <PercentageOutlined /> Succesful Order Rate
             </Typography.Paragraph>
             <Flex justify="space-between" align="baseline">
               <Typography.Title className="m-0">0</Typography.Title>

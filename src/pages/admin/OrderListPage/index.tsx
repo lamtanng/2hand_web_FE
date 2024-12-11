@@ -17,15 +17,17 @@ export interface CustomTableColumns {
   total: number;
   shipmentCost: number;
   orderRequest?: OrderRequestProps;
+  createdAt: Date | undefined;
 }
 
 const OrderListPage = () => {
-  const { orders, isModalOpen, setIsModalOpen, setReplyMessage, setRecord, record, processRequest } = useOrderListPage();
+  const { orders, isModalOpen, setIsModalOpen, setReplyMessage, setRecord, record, processRequest } =
+    useOrderListPage();
 
   const data: CustomTableColumns[] = orders?.map((order: OrderProps) => {
     return {
       orderID: order?._id,
-      customerName: order?.userID?.firstName,
+      customerName: `${order?.userID?.firstName} ${order?.userID?.lastName}`,
       storeName: order?.storeID?.name,
       products: order?.orderDetailIDs?.length,
       stage: order?.orderStageID?.name,
@@ -33,6 +35,7 @@ const OrderListPage = () => {
       total: order?.total,
       shipmentCost: order?.shipmentCost,
       orderRequest: order?.orderStageID?.orderStageStatusID?.orderRequestID,
+      createdAt: order.createAt,
     };
   });
 
@@ -48,35 +51,31 @@ const OrderListPage = () => {
       title: 'Customer Name',
       dataIndex: 'customerName',
       key: 'customerName',
-      width: '10%',
       responsive: ['xs', 'md'],
     },
     {
       title: 'Store Name',
       dataIndex: 'storeName',
       key: 'storeName',
-      width: '10%',
       responsive: ['xs', 'md'],
     },
     {
       title: 'Number of products',
       dataIndex: 'products',
       key: 'products',
-      width: '5%',
+      width: '10%',
       responsive: ['xs', 'md'],
     },
     {
       title: 'Order Stage',
       dataIndex: 'stage',
       key: 'satge',
-      width: '5%',
       responsive: ['xs', 'md'],
     },
     {
       title: 'Status',
       dataIndex: 'stageStatus',
       key: 'stageStatus',
-      width: '5%',
       responsive: ['xs', 'md'],
       render: (text: string, record) => {
         if (
@@ -86,16 +85,17 @@ const OrderListPage = () => {
           return (
             <Button
               type="link"
+              className="p-0"
               onClick={() => {
                 setRecord(record);
                 setIsModalOpen(true);
               }}
             >
-              {text}
+              {text.replace(/([A-Z])/g, ' $1').trim()}
             </Button>
           );
         else {
-          return <>{text}</>;
+          return <>{text && text.replace(/([A-Z])/g, ' $1').trim()}</>;
         }
       },
     },
@@ -103,7 +103,6 @@ const OrderListPage = () => {
       title: 'Total Price',
       key: 'total',
       dataIndex: 'total',
-      width: '5%',
       render: (text: number) => <>{Intl.NumberFormat().format(text)} VND</>,
       responsive: ['xs', 'md'],
     },
@@ -111,7 +110,6 @@ const OrderListPage = () => {
       title: 'Shipment Cost',
       key: 'shipmentCost',
       dataIndex: 'shipmentCost',
-      width: '5%',
       render: (text: number) => <>{Intl.NumberFormat().format(text)} VND</>,
       responsive: ['xs', 'md'],
     },
@@ -124,7 +122,13 @@ const OrderListPage = () => {
         </Typography.Title>
       </div>
       <Table dataSource={data} columns={columns} scroll={{ x: 'max-content' }} />
-      <CancelModal isModalOpen={isModalOpen} setDescription={setReplyMessage} setIsModalOpen={setIsModalOpen} record={record} processRequest={processRequest} />
+      <CancelModal
+        isModalOpen={isModalOpen}
+        setDescription={setReplyMessage}
+        setIsModalOpen={setIsModalOpen}
+        record={record}
+        processRequest={processRequest}
+      />
     </div>
   );
 };

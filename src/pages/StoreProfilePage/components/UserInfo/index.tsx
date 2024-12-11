@@ -1,6 +1,7 @@
 import { MessageOutlined, UserOutlined } from '@ant-design/icons';
 import { Avatar, Button, Flex, Typography } from 'antd';
 import useUserProfileDetail from '../../useUserProfileName';
+import { formattedName } from '../../../../utils/formatName';
 
 const UserInfo = () => {
   const { profile } = useUserProfileDetail();
@@ -12,9 +13,7 @@ const UserInfo = () => {
         <Avatar size={150} src={profile?.avatar} icon={<UserOutlined />} />
         <Flex vertical gap={'large'}>
           <Typography.Title level={3} className="m-0">
-            {profile?.firstName && profile?.lastName
-              ? `${profile?.firstName} ${profile?.lastName}`
-              : profile?.email}
+            {formattedName(profile)}
           </Typography.Title>
           <div id="store-info" className="grid grid-cols-2 gap-6">
             <Typography.Paragraph className="m-0 text-base">

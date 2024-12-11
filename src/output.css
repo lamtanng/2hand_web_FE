@@ -914,10 +914,6 @@
   padding-top: 1.5rem;
 }
 
-#root .pb-10{
-  padding-bottom: 2.5rem;
-}
-
 #root .text-left{
   text-align: left;
 }
@@ -1159,10 +1155,6 @@
   #root .md\:mx-3{
     margin-left: 0.75rem;
     margin-right: 0.75rem;
-  }
-
-  #root .md\:mb-20{
-    margin-bottom: 5rem;
   }
 
   #root .md\:mt-20{

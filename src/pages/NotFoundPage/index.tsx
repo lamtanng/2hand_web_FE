@@ -1,9 +1,10 @@
 import { Button, Flex, Image, Typography } from 'antd';
 import notFound from '../../assets/notFound.png';
-import { Link } from 'react-router-dom';
-import { HomeFilled, ReloadOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
+import { ArrowLeftOutlined, ReloadOutlined } from '@ant-design/icons';
 
 const NotFoundPage = () => {
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen">
       <Flex vertical justify="center" align="center" gap={'large'}>
@@ -15,16 +16,14 @@ const NotFoundPage = () => {
           Oops! The page you are looking for seems to have wandered off.
         </Typography.Title>
         <Flex gap={'large'}>
-          <Link to={'/'}>
-            <Button type="primary" className="px-10 py-5 font-semibold text-base">
-            <HomeFilled />
-              Go Home
-            </Button>
-          </Link>
+          <Button type="primary" className="px-10 py-5 text-base font-semibold" onClick={() => navigate(-1)}>
+            <ArrowLeftOutlined />
+            Return to previous page
+          </Button>
           <Button
             variant="outlined"
             color="primary"
-            className="px-10 py-5 font-semibold text-base"
+            className="px-10 py-5 text-base font-semibold"
             onClick={() => window.location.reload()}
           >
             <ReloadOutlined />

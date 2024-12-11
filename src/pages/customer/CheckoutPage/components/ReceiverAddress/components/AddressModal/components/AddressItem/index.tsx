@@ -1,5 +1,6 @@
 import { Button, Divider, Flex, Radio, Tag } from 'antd';
 import { AddressProps } from '../../../../../../../../../types/address.type';
+import { formattedAddress } from '../../../../../../../../../utils/formattedAddress';
 
 const AddressItem = ({
   address,
@@ -29,8 +30,8 @@ const AddressItem = ({
             Edit
           </Button>
         </Flex>
-        {`${address.address}, ${address.ward?.WardName}, ${address.district?.DistrictName}, ${address.province?.ProvinceName}`}
-        {address.isDefault && <Tag color="geekblue" className='mt-2'>Default</Tag>}
+        {formattedAddress(address)}
+        {address.isDefault && <Tag color="geekblue" className='mt-2 ml-3'>Default</Tag>}
       </Radio>
       <Divider />
     </div>

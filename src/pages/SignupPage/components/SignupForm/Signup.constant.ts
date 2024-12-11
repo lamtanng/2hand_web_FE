@@ -1,22 +1,22 @@
 import * as yup from 'yup';
 import { getRequiredMsg } from '../../../../utils/getMessage';
-import { UserProps } from '../../../../types/user.type';
 
 export interface SignupFormProps {
   hiddenSignup: boolean;
-  handleSignupOnClick: (account: UserProps) => void;
+  handleSignupOnClick: (account: SignupProps) => void;
   isSubmitting: boolean;
   setSubmitting: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-interface SignupProps {
-  email?: string;
+export interface SignupProps {
+  phoneNumber?: string
   password?: string;
   confirmPassword?: string;
 }
 
 export const signupSchema: yup.ObjectSchema<SignupProps> = yup.object({
-  email: yup.string().email().required(getRequiredMsg('Email')),
+  // email: yup.string().email().required(getRequiredMsg('Email')),
+  phoneNumber: yup.string().length(10).required(),
   password: yup.string().required(getRequiredMsg('Password')),
   confirmPassword: yup
     .string()

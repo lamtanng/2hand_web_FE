@@ -9,6 +9,7 @@ import { useAppDispatch } from '../../../../redux/hooks';
 import { authAPIs } from '../../../../apis/auth.api';
 import { storeAuth } from '../../../../redux/slices/login.slice';
 import { displaySuccess } from '../../../../utils/displayToast';
+import { parsePhoneNumber } from 'libphonenumber-js';
 
 const useVerifyForm = ({
   account,
@@ -34,9 +35,15 @@ const useVerifyForm = ({
     try {
       setSubmitting(true);
       const sentOTP = verifyingCode.otp?.join('');
-      account = { email: account.email, password: account.password, otp: sentOTP };
+      const { phoneNumber, password } = account;
+      const phone = phoneNumber && parsePhoneNumber(phoneNumber, 'VN');
+      let newPhone: string | undefined;
+      if (phone) {
+        newPhone = phone.number;
+      }
+      account = { phoneNumber: newPhone, password, otp: sentOTP };
       await authAPIs.verifyOTP(account);
-      const user: UserProps = { email: account.email, password: account.password };
+      const user: UserProps = { phoneNumber: newPhone, password };
       const loginRes = await authAPIs.login(user);
       dispatch(storeAuth(loginRes));
       navigate('/');
@@ -57,9 +64,12 @@ const useVerifyForm = ({
   const handleResend = async () => {
     try {
       setIsResent(true);
-      account = { email: account.email };
+      const phone = account.phoneNumber && parsePhoneNumber(account.phoneNumber, 'VN');
+      if (phone) {
+        account = { phoneNumber: phone.number };
+      }
       await authAPIs.resendOTP(account);
-      displaySuccess('OTP is resent successfully. Please check your email.');
+      displaySuccess('OTP is resent successfully. Please check your phone.');
       handleResendClick();
     } catch (error: AxiosError | any) {
       handleError(error);

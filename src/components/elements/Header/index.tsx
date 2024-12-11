@@ -9,7 +9,7 @@ import ActionGroup from './components/ActionGroup';
 
 export default function Header() {
   const { user } = useAppSelector(loginSelector);
-  const displayingGroup = user.email ? <UserInfoGroup user={user} /> : <ActionGroup />;
+  const displayingGroup = user.phoneNumber ? <UserInfoGroup user={user} /> : <ActionGroup />;
 
   return (
     <>

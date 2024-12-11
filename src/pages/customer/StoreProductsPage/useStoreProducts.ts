@@ -26,7 +26,7 @@ const useStoreProducts = (profile: UserProps | undefined) => {
           displaySuccess('Product is deleted successfully.');
           eventEmitter.emit('deleteProduct');
         } catch (error) {
-          handleError;
+          handleError(error);
         } finally {
           setIsLoading(false);
         }

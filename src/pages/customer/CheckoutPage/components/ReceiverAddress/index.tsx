@@ -4,6 +4,8 @@ import AddressModal from './components/AddressModal';
 import { UserProps } from '../../../../../types/user.type';
 import useReceiverAddress from './useReceiverAddress';
 import { AddressProps } from '../../../../../types/address.type';
+import { formattedName } from '../../../../../utils/formatName';
+import { formattedAddress } from '../../../../../utils/formattedAddress';
 
 const ReceiverAddress = ({ profile, value, setValue }: { profile: UserProps | undefined, value: AddressProps | undefined, setValue: React.Dispatch<React.SetStateAction<AddressProps | undefined>> }) => {
   const { isModalOpen, setIsModalOpen, showModal, addressList } = useReceiverAddress(profile, value, setValue);
@@ -16,11 +18,11 @@ const ReceiverAddress = ({ profile, value, setValue }: { profile: UserProps | un
       <Divider />
       <Flex gap={'large'} align="center">
         <div className="w-1/6">
-          <Typography.Paragraph className="m-0 text-base font-semibold">{`${profile?.firstName} ${profile?.lastName}`}</Typography.Paragraph>
+          <Typography.Paragraph className="m-0 text-base font-semibold">{formattedName(profile)}</Typography.Paragraph>
           <Typography.Paragraph className="m-0 text-base font-semibold">{profile?.phoneNumber}</Typography.Paragraph>
         </div>
         <div className="w-4/6">
-          <Typography.Paragraph className="m-0 text-base">{`${value?.address}, ${value?.ward?.WardName}, ${value?.district?.DistrictName}, ${value?.province?.ProvinceName}`}</Typography.Paragraph>
+          <Typography.Paragraph className="m-0 text-base">{formattedAddress(value)}</Typography.Paragraph>
         </div>
         <div className="w-1/12">{value?.isDefault && <Tag color="geekblue">Default</Tag>}</div>
         <div className="w-1/12">

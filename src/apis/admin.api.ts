@@ -14,6 +14,7 @@ const getAllOrders = (limit: number | undefined) => {
   return axiosClient.get(orderUrl, {
     params: {
       limit: limit,
+      sort: JSON.stringify({ updatedAt: -1 }),
     },
   });
 };
