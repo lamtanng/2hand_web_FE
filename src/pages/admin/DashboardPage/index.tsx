@@ -35,8 +35,9 @@ const data = [
   },
 ];
 
+const currentDate = new Date();
+
 function DashboardPage() {
-  const currentDate = new Date();
   return (
     <div>
       <div className="mb-6 rounded-xl bg-white p-8 shadow-sm">
@@ -56,7 +57,7 @@ function DashboardPage() {
         </Flex>
       </div>
       <div className="mb-6">
-        <Flex gap={'large'}>
+        <Flex justify='space-between' gap={'large'}>
           <Flex vertical className="w-full gap-12 rounded-xl bg-white p-8 shadow-sm">
             <Typography.Paragraph className="m-0 text-base">
               <UserOutlined /> Number of Users

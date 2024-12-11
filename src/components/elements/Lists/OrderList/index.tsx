@@ -27,7 +27,7 @@ const OrderList = ({
         <>
           {orders.length !== 0 ? (
             <>
-              <Typography.Paragraph className="m-0 mb-4">Total orders: {total}</Typography.Paragraph>
+              <Typography.Paragraph className="m-0 mb-4 text-base">Total orders: {total}</Typography.Paragraph>
               <div id="order-list">
                 {orders &&
                   orders.map((item: OrderProps) => {

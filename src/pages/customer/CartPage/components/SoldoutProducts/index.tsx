@@ -2,6 +2,7 @@ import { DeleteOutlined } from '@ant-design/icons';
 import { Checkbox, Divider, Flex, Typography, Image, InputNumber, Button, Modal } from 'antd';
 import defaultPic from '../../../../../assets/blob.jpg';
 import { CartItemProps } from '../../../../../types/cart.type';
+import { formattedCurrency } from '../../../../../utils/formattedCurrency';
 
 const { confirm } = Modal;
 
@@ -57,7 +58,7 @@ const SoldoutProduct = ({
               <Flex justify="space-between" id="info" className="w-1/2">
                 <div id="price" className="flex w-1/4 shrink-0 items-center justify-center">
                   <Typography.Paragraph className="m-0 text-base">
-                    {new Intl.NumberFormat().format(item.productID.price)}
+                    {formattedCurrency(item.productID.price)}
                   </Typography.Paragraph>
                 </div>
                 <div id="quantity" className="flex w-1/4 shrink-0 items-center justify-center">
@@ -65,7 +66,7 @@ const SoldoutProduct = ({
                 </div>
                 <div id="total" className="flex w-1/4 shrink-0 items-center justify-center">
                   <Typography.Paragraph className="m-0 text-base">
-                    {new Intl.NumberFormat().format(item.productID.price * 0)}
+                    {formattedCurrency(item.productID.price * 0)}
                   </Typography.Paragraph>
                 </div>
                 <div id="actions" className="flex w-1/4 shrink-0 items-center justify-center">

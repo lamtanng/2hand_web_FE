@@ -3,6 +3,7 @@ import { Button, Divider, Flex, Typography, Image, Avatar } from 'antd';
 import defaultPic from '../../../../../assets/blob.jpg';
 import { OrderDetailProps } from '../../../../../types/orderDetail.type';
 import { OrderProps } from '../../../../../types/order.type';
+import { formattedCurrency } from '../../../../../utils/formattedCurrency';
 
 const OrderInfo = ({ order }: { order: OrderProps | undefined }) => {
   return (
@@ -41,15 +42,15 @@ const OrderInfo = ({ order }: { order: OrderProps | undefined }) => {
           <Flex gap={'middle'} vertical>
             <Flex justify="end" align="center" gap={'middle'}>
               <Typography.Paragraph className="m-0">Total goods price:</Typography.Paragraph>
-              <Typography.Paragraph className="m-0 text-base">{order?.total && new Intl.NumberFormat().format(order.total)} VND</Typography.Paragraph>
+              <Typography.Paragraph className="m-0 text-base">{order?.total && formattedCurrency(order.total)}</Typography.Paragraph>
             </Flex>
             <Flex justify="end" align="center" gap={'middle'}>
               <Typography.Paragraph className="m-0">Shipment cost:</Typography.Paragraph>
-              <Typography.Paragraph className="m-0 text-base">{order?.shipmentCost && new Intl.NumberFormat().format(order.shipmentCost)} VND</Typography.Paragraph>
+              <Typography.Paragraph className="m-0 text-base">{order?.shipmentCost && formattedCurrency(order.shipmentCost)}</Typography.Paragraph>
             </Flex>
             <Flex justify="end" align="center" gap={'middle'}>
               <Typography.Paragraph className="m-0">Total price:</Typography.Paragraph>
-              <Typography.Paragraph className="m-0 text-xl text-blue-700">{(order?.total && order.shipmentCost) && new Intl.NumberFormat().format(order.total + order.shipmentCost)} VND</Typography.Paragraph>
+              <Typography.Paragraph className="m-0 text-xl text-blue-700">{(order?.total && order.shipmentCost) && formattedCurrency(order.total + order.shipmentCost)}</Typography.Paragraph>
             </Flex>
             <Flex justify="end" align="center" gap={'middle'}>
               <Typography.Paragraph className="m-0">Payment method:</Typography.Paragraph>

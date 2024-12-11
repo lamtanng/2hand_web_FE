@@ -8,6 +8,7 @@ import ReviewModal from '../ReviewModal';
 import { useState } from 'react';
 import { OrderStage } from '../../../../../types/enum/orderStage.enum';
 import { Link } from 'react-router-dom';
+import { formattedCurrency } from '../../../../../utils/formattedCurrency';
 
 const OrderInfo = ({ order }: { order: OrderProps | undefined }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -64,20 +65,19 @@ const OrderInfo = ({ order }: { order: OrderProps | undefined }) => {
             <Flex justify="end" align="center" gap={'middle'}>
               <Typography.Paragraph className="m-0">Total goods price:</Typography.Paragraph>
               <Typography.Paragraph className="m-0 text-base">
-                {order?.total && new Intl.NumberFormat().format(order.total)} VND
+                {order?.total && formattedCurrency(order.total)}
               </Typography.Paragraph>
             </Flex>
             <Flex justify="end" align="center" gap={'middle'}>
               <Typography.Paragraph className="m-0">Shipment cost:</Typography.Paragraph>
               <Typography.Paragraph className="m-0 text-base">
-                {order?.shipmentCost && new Intl.NumberFormat().format(order.shipmentCost)} VND
+                {order?.shipmentCost && formattedCurrency(order.shipmentCost)}
               </Typography.Paragraph>
             </Flex>
             <Flex justify="end" align="center" gap={'middle'}>
               <Typography.Paragraph className="m-0">Total price:</Typography.Paragraph>
               <Typography.Paragraph className="m-0 text-xl text-blue-700">
-                {order?.total && order.shipmentCost && new Intl.NumberFormat().format(order.total + order.shipmentCost)}{' '}
-                VND
+                {order?.total && order.shipmentCost && formattedCurrency(order.total + order.shipmentCost)}
               </Typography.Paragraph>
             </Flex>
             <Flex justify="end" align="center" gap={'middle'}>

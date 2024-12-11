@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { OrderProps } from '../../../../../types/order.type';
 import { OrderDetailProps } from '../../../../../types/orderDetail.type';
 import defaultPic from '../../../../../assets/blob.jpg';
+import { formattedCurrency } from '../../../../../utils/formattedCurrency';
 
 const OrderDetail = ({ order, item }: { order: OrderProps; item: OrderDetailProps }) => {
   return (
@@ -21,7 +22,7 @@ const OrderDetail = ({ order, item }: { order: OrderProps; item: OrderDetailProp
             </Flex>
           </div>
           <div id="prodct-price" className="font-sans">
-            {new Intl.NumberFormat().format(item.productID.price)} VND
+            {formattedCurrency(item.productID.price)}
           </div>
         </Flex>
       </div>

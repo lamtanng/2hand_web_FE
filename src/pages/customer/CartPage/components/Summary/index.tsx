@@ -1,6 +1,7 @@
 import { Button, Checkbox, Flex, Typography } from 'antd';
 import { CartItemProps } from '../../../../../types/cart.type';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
+import { formattedCurrency } from '../../../../../utils/formattedCurrency';
 
 const Summary = ({
   checkedList,
@@ -37,7 +38,7 @@ const Summary = ({
           <Typography.Paragraph className="m-0 text-base">
             Total price ({checkedList.length} {checkedList.length > 1 ? 'products' : 'product'}):
           </Typography.Paragraph>
-          <Typography.Paragraph className="m-0 text-xl text-blue-600">{new Intl.NumberFormat().format(totalPrice)} VND</Typography.Paragraph>
+          <Typography.Paragraph className="m-0 text-xl text-blue-600">{formattedCurrency(totalPrice)}</Typography.Paragraph>
           <Button type="primary" className="px-10 py-5 text-base" onClick={handleOnClick}>
             Checkout
           </Button>

@@ -4,6 +4,7 @@ import React from 'react';
 import useShipmentModal from './useShipmentModal';
 import eventEmitter from '../../../../../../../utils/eventEmitter';
 import { ShipmentProps } from '../../../../../../../types/shipment.type';
+import { formattedCurrency } from '../../../../../../../utils/formattedCurrency';
 
 const ShipModal = ({
   isModalOpen,
@@ -55,7 +56,7 @@ const ShipModal = ({
                       {item.service_type_id === 2 ? 'Light weight:' : 'Heavy weight:'}
                     </Typography.Paragraph>
                     <Typography.Paragraph className="m-0 text-base text-blue-600">
-                      {new Intl.NumberFormat().format(item.total)} VND
+                      {formattedCurrency(item.total)}
                     </Typography.Paragraph>
                   </Flex>
                 </Radio>

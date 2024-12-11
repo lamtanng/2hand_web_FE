@@ -4,6 +4,7 @@ import defaultPic from '../../../assets/blob.jpg';
 import useStoreProducts from './useStoreProducts';
 import { Link } from 'react-router-dom';
 import useAccountPage from '../AccountPage/useAccountPage';
+import { formattedCurrency } from '../../../utils/formattedCurrency';
 
 export interface CustomTableColumns {
   picture: string;
@@ -43,7 +44,7 @@ const StoreProducts = () => {
       key: 'price',
       dataIndex: 'price',
       width: '10%',
-      render: (text: number) => <>{Intl.NumberFormat().format(text)} VND</>,
+      render: (text: number) => <>{formattedCurrency(text)}</>,
       responsive: ['xs', 'md'],
     },
     {

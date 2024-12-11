@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { handleError } from '../../../utils/handleError';
 import useProductListPage from './useProductListPage';
+import { formattedCurrency } from '../../../utils/formattedCurrency';
 
 export interface CustomTableColumns {
   picture: string;
@@ -57,7 +58,7 @@ const ProductListPage = () => {
       key: 'price',
       dataIndex: 'price',
       width: '5%',
-      render: (text: number) => <>{Intl.NumberFormat().format(text)} VND</>,
+      render: (text: number) => <>{formattedCurrency(text)}</>,
       responsive: ['xs', 'md'],
     },
     {
