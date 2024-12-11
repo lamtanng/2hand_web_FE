@@ -14,6 +14,7 @@ import { orderRequestsAPIs } from '../../../../../apis/orderRequest.api';
 import { PickupDateProps } from '../../../../../types/http/pickupDate.type';
 import { ReasonProps } from '../../../../../types/http/reason.type';
 import { NewOrderStage } from '../../../../../types/http/orderStage.type';
+import { Role } from '../../../../../types/enum/role.enum';
 
 const useOrderItem = (order: OrderProps) => {
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
@@ -80,12 +81,14 @@ const useOrderItem = (order: OrderProps) => {
       const res = await reasonAPIs.getAllReason();
       setCancelReasons(
         res.data.reasons.filter(
-          (item: ReasonProps) => item.objectType === ObjectType.Order && item.taskType === TaskType.Cancel,
+          (item: ReasonProps) =>
+            item.objectType === ObjectType.Order && item.taskType === TaskType.Cancel && item.role === Role.Seller,
         ),
       );
       setReturnReasons(
         res.data.reasons.filter(
-          (item: ReasonProps) => item.objectType === ObjectType.Order && item.taskType === TaskType.Return,
+          (item: ReasonProps) =>
+            item.objectType === ObjectType.Order && item.taskType === TaskType.Return && item.role === Role.Seller,
         ),
       );
     } catch (error) {

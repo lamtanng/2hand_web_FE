@@ -15,13 +15,13 @@ import { ReasonProps } from '../../../types/http/reason.type';
 import { NewRequestProps } from '../../../types/http/orderRequest.type';
 import { NewOrderStage } from '../../../types/http/orderStage.type';
 import { OrderStageTrackingProps } from '../../../types/orderTracking.type';
+import { Role } from '../../../types/enum/role.enum';
 
 const useCustomerOrderDetailPage = () => {
   const params = useParams();
   const [order, setOrder] = useState<OrderProps>();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [cancelReasons, setCancelReasons] = useState<ReasonProps[]>([]);
-  const [returnReasons, setReturnReasons] = useState<ReasonProps[]>([]);
   const [description, setDescription] = useState<string>('');
   const [stages, setStages] = useState<OrderStageTrackingProps[]>([]);
 
@@ -61,12 +61,8 @@ const useCustomerOrderDetailPage = () => {
       const res = await reasonAPIs.getAllReason();
       setCancelReasons(
         res.data.reasons.filter(
-          (item: ReasonProps) => item.objectType === ObjectType.Order && item.taskType === TaskType.Cancel,
-        ),
-      );
-      setReturnReasons(
-        res.data.reasons.filter(
-          (item: ReasonProps) => item.objectType === ObjectType.Order && item.taskType === TaskType.Return,
+          (item: ReasonProps) =>
+            item.objectType === ObjectType.Order && item.taskType === TaskType.Cancel && item.role === Role.Seller,
         ),
       );
     } catch (error) {
@@ -81,7 +77,7 @@ const useCustomerOrderDetailPage = () => {
 
   const changeStage = async (date: string, stage: string) => {
     try {
-      const data : NewOrderStage = {
+      const data: NewOrderStage = {
         name: stage,
         orderID: order?._id,
         expectedDate: date,
@@ -157,13 +153,12 @@ const useCustomerOrderDetailPage = () => {
     isModalOpen,
     setIsModalOpen,
     cancelReasons,
-    returnReasons,
     openCancelModal,
     directCancel,
     receiveOrder,
     setDescription,
     cancelOrder,
-    stages
+    stages,
   };
 };
 export default useCustomerOrderDetailPage;

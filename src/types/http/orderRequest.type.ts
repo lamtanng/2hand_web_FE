@@ -11,6 +11,6 @@ export interface NewRequestProps {
 
 export interface ReplyRequestProps {
   _id: string | undefined;
-  replyMessage: string;
+  replyMessage: string | undefined;
   replyStatus: string;
 }

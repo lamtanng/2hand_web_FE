@@ -341,6 +341,10 @@
   margin-left: 0.5rem;
 }
 
+#root .ml-3{
+  margin-left: 0.75rem;
+}
+
 #root .ml-6{
   margin-left: 1.5rem;
 }
@@ -379,6 +383,10 @@
 
 #root .mt-6{
   margin-top: 1.5rem;
+}
+
+#root .-mt-6{
+  margin-top: -1.5rem;
 }
 
 #root .inline{
@@ -535,6 +543,10 @@
   min-width: 15rem;
 }
 
+#root .flex-shrink{
+  flex-shrink: 1;
+}
+
 #root .flex-shrink-0{
   flex-shrink: 0;
 }
@@ -604,10 +616,6 @@
 
 #root .justify-center{
   justify-content: center;
-}
-
-#root .gap-10{
-  gap: 2.5rem;
 }
 
 #root .gap-12{
@@ -1159,6 +1167,14 @@
 
   #root .md\:mt-20{
     margin-top: 5rem;
+  }
+
+  #root .md\:mt-16{
+    margin-top: 4rem;
+  }
+
+  #root .md\:mt-1{
+    margin-top: 0.25rem;
   }
 
   #root .md\:inline{

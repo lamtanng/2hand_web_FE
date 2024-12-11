@@ -17,6 +17,7 @@ import { PickupDateProps } from '../../../types/http/pickupDate.type';
 import { NewRequestProps } from '../../../types/http/orderRequest.type';
 import { NewOrderStage } from '../../../types/http/orderStage.type';
 import { OrderStageTrackingProps } from '../../../types/orderTracking.type';
+import { Role } from '../../../types/enum/role.enum';
 
 const useStoreOrderDetailPage = () => {
   const params = useParams();
@@ -26,7 +27,7 @@ const useStoreOrderDetailPage = () => {
   const [pickupDates, setPickupDates] = useState<PickupDateProps[]>([]);
   const [isLoading, setLoading] = useState(false);
   const [cancelReasons, setCancelReasons] = useState<ReasonProps[]>([]);
-  const [returnReasons, setReturnReasons] = useState<ReasonProps[]>([]);
+  const [rejectReasons, setRejectReasons] = useState<ReasonProps[]>([]);
   const [stages, setStages] = useState<OrderStageTrackingProps[]>([]);
 
   const getSingleOrder = async (orderID: string | undefined) => {
@@ -96,12 +97,13 @@ const useStoreOrderDetailPage = () => {
       const res = await reasonAPIs.getAllReason();
       setCancelReasons(
         res.data.reasons.filter(
-          (item: ReasonProps) => item.objectType === ObjectType.Order && item.taskType === TaskType.Cancel,
+          (item: ReasonProps) =>
+            item.objectType === ObjectType.Order && item.taskType === TaskType.Cancel && item.role === Role.Seller,
         ),
       );
-      setReturnReasons(
+      setRejectReasons(
         res.data.reasons.filter(
-          (item: ReasonProps) => item.objectType === ObjectType.Order && item.taskType === TaskType.Return,
+          (item: ReasonProps) => item.objectType === ObjectType.Order && item.taskType === TaskType.RejectRequest && item.role === Role.Seller,
         ),
       );
     } catch (error) {
@@ -144,6 +146,7 @@ const useStoreOrderDetailPage = () => {
 
   useEffect(() => {
     fetchData(params.id);
+    getReasons();
 
     const orderStageChangeListener = eventEmitter.addListener('orderDetailStageChanged', (orderID: string) => {
       fetchData(orderID);
@@ -162,7 +165,7 @@ const useStoreOrderDetailPage = () => {
     isLoading,
     confirmOrder,
     cancelReasons,
-    returnReasons,
+    rejectReasons,
     openCancelModal,
     directCancel,
     isCancelModalOpen,
