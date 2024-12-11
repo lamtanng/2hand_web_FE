@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { OrderProps } from '../../../../../types/order.type';
 import { OrderDetailProps } from '../../../../../types/orderDetail.type';
 import { OrderStage } from '../../../../../types/enum/orderStage.enum';
+import { formattedCurrency } from '../../../../../utils/formattedCurrency';
 
 const OrderDetail = ({ order, item }: { order: OrderProps; item: OrderDetailProps }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -35,7 +36,7 @@ const OrderDetail = ({ order, item }: { order: OrderProps; item: OrderDetailProp
           <ReviewButton onClick={openReviewModal} />
         ) : (
           <div id="product-price" className="font-sans flex-shrink-0">
-            {new Intl.NumberFormat().format(item.productID.price)} VND
+            {formattedCurrency(item.productID.price)}
           </div>
         )}
         <ReviewModal isModalOpen={isModalOpen} product={item} setIsModalOpen={setIsModalOpen} />

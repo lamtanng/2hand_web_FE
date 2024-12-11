@@ -1,5 +1,6 @@
 import { Button, Divider, Flex, Typography } from 'antd';
 import { PaymentMethodProps } from '../../../../../types/paymentMethod.type';
+import { formattedCurrency } from '../../../../../utils/formattedCurrency';
 
 const PaymentMethod = ({
   handlePlaceOrder,
@@ -57,19 +58,19 @@ const PaymentMethod = ({
           <Flex justify="space-between">
             <Typography.Paragraph className="m-0 text-base">Product price:</Typography.Paragraph>
             <Typography.Paragraph className="m-0 text-base">
-              {new Intl.NumberFormat().format(total)} VND
+              {formattedCurrency(total)}
             </Typography.Paragraph>
           </Flex>
           <Flex justify="space-between">
             <Typography.Paragraph className="m-0 text-base">Shipment cost:</Typography.Paragraph>
             <Typography.Paragraph className="m-0 text-base">
-              {new Intl.NumberFormat().format(totalShip)} VND
+              {formattedCurrency(totalShip)}
             </Typography.Paragraph>
           </Flex>
           <Flex justify="space-between">
             <Typography.Paragraph className="m-0 text-base">Total:</Typography.Paragraph>
             <Typography.Title level={4} className="m-0 font-normal text-blue-600">
-              {new Intl.NumberFormat().format(total + totalShip)} VND
+              {formattedCurrency(total + totalShip)}
             </Typography.Title>
           </Flex>
         </Flex>

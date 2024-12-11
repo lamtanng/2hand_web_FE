@@ -12,6 +12,8 @@ import DirectCancelModal from '../DirectCancelModal';
 import dayjs from 'dayjs';
 import { ReplyStatus } from '../../../../../types/enum/replyStatus.enum';
 import OrderDetail from '../OrderDetail';
+import { formattedCurrency } from '../../../../../utils/formattedCurrency';
+import { formattedOrderStageStatus } from '../../../../../utils/formattedOrderStageStatus';
 
 const StoreOrderItem = ({ order }: { order: OrderProps }) => {
   const {
@@ -44,7 +46,7 @@ const StoreOrderItem = ({ order }: { order: OrderProps }) => {
         actionGroup = (
           <Flex vertical gap={'large'}>
             <Link to={order._id}>
-              Cancel request ({order.orderStageID.orderStageStatusID.status.replace(/([A-Z])/g, ' $1').trim()}):{' '}
+              Cancel request ({formattedOrderStageStatus(order.orderStageID.orderStageStatusID.status)}):{' '}
               {order.orderStageID.orderStageStatusID.orderRequestID?.reasonID.name}
             </Link>
           </Flex>
@@ -81,9 +83,7 @@ const StoreOrderItem = ({ order }: { order: OrderProps }) => {
         <div id="total-price">
           <Flex justify="end" align="center" gap={'middle'}>
             <p className="m-0 font-sans">Total price:</p>
-            <p className="m-0 font-sans text-xl text-blue-700">
-              {new Intl.NumberFormat().format(order.total + order.shipmentCost)} VND
-            </p>
+            <p className="m-0 font-sans text-xl text-blue-700">{formattedCurrency(order.total + order.shipmentCost)}</p>
           </Flex>
         </div>
         <Flex

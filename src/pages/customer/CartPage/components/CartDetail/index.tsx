@@ -5,6 +5,7 @@ import { useDebouncedCallback } from 'use-debounce';
 import { CartItemProps } from '../../../../../types/cart.type';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
 import { Link } from 'react-router-dom';
+import { formattedCurrency } from '../../../../../utils/formattedCurrency';
 
 const { confirm } = Modal;
 
@@ -59,7 +60,7 @@ const CartDetail = ({
         <Flex justify="space-between" id="info" className="w-1/2">
           <div id="price" className="flex w-1/4 shrink-0 items-center justify-center">
             <Typography.Paragraph className="m-0 text-base">
-              {new Intl.NumberFormat().format(product.productID.price)}
+              {formattedCurrency(product.productID.price)}
             </Typography.Paragraph>
           </div>
           <div id="quantity" className="flex w-1/4 shrink-0 items-center justify-center">
@@ -74,7 +75,7 @@ const CartDetail = ({
           </div>
           <div id="total" className="flex w-1/4 shrink-0 items-center justify-center">
             <Typography.Paragraph className="m-0 text-base">
-              {new Intl.NumberFormat().format(product.productID.price * product.quantity)}
+              {formattedCurrency(product.productID.price * product.quantity)}
             </Typography.Paragraph>
           </div>
           <div id="actions" className="flex w-1/4 shrink-0 items-center justify-center">

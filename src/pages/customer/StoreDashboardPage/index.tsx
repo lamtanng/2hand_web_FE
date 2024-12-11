@@ -5,12 +5,13 @@ import {
   PercentageOutlined,
   ShoppingOutlined,
 } from '@ant-design/icons';
-import { Button, Divider, Flex, Skeleton, Typography } from 'antd';
+import { Button, Divider, Flex, Typography } from 'antd';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, BarChart, Bar } from 'recharts';
 import useAccountPage from '../AccountPage/useAccountPage';
 import useStoreDashboardPage from './useStoreDashboardPage';
-import { Link } from 'react-router-dom';
 import { accountUrls } from '../../../constants/urlPaths/customer/accountUrls';
+import StatisticCard from '../../../components/elements/Cards/StatisticCard';
+import { formattedOrderRate } from '../../../utils/formattedOrderRate';
 
 const data = [
   {
@@ -43,6 +44,32 @@ const StoreDashboard = () => {
   const currentDate = new Date();
   const { profile } = useAccountPage();
   const { isLoading, products, totalDeliveredOrders, totalOrders } = useStoreDashboardPage(profile);
+  const statistics = [
+    {
+      data: products,
+      date: currentDate,
+      icon: <ShoppingOutlined />,
+      isLoading: isLoading,
+      label: 'Number of Products',
+      link: `/${accountUrls.accountUrl}/${accountUrls.productsUrl}`,
+    },
+    {
+      data: totalOrders,
+      date: currentDate,
+      icon: <FileTextOutlined />,
+      isLoading: isLoading,
+      label: 'Number of Orders',
+      link: `/${accountUrls.accountUrl}/${accountUrls.orderUrl}`,
+    },
+    {
+      data: formattedOrderRate(totalDeliveredOrders, totalOrders),
+      date: currentDate,
+      icon: <PercentageOutlined />,
+      isLoading: isLoading,
+      label: 'Succesful Order Rate',
+      link: `/${accountUrls.accountUrl}/${accountUrls.orderUrl}`,
+    },
+  ];
   return (
     <div id="container" className="px-12 py-5">
       <div id="title">
@@ -60,62 +87,18 @@ const StoreDashboard = () => {
           </Button>
         </Flex>
       </div>
-      <div className="mb-6">
-        <Flex gap={'large'}>
-          <Flex vertical className="w-full gap-10 rounded-xl bg-slate-50 p-8">
-            {isLoading ? (
-              <Skeleton active paragraph={{ rows: 2 }} />
-            ) : (
-              <Link to={`/${accountUrls.accountUrl}/${accountUrls.productsUrl}`}>
-                <Typography.Paragraph className="m-0 mb-10 text-base">
-                  <ShoppingOutlined /> Number of Products
-                </Typography.Paragraph>
-                <Flex justify="space-between" align="baseline">
-                  <Typography.Title level={2} className="m-0">
-                    {products}
-                  </Typography.Title>
-                  <Typography.Paragraph className="m-0">{currentDate.toDateString()}</Typography.Paragraph>
-                </Flex>
-              </Link>
-            )}
-          </Flex>
-          <Flex vertical className="w-full gap-10 rounded-xl bg-slate-50 p-8">
-            {isLoading ? (
-              <Skeleton active paragraph={{ rows: 2 }} />
-            ) : (
-              <Link to={`/${accountUrls.accountUrl}/${accountUrls.orderUrl}`}>
-                <Typography.Paragraph className="m-0 mb-10 text-base">
-                  <FileTextOutlined /> Number of Orders
-                </Typography.Paragraph>
-                <Flex justify="space-between" align="baseline">
-                  <Typography.Title level={2} className="m-0">
-                    {totalOrders}
-                  </Typography.Title>
-                  <Typography.Paragraph className="m-0">{currentDate.toDateString()}</Typography.Paragraph>
-                </Flex>
-              </Link>
-            )}
-          </Flex>
-          <Flex vertical className="w-full gap-10 rounded-xl bg-slate-50 p-8">
-            {isLoading ? (
-              <Skeleton active paragraph={{ rows: 2 }} />
-            ) : (
-              <>
-                <Typography.Paragraph className="m-0 text-base">
-                  <PercentageOutlined /> Succesful Order Rate
-                </Typography.Paragraph>
-                <Flex justify="space-between" align="baseline">
-                  <Typography.Title level={2} className="m-0">
-                    {Number((totalDeliveredOrders / totalOrders) * 100)
-                      ? Number((totalDeliveredOrders / totalOrders) * 100).toFixed(2)
-                      : 0}
-                    %
-                  </Typography.Title>
-                  <Typography.Paragraph className="m-0">{currentDate.toDateString()}</Typography.Paragraph>
-                </Flex>
-              </>
-            )}
-          </Flex>
+      <div className="mb-6 w-full">
+        <Flex justify="space-between" wrap className="w-full" gap={'large'}>
+          {statistics.map((item: any) => (
+            <StatisticCard
+              data={item.data}
+              date={item.date}
+              icon={item.icon}
+              isLoading={item.isLoading}
+              label={item.label}
+              link={item.link}
+            />
+          ))}
         </Flex>
       </div>
       <Flex justify="space-between">

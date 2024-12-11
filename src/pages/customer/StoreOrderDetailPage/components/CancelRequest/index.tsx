@@ -9,6 +9,7 @@ import { DownOutlined } from '@ant-design/icons';
 import TextArea from 'antd/es/input/TextArea';
 import { OrderStageTrackingProps } from '../../../../../types/orderTracking.type';
 import { OrderStageStatusProps } from '../../../../../types/orderStageStatus.type';
+import { formattedOrderStageStatus } from '../../../../../utils/formattedOrderStageStatus';
 
 const CancelRequest = ({ order, stages }: { order: OrderProps | undefined; stages: OrderStageTrackingProps[] }) => {
   const { processRequest, setReplyMessage, selectedDecision, setSelectedDecision } = useCancelRequest(order);
@@ -64,7 +65,7 @@ const CancelRequest = ({ order, stages }: { order: OrderProps | undefined; stage
             <div className="px-12 py-6">
               <Flex className="mb-2">
                 <Typography.Title level={5} className="m-0 w-1/6 text-blue-600">
-                  {item.status.replace(/([A-Z])/g, ' $1').trim()}
+                  {formattedOrderStageStatus(item.status)}
                 </Typography.Title>
               </Flex>
               <Flex className="mb-2">

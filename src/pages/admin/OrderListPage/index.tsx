@@ -6,6 +6,9 @@ import { OrderStageStatus } from '../../../types/enum/orderStageStatus.enum';
 import { OrderRequestProps } from '../../../types/orderRequest.type';
 import { ReplyStatus } from '../../../types/enum/replyStatus.enum';
 import CancelModal from './components/CancelModal';
+import { formattedName } from '../../../utils/formatName';
+import { formattedCurrency } from '../../../utils/formattedCurrency';
+import { formattedOrderStageStatus } from '../../../utils/formattedOrderStageStatus';
 
 export interface CustomTableColumns {
   orderID: string;
@@ -27,7 +30,7 @@ const OrderListPage = () => {
   const data: CustomTableColumns[] = orders?.map((order: OrderProps) => {
     return {
       orderID: order?._id,
-      customerName: `${order?.userID?.firstName} ${order?.userID?.lastName}`,
+      customerName: `${formattedName(order.userID)}`,
       storeName: order?.storeID?.name,
       products: order?.orderDetailIDs?.length,
       stage: order?.orderStageID?.name,
@@ -91,11 +94,11 @@ const OrderListPage = () => {
                 setIsModalOpen(true);
               }}
             >
-              {text.replace(/([A-Z])/g, ' $1').trim()}
+              {formattedOrderStageStatus(text)}
             </Button>
           );
         else {
-          return <>{text && text.replace(/([A-Z])/g, ' $1').trim()}</>;
+          return <>{text && formattedOrderStageStatus(text)}</>;
         }
       },
     },
@@ -103,14 +106,14 @@ const OrderListPage = () => {
       title: 'Total Price',
       key: 'total',
       dataIndex: 'total',
-      render: (text: number) => <>{Intl.NumberFormat().format(text)} VND</>,
+      render: (text: number) => <>{formattedCurrency(text)}</>,
       responsive: ['xs', 'md'],
     },
     {
       title: 'Shipment Cost',
       key: 'shipmentCost',
       dataIndex: 'shipmentCost',
-      render: (text: number) => <>{Intl.NumberFormat().format(text)} VND</>,
+      render: (text: number) => <>{formattedCurrency(text)}</>,
       responsive: ['xs', 'md'],
     },
   ];

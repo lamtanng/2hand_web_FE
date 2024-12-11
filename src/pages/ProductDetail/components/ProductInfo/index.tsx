@@ -7,6 +7,7 @@ import { ProductProps } from '../../../../types/product.type';
 import { useState } from 'react';
 import { useAppSelector } from '../../../../redux/hooks';
 import { loginSelector } from '../../../../redux/slices/login.slice';
+import { formattedCurrency } from '../../../../utils/formattedCurrency';
 
 const ProductInfo = ({
   product,
@@ -61,7 +62,7 @@ const ProductInfo = ({
               {product?.name}
             </Typography.Title>
             <Typography.Title level={3} className="m-0 font-bold text-blue-600">
-              {product && new Intl.NumberFormat().format(product.price)} VND
+              {product && formattedCurrency(product.price)}
             </Typography.Title>
             <Flex vertical gap={'large'} className="mx-6">
               <Flex align="baseline" gap={'small'}>

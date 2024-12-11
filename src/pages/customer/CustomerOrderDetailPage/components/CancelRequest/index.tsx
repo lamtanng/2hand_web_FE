@@ -3,6 +3,7 @@ import { OrderStageStatus } from '../../../../../types/enum/orderStageStatus.enu
 import { ReplyStatus } from '../../../../../types/enum/replyStatus.enum';
 import { OrderStageTrackingProps } from '../../../../../types/orderTracking.type';
 import { OrderStageStatusProps } from '../../../../../types/orderStageStatus.type';
+import { formattedOrderStageStatus } from '../../../../../utils/formattedOrderStageStatus';
 
 const CancelRequest = ({ stages }: { stages: OrderStageTrackingProps[] }) => {
   const cancelRequests =
@@ -36,7 +37,7 @@ const CancelRequest = ({ stages }: { stages: OrderStageTrackingProps[] }) => {
             <div className="px-12 py-6">
               <Flex className="mb-2">
                 <Typography.Title level={5} className="m-0 w-1/6 text-blue-600">
-                  {item.status.replace(/([A-Z])/g, ' $1').trim()}
+                  {formattedOrderStageStatus(item.status)}
                 </Typography.Title>
               </Flex>
               <Flex className="mb-2">

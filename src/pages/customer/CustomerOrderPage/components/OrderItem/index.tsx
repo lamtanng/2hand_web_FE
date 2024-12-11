@@ -12,6 +12,8 @@ import CancelRequestModal from '../CancelRequestModal';
 import dayjs from 'dayjs';
 import { ReplyStatus } from '../../../../../types/enum/replyStatus.enum';
 import { Link } from 'react-router-dom';
+import { formattedCurrency } from '../../../../../utils/formattedCurrency';
+import { formattedOrderStageStatus } from '../../../../../utils/formattedOrderStageStatus';
 
 const CustomerOrderItem = ({ order }: { order: OrderProps }) => {
   const { receiveOrder, cancelReasons, isModalOpen, setIsModalOpen, openCancelModal, cancelOrder, setDescription } =
@@ -51,7 +53,7 @@ const CustomerOrderItem = ({ order }: { order: OrderProps }) => {
       if (order.orderStageID.orderStageStatusID.orderRequestID?.replyStatus === ReplyStatus.Pending) {
         actionGroup = (
           <Link to={order._id}>
-            Cancel request ({order.orderStageID.orderStageStatusID.status.replace(/([A-Z])/g, ' $1').trim()}):{' '}
+            Cancel request ({formattedOrderStageStatus(order.orderStageID.orderStageStatusID.status)}):{' '}
             {order.orderStageID.orderStageStatusID.orderRequestID.reasonID.name}
           </Link>
         );
@@ -111,9 +113,7 @@ const CustomerOrderItem = ({ order }: { order: OrderProps }) => {
         <div id="total-price">
           <Flex justify="end" align="center" gap={'middle'}>
             <p className="m-0 font-sans">Total price:</p>
-            <p className="m-0 font-sans text-xl text-blue-700">
-              {new Intl.NumberFormat().format(order.total + order.shipmentCost)} VND
-            </p>
+            <p className="m-0 font-sans text-xl text-blue-700">{formattedCurrency(order.total + order.shipmentCost)}</p>
           </Flex>
         </div>
         <Flex
@@ -132,7 +132,7 @@ const CustomerOrderItem = ({ order }: { order: OrderProps }) => {
               {order.orderStageID.orderStageStatusID.orderRequestID?.replyStatus === ReplyStatus.Rejected && (
                 <>
                   <Typography.Paragraph className="m-0">
-                    Cancel Request ({order?.orderStageID.orderStageStatusID.status.replace(/([A-Z])/g, ' $1').trim()}):{' '}
+                    Cancel Request ({formattedOrderStageStatus(order?.orderStageID.orderStageStatusID.status)}):{' '}
                     <span className="font-semibold text-red-500">
                       {order.orderStageID.orderStageStatusID.orderRequestID.replyStatus.toUpperCase()}
                     </span>

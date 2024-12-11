@@ -5,6 +5,7 @@ import ShipModal from './components/ShipModal';
 import eventEmitter from '../../../../../utils/eventEmitter';
 import { ShipmentProps } from '../../../../../types/shipment.type';
 import { NoteProps } from '../../../../../types/http/order.type';
+import { formattedCurrency } from '../../../../../utils/formattedCurrency';
 
 const ShipmentInfo = ({
   product,
@@ -50,7 +51,7 @@ const ShipmentInfo = ({
                   Change
                 </Button>
                 <Typography.Paragraph className="m-0 text-base">
-                  {new Intl.NumberFormat().format(finalShipment?.total)} VND
+                  {formattedCurrency(finalShipment?.total)}
                 </Typography.Paragraph>
               </Flex>
             </Flex>
@@ -62,7 +63,7 @@ const ShipmentInfo = ({
             Total Price ({product.length} {product.length > 1 ? 'products' : 'product'}):
           </Typography.Paragraph>
           <Typography.Title level={4} className="m-0 font-normal text-blue-600">
-            {new Intl.NumberFormat().format(totalPrice + finalShipment?.total)} VND
+            {formattedCurrency(totalPrice + finalShipment?.total)}
           </Typography.Title>
         </Flex>
       </div>
