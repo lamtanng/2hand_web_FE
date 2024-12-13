@@ -3,35 +3,36 @@ import { handleError } from '../../../utils/handleError';
 import { Link } from 'react-router-dom';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import useAccountListPage from './useAccountListPage';
+import { UserProps } from '../../../types/user.type';
+import { formattedName } from '../../../utils/formatName';
+import dayjs from 'dayjs';
 
 export interface CustomTableColumns {
-  _id: string;
-  firstName: string;
-  email: string;
-  phoneNumber: string;
-  dateOfBirth: Date;
-  createdAt: Date;
-  isActive: boolean;
+  _id: string | undefined;
+  name: string;
+  email: string | undefined;
+  phoneNumber: string | undefined;
+  dateOfBirth: Date | undefined;
+  createdAt: string;
+  isActive: boolean | undefined;
 }
 
 const AccountListPage = () => {
   const { users } = useAccountListPage();
 
-  const { confirm } = Modal;
+  console.log(users)
 
-  const showConfirm = (userID: string) => {
-    confirm({
-      title: 'Do you want to delete this user?',
-      async onOk() {
-        try {
-        } catch (error) {
-          handleError(error);
-        } finally {
-        }
-      },
-      onCancel() {},
-    });
-  };
+  const data: CustomTableColumns[] = users.map((user: UserProps) => {
+    return {
+      _id: user?._id,
+      name: formattedName(user),
+      email: user?.email,
+      phoneNumber: user?.phoneNumber,
+      dateOfBirth: user?.dateOfBirth,
+      createdAt: dayjs(user?.createdAt?.toString()).format('DD/MM/YYYY'),
+      isActive: user.isActive,
+    };
+  });
 
   const columns: TableProps['columns'] = [
     {
@@ -43,8 +44,8 @@ const AccountListPage = () => {
     },
     {
       title: `User's Name`,
-      dataIndex: 'firstName',
-      key: 'firstName',
+      dataIndex: 'name',
+      key: 'name',
       width: '10%',
       responsive: ['xs', 'md'],
     },
@@ -74,7 +75,7 @@ const AccountListPage = () => {
       key: 'createdAt',
       dataIndex: 'createdAt',
       width: '10%',
-      render: (_, record) => <>{record.toDateString()}</>,
+      render: (text) => <>{text}</>,
       responsive: ['xs', 'md'],
     },
     {
@@ -95,15 +96,6 @@ const AccountListPage = () => {
               <EditOutlined />
             </Button>
           </Link>
-          <Button
-            variant="filled"
-            color="danger"
-            onClick={() => {
-              showConfirm(record._id);
-            }}
-          >
-            <DeleteOutlined />
-          </Button>
         </Space>
       ),
       responsive: ['xs', 'md'],
@@ -117,7 +109,7 @@ const AccountListPage = () => {
           Account List
         </Typography.Title>
       </div>
-      <Table dataSource={users} columns={columns} scroll={{ x: 'max-content' }} />
+      <Table dataSource={data} columns={columns} scroll={{ x: 'max-content' }} />
     </div>
   );
 };

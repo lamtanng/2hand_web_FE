@@ -10,6 +10,7 @@ import { authAPIs } from '../../../../../apis/auth.api';
 import { deleteAuth } from '../../../../../redux/slices/login.slice';
 import { handleError } from '../../../../../utils/handleError';
 import { formattedName } from '../../../../../utils/formatName';
+import { authUrls } from '../../../../../constants/urlPaths/authUrls';
 
 const UserInfoGroup = ({ user }: { user: UserProps }) => {
   const { itemAmount, profile } = useUserInfo(user);
@@ -24,7 +25,7 @@ const UserInfoGroup = ({ user }: { user: UserProps }) => {
     try {
       await authAPIs.logout();
       dispatch(deleteAuth());
-      navigate('/');
+      navigate(`/${authUrls.loginUrl}`);
     } catch (error) {
       handleError(error);
     } finally {

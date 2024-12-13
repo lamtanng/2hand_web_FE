@@ -385,10 +385,6 @@
   margin-top: 1.5rem;
 }
 
-#root .-mt-6{
-  margin-top: -1.5rem;
-}
-
 #root .inline{
   display: inline;
 }
@@ -537,6 +533,26 @@
 
 #root .w-full{
   width: 100%;
+}
+
+#root .w-\[\]{
+  width: ;
+}
+
+#root .w-\[33\%\]{
+  width: 33%;
+}
+
+#root .w-\[\[\]\]{
+  width: [];
+}
+
+#root .w-\[\[33\%\]\]{
+  width: [33%];
+}
+
+#root .w-\[30\%\]{
+  width: 30%;
 }
 
 #root .min-w-60{
@@ -1150,8 +1166,25 @@
   background-color: transparent;
 }
 
+#root .hover\:bg-slate-100:hover{
+  --tw-bg-opacity: 1;
+  background-color: rgb(241 245 249 / var(--tw-bg-opacity));
+}
+
 #root .hover\:text-inherit:hover{
   color: inherit;
+}
+
+#root .hover\:shadow-md:hover{
+  --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+#root .hover\:shadow-sm:hover{
+  --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
 @media (min-width: 768px){
@@ -1165,16 +1198,12 @@
     margin-right: 0.75rem;
   }
 
-  #root .md\:mt-20{
-    margin-top: 5rem;
-  }
-
   #root .md\:mt-16{
     margin-top: 4rem;
   }
 
-  #root .md\:mt-1{
-    margin-top: 0.25rem;
+  #root .md\:mt-20{
+    margin-top: 5rem;
   }
 
   #root .md\:inline{

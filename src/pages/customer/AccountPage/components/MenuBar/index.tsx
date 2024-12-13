@@ -20,6 +20,7 @@ import { authAPIs } from '../../../../../apis/auth.api';
 import { useAppDispatch } from '../../../../../redux/hooks';
 import { deleteAuth } from '../../../../../redux/slices/login.slice';
 import { formattedName } from '../../../../../utils/formatName';
+import { authUrls } from '../../../../../constants/urlPaths/authUrls';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -106,7 +107,7 @@ const MenuBar = () => {
         onClick={({ key }) => {
           if (key === 'logout') {
             handleLogOut();
-            navigate('/');
+            navigate(`/${authUrls.loginUrl}`);
           }
         }}
       />
