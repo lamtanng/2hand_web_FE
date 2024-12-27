@@ -61,11 +61,11 @@ const OrderInfo = ({ order }: { order: OrderProps | undefined }) => {
                       )}
                     </Flex>
                   </Flex>
-                  <Flex justify="end">
+                  {/* <Flex justify="end">
                     <Button type="primary" className="h-10 text-base">
                       Response
                     </Button>
-                  </Flex>
+                  </Flex> */}
                 </div>
               )}
             </div>
