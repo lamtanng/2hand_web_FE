@@ -1,4 +1,4 @@
-import { Flex } from 'antd';
+import { Divider, Flex, Image } from 'antd';
 import Search from 'antd/es/input/Search';
 import { Link } from 'react-router-dom';
 import CustomCategoryMenu from '../Menu/CategoryMenu';
@@ -6,6 +6,7 @@ import { useAppSelector } from '../../../redux/hooks';
 import { loginSelector } from '../../../redux/slices/login.slice';
 import UserInfoGroup from './components/UserInfoGroup';
 import ActionGroup from './components/ActionGroup';
+import logo from '../../../assets/logo.webp'
 
 export default function Header() {
   const { user } = useAppSelector(loginSelector);
@@ -18,9 +19,8 @@ export default function Header() {
           <Flex gap={'large'} justify="start" align="center" className="flex xl:flex-grow">
             <Flex gap="large" className="font-sans">
               <Link to="/" className="font-sans">
-                LOGO
+                <Image alt='' src={logo} width={50} preview={false} />
               </Link>
-              <CustomCategoryMenu />
             </Flex>
             <Search
               placeholder="input search text"
@@ -30,6 +30,8 @@ export default function Header() {
           </Flex>
           {displayingGroup}
         </Flex>
+        <Divider className='my-4'/>
+      <CustomCategoryMenu />
       </div>
     </>
   );

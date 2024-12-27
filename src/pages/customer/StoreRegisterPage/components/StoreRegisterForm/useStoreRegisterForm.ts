@@ -40,6 +40,7 @@ const useStoreForm = () => {
   const [isDefault, setDefault] = useState<boolean>(true);
   const [profile, setProfile] = useState<UserProps>();
   const [description, setDescription] = useState<string>('');
+  const [isSubmitting, setSubmitting] = useState<boolean>(false);
 
   const { confirm } = Modal;
 
@@ -47,7 +48,7 @@ const useStoreForm = () => {
     confirm({
       title: 'Please update your information before registing for a store.',
       onOk() {
-        navigate(`/${accountUrls.accountUrl}/${accountUrls.profileUrl}`)
+        navigate(`/${accountUrls.accountUrl}/${accountUrls.profileUrl}`);
       },
       onCancel() {
         navigate('/');
@@ -80,12 +81,13 @@ const useStoreForm = () => {
 
   const handleStoreRegister = async (store: FormStoreProps) => {
     try {
+      setSubmitting(true);
       const data: NewStoreProps = {
-        name: store.name,
-        description: description,
+        name: store.name?.trim(),
+        description: description.trim(),
         address: [
           {
-            address: store.detailAddress,
+            address: store.detailAddress?.trim(),
             ward: selectedWard,
             district: selectedDistrict,
             province: selectedProvince,
@@ -95,12 +97,13 @@ const useStoreForm = () => {
         phoneNumber: store.phoneNumber,
         userID: profile?._id,
       };
-      console.log(data);
       await storeAPIs.addStore(data);
       displaySuccess('Registered successfully.');
       navigate(`/user/${profile?.slug}`);
     } catch (error) {
       handleError(error);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -138,6 +141,7 @@ const useStoreForm = () => {
     isDefault,
     profile,
     handleChooseAddress,
+    isSubmitting
   };
 };
 

@@ -172,6 +172,10 @@
   visibility: hidden;
 }
 
+#root .collapse{
+  visibility: collapse;
+}
+
 #root .fixed{
   position: fixed;
 }
@@ -365,6 +369,10 @@
   margin-top: 3.5rem;
 }
 
+#root .mt-16{
+  margin-top: 4rem;
+}
+
 #root .mt-2{
   margin-top: 0.5rem;
 }
@@ -383,6 +391,18 @@
 
 #root .mt-6{
   margin-top: 1.5rem;
+}
+
+#root .mt-20{
+  margin-top: 5rem;
+}
+
+#root .mt-32{
+  margin-top: 8rem;
+}
+
+#root .mt-24{
+  margin-top: 6rem;
 }
 
 #root .inline{
@@ -526,6 +546,10 @@
   width: 66.666667%;
 }
 
+#root .w-\[30\%\]{
+  width: 30%;
+}
+
 #root .w-fit{
   width: -moz-fit-content;
   width: fit-content;
@@ -533,26 +557,6 @@
 
 #root .w-full{
   width: 100%;
-}
-
-#root .w-\[\]{
-  width: ;
-}
-
-#root .w-\[33\%\]{
-  width: 33%;
-}
-
-#root .w-\[\[\]\]{
-  width: [];
-}
-
-#root .w-\[\[33\%\]\]{
-  width: [33%];
-}
-
-#root .w-\[30\%\]{
-  width: 30%;
 }
 
 #root .min-w-60{
@@ -608,6 +612,10 @@
 
 #root .cursor-pointer{
   cursor: pointer;
+}
+
+#root .scroll-m-0{
+  scroll-margin: 0px;
 }
 
 #root .grid-cols-1{
@@ -1035,6 +1043,11 @@
   line-height: 1.625;
 }
 
+#root .text-black{
+  --tw-text-opacity: 1;
+  color: rgb(0 0 0 / var(--tw-text-opacity));
+}
+
 #root .text-blue-500{
   --tw-text-opacity: 1;
   color: rgb(59 130 246 / var(--tw-text-opacity));
@@ -1162,23 +1175,17 @@
   border-color: rgb(209 213 219 / var(--tw-border-opacity));
 }
 
-#root .hover\:bg-transparent:hover{
-  background-color: transparent;
-}
-
 #root .hover\:bg-slate-100:hover{
   --tw-bg-opacity: 1;
   background-color: rgb(241 245 249 / var(--tw-bg-opacity));
 }
 
-#root .hover\:text-inherit:hover{
-  color: inherit;
+#root .hover\:bg-transparent:hover{
+  background-color: transparent;
 }
 
-#root .hover\:shadow-md:hover{
-  --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+#root .hover\:text-inherit:hover{
+  color: inherit;
 }
 
 #root .hover\:shadow-sm:hover{
@@ -1204,6 +1211,10 @@
 
   #root .md\:mt-20{
     margin-top: 5rem;
+  }
+
+  #root .md\:mt-32{
+    margin-top: 8rem;
   }
 
   #root .md\:inline{

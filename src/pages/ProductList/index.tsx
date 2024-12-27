@@ -33,7 +33,7 @@ const ProductList = () => {
     <>
       <Header />
       <div className="bg-slate-50">
-        <div className="mx-5 mt-10 md:mx-10  md:mt-20 md:py-5 xl:mx-auto xl:w-10/12">
+        <div className="mx-5 mt-10 md:mx-10  md:mt-32 md:py-5 xl:mx-auto xl:w-10/12">
           <CustomBreadcrumb />
           <Flex gap={'large'} className="mt-5">
             <Flex vertical gap={'large'} className="w-1/5">

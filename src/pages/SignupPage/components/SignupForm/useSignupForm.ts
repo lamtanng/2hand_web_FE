@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AxiosError } from 'axios';
-import { parsePhoneNumber } from 'libphonenumber-js';
+import { isValidPhoneNumber, parsePhoneNumber } from 'libphonenumber-js';
 import { useForm } from 'react-hook-form';
 import { SignupRequestProps } from '../../../../types/http/signup.type';
 import { handleError } from '../../../../utils/handleError';
@@ -23,6 +23,9 @@ const useSignupForm = (
 
   const handleSignup = async (account: SignupProps) => {
     try {
+      if (account.phoneNumber) {
+        if (!isValidPhoneNumber(account.phoneNumber, 'VN')) throw new Error('Phone number is invalid.');
+      }
       setSubmitting(true);
       console.log(account);
       const newPhone = account.phoneNumber && parsePhoneNumber(account.phoneNumber, 'VN');

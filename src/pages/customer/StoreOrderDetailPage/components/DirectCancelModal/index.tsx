@@ -15,6 +15,7 @@ const DirectCancelModal = ({
   directCancel: (reason: ReasonProps | undefined) => Promise<void>;
 }) => {
   const [choosenReason, setChoosenReason] = useState<ReasonProps>();
+  const [isDirty, setDirty] = useState<boolean>(true);
 
   const handleClose = () => {
     setIsModalOpen(false);
@@ -22,6 +23,7 @@ const DirectCancelModal = ({
 
   const onChange = (e: RadioChangeEvent) => {
     setChoosenReason(e.target.value);
+    setDirty(false);
   };
 
   const handleOk = () => {
@@ -61,7 +63,7 @@ const DirectCancelModal = ({
             <Button className="px-8 py-5 text-base" onClick={handleClose}>
               Cancel
             </Button>
-            <Button type="primary" className="px-8 py-5 text-base" onClick={handleOk}>
+            <Button type="primary" className="px-8 py-5 text-base" onClick={handleOk} disabled={isDirty}>
               OK
             </Button>
           </Flex>

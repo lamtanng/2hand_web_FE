@@ -43,6 +43,7 @@ const useVerifyForm = ({
       }
       account = { phoneNumber: newPhone, password, otp: sentOTP };
       await authAPIs.verifyOTP(account);
+      displaySuccess('Account created successfully.');
       const user: UserProps = { phoneNumber: newPhone, password };
       const loginRes = await authAPIs.login(user);
       dispatch(storeAuth(loginRes));

@@ -2,7 +2,7 @@ import { Flex, Image, Typography } from 'antd';
 import { Link } from 'react-router-dom';
 import { ReviewButton } from '../../../../../components/elements/Buttons/CustomerOrderButtons';
 import ReviewModal from '../ReviewModal';
-import defaultPic from '../../../../../assets/blob.jpg';
+import defaultPic from '../../../../../assets/blob.webp';
 import { useState } from 'react';
 import { OrderProps } from '../../../../../types/order.type';
 import { OrderDetailProps } from '../../../../../types/orderDetail.type';

@@ -1,5 +1,5 @@
 import { Card, Flex, Image, Typography } from 'antd';
-import defaultImg from '../../../../assets/blob.jpg';
+import defaultImg from '../../../../assets/blob.webp';
 import { Link } from 'react-router-dom';
 import useCategorySlider from './useCategorySlider';
 import { CategoryProps } from '../../../../types/category.type';

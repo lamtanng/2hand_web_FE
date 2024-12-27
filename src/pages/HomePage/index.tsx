@@ -22,7 +22,7 @@ const HomePage = () => {
         {isLoading ? (
           <PageSpin />
         ) : (
-          <Flex vertical className="mt-10 w-full md:mt-16">
+          <Flex vertical className="mt-10 w-full md:mt-32">
             <div className="p-10">
               <CustomCarousel />
             </div>

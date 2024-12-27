@@ -86,8 +86,8 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
   const handleSubmitForm = (product: FormProductProps) => {
     const storeID = store && store._id && store._id
     const newProduct: ProductRequestBodyProps = {
-      name: product.name,
-      description: description,
+      name: product.name?.trim(),
+      description: description.trim(),
       image: base64Images,
       price: product.price,
       quantity: quantity,
@@ -103,16 +103,16 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
         district: {
           DistrictID: selectedDistrict?.DistrictID,
           ProvinceID: selectedDistrict?.ProvinceID,
-          DistrictName: selectedDistrict?.DistrictName
+          DistrictName: selectedDistrict?.DistrictName?.trim()
         },
         province: {
           ProvinceID: selectedProvince?.ProvinceID,
-          ProvinceName: selectedProvince?.ProvinceName
+          ProvinceName: selectedProvince?.ProvinceName?.trim()
         },
         ward: {
           WardCode: selectedWard?.WardCode,
           DistrictID: selectedWard?.DistrictID,
-          WardName: selectedWard?.WardName
+          WardName: selectedWard?.WardName?.trim()
         },
         isDefault: isSelectedDefault,
       },

@@ -22,7 +22,6 @@ const useOrderItem = (order: OrderProps) => {
   const [pickupDates, setPickupDates] = useState<PickupDateProps[]>([]);
   const [isLoading, setLoading] = useState(false);
   const [cancelReasons, setCancelReasons] = useState<ReasonProps[]>([]);
-  const [returnReasons, setReturnReasons] = useState<ReasonProps[]>([]);
 
   const pickingOrder = async () => {
     try {
@@ -85,12 +84,6 @@ const useOrderItem = (order: OrderProps) => {
             item.objectType === ObjectType.Order && item.taskType === TaskType.Cancel && item.role === Role.Seller,
         ),
       );
-      setReturnReasons(
-        res.data.reasons.filter(
-          (item: ReasonProps) =>
-            item.objectType === ObjectType.Order && item.taskType === TaskType.Return && item.role === Role.Seller,
-        ),
-      );
     } catch (error) {
       handleError(error);
     }
@@ -126,7 +119,6 @@ const useOrderItem = (order: OrderProps) => {
     isLoading,
     confirmOrder,
     cancelReasons,
-    returnReasons,
     openCancelModal,
     directCancel,
     isCancelModalOpen,

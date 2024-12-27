@@ -61,7 +61,7 @@ const AddressForm = ({
       <Flex gap={'large'} className="w-full">
         <Form.Item className="w-full">
           <div>
-            <Typography.Paragraph className="m-0 mb-2">Province</Typography.Paragraph>
+            <Typography.Paragraph className="m-0 mb-[10px]">Province <span className='text-red-600'>*</span></Typography.Paragraph>
             <Dropdown overlay={provinceItems(province, onProvinceChange)} trigger={['click']} placement="bottom">
               <Button className="w-full">
                 <Flex justify="space-between" className="w-full">
@@ -76,7 +76,7 @@ const AddressForm = ({
         </Form.Item>
         <Form.Item className="w-full">
           <div>
-            <Typography.Paragraph className="m-0 mb-2">District</Typography.Paragraph>
+            <Typography.Paragraph className="m-0 mb-[10px]">District <span className='text-red-600'>*</span></Typography.Paragraph>
             <Dropdown overlay={districtItems(district, onDistrictChange)} trigger={['click']}>
               <Button className="w-full">
                 <Flex justify="space-between" className="w-full">
@@ -91,7 +91,7 @@ const AddressForm = ({
         </Form.Item>
         <Form.Item className="w-full">
           <div>
-            <Typography.Paragraph className="m-0 mb-2">Ward</Typography.Paragraph>
+            <Typography.Paragraph className="m-0 mb-[10px]">Ward <span className='text-red-600'>*</span></Typography.Paragraph>
             <Dropdown overlay={wardItems(ward, onWardChange)} trigger={['click']}>
               <Button className="w-full">
                 <Flex justify="space-between" className="w-full">

@@ -1,5 +1,5 @@
 import { Flex, Image, Typography } from 'antd';
-import emptyOrder from '../../../../../../assets/emptyOrder.png'
+import emptyOrder from '../../../../../../assets/emptyOrder.webp'
 
 const EmptyOrder = () => {
   return (

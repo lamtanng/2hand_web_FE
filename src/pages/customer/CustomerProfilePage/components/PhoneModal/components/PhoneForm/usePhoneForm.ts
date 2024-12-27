@@ -2,7 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormPhoneNumberProps, phoneNumberSchema } from '../../PhoneModal.constants';
-import parsePhoneNumber from 'libphonenumber-js';
+import parsePhoneNumber, { isValidPhoneNumber } from 'libphonenumber-js';
 import { userAPIs } from '../../../../../../../apis/user.api';
 import { handleError } from '../../../../../../../utils/handleError';
 import { PhoneOTPRequest } from '../../../../../../../types/http/phone.type';
@@ -25,6 +25,9 @@ const usePhoneForm = (
 
   const handleAddPhone = async (phoneNumber: FormPhoneNumberProps) => {
     try {
+      if (phoneNumber.phoneNumber) {
+        if (!isValidPhoneNumber(phoneNumber.phoneNumber, 'VN')) throw new Error('Phone number is invalid.');
+      }
       const phone = phoneNumber.phoneNumber && parsePhoneNumber(phoneNumber.phoneNumber, 'VN');
       let data: PhoneOTPRequest | undefined;
       setSubmitting(true);

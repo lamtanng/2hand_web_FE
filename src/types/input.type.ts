@@ -8,6 +8,7 @@ export interface CustomFormItemProps extends FormItemProps {
   type?: string;
   isRequired?: boolean;
   isDisabled?: boolean;
+  maxLength?: number | undefined;
 }
 
 export interface CustomOTPProps extends OTPProps {
@@ -23,5 +24,5 @@ export interface CustomDatePickerProps extends DatePickerProps {
 export interface CustomRadioProps extends RadioGroupProps {
   name: string;
   label: string;
-  items: { value: string; name: string; }[],
+  items: { value: string; name: string }[];
 }

@@ -1,7 +1,7 @@
 import { Button, Flex, Image, Typography } from 'antd';
 import { Link } from 'react-router-dom';
 import { guestUrls } from '../../../../../constants/urlPaths/guestUrls';
-import emptyCart from '../../../../../assets/emptyCart.png'
+import emptyCart from '../../../../../assets/emptyCart.webp'
 
 const EmptyCart = () => {
   return (

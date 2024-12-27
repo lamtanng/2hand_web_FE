@@ -11,6 +11,7 @@ import CancelRequestModal from './components/CancelRequestModal';
 import { ReplyStatus } from '../../../types/enum/replyStatus.enum';
 import CancelRequest from './components/CancelRequest';
 import { OrderStageTrackingProps } from '../../../types/orderTracking.type';
+import PageSpin from '../../../components/elements/Spin/PageSpin';
 
 const CustomerOrderDetail = () => {
   const {
@@ -24,6 +25,7 @@ const CustomerOrderDetail = () => {
     setDescription,
     cancelOrder,
     stages,
+    isLoading,
   } = useCustomerOrderDetailPage();
   const navigate = useNavigate();
 
@@ -74,39 +76,47 @@ const CustomerOrderDetail = () => {
 
   return (
     <div id="container">
-      <div id="brief" className="px-12 py-5">
-        <Flex align="center" justify="space-between">
-          <Button
-            variant="text"
-            color="default"
-            className="p-0 hover:bg-transparent"
-            onClick={() => {
-              navigate(-1);
-            }}
-          >
-            <LeftOutlined /> Back
-          </Button>
-          <Flex gap={'middle'}>
-            <Typography.Paragraph className="m-0 text-base">Order ID: {order?._id}</Typography.Paragraph>
-            <Divider type="vertical" className="m-0" />
-            <Typography.Paragraph className="m-0 text-base text-blue-500">
-              {order?.orderStageID?.name}
-            </Typography.Paragraph>
-          </Flex>
-        </Flex>
-      </div>
-      {/* <Divider className="m-0" />
+      {isLoading ? (
+        <PageSpin />
+      ) : (
+        <>
+          <div id="brief" className="px-12 py-5">
+            <Flex align="center" justify="space-between">
+              <Button
+                variant="text"
+                color="default"
+                className="p-0 hover:bg-transparent"
+                onClick={() => {
+                  navigate(-1);
+                }}
+              >
+                <LeftOutlined /> Back
+              </Button>
+              <Flex gap={'middle'}>
+                <Typography.Paragraph className="m-0 text-base">Order ID: {order?._id}</Typography.Paragraph>
+                <Divider type="vertical" className="m-0" />
+                <Typography.Paragraph className="m-0 text-base text-blue-500">
+                  {order?.orderStageID?.name}
+                </Typography.Paragraph>
+              </Flex>
+            </Flex>
+          </div>
+          {/* <Divider className="m-0" />
       <TrackingOrder stages={stages} /> */}
-      <Divider className="m-0" />
-      {actionGroup}
-      <Divider className="m-0" />
-      <OrderInfo order={order} />
-      {/* {order?.orderStageID.orderStageStatusID.orderRequestID?.replyStatus === ReplyStatus.Pending && (
+          <Divider className="m-0" />
+          {actionGroup}
+          <Divider className="m-0" />
+          <OrderInfo order={order} />
+          {/* {order?.orderStageID.orderStageStatusID.orderRequestID?.replyStatus === ReplyStatus.Pending && (
         <CancelRequest order={order} />
       )} */}
-      {order?.orderStageID.name !== (OrderStage.Delivered && OrderStage.Delivering) &&
-        stages.find((item: OrderStageTrackingProps) => item.orderStageStatus.length > 1) && <CancelRequest stages={stages} />}
-      {actionModal}
+          {order?.orderStageID.name !== (OrderStage.Delivered && OrderStage.Delivering) &&
+            stages.find((item: OrderStageTrackingProps) => item.orderStageStatus.length > 1) && (
+              <CancelRequest stages={stages} />
+            )}
+          {actionModal}
+        </>
+      )}
     </div>
   );
 };

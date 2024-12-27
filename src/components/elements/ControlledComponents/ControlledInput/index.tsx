@@ -9,6 +9,7 @@ export default function CustomFormItem({
   label = '',
   isRequired = false,
   isDisabled = false,
+  maxLength = undefined
 }: CustomFormItemProps) {
   const { control } = useFormContext();
   const InputComponent = type === 'password' ? Input.Password : Input;
@@ -32,6 +33,7 @@ export default function CustomFormItem({
             className="inputs h-10 w-full text-base"
             disabled={isDisabled}
             placeholder={hint}
+            maxLength={maxLength}
             {...field}
           />
         </Form.Item>

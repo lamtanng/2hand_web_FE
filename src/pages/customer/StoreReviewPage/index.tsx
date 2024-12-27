@@ -1,7 +1,7 @@
 import { UserOutlined } from '@ant-design/icons';
 import { Divider, Flex, Typography, Image, Button, Avatar, Rate, TabsProps, Tabs } from 'antd';
 import { Link } from 'react-router-dom';
-import defaultPic from '../../../assets/blob.jpg';
+import defaultPic from '../../../assets/blob.webp';
 
 const onChange = (key: string) => {
   console.log(key);

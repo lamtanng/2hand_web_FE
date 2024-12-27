@@ -18,6 +18,8 @@ const CancelRequestModal = ({
   setDescription: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const [choosenReason, setChoosenReason] = useState<ReasonProps>();
+  const [isDirty, setDirty] = useState<boolean>(true);
+  const [isEditable, setEditable] = useState<boolean>(false);
 
   const handleClose = () => {
     setIsModalOpen(false);
@@ -35,6 +37,7 @@ const CancelRequestModal = ({
 
   const handleMenuClick: MenuProps['onClick'] = (e) => {
     setChoosenReason(JSON.parse(e.key));
+    setEditable(true)
   };
 
   const menuProps = {
@@ -61,6 +64,8 @@ const CancelRequestModal = ({
         <Typography.Paragraph className="m-0">Why do you want to cancel this order?</Typography.Paragraph>
         <Divider />
         <div className="max-h-[calc(70vh-120px)] overflow-y-auto px-6">
+          <Flex vertical>
+          <Typography.Paragraph className="m-0 mb-[10px]">Cancel Reason <span className='text-red-600'>*</span>: </Typography.Paragraph>
           <Dropdown menu={menuProps} trigger={['click']} className="mb-6">
             <Button className="h-10 w-full">
               <Flex justify="space-between" className="w-full">
@@ -71,14 +76,16 @@ const CancelRequestModal = ({
               </Flex>
             </Button>
           </Dropdown>
+          </Flex>
           <Flex vertical gap={'small'} className="mb-6">
-            <Typography.Paragraph className="m-0">Description: </Typography.Paragraph>
+            <Typography.Paragraph className="m-0">Description <span className='text-red-600'>*</span>: </Typography.Paragraph>
             <TextArea
               showCount
               maxLength={500}
               autoSize={{ minRows: 3 }}
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={(e) => {setDescription(e.target.value); setDirty(false)}}
               className="mb-6"
+              disabled={!isEditable}
             />
           </Flex>
           <Divider />
@@ -86,7 +93,7 @@ const CancelRequestModal = ({
             <Button className="px-8 py-5 text-base" onClick={handleClose}>
               Cancel
             </Button>
-            <Button type="primary" className="px-8 py-5 text-base" onClick={handleOk}>
+            <Button type="primary" className="px-8 py-5 text-base" onClick={handleOk} disabled={isDirty}>
               OK
             </Button>
           </Flex>

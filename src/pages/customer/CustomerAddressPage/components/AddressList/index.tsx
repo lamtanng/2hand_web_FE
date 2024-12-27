@@ -2,7 +2,7 @@ import { AddressProps } from '../../../../../types/address.type';
 import { UserProps } from '../../../../../types/user.type';
 import AddressItem from '../AddressItem';
 import { Divider, Flex, Image, Typography } from 'antd';
-import emptyAddress from '../../../../../assets/emptyAddress.png';
+import emptyAddress from '../../../../../assets/emptyAddress.webp';
 
 const AddressList = ({ profile }: { profile: UserProps | undefined }) => (
   <div id="address-list" className="mb-6">

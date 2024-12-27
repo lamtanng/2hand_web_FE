@@ -238,7 +238,7 @@ const useCheckoutPage = (checkoutItems: CartProps[], total: number) => {
         orders: checkoutItems.map((item: CartProps) => {
           const orderNote =
             note.length !== 0 && note?.find((note: NoteProps) => note.store._id === item.store._id)?.note
-              ? note.find((note: NoteProps) => note.store._id === item.store._id)?.note
+              ? note.find((note: NoteProps) => note.store._id === item.store._id)?.note.trim()
               : '';
           return {
             storeID: item.store._id,

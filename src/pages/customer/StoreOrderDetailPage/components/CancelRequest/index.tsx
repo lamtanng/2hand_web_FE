@@ -26,8 +26,6 @@ const CancelRequest = ({
     processRequest();
   };
 
-  console.log(rejectReasons)
-
   const cancelRequests =
     stages
       .find((item: OrderStageTrackingProps) => item?.orderStageStatus?.length > 1)
@@ -142,7 +140,7 @@ const CancelRequest = ({
                   </Flex>
                   {selectedDecision === ReplyStatus.Rejected && (
                     <Flex gap={'small'} className="mb-6" align="center">
-                      <Typography.Paragraph className="m-0 w-1/6">Reject reason: </Typography.Paragraph>
+                      <Typography.Paragraph className="m-0 w-1/6">Reject reason <span className='text-red-600'>*</span>: </Typography.Paragraph>
                       <Dropdown menu={menuProps} trigger={['click']} className="mb-6">
                         <Button className="h-10 w-full">
                           <Flex justify="space-between" className="w-full">
@@ -156,7 +154,7 @@ const CancelRequest = ({
                     </Flex>
                   )}
 
-                  <CancelingActions handleSend={handleSend} />
+                  <CancelingActions handleSend={handleSend} isDirty={!replyMessage} />
                 </div>
               )}
           </>

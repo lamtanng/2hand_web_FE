@@ -34,7 +34,7 @@ const VerifyOTPForm = ({
     setCounting(true);
   };
 
-  const { handleSubmit, method, handleVerify, reset, handleResend } = useVerifyForm({
+  const { handleSubmit, method, handleVerify, handleResend } = useVerifyForm({
     account,
     handleResendClick,
     setSubmitting,
@@ -51,7 +51,6 @@ const VerifyOTPForm = ({
         type="text"
         className="p-0 hover:bg-transparent"
         onClick={() => {
-          reset();
           handleBackOnClick();
           setDisable(true);
           setHidden(false);

@@ -1,6 +1,6 @@
 import { FormProvider } from 'react-hook-form';
 import useProfileForm from './useProfileForm';
-import { Button, DatePicker, Flex, Form } from 'antd';
+import { Button, DatePicker, Flex, Form, Typography } from 'antd';
 import dayjs from 'dayjs';
 import { UserProps } from '../../../../../types/user.type';
 import CustomFormItem from '../../../../../components/elements/ControlledComponents/ControlledInput';
@@ -17,7 +17,11 @@ const ProfileForm = ({
   imgUrl: string | undefined;
   setImgUrl: React.Dispatch<React.SetStateAction<string | undefined>>;
 }) => {
-  const { handleSubmit, method, handleUpdateUser, onDateChange, dob, isSubmitting } = useProfileForm(profile, imgUrl, setImgUrl);
+  const { handleSubmit, method, handleUpdateUser, onDateChange, dob, isSubmitting } = useProfileForm(
+    profile,
+    imgUrl,
+    setImgUrl,
+  );
 
   return (
     <FormProvider {...method}>
@@ -44,12 +48,10 @@ const ProfileForm = ({
           </Button>
         </Flex>
         <Form.Item>
-          <DatePicker
-            defaultValue={dayjs(dob)}
-            className="h-10 w-full text-base"
-            allowClear={false}
-            onChange={onDateChange}
-          />
+          <Typography.Paragraph className="m-0 mb-[10px]">
+            Date of birth <span className="text-red-600">*</span>
+          </Typography.Paragraph>
+          <DatePicker value={dayjs(dob)} className="h-10 w-full text-base" allowClear={false} onChange={onDateChange} />
         </Form.Item>
         <Form.Item>
           <SubmitButton isSubmitting={isSubmitting} />

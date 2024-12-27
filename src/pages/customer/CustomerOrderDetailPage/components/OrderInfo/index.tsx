@@ -1,6 +1,6 @@
 import { MessageOutlined, ShopOutlined } from '@ant-design/icons';
-import { Button, Divider, Flex, Typography, Image } from 'antd';
-import defaultPic from '../../../../../assets/blob.jpg';
+import { Button, Divider, Flex, Typography, Image, Rate } from 'antd';
+import defaultPic from '../../../../../assets/blob.webp';
 import { OrderDetailProps } from '../../../../../types/orderDetail.type';
 import { OrderProps } from '../../../../../types/order.type';
 import { ReviewButton } from '../../../../../components/elements/Buttons/CustomerOrderButtons';
@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { OrderStage } from '../../../../../types/enum/orderStage.enum';
 import { Link } from 'react-router-dom';
 import { formattedCurrency } from '../../../../../utils/formattedCurrency';
+import dayjs from 'dayjs';
 
 const OrderInfo = ({ order }: { order: OrderProps | undefined }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -44,9 +45,9 @@ const OrderInfo = ({ order }: { order: OrderProps | undefined }) => {
                 <Flex gap={'middle'}>
                   <Image width={75} preview={false} alt="" src={item.productID.image[0]} fallback={defaultPic} />
                   <div>
-                    <Typography.Title level={5} className="m-0">
+                    <Link to={`/${item.productID.slug}`} className="m-0 font-sans text-black">
                       {item.productID.name}
-                    </Typography.Title>
+                    </Link>
                     <Typography.Paragraph className="text-xs">{item.productID.quality}</Typography.Paragraph>
                   </div>
                 </Flex>
@@ -55,6 +56,35 @@ const OrderInfo = ({ order }: { order: OrderProps | undefined }) => {
                 )}
                 <ReviewModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} product={item} order={order} />
               </Flex>
+              {item.reviewID && (
+                <div id="review">
+                  <Divider variant='dashed'/>
+                  <Flex gap={'large'}>
+                    <Flex gap={'middle'} vertical className="w-full">
+                      <Flex gap={'small'} vertical>
+                        <Rate allowHalf defaultValue={item.reviewID.rate} disabled />
+                        <Typography.Paragraph className="m-0 text-gray-500">
+                          Review date: {dayjs(item?.reviewID.createdAt?.toString()).format('DD/MM/YYYY')}
+                        </Typography.Paragraph>
+                      </Flex>
+                      <Typography.Paragraph className="m-0 text-base">{item.reviewID.content}</Typography.Paragraph>
+                      {item.reviewID.image.map((src: string) => (
+                        <Image alt="" src={src} fallback={defaultPic} width={'10%'} />
+                      ))}
+                      {item.reviewID.replyMessage && (
+                        <Flex className="rounded-md bg-blue-50 p-6" vertical gap={'small'}>
+                          <Typography.Paragraph className="m-0 text-base font-semibold">
+                            Response from seller:
+                          </Typography.Paragraph>
+                          <Typography.Paragraph className="m-0 text-base">
+                            {item.reviewID.replyMessage}
+                          </Typography.Paragraph>
+                        </Flex>
+                      )}
+                    </Flex>
+                  </Flex>
+                </div>
+              )}
             </div>
           ))}
         </div>

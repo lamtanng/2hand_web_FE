@@ -1,7 +1,7 @@
 import { Button, Divider, Flex, Image, Rate, Typography } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import ImageUploader from '../ProductForm/components/ImageUploader';
-import defaultPic from '../../../../assets/blob.jpg';
+import defaultPic from '../../../../assets/blob.webp';
 import { OrderDetailProps } from '../../../../types/orderDetail.type';
 import useReviewForm from './useReviewForm';
 import { useAppSelector } from '../../../../redux/hooks';
@@ -13,12 +13,17 @@ const ReviewForm = ({
   product,
   setIsModalOpen,
 }: {
-  order?: OrderProps
+  order?: OrderProps;
   product: OrderDetailProps;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const { user } = useAppSelector(loginSelector);
-  const { base64Images, setBase64Images, addNewReview, setContent, setRate } = useReviewForm(user, product, order);
+  const { base64Images, setBase64Images, addNewReview, setContent, setRate, isDirty, setDirty } = useReviewForm(
+    user,
+    product,
+    setIsModalOpen,
+    order,
+  );
 
   const handleClose = () => {
     setIsModalOpen(false);
@@ -26,7 +31,6 @@ const ReviewForm = ({
 
   const handleOk = () => {
     addNewReview();
-    setIsModalOpen(false);
   };
 
   return (
@@ -36,8 +40,10 @@ const ReviewForm = ({
         <Typography.Paragraph className="m-0">{product?.productID?.name}</Typography.Paragraph>
       </Flex>
       <Flex gap={'middle'} className="mb-6">
-        <Typography.Paragraph className="m-0">Product quality:</Typography.Paragraph>
-        <Rate onChange={(e) => setRate(e)} />
+        <Typography.Paragraph className="m-0">
+          Product quality <span className="text-red-600">*</span>:{' '}
+        </Typography.Paragraph>
+        <Rate onChange={(e) => {setRate(e); setDirty(false)}} />
       </Flex>
       <Flex vertical gap={'small'} className="mb-6">
         <Typography.Paragraph className="m-0">Content: </Typography.Paragraph>
@@ -52,7 +58,7 @@ const ReviewForm = ({
         <Button className="px-8 py-5 text-base" onClick={handleClose}>
           Cancel
         </Button>
-        <Button type="primary" className="px-8 py-5 text-base" onClick={handleOk}>
+        <Button type="primary" className="px-8 py-5 text-base" onClick={handleOk} disabled={isDirty}>
           OK
         </Button>
       </Flex>

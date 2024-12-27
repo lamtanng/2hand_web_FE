@@ -1,5 +1,5 @@
 import { TableProps, Typography, Image, Space, Button, Table, Modal } from 'antd';
-import defaultPic from '../../../assets/blob.jpg';
+import defaultPic from '../../../assets/blob.webp';
 import { Link } from 'react-router-dom';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { handleError } from '../../../utils/handleError';

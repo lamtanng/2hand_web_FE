@@ -17,7 +17,7 @@ const useProfileForm = (
   setImgUrl: React.Dispatch<React.SetStateAction<string | undefined>>,
 ) => {
   const { user } = useAppSelector(loginSelector);
-  const [dob, setDob] = useState<Date | undefined>();
+  const [dob, setDob] = useState<Date | undefined>(new Date());
   const [isSubmitting, setSubmitting] = useState<boolean>(false);
   const method = useForm<ProfileProps>({
     resolver: yupResolver(profileSchema),
@@ -38,8 +38,8 @@ const useProfileForm = (
       setSubmitting(true);
       const data: UserProps = {
         _id: user._id,
-        firstName: account.firstName,
-        lastName: account.lastName,
+        firstName: account.firstName?.trim(),
+        lastName: account.lastName?.trim(),
         dateOfBirth: dob,
         avatar: imgUrl,
       };

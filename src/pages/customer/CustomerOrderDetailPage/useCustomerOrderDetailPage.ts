@@ -24,6 +24,7 @@ const useCustomerOrderDetailPage = () => {
   const [cancelReasons, setCancelReasons] = useState<ReasonProps[]>([]);
   const [description, setDescription] = useState<string>('');
   const [stages, setStages] = useState<OrderStageTrackingProps[]>([]);
+  const [isLoading, setLoading] = useState<boolean>(false);
 
   const { confirm } = Modal;
 
@@ -37,22 +38,24 @@ const useCustomerOrderDetailPage = () => {
   };
 
   const getSingleOrder = async (orderID: string | undefined) => {
-    try {
-      const res = await orderAPIs.getOrderByID(orderID);
-      setOrder(res.data);
-    } catch (error) {
-      handleError;
-    } finally {
-    }
+    const res = await orderAPIs.getOrderByID(orderID);
+    setOrder(res.data);
   };
 
   const trackingSingleOrder = async (orderID: string | undefined) => {
+    const res = await orderAPIs.trackingOrder(orderID);
+    setStages(res.data);
+  };
+
+  const fetchData = (orderID: string | undefined) => {
     try {
-      const res = await orderAPIs.trackingOrder(orderID);
-      setStages(res.data);
+      setLoading(true);
+      getSingleOrder(orderID);
+      trackingSingleOrder(orderID);
     } catch (error) {
       handleError(error);
     } finally {
+      setLoading(false);
     }
   };
 
@@ -62,7 +65,7 @@ const useCustomerOrderDetailPage = () => {
       setCancelReasons(
         res.data.reasons.filter(
           (item: ReasonProps) =>
-            item.objectType === ObjectType.Order && item.taskType === TaskType.Cancel && item.role === Role.Seller,
+            item.objectType === ObjectType.Order && item.taskType === TaskType.Cancel && item.role === Role.Customer,
         ),
       );
     } catch (error) {
@@ -129,17 +132,14 @@ const useCustomerOrderDetailPage = () => {
   };
 
   useEffect(() => {
-    getSingleOrder(params?.id);
-    trackingSingleOrder(params?.id);
+    fetchData(params?.id);
 
     const orderStageChangeListener = eventEmitter.addListener('customerOrderDetailStageChanged', (orderID: string) => {
-      getSingleOrder(orderID);
-      trackingSingleOrder(params?.id);
+      fetchData(orderID);
     });
 
     const addReviewListener = eventEmitter.addListener('addReview', (orderID: string) => {
-      getSingleOrder(orderID);
-      trackingSingleOrder(orderID);
+      fetchData(orderID);
     });
 
     return () => {
@@ -159,6 +159,7 @@ const useCustomerOrderDetailPage = () => {
     setDescription,
     cancelOrder,
     stages,
+    isLoading
   };
 };
 export default useCustomerOrderDetailPage;

@@ -1,5 +1,5 @@
 import { ShoppingCartOutlined, UserOutlined } from '@ant-design/icons';
-import { Avatar, Button, Divider, Dropdown, Flex, MenuProps } from 'antd';
+import { Avatar, Button, Divider, Dropdown, Flex, MenuProps, Typography } from 'antd';
 import { UserProps } from '../../../../../types/user.type';
 import useUserInfo from './useUserInfo';
 import { Link, useNavigate } from 'react-router-dom';
@@ -39,7 +39,7 @@ const UserInfoGroup = ({ user }: { user: UserProps }) => {
     },
     {
       key: '2',
-      label: <Link to={`/${accountUrls.accountUrl}/${accountUrls.puchasesUrl}`}>My Orders</Link>,
+      label: <Link to={`/${accountUrls.accountUrl}/${accountUrls.puchasesUrl}`}>My Purchases</Link>,
     },
     {
       key: '3',
@@ -48,9 +48,9 @@ const UserInfoGroup = ({ user }: { user: UserProps }) => {
     {
       key: '4',
       label: (
-        <Button type='link' variant='link' color='default' className="m-0 p-0" onClick={handleLogOut}>
+        <Typography.Paragraph className='m-0 p-0' onClick={handleLogOut}>
           Logout
-        </Button>
+        </Typography.Paragraph>
       ),
     },
   ];

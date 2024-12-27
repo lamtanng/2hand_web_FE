@@ -1,6 +1,6 @@
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Divider, Flex, TableProps, Typography, Image, Space, Table } from 'antd';
-import defaultPic from '../../../assets/blob.jpg';
+import defaultPic from '../../../assets/blob.webp';
 import useStoreProducts from './useStoreProducts';
 import { Link } from 'react-router-dom';
 import useAccountPage from '../AccountPage/useAccountPage';
@@ -17,8 +17,6 @@ export interface CustomTableColumns {
 const StoreProducts = () => {
   const { profile } = useAccountPage();
   const { product, showConfirm, isLoading } = useStoreProducts(profile);
-  console.log(profile);
-  console.log(product);
   const columns: TableProps['columns'] = [
     {
       title: 'Product Picture',
@@ -91,9 +89,11 @@ const StoreProducts = () => {
       <div id="title">
         <Flex justify="space-between" align="baseline">
           <Typography.Title level={3}>All Products</Typography.Title>
+          <Link to={`/product/upload`}>
           <Button type="primary" className="h-10 text-base">
             <PlusOutlined /> Add new product
           </Button>
+          </Link>
         </Flex>
       </div>
       <Divider />
