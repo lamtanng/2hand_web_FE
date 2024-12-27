@@ -46,6 +46,7 @@ const CustomCategoryMenu = () => {
           <MenuOutlined />
         </Space>
       </Dropdown>
+      <Link to={`/${guestUrls.productListUrl}`} className='font-sans text-black flex-shrink-0'>All</Link>
         {topLevel.map((category: CategoryProps) => (
           <Link to={`/${guestUrls.productListUrl}`} className='font-sans text-black flex-shrink-0'>{category.name}</Link>
         ))}

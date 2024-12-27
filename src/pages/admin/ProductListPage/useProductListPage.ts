@@ -26,7 +26,7 @@ const useProductListPage = () => {
   };
 
   useEffect(() => {
-    getAllProducts(1, 10);
+    getAllProducts(1, 100);
   }, []);
 
   return {
