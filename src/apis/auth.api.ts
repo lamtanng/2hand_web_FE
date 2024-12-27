@@ -35,8 +35,8 @@ function verifyOTP(data: VerifyRequestProps){
   return axiosClient.post(verifypUrl, data);
 }
 
-function resendOTP(data: ResendOTPRequestProps){
+function sendOTP(data: ResendOTPRequestProps){
   return axiosClient.post(sendOTPUrl, data);
 }
 
-export const authAPIs = { login, logout, refreshToken, signup, verifyOTP, resendOTP };
+export const authAPIs = { login, logout, refreshToken, signup, verifyOTP, sendOTP };

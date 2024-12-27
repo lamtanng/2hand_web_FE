@@ -5,5 +5,5 @@ export interface FormAddressProps {
 }
 
 export const addressSchema: yup.ObjectSchema<FormAddressProps> = yup.object({
-  detailAddress: yup.string().required(),
+  detailAddress: yup.string().required("Detail address is required."),
 });

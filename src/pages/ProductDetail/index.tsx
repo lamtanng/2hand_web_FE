@@ -1,5 +1,5 @@
 import { Typography } from 'antd';
-import CustomBreadcrumb from '../../components/elements/Breadcrumb';
+// import CustomBreadcrumb from '../../components/elements/Breadcrumb';
 import Footer from '../../components/elements/Footer';
 import Header from '../../components/elements/Header';
 import ProductSlider from '../../components/elements/Slider/ProductSlider';
@@ -24,7 +24,7 @@ const ProductDetail = () => {
       ) : (
         <div className="-m-6 min-h-screen bg-slate-50 px-5">
           <div className="mx-5 mb-10 md:mx-10 md:mt-32 md:py-10 md:pb-20 xl:mx-auto xl:w-10/12">
-            <CustomBreadcrumb />
+            {/* <CustomBreadcrumb /> */}
             <ProductInfo
               handleAddToCart={handleAddToCart}
               handleBuyNow={handleBuyNow}

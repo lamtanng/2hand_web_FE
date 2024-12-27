@@ -4,7 +4,6 @@ import LoginForm from './components/LoginForm';
 function Login() {
   return (
     <>
-      {/* <Header /> */}
       <div className="flex h-screen w-full">
         <div className="flex w-full items-center justify-center lg:w-10/12">
           <LoginForm />

@@ -1,8 +1,8 @@
-import { TableProps, Typography, Image, Space, Button, Table, Modal } from 'antd';
+import { TableProps, Typography, Image, Space, Button, Table } from 'antd';
 import defaultPic from '../../../assets/blob.webp';
 import { Link } from 'react-router-dom';
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { handleError } from '../../../utils/handleError';
+import { EditOutlined } from '@ant-design/icons';
+// import { handleError } from '../../../utils/handleError';
 import useProductListPage from './useProductListPage';
 import { formattedCurrency } from '../../../utils/formattedCurrency';
 
@@ -17,21 +17,21 @@ export interface CustomTableColumns {
 const ProductListPage = () => {
   const { products } = useProductListPage();
 
-  const { confirm } = Modal;
+  // const { confirm } = Modal;
 
-  const showConfirm = (productID: string) => {
-    confirm({
-      title: 'Do you want to delete this product?',
-      async onOk() {
-        try {
-        } catch (error) {
-          handleError(error);
-        } finally {
-        }
-      },
-      onCancel() {},
-    });
-  };
+  // const showConfirm = (productID: string) => {
+  //   confirm({
+  //     title: 'Do you want to delete this product?',
+  //     async onOk() {
+  //       try {
+  //       } catch (error) {
+  //         handleError(error);
+  //       } finally {
+  //       }
+  //     },
+  //     onCancel() {},
+  //   });
+  // };
 
   const columns: TableProps['columns'] = [
     {
@@ -86,7 +86,7 @@ const ProductListPage = () => {
               <EditOutlined />
             </Button>
           </Link>
-          <Button
+          {/* <Button
             variant="filled"
             color="danger"
             onClick={() => {
@@ -94,7 +94,7 @@ const ProductListPage = () => {
             }}
           >
             <DeleteOutlined />
-          </Button>
+          </Button> */}
         </Space>
       ),
       responsive: ['xs', 'md'],

@@ -39,10 +39,15 @@ const CustomCategoryMenu = () => {
   };
 
   return (
-    <div className="mx-auto w-10/12 overflow-hidden ">
-      <Flex gap={"middle"}>
+    <div className="mx-auto w-10/12">
+      <Flex justify='space-between'>
+      <Dropdown menu={menuProps}>
+        <Space>
+          <MenuOutlined />
+        </Space>
+      </Dropdown>
         {topLevel.map((category: CategoryProps) => (
-          <Link to={`/${guestUrls.productListUrl}`} className='font-sans text-sm'>{category.name}</Link>
+          <Link to={`/${guestUrls.productListUrl}`} className='font-sans text-black flex-shrink-0'>{category.name}</Link>
         ))}
       </Flex>
     </div>

@@ -82,7 +82,7 @@ const ProductInfo = ({
                   }}
                   disabled={product && product.quantity <= 0}
                 />
-                <Typography.Paragraph className="m-0 ml-6 text-blue-600">
+                <Typography.Paragraph className="m-0 ml-6 text-blue-600 font-semibold">
                   {product?.quantity} in stock
                 </Typography.Paragraph>
               </Flex>

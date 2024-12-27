@@ -38,8 +38,8 @@ const CheckoutPage = () => {
   return (
     <>
       <Header />
-      <div className="-m-5 min-h-screen bg-slate-50 px-5">
-        <div className="mx-5 mb-10 md:mx-10 md:mt-20 md:py-10 md:pb-20 xl:mx-auto xl:w-10/12">
+      <div className="min-h-screen bg-slate-50 px-5">
+        <div className="mx-5 mb-10 md:mx-10 md:mt-32 md:py-10 md:pb-20 xl:mx-auto xl:w-10/12">
           <ReceiverAddress profile={profile} value={value} setValue={setValue} />
           <div id="head" className="mb-6 rounded-md bg-white p-8 shadow-sm">
             <Flex>

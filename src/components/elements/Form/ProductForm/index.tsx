@@ -65,7 +65,7 @@ const ProductForm = ({
         </Typography.Title>
         <CustomFormItem name="name" hint="Name" label="Product Name" isRequired={true} />
         <Flex gap={'large'} className="w-full">
-          <Form.Item className="w-full">
+          <Form.Item className="w-full" rules={[{ required: true, message: 'Please input!' }]}>
             <Typography.Paragraph className="m-0 mt-0.5 pb-2">
               Category <span className="text-red-600">*</span>
             </Typography.Paragraph>
@@ -75,7 +75,7 @@ const ProductForm = ({
               setSelectedCategory={setSelectedCategory}
             />
           </Form.Item>
-          <Form.Item className="m-0 w-full">
+          <Form.Item className="m-0 w-full" rules={[{ required: true, message: 'Please input!' }]}>
             <Typography.Paragraph className="m-0 mt-0.5 pb-2">
               Quantity <span className="text-red-600">*</span>
             </Typography.Paragraph>
@@ -104,7 +104,7 @@ const ProductForm = ({
             </Checkbox>
           </Flex>
         </Flex>
-        <Form.Item>
+        <Form.Item rules={[{ required: true, message: 'Please input.' }]}>
           <Typography.Paragraph className="m-0 mb-2">
             Descripition <span className="text-red-600">*</span>
           </Typography.Paragraph>
