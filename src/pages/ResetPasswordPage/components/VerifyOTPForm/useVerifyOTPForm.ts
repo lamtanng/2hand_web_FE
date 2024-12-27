@@ -3,13 +3,12 @@ import { AxiosError } from 'axios';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { handleError } from '../../../../utils/handleError';
-import { UserProps } from '../../../../types/user.type';
 import { useVerifyFormProps, VerifyProps, verifySchema } from './VerifyOTP.constant';
-import { useAppDispatch } from '../../../../redux/hooks';
 import { authAPIs } from '../../../../apis/auth.api';
-import { storeAuth } from '../../../../redux/slices/login.slice';
 import { displaySuccess } from '../../../../utils/displayToast';
 import { parsePhoneNumber } from 'libphonenumber-js';
+import { authPaths } from '../../../../constants/apiPaths/authPaths';
+import { userAPIs } from '../../../../apis/user.api';
 
 const useVerifyForm = ({
   account,
@@ -22,7 +21,6 @@ const useVerifyForm = ({
   setIsDirty,
 }: useVerifyFormProps) => {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
   const method = useForm<VerifyProps>({
     resolver: yupResolver(verifySchema),
     defaultValues: {
@@ -35,22 +33,20 @@ const useVerifyForm = ({
     try {
       setSubmitting(true);
       const sentOTP = verifyingCode.otp?.join('');
-      const { phoneNumber, password } = account;
-      const phone = phoneNumber && parsePhoneNumber(phoneNumber, 'VN');
-      let newPhone: string | undefined;
-      if (phone) {
-        newPhone = phone.number;
-      }
-      account = { phoneNumber: newPhone, password, otp: sentOTP };
-      await authAPIs.verifyOTP(account);
-      displaySuccess('Account created successfully.');
-      const user: UserProps = { phoneNumber: newPhone, password };
-      const loginRes = await authAPIs.login(user);
-      dispatch(storeAuth(loginRes));
-      navigate('/');
+      console.log(sentOTP);
+      // const { phoneNumber, password } = account;
+      // const phone = phoneNumber && parsePhoneNumber(phoneNumber, 'VN');
+      // let newPhone: string | undefined;
+      // if (phone) {
+      //   newPhone = phone.number;
+      // }
+      // account = { phoneNumber, password };
+      // await authAPIs.verifyOTP(account);
+      await userAPIs.resetPassword(account);
+      displaySuccess('Reset password successfully.');
+      navigate(`/${authPaths.loginPath}`);
     } catch (error: AxiosError | any) {
       handleError(error);
-      console.log(error.statusCode);
       if (error.statusCode === 410) {
         setCounting(false);
         setDisable(false);

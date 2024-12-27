@@ -79,6 +79,7 @@ const useListProducts = () => {
     isLoading,
     quality,
     limit,
+    page,
     price,
     setPage,
     setLimit,

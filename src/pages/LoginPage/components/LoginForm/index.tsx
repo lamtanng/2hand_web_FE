@@ -38,9 +38,9 @@ const LoginForm: React.FC = () => {
         </Form>
       </FormProvider>
       <Flex justify="space-between">
-        {/* <Link to={`/${authUrls.resetPasswordUrl}`} className="font-sans no-underline">
+        <Link to={`/${authUrls.resetPasswordUrl}`} className="font-sans no-underline">
           Forgot your password?
-        </Link> */}
+        </Link>
         <Link to={'/'} className="font-sans no-underline">
           Back to Home
         </Link>

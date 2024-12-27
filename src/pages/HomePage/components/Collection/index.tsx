@@ -1,16 +1,17 @@
-import { Flex } from 'antd';
+import { Flex, Image } from 'antd';
+import saleBanner from '../../../../assets/saleBanner.jpg';
 
 const Collection = () => {
   return (
-    <Flex gap={'large'} id="collection" className="hidden xl:flex xl:mt-10 xl:w-full">
+    <Flex gap={'large'} id="collection" className="hidden xl:mt-10 xl:flex xl:w-full">
       <div className="w-1/3">
-        <div className="h-60 w-full rounded-3xl bg-gradient-to-tr from-blue-200 to-blue-700"></div>
+        <Image alt="" src={saleBanner} className="rounded-3xl" preview={false} />
       </div>
       <div className="w-1/3">
-        <div className="h-60 w-full rounded-3xl bg-gradient-to-tr from-blue-200 to-blue-700"></div>
+        <Image alt="" src={saleBanner} className="rounded-3xl" preview={false} />
       </div>
       <div className="w-1/3">
-        <div className="h-60 w-full rounded-3xl bg-gradient-to-tr from-blue-200 to-blue-700"></div>
+        <Image alt="" src={saleBanner} className="rounded-3xl" preview={false} />
       </div>
     </Flex>
   );

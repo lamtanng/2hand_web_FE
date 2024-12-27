@@ -5,16 +5,18 @@ const CustomPagination = ({
   limit,
   setPage,
   setLimit,
+  page,
 }: {
   totalProducts: number;
   limit: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
   setLimit: React.Dispatch<React.SetStateAction<number>>;
+  page: number;
 }) => {
   return (
     <Pagination
       align="center"
-      defaultCurrent={1}
+      current={page}
       total={totalProducts}
       pageSize={limit}
       pageSizeOptions={[8, 12, 16, 20, 40]}

@@ -27,12 +27,13 @@ const ProductList = () => {
     setLimit,
     setSelectedCategory,
     selectedCategory,
+    page
   } = useListProducts();
 
   return (
     <>
       <Header />
-      <div className="bg-slate-50">
+      <div>
         <div className="mx-5 mt-10 md:mx-10  md:mt-32 md:py-5 xl:mx-auto xl:w-10/12">
           {/* <CustomBreadcrumb /> */}
           <Flex gap={'large'} className="mt-5">
@@ -65,7 +66,7 @@ const ProductList = () => {
               ) : product?.length !== 0 ? (
                 <>
                   <ListProducts productList={product} isLoading={isLoading} />
-                  {product.length > limit && <CustomPagination limit={limit} setLimit={setLimit} setPage={setPage} totalProducts={totalProducts} />}
+                  <CustomPagination limit={limit} page={page} setLimit={setLimit} setPage={setPage} totalProducts={totalProducts} />
                 </>
               ) : (
                 <NoProduct />
@@ -74,7 +75,7 @@ const ProductList = () => {
           </Flex>
         </div>
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

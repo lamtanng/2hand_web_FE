@@ -40,7 +40,7 @@ const ResetPasswordForm = ({
         <FormProvider {...method}>
           <Form name="normal_login" layout="vertical" className="w-full" onFinish={handleSubmit(handleReset)}>
             <CustomFormItem hint="Phone number" name="phoneNumber" label="Phone Number" maxLength={10} />
-            <CustomFormItem name="password" hint="Password" type="password" label="New Password" isRequired={true} />
+            <CustomFormItem name="password" hint="Password" type="password" label="Password" isRequired={true} />
             <CustomFormItem
               name="confirmPassword"
               hint="Confirm Password"
