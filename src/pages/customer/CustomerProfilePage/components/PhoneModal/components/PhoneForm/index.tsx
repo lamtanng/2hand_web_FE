@@ -3,17 +3,24 @@ import { FormProvider } from 'react-hook-form';
 import usePhoneForm from './usePhoneForm';
 import CustomFormItem from '../../../../../../../components/elements/ControlledComponents/ControlledInput';
 import SubmitButton from '../../../../../../../components/elements/Buttons/SubmitButton';
+import { UserProps } from '../../../../../../../types/user.type';
 
 const PhoneForm = ({
   setIsModalOpen,
   hiddenPhone,
-  handleCreatePhone
+  handleCreatePhone,
+  profile,
 }: {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  hiddenPhone: boolean,
-  handleCreatePhone: (phoneNumber: string | undefined) => void
+  hiddenPhone: boolean;
+  handleCreatePhone: (phoneNumber: string | undefined) => void;
+  profile: UserProps | undefined;
 }) => {
-  const { handleClose, handleSubmit, method, isSubmitting, handleAddPhone } = usePhoneForm(setIsModalOpen, handleCreatePhone);
+  const { handleClose, handleSubmit, method, isSubmitting, handleAddPhone } = usePhoneForm(
+    setIsModalOpen,
+    handleCreatePhone,
+    profile
+  );
 
   return (
     <div hidden={hiddenPhone}>

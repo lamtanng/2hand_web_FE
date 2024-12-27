@@ -1,6 +1,6 @@
 import { EnvironmentFilled } from '@ant-design/icons';
 import { Card } from 'antd';
-import defaultImg from '../../../../assets/blob.jpg';
+import defaultImg from '../../../../assets/blob.webp';
 import { Link } from 'react-router-dom';
 import { ProductProps } from '../../../../types/product.type';
 import eventEmitter from '../../../../utils/eventEmitter';

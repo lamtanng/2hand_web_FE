@@ -6,7 +6,7 @@ const ConditionRadio = ({ selected, onChange }: { selected: any; onChange: any }
   return (
     <div className="flex flex-col space-y-4 mb-6">
       <div className="flex items-center">
-      <Typography.Paragraph className="m-0 mt-3">Condition</Typography.Paragraph>
+      <Typography.Paragraph className="m-0 mt-3">Condition <span className='text-red-600'>*</span></Typography.Paragraph>
       </div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-5">
         {conditions.map((condition) => (

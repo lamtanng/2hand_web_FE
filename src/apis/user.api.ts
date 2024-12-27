@@ -10,6 +10,7 @@ const userUrl = getUserUrl('');
 const addressUrl = getUserUrl(addressPaths.addressPath);
 const sendOTPUrl = getUserUrl(userPaths.sendOTPPath);
 const verifyUrl = getUserUrl(userPaths.verifyPath);
+const resetPasswordUrl = getUserUrl(userPaths.resetPasswordPath);
 
 const getAllUsers = () => {
   return axiosClient.get(userUrl);
@@ -52,6 +53,10 @@ const verifyPhoneNumber = (data: PhoneVerifyRequest | undefined) => {
   return axiosClient.post(verifyUrl, data);
 };
 
+const resetPassword = (data: any) => {
+  return axiosClient.post(resetPasswordUrl, data);
+};
+
 export const userAPIs = {
   getAllUsers,
   getUserByUserID,
@@ -62,4 +67,5 @@ export const userAPIs = {
   deleteAddress,
   sendPhoneOTP,
   verifyPhoneNumber,
+  resetPassword
 };

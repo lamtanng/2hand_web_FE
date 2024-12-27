@@ -58,6 +58,7 @@ const PhoneModal = ({
         <div>
           <Divider />
           <PhoneForm
+            profile={profile}
             setIsModalOpen={setIsModalOpen}
             hiddenPhone={hiddenPhone}
             handleCreatePhone={handleCreatePhone}

@@ -14,6 +14,7 @@ import { orderRequestsAPIs } from '../../../../../apis/orderRequest.api';
 import { PickupDateProps } from '../../../../../types/http/pickupDate.type';
 import { ReasonProps } from '../../../../../types/http/reason.type';
 import { NewOrderStage } from '../../../../../types/http/orderStage.type';
+import { Role } from '../../../../../types/enum/role.enum';
 
 const useOrderItem = (order: OrderProps) => {
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
@@ -21,7 +22,6 @@ const useOrderItem = (order: OrderProps) => {
   const [pickupDates, setPickupDates] = useState<PickupDateProps[]>([]);
   const [isLoading, setLoading] = useState(false);
   const [cancelReasons, setCancelReasons] = useState<ReasonProps[]>([]);
-  const [returnReasons, setReturnReasons] = useState<ReasonProps[]>([]);
 
   const pickingOrder = async () => {
     try {
@@ -80,12 +80,8 @@ const useOrderItem = (order: OrderProps) => {
       const res = await reasonAPIs.getAllReason();
       setCancelReasons(
         res.data.reasons.filter(
-          (item: ReasonProps) => item.objectType === ObjectType.Order && item.taskType === TaskType.Cancel,
-        ),
-      );
-      setReturnReasons(
-        res.data.reasons.filter(
-          (item: ReasonProps) => item.objectType === ObjectType.Order && item.taskType === TaskType.Return,
+          (item: ReasonProps) =>
+            item.objectType === ObjectType.Order && item.taskType === TaskType.Cancel && item.role === Role.Seller,
         ),
       );
     } catch (error) {
@@ -123,7 +119,6 @@ const useOrderItem = (order: OrderProps) => {
     isLoading,
     confirmOrder,
     cancelReasons,
-    returnReasons,
     openCancelModal,
     directCancel,
     isCancelModalOpen,

@@ -2,11 +2,11 @@ import {
   CarryOutOutlined,
   DashboardOutlined,
   FileTextOutlined,
-  HeartOutlined,
+  // HeartOutlined,
   HomeOutlined,
   LogoutOutlined,
-  NotificationOutlined,
-  QuestionCircleOutlined,
+  // NotificationOutlined,
+  // QuestionCircleOutlined,
   SettingOutlined,
   ShopOutlined,
   StarOutlined,
@@ -20,6 +20,7 @@ import { authAPIs } from '../../../../../apis/auth.api';
 import { useAppDispatch } from '../../../../../redux/hooks';
 import { deleteAuth } from '../../../../../redux/slices/login.slice';
 import { formattedName } from '../../../../../utils/formatName';
+import { authUrls } from '../../../../../constants/urlPaths/authUrls';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -31,6 +32,7 @@ function getItem(label: React.ReactNode, key: React.Key, icon?: React.ReactNode,
     disabled,
   } as MenuItem;
 }
+const baseURL = 'http://localhost:5173/account/';
 
 const MenuBar = () => {
   const { profile } = useAccountPage();
@@ -44,16 +46,10 @@ const MenuBar = () => {
       children: [
         getItem('Profile', 'profile', <UserOutlined />),
         getItem('My Addresses', 'addresses', <HomeOutlined />),
-        getItem('Notifications', 'notifications', <NotificationOutlined />, true),
-      ],
-    },
-    {
-      key: 'purchase',
-      label: 'Purchases',
-      children: [
+        // getItem('Notifications', 'notifications', <NotificationOutlined />, true),
         getItem('My Purchases', 'purchases', <FileTextOutlined />),
         getItem('My Reviews', 'reviews', <StarOutlined />),
-        getItem('Wishlist', 'wishlist', <HeartOutlined />, true),
+        // getItem('Wishlist', 'wishlist', <HeartOutlined />, true),
       ],
     },
     {
@@ -66,21 +62,24 @@ const MenuBar = () => {
         // getItem('Store Reviews', 'store-reviews', <StarOutlined />),
         getItem('Store Profile', 'store-profile', <ShopOutlined />),
       ],
-      disabled: !isSeller,
+      disabled: !isSeller
     },
     {
       key: 'setting',
       label: 'Settings',
       children: [
         getItem('Change Password', 'changepassword', <SettingOutlined />, true),
-        getItem('Help Center', 'helpcenter', <QuestionCircleOutlined />, true),
+        // getItem('Help Center', 'helpcenter', <QuestionCircleOutlined />, true),
         getItem('Log Out', 'logout', <LogoutOutlined />),
       ],
     },
   ];
 
+
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
+  const selectedKey = window.location.href.replace(baseURL, '');
 
   const handleLogOut = async () => {
     try {
@@ -100,13 +99,14 @@ const MenuBar = () => {
       </Flex>
       <Menu
         defaultOpenKeys={['account', 'purchase', 'setting']}
+        selectedKeys={[selectedKey]}
         mode="inline"
         items={items}
         className="bg-slate-50 text-base"
         onClick={({ key }) => {
           if (key === 'logout') {
             handleLogOut();
-            navigate('/');
+            navigate(`/${authUrls.loginUrl}`);
           }
         }}
       />

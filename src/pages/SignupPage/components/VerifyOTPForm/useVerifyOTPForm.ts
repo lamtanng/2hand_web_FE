@@ -43,6 +43,7 @@ const useVerifyForm = ({
       }
       account = { phoneNumber: newPhone, password, otp: sentOTP };
       await authAPIs.verifyOTP(account);
+      displaySuccess('Account created successfully.');
       const user: UserProps = { phoneNumber: newPhone, password };
       const loginRes = await authAPIs.login(user);
       dispatch(storeAuth(loginRes));
@@ -68,7 +69,7 @@ const useVerifyForm = ({
       if (phone) {
         account = { phoneNumber: phone.number };
       }
-      await authAPIs.resendOTP(account);
+      await authAPIs.sendOTP(account);
       displaySuccess('OTP is resent successfully. Please check your phone.');
       handleResendClick();
     } catch (error: AxiosError | any) {

@@ -1,5 +1,5 @@
 import { Divider, Flex, Image, Typography } from 'antd';
-import defaultPic from "../../../../../assets/blob.jpg"
+import defaultPic from "../../../../../assets/blob.webp"
 import { CartItemProps } from '../../../../../types/cart.type';
 import { formattedCurrency } from '../../../../../utils/formattedCurrency';
 

@@ -18,6 +18,8 @@ const CancelRequestModal = ({
   setDescription: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const [choosenReason, setChoosenReason] = useState<ReasonProps>();
+  const [isDirty, setDirty] = useState<boolean>(true);
+  const [isEditable, setEditable] = useState<boolean>(false);
 
   const handleClose = () => {
     setIsModalOpen(false);
@@ -35,6 +37,7 @@ const CancelRequestModal = ({
 
   const handleMenuClick: MenuProps['onClick'] = (e) => {
     setChoosenReason(JSON.parse(e.key));
+    setEditable(true);
   };
 
   const menuProps = {
@@ -77,8 +80,12 @@ const CancelRequestModal = ({
               showCount
               maxLength={500}
               autoSize={{ minRows: 3 }}
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={(e) => {
+                setDescription(e.target.value);
+                setDirty(false);
+              }}
               className="mb-6"
+              disabled={!isEditable}
             />
           </Flex>
           <Divider />
@@ -86,7 +93,7 @@ const CancelRequestModal = ({
             <Button className="px-8 py-5 text-base" onClick={handleClose}>
               Cancel
             </Button>
-            <Button type="primary" className="px-8 py-5 text-base" onClick={handleOk}>
+            <Button type="primary" className="px-8 py-5 text-base" onClick={handleOk} disabled={isDirty}>
               OK
             </Button>
           </Flex>

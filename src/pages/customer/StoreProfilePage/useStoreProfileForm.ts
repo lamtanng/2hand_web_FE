@@ -8,6 +8,8 @@ import { storeAPIs } from '../../../apis/store.api';
 import { handleError } from '../../../utils/handleError';
 import { StoreProps } from '../../../types/store.type';
 import { UpdateStoreRequestProps } from '../../../types/http/store.type';
+import { displaySuccess } from '../../../utils/displayToast';
+import eventEmitter from '../../../utils/eventEmitter';
 
 const useStoreProfileForm = (profile: UserProps | undefined) => {
   const method = useForm<StoreProfileProps>({
@@ -26,14 +28,17 @@ const useStoreProfileForm = (profile: UserProps | undefined) => {
   const [isSubmitting, setSubmitting] = useState<boolean>(false);
   const [store, setStore] = useState<StoreProps>();
   const [value, setValue] = useState<string>();
+  const [isLoading, setLoading] = useState<boolean>(false);
 
   const getStoreByUserID = async (userID: string | undefined) => {
     try {
+      setLoading(true);
       const res = await storeAPIs.getStoreByUser(userID);
       setStore(res.data);
     } catch (error) {
       handleError(error);
     } finally {
+      setLoading(false);
     }
   };
 
@@ -41,11 +46,21 @@ const useStoreProfileForm = (profile: UserProps | undefined) => {
     try {
       const data: UpdateStoreRequestProps = {
         _id: store?._id,
-        description: value,
-        name: currentStore.storeName,
+        description: value?.trim(),
+        name: currentStore.storeName?.trim(),
+        address: [
+          {
+            address: currentStore.detailAddress?.trim(),
+            district: selectedDistrict,
+            province: selectedProvince,
+            ward: selectedWard,
+            isDefault: true,
+          },
+        ],
       };
-      console.log(data);
       await storeAPIs.updateStore(data);
+      displaySuccess('Store information is updated successfully.');
+      eventEmitter.emit('updateStore');
     } catch (error) {
       handleError;
     }
@@ -69,6 +84,16 @@ const useStoreProfileForm = (profile: UserProps | undefined) => {
     if (profile) {
       getStoreByUserID(profile._id);
     }
+
+    const updateStoreListener = eventEmitter.addListener('updateStore', () => {
+      if (profile) {
+        getStoreByUserID(profile._id);
+      }
+    });
+
+    return () => {
+      updateStoreListener.remove();
+    };
   }, [profile]);
 
   return {
@@ -89,6 +114,7 @@ const useStoreProfileForm = (profile: UserProps | undefined) => {
     value,
     setValue,
     updateStore,
+    isLoading,
   };
 };
 

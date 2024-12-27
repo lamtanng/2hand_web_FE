@@ -11,12 +11,12 @@ import { TaskType } from '../../../../../types/enum/taskType.type';
 import { orderRequestsAPIs } from '../../../../../apis/orderRequest.api';
 import { ReasonProps } from '../../../../../types/http/reason.type';
 import { NewOrderStage } from '../../../../../types/http/orderStage.type';
+import { Role } from '../../../../../types/enum/role.enum';
 
 const useOrderItem = (order: OrderProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [cancelReasons, setCancelReasons] = useState<ReasonProps[]>([]);
-  const [returnReasons, setReturnReasons] = useState<ReasonProps[]>([]);
-  const [description, setDescription] = useState<string>('')
+  const [description, setDescription] = useState<string>('');
 
   const { confirm } = Modal;
 
@@ -34,12 +34,8 @@ const useOrderItem = (order: OrderProps) => {
       const res = await reasonAPIs.getAllReason();
       setCancelReasons(
         res.data.reasons.filter(
-          (item: ReasonProps) => item.objectType === ObjectType.Order && item.taskType === TaskType.Cancel,
-        ),
-      );
-      setReturnReasons(
-        res.data.reasons.filter(
-          (item: ReasonProps) => item.objectType === ObjectType.Order && item.taskType === TaskType.Return,
+          (item: ReasonProps) =>
+            item.objectType === ObjectType.Order && item.taskType === TaskType.Cancel && item.role === Role.Customer,
         ),
       );
     } catch (error) {
@@ -90,6 +86,6 @@ const useOrderItem = (order: OrderProps) => {
     showConfirm();
   };
 
-  return { isModalOpen, setIsModalOpen, receiveOrder, cancelReasons, returnReasons, openCancelModal, cancelOrder, setDescription };
+  return { isModalOpen, setIsModalOpen, receiveOrder, cancelReasons, openCancelModal, cancelOrder, setDescription };
 };
 export default useOrderItem;

@@ -44,6 +44,20 @@ export const DeliveryActions = ({
 
 export const CancelingActions = ({
   handleSend,
+  isDirty,
+}: {
+  handleSend: () => void;
+  isDirty?: boolean
+}) => {
+  return (
+    <Flex gap={'large'} justify="end">
+      <SendResponseButton onClick={handleSend} isDirty={isDirty} />
+    </Flex>
+  );
+};
+
+export const ResponseReviewActions = ({
+  handleSend
 }: {
   handleSend: () => void;
 }) => {

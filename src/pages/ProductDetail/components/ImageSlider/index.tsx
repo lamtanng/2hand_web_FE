@@ -1,7 +1,7 @@
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { Image } from 'antd';
-import defaultPic from '../../../../assets/blob.jpg';
+import defaultPic from '../../../../assets/blob.webp';
 import { ProductProps } from '../../../../types/product.type';
 
 const responsive = {

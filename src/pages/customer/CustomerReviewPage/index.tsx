@@ -1,5 +1,5 @@
 import { Divider, Flex, Typography, Image, TabsProps, Tabs, Avatar, Rate } from 'antd';
-import defaultPic from '../../../assets/blob.jpg';
+import defaultPic from '../../../assets/blob.webp';
 import { UserOutlined } from '@ant-design/icons';
 import useAccountPage from '../AccountPage/useAccountPage';
 import useCustomerReviewPage from './useCustomerReviewPage';

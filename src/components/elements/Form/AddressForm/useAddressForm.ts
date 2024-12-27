@@ -49,7 +49,7 @@ const useAddressForm = (
     if (chosenProvince) {
       const data: ProvincesAddressProps = {
         ProvinceID: chosenProvince.ProvinceID,
-        ProvinceName: chosenProvince.ProvinceName,
+        ProvinceName: chosenProvince.ProvinceName?.trim(),
       };
       setSelectedProvince(data);
       getDistrictData(chosenProvince.ProvinceID);
@@ -64,7 +64,7 @@ const useAddressForm = (
       const data: DistrictAddressProps = {
         DistrictID: chosenDistrict.DistrictID,
         ProvinceID: selectedProvince.ProvinceID,
-        DistrictName: chosenDistrict.DistrictName,
+        DistrictName: chosenDistrict.DistrictName?.trim(),
       };
       setSelectedDistrict(data);
       getWardData(chosenDistrict?.DistrictID);
@@ -75,9 +75,9 @@ const useAddressForm = (
     const chosenWard = ward.find((item: WardAddressProps) => Number(item.WardCode) === Number(e.key));
     if (chosenWard && selectedDistrict) {
       const data: WardAddressProps = {
-        WardCode: chosenWard.WardCode?.toString(),
+        WardCode: chosenWard.WardCode?.toString().trim(),
         DistrictID: selectedDistrict.DistrictID,
-        WardName: chosenWard.WardName,
+        WardName: chosenWard.WardName?.trim(),
       };
       setSelectedWard(data);
     }

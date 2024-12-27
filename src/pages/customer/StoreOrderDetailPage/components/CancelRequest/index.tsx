@@ -6,20 +6,30 @@ import { OrderStageStatus } from '../../../../../types/enum/orderStageStatus.enu
 import useCancelRequest from './useCancelRequest';
 import { ReplyStatus } from '../../../../../types/enum/replyStatus.enum';
 import { DownOutlined } from '@ant-design/icons';
-import TextArea from 'antd/es/input/TextArea';
 import { OrderStageTrackingProps } from '../../../../../types/orderTracking.type';
 import { OrderStageStatusProps } from '../../../../../types/orderStageStatus.type';
 import { formattedOrderStageStatus } from '../../../../../utils/formattedOrderStageStatus';
+import { ReasonProps } from '../../../../../types/http/reason.type';
 
-const CancelRequest = ({ order, stages }: { order: OrderProps | undefined; stages: OrderStageTrackingProps[] }) => {
-  const { processRequest, setReplyMessage, selectedDecision, setSelectedDecision } = useCancelRequest(order);
+const CancelRequest = ({
+  order,
+  stages,
+  rejectReasons,
+}: {
+  order: OrderProps | undefined;
+  stages: OrderStageTrackingProps[];
+  rejectReasons: ReasonProps[];
+}) => {
+  const { processRequest, setReplyMessage, selectedDecision, setSelectedDecision, replyMessage } =
+    useCancelRequest(order);
   const handleSend = () => {
     processRequest();
   };
 
-  const cancelRequests = stages
-    .find((item: OrderStageTrackingProps) => item?.orderStageStatus?.length > 1)
-    ?.orderStageStatus?.filter((item: OrderStageStatusProps) => item.status !== OrderStageStatus.Active) || [];
+  const cancelRequests =
+    stages
+      .find((item: OrderStageTrackingProps) => item?.orderStageStatus?.length > 1)
+      ?.orderStageStatus?.filter((item: OrderStageStatusProps) => item.status !== OrderStageStatus.Active) || [];
 
   const getStatusColor = (status: string | undefined) => {
     switch (status) {
@@ -36,7 +46,15 @@ const CancelRequest = ({ order, stages }: { order: OrderProps | undefined; stage
     setReplyMessage(JSON.parse(e.key));
   };
 
+  const items: MenuProps['items'] = rejectReasons.map((reason: ReasonProps) => ({
+    key: JSON.stringify(reason),
+    label: reason.name,
+  }));
+
+  console.log(items)
+
   const menuProps = {
+    items,
     onClick: handleMenuClick,
     selectable: true,
   };
@@ -121,30 +139,22 @@ const CancelRequest = ({ order, stages }: { order: OrderProps | undefined; stage
                     ))}
                   </Flex>
                   {selectedDecision === ReplyStatus.Rejected && (
-                    // <Flex gap={'small'} className="mb-6" align="center">
-                    //   <Typography.Paragraph className="m-0 w-1/6">Reject reason: </Typography.Paragraph>
-                    //   <Dropdown menu={menuProps} trigger={['click']}>
-                    //     <Button className="h-10 w-full">
-                    //       <Flex justify="space-between" className="w-full">
-                    //         <Typography.Paragraph className="m-0 truncate">{'Select reason'}</Typography.Paragraph>
-                    //         <DownOutlined />
-                    //       </Flex>
-                    //     </Button>
-                    //   </Dropdown>
-                    // </Flex>
-                    <Flex vertical gap={'small'} className="mb-6">
-                      <Typography.Paragraph className="m-0">Reply message: </Typography.Paragraph>
-                      <TextArea
-                        showCount
-                        maxLength={500}
-                        autoSize={{ minRows: 3 }}
-                        onChange={(e) => setReplyMessage(e.target.value)}
-                        className="mb-6"
-                      />
+                    <Flex gap={'small'} className="mb-6" align="center">
+                      <Typography.Paragraph className="m-0 w-1/6">Reject reason <span className='text-red-600'>*</span>: </Typography.Paragraph>
+                      <Dropdown menu={menuProps} trigger={['click']} className="mb-6">
+                        <Button className="h-10 w-full">
+                          <Flex justify="space-between" className="w-full">
+                            <Typography.Paragraph className="m-0 truncate">
+                              {replyMessage ? replyMessage.name : 'Select reason'}
+                            </Typography.Paragraph>
+                            <DownOutlined />
+                          </Flex>
+                        </Button>
+                      </Dropdown>
                     </Flex>
                   )}
 
-                  <CancelingActions handleSend={handleSend} />
+                  <CancelingActions handleSend={handleSend} isDirty={!replyMessage} />
                 </div>
               )}
           </>

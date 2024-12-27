@@ -1,5 +1,5 @@
 import { Typography } from 'antd';
-import CustomBreadcrumb from '../../components/elements/Breadcrumb';
+// import CustomBreadcrumb from '../../components/elements/Breadcrumb';
 import Footer from '../../components/elements/Footer';
 import Header from '../../components/elements/Header';
 import ProductSlider from '../../components/elements/Slider/ProductSlider';
@@ -9,8 +9,8 @@ import ShopInfo from './components/ShopInfo';
 import ProductFeatures from './components/ProductFeatures';
 import useProductDetail from './useProductDetail';
 import parse from 'html-react-parser';
-import ReviewList from './components/ReviewList';
 import PageSpin from '../../components/elements/Spin/PageSpin';
+import ReviewSection from './components/ReviewSection';
 
 const ProductDetail = () => {
   const { product, isLoading, storeProduct, handleAddToCart, setQuantity, isDirty, handleBuyNow, reviews } =
@@ -23,8 +23,8 @@ const ProductDetail = () => {
         <PageSpin />
       ) : (
         <div className="-m-6 min-h-screen bg-slate-50 px-5">
-          <div className="mx-5 mb-10 md:mx-10 md:mt-20 md:py-10 md:pb-20 xl:mx-auto xl:w-10/12">
-            <CustomBreadcrumb />
+          <div className="mx-5 mb-10 md:mx-10 md:mt-32 md:py-10 md:pb-20 xl:mx-auto xl:w-10/12">
+            {/* <CustomBreadcrumb /> */}
             <ProductInfo
               handleAddToCart={handleAddToCart}
               handleBuyNow={handleBuyNow}
@@ -42,7 +42,7 @@ const ProductDetail = () => {
                 {product && product.description && parse(product.description)}
               </Typography.Paragraph>
             </div>
-            <ReviewList reviews={reviews} />
+            <ReviewSection reviews={reviews} />
             <div id="shop-products" className="mb-5 p-8">
               <Typography.Title level={4} className="m-0 mb-8">
                 Other Products From Seller

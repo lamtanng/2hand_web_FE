@@ -1,5 +1,5 @@
 import { Button, Flex, Image, Typography } from 'antd';
-import notFound from '../../assets/notFound.png';
+import notFound from '../../assets/notFound.webp';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeftOutlined, ReloadOutlined } from '@ant-design/icons';
 

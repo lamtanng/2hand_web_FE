@@ -8,6 +8,6 @@ interface LoginProps {
 
 export const loginSchema: yup.ObjectSchema<LoginProps> = yup.object({
   // email: yup.string().email().required(getRequiredMsg('Email')),
-  phoneNumber: yup.string().length(10).required(),
+  phoneNumber: yup.string().required().matches(/^[0-9]+$/, 'Phone number must contain only numbers').length(10),
   password: yup.string().required(getRequiredMsg('Password')),
 });

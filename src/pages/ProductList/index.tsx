@@ -4,7 +4,7 @@ import Header from '../../components/elements/Header';
 import Search from 'antd/es/transfer/search';
 import Filter from './components/Filter';
 import ListProducts from './components/ListProducts';
-import CustomBreadcrumb from '../../components/elements/Breadcrumb';
+// import CustomBreadcrumb from '../../components/elements/Breadcrumb';
 import useListProducts from './useProductListPage';
 import CustomPagination from './components/Pagination';
 import Sort from './components/Sort';
@@ -27,14 +27,15 @@ const ProductList = () => {
     setLimit,
     setSelectedCategory,
     selectedCategory,
+    page
   } = useListProducts();
 
   return (
     <>
       <Header />
-      <div className="bg-slate-50">
-        <div className="mx-5 mt-10 md:mx-10  md:mt-20 md:py-5 xl:mx-auto xl:w-10/12">
-          <CustomBreadcrumb />
+      <div>
+        <div className="mx-5 mt-10 md:mx-10  md:mt-32 md:py-5 xl:mx-auto xl:w-10/12">
+          {/* <CustomBreadcrumb /> */}
           <Flex gap={'large'} className="mt-5">
             <Flex vertical gap={'large'} className="w-1/5">
               <Search placeholder="Search for a product" onChange={(event) => setSearch(event.target.value)} />
@@ -65,7 +66,7 @@ const ProductList = () => {
               ) : product?.length !== 0 ? (
                 <>
                   <ListProducts productList={product} isLoading={isLoading} />
-                  <CustomPagination limit={limit} setLimit={setLimit} setPage={setPage} totalProducts={totalProducts} />
+                  <CustomPagination limit={limit} page={page} setLimit={setLimit} setPage={setPage} totalProducts={totalProducts} />
                 </>
               ) : (
                 <NoProduct />
@@ -74,7 +75,7 @@ const ProductList = () => {
           </Flex>
         </div>
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

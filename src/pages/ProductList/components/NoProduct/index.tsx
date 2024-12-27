@@ -1,5 +1,5 @@
 import { Flex, Image, Typography } from 'antd';
-import emptyProduct from '../../../../assets/emptyProduct.png';
+import emptyProduct from '../../../../assets/emptyProduct.webp';
 
 const NoProduct = () => {
   return (

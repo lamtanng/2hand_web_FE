@@ -1,5 +1,5 @@
 import { ShoppingCartOutlined, UserOutlined } from '@ant-design/icons';
-import { Avatar, Button, Divider, Dropdown, Flex, MenuProps } from 'antd';
+import { Avatar, Button, Divider, Dropdown, Flex, MenuProps, Typography } from 'antd';
 import { UserProps } from '../../../../../types/user.type';
 import useUserInfo from './useUserInfo';
 import { Link, useNavigate } from 'react-router-dom';
@@ -10,6 +10,7 @@ import { authAPIs } from '../../../../../apis/auth.api';
 import { deleteAuth } from '../../../../../redux/slices/login.slice';
 import { handleError } from '../../../../../utils/handleError';
 import { formattedName } from '../../../../../utils/formatName';
+import { authUrls } from '../../../../../constants/urlPaths/authUrls';
 
 const UserInfoGroup = ({ user }: { user: UserProps }) => {
   const { itemAmount, profile } = useUserInfo(user);
@@ -24,7 +25,7 @@ const UserInfoGroup = ({ user }: { user: UserProps }) => {
     try {
       await authAPIs.logout();
       dispatch(deleteAuth());
-      navigate('/');
+      navigate(`/${authUrls.loginUrl}`);
     } catch (error) {
       handleError(error);
     } finally {
@@ -38,7 +39,7 @@ const UserInfoGroup = ({ user }: { user: UserProps }) => {
     },
     {
       key: '2',
-      label: <Link to={`/${accountUrls.accountUrl}/${accountUrls.puchasesUrl}`}>My Orders</Link>,
+      label: <Link to={`/${accountUrls.accountUrl}/${accountUrls.puchasesUrl}`}>My Purchases</Link>,
     },
     {
       key: '3',
@@ -47,9 +48,9 @@ const UserInfoGroup = ({ user }: { user: UserProps }) => {
     {
       key: '4',
       label: (
-        <Button type='link' variant='link' color='default' className="m-0 p-0" onClick={handleLogOut}>
+        <Typography.Paragraph className='m-0 p-0' onClick={handleLogOut}>
           Logout
-        </Button>
+        </Typography.Paragraph>
       ),
     },
   ];

@@ -1,7 +1,7 @@
 import { Carousel, Image } from 'antd';
-import banner1 from '../../../../assets/banner1.png'
-import banner2 from '../../../../assets/banner2.png'
-import banner3 from '../../../../assets/banner3.png'
+import banner1 from '../../../../assets/banner1.webp'
+import banner2 from '../../../../assets/banner2.webp'
+import banner3 from '../../../../assets/banner3.webp'
 
 const CustomCarousel = () => {
   const onChange = (currentSlide: number) => {

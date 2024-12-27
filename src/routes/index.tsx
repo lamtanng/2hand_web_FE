@@ -18,6 +18,7 @@ import { OrderIntermediaryPageRoutes } from '../pages/customer/OrderIntermediary
 import ScrollToTop from '../components/layouts/ScrollToTop';
 import NotFoundPage from '../pages/NotFoundPage';
 import ServerErrorPage from '../pages/ServerErrorPage';
+import { ResetPasswordPageRoute } from '../pages/ResetPasswordPage/ResetPasswordPage.route';
 
 const routes = createBrowserRouter([
   {
@@ -35,6 +36,7 @@ const routes = createBrowserRouter([
       UserProfilePageRoutes,
       LoginRoute,
       SignupRoute,
+      ResetPasswordPageRoute,
       {
         element: <ProtectedRoutes />,
         children: [

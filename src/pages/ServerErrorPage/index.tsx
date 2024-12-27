@@ -1,5 +1,5 @@
 import { Button, Flex, Image, Typography } from 'antd';
-import serverError from '../../assets/serverDown.png';
+import serverError from '../../assets/serverDown.webp';
 import { Link } from 'react-router-dom';
 import { HomeFilled, ReloadOutlined } from '@ant-design/icons';
 

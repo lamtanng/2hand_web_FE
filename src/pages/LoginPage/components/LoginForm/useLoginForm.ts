@@ -9,7 +9,7 @@ import { storeAuth } from '../../../../redux/slices/login.slice';
 import { handleError } from '../../../../utils/handleError';
 import { loginSchema } from '../../Login.constant';
 import { UserProps } from '../../../../types/user.type';
-import { parsePhoneNumber } from 'libphonenumber-js';
+import { isValidPhoneNumber, parsePhoneNumber } from 'libphonenumber-js';
 
 const useLoginForm = () => {
   const navigate = useNavigate();
@@ -26,6 +26,9 @@ const useLoginForm = () => {
 
   const handleLogin = async (account: UserProps) => {
     try {
+      if (account.phoneNumber) {
+        if (!isValidPhoneNumber(account.phoneNumber, "VN")) throw new Error('Phone number is invalid.');
+      }
       let newPhone: string | undefined;
       const phone = account.phoneNumber && parsePhoneNumber(account.phoneNumber, 'VN');
       if (phone) {

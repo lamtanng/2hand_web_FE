@@ -1,4 +1,4 @@
-import { PhoneOutlined, ShopOutlined, UserOutlined } from '@ant-design/icons';
+import { MessageOutlined, PhoneOutlined, ShopOutlined, UserOutlined } from '@ant-design/icons';
 import { Avatar, Button, Col, Divider, Flex, Row, Typography } from 'antd';
 import { Link } from 'react-router-dom';
 import { ProductProps } from '../../../../types/product.type';
@@ -23,7 +23,8 @@ const ShopInfo = ({ product, storeProduct }: {product: ProductProps | undefined,
               </Typography.Title>
               <Flex gap={'small'}>
                 <Button variant="filled" color="primary" className="w-1/2">
-                  <PhoneOutlined /> {product?.storeID.userID.phoneNumber}
+                  {/* <PhoneOutlined /> {product?.storeID.userID.phoneNumber} */}
+                  <MessageOutlined /> Chat now
                 </Button>
                 <Link to={`/user/${product?.storeID.userID.slug}`} className="w-1/2">
                   <Button variant="outlined" color="primary" className="w-full">

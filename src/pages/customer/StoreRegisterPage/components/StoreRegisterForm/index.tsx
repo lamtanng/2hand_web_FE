@@ -1,11 +1,12 @@
 import useStoreForm from './useStoreRegisterForm';
 import { FormProvider } from 'react-hook-form';
 import CustomFormItem from '../../../../../components/elements/ControlledComponents/ControlledInput';
-import { Flex, Form, Radio, Tag, Typography } from 'antd';
+import { Button, Flex, Form, Radio, Tag, Typography } from 'antd';
 import SubmitButton from '../../../../../components/elements/Buttons/SubmitButton';
 import AddressForm from '../../../../../components/elements/Form/AddressForm';
 import { AddressProps } from '../../../../../types/address.type';
 import TextEditor from '../../../../../components/elements/TextEditor';
+import { useNavigate } from 'react-router-dom';
 
 const StoreRegisterForm = () => {
   const {
@@ -23,16 +24,21 @@ const StoreRegisterForm = () => {
     handleChooseAddress,
     description,
     setDescription,
+    isSubmitting
   } = useStoreForm();
+
+  const navigate = useNavigate();
 
   return (
     <>
       <div className="mb-5 rounded-xl bg-white p-8 shadow-sm">
         <FormProvider {...method}>
           <Form name="normal_login" layout="vertical" className="w-full" onFinish={handleSubmit(handleStoreRegister)}>
-            <CustomFormItem name="name" hint="Name" label="Store Name" isRequired={true} />
+            <CustomFormItem name="name" hint="Name" label="Store Name" isRequired={true} maxLength={50} />
             <Form.Item>
-              <Typography.Paragraph className="m-0 mb-2">Descripition</Typography.Paragraph>
+              <Typography.Paragraph className="m-0 mb-2">
+                Descripition <span className="text-red-600">*</span>
+              </Typography.Paragraph>
               <TextEditor setValue={setDescription} value={description} />
             </Form.Item>
             <CustomFormItem name="phoneNumber" hint="Phone number" label="Phone number" isDisabled={true} />
@@ -71,9 +77,23 @@ const StoreRegisterForm = () => {
               setSelectedWard={setSelectedWard}
               isDefault={true}
             />
-            <Form.Item>
-              <SubmitButton />
-            </Form.Item>
+            <Flex gap={'large'} justify="center">
+              <Form.Item className="w-1/4">
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  className="h-10 w-full text-base"
+                  onClick={() => {
+                    navigate(-1);
+                  }}
+                >
+                  Cancel
+                </Button>
+              </Form.Item>
+              <Form.Item className="w-1/4">
+                <SubmitButton isSubmitting={isSubmitting} />
+              </Form.Item>
+            </Flex>
           </Form>
         </FormProvider>
       </div>

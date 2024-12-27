@@ -1,6 +1,6 @@
 import { FlagOutlined, HeartOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { Button, Divider, Flex, Image, InputNumber, Typography } from 'antd';
-import defaultPic from '../../../../assets/blob.jpg';
+import defaultPic from '../../../../assets/blob.webp';
 import ImageSlider from '../ImageSlider';
 import { Link } from 'react-router-dom';
 import { ProductProps } from '../../../../types/product.type';
@@ -82,7 +82,7 @@ const ProductInfo = ({
                   }}
                   disabled={product && product.quantity <= 0}
                 />
-                <Typography.Paragraph className="m-0 ml-6 text-gray-500">
+                <Typography.Paragraph className="m-0 ml-6 text-blue-600 font-semibold">
                   {product?.quantity} in stock
                 </Typography.Paragraph>
               </Flex>

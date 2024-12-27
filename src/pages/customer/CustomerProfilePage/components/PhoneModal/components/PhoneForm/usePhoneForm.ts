@@ -2,14 +2,16 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormPhoneNumberProps, phoneNumberSchema } from '../../PhoneModal.constants';
-import parsePhoneNumber from 'libphonenumber-js';
+import parsePhoneNumber, { isValidPhoneNumber } from 'libphonenumber-js';
 import { userAPIs } from '../../../../../../../apis/user.api';
 import { handleError } from '../../../../../../../utils/handleError';
 import { PhoneOTPRequest } from '../../../../../../../types/http/phone.type';
+import { UserProps } from '../../../../../../../types/user.type';
 
 const usePhoneForm = (
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>,
   handleCreatePhone: (phoneNumber: string | undefined) => void,
+  profile: UserProps | undefined
 ) => {
   const [isSubmitting, setSubmitting] = useState<boolean>(false);
 
@@ -25,7 +27,10 @@ const usePhoneForm = (
 
   const handleAddPhone = async (phoneNumber: FormPhoneNumberProps) => {
     try {
-      const phone = phoneNumber.phoneNumber && parsePhoneNumber(phoneNumber.phoneNumber, 'VN');
+      if (phoneNumber.phoneNumber) {
+        if (!isValidPhoneNumber(phoneNumber.phoneNumber, 'VN')) throw new Error('Phone number is invalid.');
+      }
+      const phone = profile?.phoneNumber && parsePhoneNumber(profile.phoneNumber, 'VN');
       let data: PhoneOTPRequest | undefined;
       setSubmitting(true);
       if (phone) {

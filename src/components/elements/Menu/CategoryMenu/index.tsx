@@ -1,8 +1,8 @@
 import { MenuOutlined } from '@ant-design/icons';
-import { Dropdown, MenuProps, Space } from 'antd';
+import { Dropdown, Flex, MenuProps, Space } from 'antd';
 import useCategoryMenu from './useCategoryMenu';
 import { CategoryProps } from '../../../../types/category.type';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { guestUrls } from '../../../../constants/urlPaths/guestUrls';
 
 const CustomCategoryMenu = () => {
@@ -40,11 +40,16 @@ const CustomCategoryMenu = () => {
 
   return (
     <div className="mx-auto w-10/12">
+      <Flex justify='space-between'>
       <Dropdown menu={menuProps}>
         <Space>
           <MenuOutlined />
         </Space>
       </Dropdown>
+        {topLevel.map((category: CategoryProps) => (
+          <Link to={`/${guestUrls.productListUrl}`} className='font-sans text-black flex-shrink-0'>{category.name}</Link>
+        ))}
+      </Flex>
     </div>
   );
 };

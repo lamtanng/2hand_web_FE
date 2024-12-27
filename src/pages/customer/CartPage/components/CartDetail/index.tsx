@@ -1,6 +1,6 @@
 import { DeleteOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Divider, Flex, Image, InputNumber, Modal, Typography } from 'antd';
-import defaultPic from '../../../../../assets/blob.jpg';
+import defaultPic from '../../../../../assets/blob.webp';
 import { useDebouncedCallback } from 'use-debounce';
 import { CartItemProps } from '../../../../../types/cart.type';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
@@ -24,7 +24,7 @@ const CartDetail = ({
 }) => {
   const debounced = useDebouncedCallback((value) => {
     handleQuantityChange(product, value, checkedList);
-  }, 1000);
+  }, 300);
   const showConfirm = () => {
     confirm({
       title: 'Do you want to delete this item?',
@@ -47,7 +47,7 @@ const CartDetail = ({
           />
           <Link to={`/${product.productID.slug}`} className="no-underline">
             <Flex gap={'large'}>
-              <Image width={75} alt="" src={product.productID.image[0]} fallback={defaultPic} preview={false} />
+              <Image width={75} alt="" src={product.productID.image[0]} fallback={defaultPic} preview={false} className='flex-shrink-0' />
               <Flex gap={'small'} vertical>
                 <Typography.Paragraph className="m-0 text-base">{product.productID.name}</Typography.Paragraph>
                 <Typography.Paragraph className="m-0 text-base text-gray-500">
@@ -68,6 +68,7 @@ const CartDetail = ({
               min={1}
               max={product.productID.quantity}
               defaultValue={product.quantity}
+              value={product.quantity}
               onChange={(value) => {
                 value && value <= product.productID.quantity && debounced(value);
               }}

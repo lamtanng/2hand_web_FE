@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { useEffect, useState } from 'react';
 import { authAPIs } from '../../../apis/auth.api';
 import { handleError } from '../../../utils/handleError';
+import PageSpin from '../../elements/Spin/PageSpin';
 
 export const ProtectedRoutes = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -24,5 +25,5 @@ export const ProtectedRoutes = () => {
     !token?.accessToken ? verifyRefreshToken() : setIsLoading(false);
   }, []);
 
-  return <>{isLoading ? <div>Loading...</div> : <Outlet />}</>;
+  return <>{isLoading ? <PageSpin/> : <Outlet />}</>;
 };

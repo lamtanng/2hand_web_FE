@@ -1,4 +1,5 @@
 import {
+  AccountBookOutlined,
   CalendarOutlined,
   DownloadOutlined,
   FileTextOutlined,
@@ -6,47 +7,53 @@ import {
   ShoppingOutlined,
 } from '@ant-design/icons';
 import { Button, Divider, Flex, Typography } from 'antd';
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, BarChart, Bar } from 'recharts';
+// import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, BarChart, Bar } from 'recharts';
 import useAccountPage from '../AccountPage/useAccountPage';
 import useStoreDashboardPage from './useStoreDashboardPage';
 import { accountUrls } from '../../../constants/urlPaths/customer/accountUrls';
 import StatisticCard from '../../../components/elements/Cards/StatisticCard';
 import { formattedOrderRate } from '../../../utils/formattedOrderRate';
+import { OrderStage } from '../../../types/enum/orderStage.enum';
+import { formattedCurrency } from '../../../utils/formattedCurrency';
 
-const data = [
-  {
-    name: 'Page A',
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    name: 'Page B',
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: 'Page C',
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-  },
-  {
-    name: 'Page D',
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
-  },
-];
+// const data = [
+//   {
+//     name: 'Page A',
+//     uv: 4000,
+//     pv: 2400,
+//     amt: 2400,
+//   },
+//   {
+//     name: 'Page B',
+//     uv: 3000,
+//     pv: 1398,
+//     amt: 2210,
+//   },
+//   {
+//     name: 'Page C',
+//     uv: 2000,
+//     pv: 9800,
+//     amt: 2290,
+//   },
+//   {
+//     name: 'Page D',
+//     uv: 2780,
+//     pv: 3908,
+//     amt: 2000,
+//   },
+// ];
 
 const StoreDashboard = () => {
   const currentDate = new Date();
   const { profile } = useAccountPage();
-  const { isLoading, products, totalDeliveredOrders, totalOrders } = useStoreDashboardPage(profile);
-  const statistics = [
+  const { isLoading, statistics } = useStoreDashboardPage(profile);
+  const totalOrders = statistics?.orders.reduce((total, order) => total + order.count, 0);
+  const totalDeliveredOrders = statistics?.orders.find((item: any) => item._id === OrderStage.Delivered);
+  const totalCancelOrders = statistics?.orders.find((item: any) => item._id === OrderStage.Cancelled);
+
+  const storeStatistics = [
     {
-      data: products,
+      data: statistics?.productTotal,
       date: currentDate,
       icon: <ShoppingOutlined />,
       isLoading: isLoading,
@@ -62,11 +69,27 @@ const StoreDashboard = () => {
       link: `/${accountUrls.accountUrl}/${accountUrls.orderUrl}`,
     },
     {
-      data: formattedOrderRate(totalDeliveredOrders, totalOrders),
+      data: formattedCurrency(totalDeliveredOrders?.totalAmount),
+      date: currentDate,
+      icon: <AccountBookOutlined />,
+      isLoading: isLoading,
+      label: 'Revenue',
+      link: `/${accountUrls.accountUrl}/${accountUrls.orderUrl}`,
+    },
+    {
+      data: formattedOrderRate(totalDeliveredOrders?.count, totalOrders),
       date: currentDate,
       icon: <PercentageOutlined />,
       isLoading: isLoading,
       label: 'Succesful Order Rate',
+      link: `/${accountUrls.accountUrl}/${accountUrls.orderUrl}`,
+    },
+    {
+      data: formattedOrderRate(totalCancelOrders?.count, totalOrders),
+      date: currentDate,
+      icon: <PercentageOutlined />,
+      isLoading: isLoading,
+      label: 'Cancel Order Rate',
       link: `/${accountUrls.accountUrl}/${accountUrls.orderUrl}`,
     },
   ];
@@ -88,8 +111,8 @@ const StoreDashboard = () => {
         </Flex>
       </div>
       <div className="mb-6 w-full">
-        <Flex justify="space-between" wrap className="w-full" gap={'large'}>
-          {statistics.map((item: any) => (
+        <Flex justify="space-evenly" wrap className="w-full" gap={'large'}>
+          {storeStatistics.map((item: any) => (
             <StatisticCard
               data={item.data}
               date={item.date}
@@ -101,7 +124,7 @@ const StoreDashboard = () => {
           ))}
         </Flex>
       </div>
-      <Flex justify="space-between">
+      {/* <Flex justify="space-between">
         <div className="mb-6 w-fit">
           <Typography.Title level={4} className="m-0 mb-6">
             Annual Revenue
@@ -130,7 +153,7 @@ const StoreDashboard = () => {
             <Bar dataKey="uv" fill="#82ca9d" />
           </BarChart>
         </div>
-      </Flex>
+      </Flex> */}
     </div>
   );
 };

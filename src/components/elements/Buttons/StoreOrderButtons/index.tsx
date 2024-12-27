@@ -16,9 +16,9 @@ export const CancelButton = ({ onClick }: { onClick: React.MouseEventHandler<HTM
   );
 };
 
-export const SendResponseButton = ({ onClick }: { onClick: React.MouseEventHandler<HTMLElement> | undefined }) => {
+export const SendResponseButton = ({ onClick, isDirty = false }: { onClick: React.MouseEventHandler<HTMLElement> | undefined, isDirty?: boolean }) => {
   return (
-    <Button type="primary" className="h-10 text-base" onClick={onClick}>
+    <Button type="primary" className="h-10 text-base" onClick={onClick} disabled={isDirty}>
       Send
     </Button>
   );

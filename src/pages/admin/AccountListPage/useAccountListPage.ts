@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { UserProps } from '../../../types/user.type';
 import { handleError } from '../../../utils/handleError';
-import { userAPIs } from '../../../apis/user.api';
 import { adminAPIs } from '../../../apis/admin.api';
 
 const useAccountListPage = () => {
@@ -9,9 +8,8 @@ const useAccountListPage = () => {
 
   const getAll = async () => {
     try {
-      await adminAPIs.accessDashboard();
-      const res = await userAPIs.getAllUsers();
-      setUsers(res.data.users);
+      const res = await adminAPIs.getUsers();
+      setUsers(res.data.data);
     } catch (error) {
       handleError;
     } finally {

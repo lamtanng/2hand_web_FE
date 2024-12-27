@@ -21,6 +21,7 @@ const StoreOrderDetail = () => {
     isLoading,
     confirmOrder,
     cancelReasons,
+    rejectReasons,
     openCancelModal,
     directCancel,
     isCancelModalOpen,
@@ -75,7 +76,9 @@ const StoreOrderDetail = () => {
       <Divider className="m-0" />
       <OrderInfo order={order} />
       {order?.orderStageID.name !== (OrderStage.Delivered && OrderStage.Delivering) &&
-        stages.find((item: OrderStageTrackingProps) => item.orderStageStatus.length > 1) && <CancelRequest stages={stages} order={order} />}
+        stages.find((item: OrderStageTrackingProps) => item.orderStageStatus.length > 1) && (
+          <CancelRequest stages={stages} order={order} rejectReasons={rejectReasons} />
+        )}
       <PickupDateModal
         isModalOpen={isPickupModalOpen}
         setIsModalOpen={setIsPickupModalOpen}
