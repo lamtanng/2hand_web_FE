@@ -1,5 +1,5 @@
 import { CloseOutlined } from '@ant-design/icons';
-import { Button, Divider, Flex, Radio, RadioChangeEvent, Space, Typography } from 'antd';
+import { Button, Divider, Flex, Radio, RadioChangeEvent, Typography } from 'antd';
 import { useState } from 'react';
 import { ReasonProps } from '../../../../../types/http/reason.type';
 
@@ -50,13 +50,13 @@ const DirectCancelModal = ({
         <Divider />
         <div className="max-h-[calc(70vh-120px)] overflow-y-auto px-6">
           <Radio.Group className="w-full" onChange={onChange}>
-            <Space direction="vertical" className="w-full">
-              {reasons?.map((reason: ReasonProps) => (
+          <Flex vertical gap={"large"}>
+            {reasons?.map((reason: ReasonProps) => (
                 <Radio value={reason} className="w-full text-base">
                   {reason.name}
                 </Radio>
               ))}
-            </Space>
+            </Flex>
           </Radio.Group>
           <Divider />
           <Flex justify="end" gap={'large'}>
