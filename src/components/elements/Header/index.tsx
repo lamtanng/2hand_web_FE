@@ -6,7 +6,7 @@ import { useAppSelector } from '../../../redux/hooks';
 import { loginSelector } from '../../../redux/slices/login.slice';
 import UserInfoGroup from './components/UserInfoGroup';
 import ActionGroup from './components/ActionGroup';
-import logo from '../../../assets/logo.webp'
+import logo from '../../../../public/logo.webp'
 
 export default function Header() {
   const { user } = useAppSelector(loginSelector);

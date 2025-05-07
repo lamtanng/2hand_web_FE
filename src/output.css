@@ -522,8 +522,8 @@
   width: 66.666667%;
 }
 
-#root .w-\[20\%\]{
-  width: 20%;
+#root .w-\[18\%\]{
+  width: 18%;
 }
 
 #root .w-auto{
@@ -539,12 +539,20 @@
   width: 100%;
 }
 
-#root .w-\[15\%\]{
-  width: 15%;
+#root .w-1{
+  width: 0.25rem;
 }
 
-#root .w-\[18\%\]{
-  width: 18%;
+#root .w-\[\]{
+  width: ;
+}
+
+#root .w-\[100\]{
+  width: 100;
+}
+
+#root .w-\[100\%\]{
+  width: 100%;
 }
 
 #root .min-w-60{
@@ -614,10 +622,6 @@
   flex-direction: column;
 }
 
-#root .content-center{
-  align-content: center;
-}
-
 #root .content-end{
   align-content: flex-end;
 }
@@ -634,16 +638,16 @@
   gap: 4rem;
 }
 
+#root .gap-2{
+  gap: 0.5rem;
+}
+
 #root .gap-4{
   gap: 1rem;
 }
 
 #root .gap-6{
   gap: 1.5rem;
-}
-
-#root .gap-2{
-  gap: 0.5rem;
 }
 
 #root :is(.space-y-4 > :not([hidden]) ~ :not([hidden])){
@@ -774,6 +778,11 @@
 
 #root .to-blue-200{
   --tw-gradient-to: #bfdbfe var(--tw-gradient-to-position);
+}
+
+#root .object-cover{
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 
 #root .p-0{
@@ -917,6 +926,14 @@
 
 #root .pt-6{
   padding-top: 1.5rem;
+}
+
+#root .pb-\[\]{
+  padding-bottom: ;
+}
+
+#root .pb-\[100\%\]{
+  padding-bottom: 100%;
 }
 
 #root .text-left{

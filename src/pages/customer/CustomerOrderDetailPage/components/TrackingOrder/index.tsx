@@ -3,6 +3,7 @@ import { Flex } from 'antd';
 import { OrderStageTrackingProps } from '../../../../../types/orderTracking.type';
 
 const TrackingOrder = ({ stages }: { stages: OrderStageTrackingProps[] }) => {
+  console.log(stages)
   return (
     <div className="px-12 py-6">
       <Flex>

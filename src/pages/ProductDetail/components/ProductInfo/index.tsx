@@ -30,7 +30,7 @@ const ProductInfo = ({
         <div className="w-5/12">
           <Flex vertical gap={'large'}>
             <div className="relative">
-              <Image width={'100%'} src={selectedImage ? selectedImage : product?.image[0]} fallback={defaultPic} />
+              <Image className='object-cover' width={'100%'} src={selectedImage ? selectedImage : product?.image[0]} fallback={defaultPic} />
               {product?.quantity === 0 && (
                 <div className="absolute left-[198px] top-[198px] z-10 rounded-full bg-black bg-opacity-65 px-7 py-16 font-sans text-2xl font-semibold text-white">
                   Sold Out

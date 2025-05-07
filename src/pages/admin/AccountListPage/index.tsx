@@ -1,7 +1,7 @@
-import { Modal, TableProps, Typography, Space, Button, Table } from 'antd';
-import { handleError } from '../../../utils/handleError';
+import { TableProps, Typography, Space, Button, Table } from 'antd';
+// import { handleError } from '../../../utils/handleError';
 import { Link } from 'react-router-dom';
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { EditOutlined } from '@ant-design/icons';
 import useAccountListPage from './useAccountListPage';
 import { UserProps } from '../../../types/user.type';
 import { formattedName } from '../../../utils/formatName';
