@@ -3,7 +3,11 @@ import { useEffect, useState } from 'react';
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
-const useImageUploader = (base64Images: string[], setBase64Images: React.Dispatch<React.SetStateAction<string[]>>) => {
+const useImageUploader = (
+  base64Images: string[],
+  setBase64Images: React.Dispatch<React.SetStateAction<string[]>>,
+  cropOptions = { quality: 0.9, backgroundColor: 'white' },
+) => {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [fileList, setFileList] = useState<UploadFile[]>([]);
@@ -15,6 +19,52 @@ const useImageUploader = (base64Images: string[], setBase64Images: React.Dispatc
       reader.onload = () => resolve(reader.result as string);
       reader.onerror = (error) => reject(error);
     });
+
+  const convertToSquare = (base64Image: string): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => {
+        try {
+          // Create a square canvas with the larger of width or height
+          const canvas = document.createElement('canvas');
+          const size = Math.max(img.width, img.height);
+          canvas.width = size;
+          canvas.height = size;
+
+          // Get canvas context and draw background if specified
+          const ctx = canvas.getContext('2d');
+          if (!ctx) {
+            reject(new Error('Could not get canvas context'));
+            return;
+          }
+
+          // Fill with background color if specified
+          if (cropOptions.backgroundColor) {
+            ctx.fillStyle = cropOptions.backgroundColor;
+            ctx.fillRect(0, 0, size, size);
+          }
+
+          // Calculate position to center the image
+          const offsetX = (size - img.width) / 2;
+          const offsetY = (size - img.height) / 2;
+
+          // Draw the image centered on the canvas
+          ctx.drawImage(img, offsetX, offsetY, img.width, img.height);
+
+          // Convert canvas to base64
+          resolve(canvas.toDataURL('image/jpeg', cropOptions.quality));
+        } catch (err) {
+          reject(err);
+        }
+      };
+
+      img.onerror = (error) => {
+        reject(error);
+      };
+
+      img.src = base64Image;
+    });
+  };
 
   const convertStringsToUploadFiles = (strings: string[]): UploadFile[] => {
     return strings.map((base64String, index) => {
@@ -62,7 +112,9 @@ const useImageUploader = (base64Images: string[], setBase64Images: React.Dispatc
         newFileList.map(async (file) => {
           // If it's a new file, convert to base64
           if (file.originFileObj) {
-            return getBase64(file.originFileObj as FileType);
+            const base64 = await getBase64(file.originFileObj as FileType);
+            // Convert the image to 1:1 ratio
+            return convertToSquare(base64);
           }
           // If it's an existing base64 image, return the stored base64Url
           return (file as any).base64Url || file.url || '';

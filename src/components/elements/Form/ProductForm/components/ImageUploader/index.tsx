@@ -1,6 +1,5 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Upload, Image} from 'antd';
-import ImgCrop from 'antd-img-crop';
+import { Upload, Image } from 'antd';
 import useImageUploader from './useImageUploader';
 
 const ImageUploader = ({
@@ -22,11 +21,16 @@ const ImageUploader = ({
 
   return (
     <>
-      <ImgCrop rotationSlider showReset>
-        <Upload listType="picture-card" fileList={fileList} onPreview={handlePreview} onChange={handleChange}>
-          {uploadButton}
-        </Upload>
-      </ImgCrop>
+      <Upload
+        listType="picture-card"
+        fileList={fileList}
+        onPreview={handlePreview}
+        onChange={handleChange}
+        multiple={true}
+        maxCount={10}
+      >
+        {uploadButton}
+      </Upload>
 
       {previewImage && (
         <Image
