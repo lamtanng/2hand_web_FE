@@ -119,14 +119,10 @@ const useCart = () => {
       .reduce((accumulator: number, currentValue: number) => accumulator + currentValue, 0);
   };
 
-  const actualCart = cart.filter(
-    (item: CartProps) => item.products.filter((product: CartItemProps) => product.productID.quantity > 0).length !== 0,
-  );
-
   const isCheckedAll =
     checkedList.length !== 0 &&
     checkedList.length ===
-      actualCart
+      cart
         .map((group: CartProps) => {
           return group.products;
         })

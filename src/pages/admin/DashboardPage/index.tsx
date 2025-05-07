@@ -11,8 +11,7 @@ import {
 import useDashboard from './useDashboard';
 import { OrderStage } from '../../../types/enum/orderStage.enum';
 import { formattedOrderRate } from '../../../utils/formattedOrderRate';
-import { Link } from 'react-router-dom';
-
+import StatisticCard from './components/StatisticCard';
 
 const currentDate = new Date();
 
@@ -26,7 +25,7 @@ function DashboardPage() {
   return (
     <div>
       <div className="mb-6 rounded-xl bg-white p-8 shadow-sm">
-        <Typography.Title level={2} className="m-0 mb-2">
+        <Typography.Title level={2} className="m-0 mb-2 text-blue-600">
           Dashboard
         </Typography.Title>
         <Typography.Paragraph className="m-0 text-base">An overview of the system's activity.</Typography.Paragraph>
@@ -42,56 +41,37 @@ function DashboardPage() {
         </Flex>
       </div>
       <div className="mb-6">
-        <Flex justify="space-evenly" gap={'large'} wrap>
-          <Flex vertical className="w-[30%] gap-12 rounded-xl bg-white p-8 shadow-sm">
-            <Link to={`/ad/accountList`} className='text-base'>
-              <UserOutlined /> Number of Users
-            </Link>
-            <Flex justify="space-between" align="baseline">
-              <Typography.Title className="m-0">{statistics?.userTotal}</Typography.Title>
-              <Typography.Paragraph className="m-0">{currentDate.toDateString()}</Typography.Paragraph>
-            </Flex>
-          </Flex>
-          <Flex vertical className="w-[30%] gap-12 rounded-xl bg-white p-8 shadow-sm">
-            <Link to={'/ad/productList'} className="text-base">
-              <ShoppingOutlined /> Number of Products
-            </Link>
-            <Flex justify="space-between" align="baseline">
-              <Typography.Title className="m-0">{statistics?.productTotal}</Typography.Title>
-              <Typography.Paragraph className="m-0">{currentDate.toDateString()}</Typography.Paragraph>
-            </Flex>
-          </Flex>
-          <Flex vertical className="w-[30%] gap-12 rounded-xl bg-white p-8 shadow-sm">
-            <Link to={'/ad/orderList'} className="m-0 text-base">
-              <FileTextOutlined /> Number of Orders
-            </Link>
-            <Flex justify="space-between" align="baseline">
-              <Typography.Title className="m-0">{totalOrders}</Typography.Title>
-              <Typography.Paragraph className="m-0">{currentDate.toDateString()}</Typography.Paragraph>
-            </Flex>
-          </Flex>
-          <Flex vertical className="w-[30%] gap-12 rounded-xl bg-white p-8 shadow-sm">
-            <Typography.Paragraph className="m-0 text-base">
-              <PercentageOutlined /> Succesful Order Rate
-            </Typography.Paragraph>
-            <Flex justify="space-between" align="baseline">
-              <Typography.Title className="m-0">
-                {formattedOrderRate(totalDeliveredOrders?.count, totalOrders)}
-              </Typography.Title>
-              <Typography.Paragraph className="m-0">{currentDate.toDateString()}</Typography.Paragraph>
-            </Flex>
-          </Flex>
-          <Flex vertical className="w-[30%] gap-12 rounded-xl bg-white p-8 shadow-sm">
-            <Typography.Paragraph className="m-0 text-base">
-              <PercentageOutlined /> Cancel Order Rate
-            </Typography.Paragraph>
-            <Flex justify="space-between" align="baseline">
-              <Typography.Title className="m-0">
-                {formattedOrderRate(totalCancelOrders?.count, totalOrders)}
-              </Typography.Title>
-              <Typography.Paragraph className="m-0">{currentDate.toDateString()}</Typography.Paragraph>
-            </Flex>
-          </Flex>
+        <Flex justify="space-between" wrap className='gap-2'>
+          <StatisticCard
+            title={'Number of Users'}
+            icon={<UserOutlined />}
+            data={statistics?.userTotal}
+            date={currentDate.toDateString()}
+          />
+          <StatisticCard
+            title={'Number of Products'}
+            icon={<ShoppingOutlined />}
+            data={statistics?.productTotal}
+            date={currentDate.toDateString()}
+          />
+          <StatisticCard
+            title={'Number of Orders'}
+            icon={<FileTextOutlined />}
+            data={totalOrders}
+            date={currentDate.toDateString()}
+          />
+          <StatisticCard
+            title={'Succesful Order Rate'}
+            icon={<PercentageOutlined />}
+            data={formattedOrderRate(totalDeliveredOrders?.count, totalOrders)}
+            date={currentDate.toDateString()}
+          />
+          <StatisticCard
+            title={'Cancel Order Rate'}
+            icon={<PercentageOutlined />}
+            data={formattedOrderRate(totalCancelOrders?.count, totalOrders)}
+            date={currentDate.toDateString()}
+          />
         </Flex>
       </div>
       <Flex justify="space-evenly">
@@ -115,7 +95,9 @@ function DashboardPage() {
             <Legend />
             <Bar dataKey="count" fill="#3b82f6" />
           </BarChart>
-          <Typography.Title level={5} className='m-0 mt-3 text-center text-blue-600'>Orders by Stages Chart</Typography.Title>
+          <Typography.Title level={5} className="m-0 mt-3 text-center text-blue-600">
+            Orders by Stages Chart
+          </Typography.Title>
         </div>
       </Flex>
     </div>

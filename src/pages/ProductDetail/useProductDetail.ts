@@ -92,7 +92,7 @@ const useProductDetail = () => {
     try {
       setDirty(true);
       if (user._id) {
-        addToCart(user._id, 'buyNow');
+        await addToCart(user._id, 'buyNow');
         navigate(`/${customerUrls.cartUrl}`);
       } else {
         navigate(`/${authUrls.loginUrl}`);
@@ -125,6 +125,7 @@ const useProductDetail = () => {
     } catch (error) {
       handleError(error);
     } finally {
+      setQuantity(1);
       setLoading(false);
     }
   };
@@ -151,6 +152,7 @@ const useProductDetail = () => {
     isDirty,
     handleBuyNow,
     reviews,
+    productQuantity
   };
 };
 

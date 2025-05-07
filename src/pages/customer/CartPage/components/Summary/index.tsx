@@ -30,7 +30,7 @@ const Summary = ({
           <Button variant="link" color="default" className="p-0 text-base hover:text-inherit">
             Select All ({itemAmount})
           </Button>
-          <Button variant="link" color="primary" className="p-0 text-base">
+          <Button variant="link" color="primary" className="p-0 text-base" disabled>
             Add to wishlist
           </Button>
         </Flex>

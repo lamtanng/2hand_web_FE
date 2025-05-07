@@ -26,6 +26,8 @@ const CartPage = () => {
     isLoading,
   } = useCart();
 
+  console.log(checkedList);
+
   const actualCart = cart.filter(
     (item: CartProps) => item.products.filter((product: CartItemProps) => product.productID.quantity > 0).length !== 0,
   );
