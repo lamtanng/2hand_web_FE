@@ -44,7 +44,7 @@ const OrderList = ({
           )}
         </>
       )}
-      {orders.length > 10 && <Pagination align="center" onChange={(e) => setPage(e)} current={page} total={total} />}
+      {total > 10 && <Pagination align="center" onChange={(e) => setPage(e)} current={page} total={total} />}
     </>
   );
 };

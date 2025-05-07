@@ -13,8 +13,10 @@ import PageSpin from '../../components/elements/Spin/PageSpin';
 import ReviewSection from './components/ReviewSection';
 
 const ProductDetail = () => {
-  const { product, isLoading, storeProduct, handleAddToCart, setQuantity, isDirty, handleBuyNow, reviews } =
+  const { product, isLoading, storeProduct, handleAddToCart, setQuantity, isDirty, handleBuyNow, reviews, productQuantity } =
     useProductDetail();
+
+    console.log(productQuantity)
 
   return (
     <>

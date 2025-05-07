@@ -120,7 +120,7 @@ const OrderListPage = () => {
   return (
     <div>
       <div className="mb-6 rounded-xl bg-white p-8 shadow-sm">
-        <Typography.Title level={2} className="m-0 mb-2">
+        <Typography.Title level={2} className="m-0 mb-2 text-blue-600">
           Order List
         </Typography.Title>
       </div>
