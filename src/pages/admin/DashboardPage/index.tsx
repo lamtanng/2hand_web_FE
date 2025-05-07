@@ -1,5 +1,5 @@
 import { Button, Flex, Tooltip, Typography } from 'antd';
-import { Bar, BarChart, CartesianGrid, Legend, Line, LineChart, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, CartesianGrid, Legend,  XAxis, YAxis } from 'recharts';
 import {
   CalendarOutlined,
   DownloadOutlined,

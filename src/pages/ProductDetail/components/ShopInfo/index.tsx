@@ -1,4 +1,4 @@
-import { MessageOutlined, PhoneOutlined, ShopOutlined, UserOutlined } from '@ant-design/icons';
+import { MessageOutlined, ShopOutlined, UserOutlined } from '@ant-design/icons';
 import { Avatar, Button, Col, Divider, Flex, Row, Typography } from 'antd';
 import { Link } from 'react-router-dom';
 import { ProductProps } from '../../../../types/product.type';
