@@ -13,6 +13,8 @@ import { StoreProductsDetailRoutes } from "../pages/customer/StoreProductDetailP
 import { StoreProductsRoutes } from "../pages/customer/StoreProductsPage/StoreProducts.routes";
 import { StoreOrderDetailRoutes } from "../pages/customer/StoreOrderDetailPage/StoreOrderDetail.routes";
 import { StoreReviewRoutes } from "../pages/customer/StoreReviewPage/StoreReview.routes";
+import { WishlistRoutes } from "../pages/customer/CustomerWishlistPage/CustomerWishlistPage.routes";
+import { NotificationsRoutes } from "../pages/customer/NotificationPage/NotificationPage.routes";
 
 export const accountRoutes: RouteObject = {
     path: accountUrls.accountUrl,
@@ -23,12 +25,14 @@ export const accountRoutes: RouteObject = {
           MyOrdersRoutes,
           MyReviewsRoutes,
           OrderDetailRoutes,
+          WishlistRoutes,
           StoreDashboardRoutes,
           StoreOrderRoutes,
           StoreProfileRoutes,
           StoreReviewRoutes,
           StoreOrderDetailRoutes,
           StoreProductsRoutes,
-          StoreProductsDetailRoutes
+          StoreProductsDetailRoutes,
+          NotificationsRoutes
         ],
   };

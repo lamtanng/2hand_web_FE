@@ -1,4 +1,4 @@
-import { ShoppingCartOutlined, UserOutlined } from '@ant-design/icons';
+import { BellOutlined, ShoppingCartOutlined, UserOutlined } from '@ant-design/icons';
 import { Avatar, Button, Divider, Dropdown, Flex, MenuProps, Typography } from 'antd';
 import { UserProps } from '../../../../../types/user.type';
 import useUserInfo from './useUserInfo';
@@ -74,10 +74,10 @@ const UserInfoGroup = ({ user }: { user: UserProps }) => {
           <p className="absolute -right-2 -top-2 m-0 rounded-full bg-blue-500 px-1 text-xs text-white">{itemAmount}</p>
         </div>
       </Link>
-      {/* <div className="relative h-fit">
-        <BellOutlined className="m-0 text-lg" />
+      <div className="relative h-fit">
+        <BellOutlined className="m-0 text-lg text-blue-600" />
         <p className="absolute -right-2 -top-2 m-0 rounded-full bg-blue-500 px-1 text-xs text-white">0</p>
-      </div> */}
+      </div>
       <Link to={actionLink}>
         <Button type="primary" className="hidden px-10 text-base md:inline">
           Sell a product
