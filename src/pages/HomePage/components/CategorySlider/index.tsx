@@ -28,18 +28,31 @@ const CategorySlider = () => {
     <div className="relative mt-10 w-full overflow-hidden">
       {category && (
         <Carousel responsive={responsive} className="z-0 p-2">
-          {category.filter((cate: CategoryProps) => !cate.parentID).map((item: CategoryProps) => (
-            <div className="card h-full" key={item._id}>
-              <Link to={'/product-list'} className='h-full'>
-                <Card hoverable size="small" className="h-full mx-2 md:mx-3 xl:mx-5">
-                  <Flex vertical justify="space-between" align="center" gap={'middle'} className='h-full'>
-                    <Image width={100} height={100} alt={item.slug} src={item.image} fallback={defaultImg} preview={false} className="rounded-sm" />
-                    <Typography.Paragraph className="m-0 text-sm xl:text-base">{item.name}</Typography.Paragraph>
-                  </Flex>
-                </Card>
-              </Link>
-            </div>
-          ))}
+          {category
+            .filter((cate: CategoryProps) => !cate.parentID)
+            .map((item: CategoryProps) => (
+              <div className="card h-full" key={item._id}>
+                <Link
+                  to={{ pathname: '/product-list', search: `page=1&limit=8&category=${JSON.stringify([item._id])}` }}
+                  className="h-full"
+                >
+                  <Card hoverable size="small" className="mx-2 h-full md:mx-3 xl:mx-5">
+                    <Flex vertical justify="space-between" align="center" gap={'middle'} className="h-full">
+                      <Image
+                        width={100}
+                        height={100}
+                        alt={item.slug}
+                        src={item.image}
+                        fallback={defaultImg}
+                        preview={false}
+                        className="rounded-sm"
+                      />
+                      <Typography.Paragraph className="m-0 text-sm xl:text-base">{item.name}</Typography.Paragraph>
+                    </Flex>
+                  </Card>
+                </Link>
+              </div>
+            ))}
         </Carousel>
       )}
     </div>

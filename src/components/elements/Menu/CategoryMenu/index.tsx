@@ -16,13 +16,13 @@ const CustomCategoryMenu = () => {
   };
 
   const items: MenuProps['items'] = topLevel.map((cate: CategoryProps) => ({
-    key: cate.slug,
+    key: cate._id,
     label: cate.name,
     children: getChildCate(cate._id)?.map((cate: CategoryProps) => ({
-      key: cate.slug,
+      key: cate._id,
       label: cate.name,
       children: getChildCate(cate._id)?.map((cate: CategoryProps) => ({
-        key: cate.slug,
+        key: cate._id,
         label: cate.name,
       })),
     })),
@@ -30,7 +30,7 @@ const CustomCategoryMenu = () => {
 
   const handleMenuClick: MenuProps['onClick'] = (e) => {
     console.log('click', e);
-    navigate(`${guestUrls.productListUrl}`);
+    navigate({ pathname: `${guestUrls.productListUrl}`, search: `page=1&limit=8&category=${JSON.stringify([e.key])}` });
   };
 
   const menuProps = {
@@ -40,15 +40,28 @@ const CustomCategoryMenu = () => {
 
   return (
     <div className="mx-auto w-10/12">
-      <Flex justify='space-between'>
-      <Dropdown menu={menuProps}>
-        <Space>
-          <MenuOutlined />
-        </Space>
-      </Dropdown>
-      <Link to={`/${guestUrls.productListUrl}`} className='font-sans text-black flex-shrink-0'>All</Link>
+      <Flex justify="space-between">
+        <Dropdown menu={menuProps}>
+          <Space>
+            <MenuOutlined />
+          </Space>
+        </Dropdown>
+        <Link
+          to={{ pathname: `/${guestUrls.productListUrl}`, search: 'page=1&limit=8' }}
+          className="flex-shrink-0 font-sans text-black"
+        >
+          All
+        </Link>
         {topLevel.map((category: CategoryProps) => (
-          <Link to={`/${guestUrls.productListUrl}`} className='font-sans text-black flex-shrink-0'>{category.name}</Link>
+          <Link
+            to={{
+              pathname: `/${guestUrls.productListUrl}`,
+              search: `page=1&limit=8&category=${JSON.stringify([category._id])}`,
+            }}
+            className="flex-shrink-0 font-sans text-black"
+          >
+            {category.name}
+          </Link>
         ))}
       </Flex>
     </div>

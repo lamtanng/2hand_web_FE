@@ -10,44 +10,34 @@ import CustomPagination from './components/Pagination';
 import Sort from './components/Sort';
 import NoProduct from './components/NoProduct';
 import PageSpin from '../../components/elements/Spin/PageSpin';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useDebouncedCallback } from 'use-debounce';
+import { guestUrls } from '../../constants/urlPaths/guestUrls';
 
 const ProductList = () => {
-  const {
-    product,
-    totalProducts,
-    category,
-    setPrice,
-    setQuality,
-    isLoading,
-    setSort,
-    setSearch,
-    quality,
-    limit,
-    setPage,
-    setLimit,
-    setSelectedCategory,
-    selectedCategory,
-    page
-  } = useListProducts();
+  const navigate = useNavigate();
+  let [searchParams] = useSearchParams();
+  const { product, totalProducts, category, isLoading, setSelectedCategory, selectedCategory } = useListProducts();
+
+  const onSearch = useDebouncedCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    if (!event.target.value) {
+      searchParams.delete('search');
+    } else {
+      searchParams.set('search', event.target.value);
+    }
+    navigate({ pathname: `/${guestUrls.productListUrl}`, search: searchParams.toString() });
+  }, 300);
 
   return (
     <>
       <Header />
       <div>
-        <div className="mx-5 mt-10 md:mx-10  md:mt-32 md:py-5 xl:mx-auto xl:w-10/12">
+        <div className="mx-5 mt-10 md:mx-10 md:mt-32 md:py-5 xl:mx-auto xl:w-10/12">
           {/* <CustomBreadcrumb /> */}
           <Flex gap={'large'} className="mt-5">
             <Flex vertical gap={'large'} className="w-1/5">
-              <Search placeholder="Search for a product" onChange={(event) => setSearch(event.target.value)} />
-              <Filter
-                category={category}
-                setSelectedCategory={setSelectedCategory}
-                selectedCategory={selectedCategory}
-                setPrice={setPrice}
-                setQuality={setQuality}
-                setPage={setPage}
-                quality={quality}
-              />
+              <Search placeholder="Search for a product" onChange={onSearch} />
+              <Filter category={category} />
             </Flex>
             <Divider type="vertical" className="h-screen" />
             <div className="w-4/5">
@@ -58,7 +48,7 @@ const ProductList = () => {
                 </Flex>
                 <Flex gap={'middle'} align="center">
                   <p>Sort by:</p>
-                  <Sort setSort={setSort} />
+                  <Sort />
                 </Flex>
               </Flex>
               {isLoading ? (
@@ -66,7 +56,7 @@ const ProductList = () => {
               ) : product?.length !== 0 ? (
                 <>
                   <ListProducts productList={product} isLoading={isLoading} />
-                  <CustomPagination limit={limit} page={page} setLimit={setLimit} setPage={setPage} totalProducts={totalProducts} />
+                  <CustomPagination totalProducts={totalProducts} />
                 </>
               ) : (
                 <NoProduct />

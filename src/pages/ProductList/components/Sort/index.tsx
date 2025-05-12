@@ -1,8 +1,10 @@
 import { DownOutlined } from '@ant-design/icons';
 import { Button, Dropdown, MenuProps, Space } from 'antd';
 import { useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { guestUrls } from '../../../../constants/urlPaths/guestUrls';
 
-const Sort = ({ setSort }: { setSort: React.Dispatch<React.SetStateAction<string>> }) => {
+const Sort = () => {
   const items: MenuProps['items'] = [
     {
       key: JSON.stringify({ createdAt: -1 }),
@@ -26,13 +28,17 @@ const Sort = ({ setSort }: { setSort: React.Dispatch<React.SetStateAction<string
     },
   ];
 
+  const navigate = useNavigate();
+  let [searchParams] = useSearchParams();
+
   const handleMenuClick: MenuProps['onClick'] = (e) => {
     const selectedItem: any = items.find((item) => item?.key === e.key);
     if (selectedItem) {
       const newSize = selectedItem.key;
       setMenuValue(selectedItem.label);
       if (newSize) {
-        setSort(newSize);
+        searchParams.set('sort', newSize);
+        navigate({ pathname: `/${guestUrls.productListUrl}`, search: searchParams.toString() });
       }
     }
   };

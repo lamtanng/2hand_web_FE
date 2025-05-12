@@ -6,7 +6,8 @@ import { useAppSelector } from '../../../redux/hooks';
 import { loginSelector } from '../../../redux/slices/login.slice';
 import UserInfoGroup from './components/UserInfoGroup';
 import ActionGroup from './components/ActionGroup';
-import logo from '../../../../public/logo.webp'
+import logo from '../../../../public/logo.webp';
+import { guestUrls } from '../../../constants/urlPaths/guestUrls';
 
 export default function Header() {
   const { user } = useAppSelector(loginSelector);
@@ -19,19 +20,20 @@ export default function Header() {
           <Flex gap={'large'} justify="start" align="center" className="flex xl:flex-grow">
             <Flex gap="large" className="font-sans">
               <Link to="/" className="font-sans">
-                <Image alt='' src={logo} width={50} preview={false} />
+                <Image alt="" src={logo} width={50} preview={false} />
               </Link>
             </Flex>
-            <Search
-              placeholder="input search text"
-              allowClear
-              className="hidden w-full text-base md:inline xl:min-w-80 xl:max-w-80"
-            />
+            <Link to={'/'} className="font-sans text-base">
+              Home
+            </Link>
+            <Link to={{ pathname: `/${guestUrls.productListUrl}`, search: 'page=1&limit=8' }} className="font-sans text-base">
+              Products
+            </Link>
           </Flex>
           {displayingGroup}
         </Flex>
-        <Divider className='my-4'/>
-      <CustomCategoryMenu />
+        <Divider className="my-4" />
+        <CustomCategoryMenu />
       </div>
     </>
   );

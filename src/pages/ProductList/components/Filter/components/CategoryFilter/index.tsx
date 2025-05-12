@@ -1,42 +1,45 @@
 import { Button, Checkbox, Flex } from 'antd';
 import { CategoryProps } from '../../../../../../types/category.type';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { guestUrls } from '../../../../../../constants/urlPaths/guestUrls';
+import { useState } from 'react';
 
-const CategoryFilter = ({
-  category,
-  selectedCategory,
-  setSelectedCategory,
-  setPage
-}: {
-  category: CategoryProps[];
-  setSelectedCategory: React.Dispatch<React.SetStateAction<string[]>>;
-  setPage: React.Dispatch<React.SetStateAction<number>>;
-  selectedCategory: string[];
-}) => {
+const CategoryFilter = ({ category }: { category: CategoryProps[] }) => {
+  const navigate = useNavigate();
+  let [searchParams] = useSearchParams();
+  const [selectedCategory, setSelectedCategory] = useState<string[]>([searchParams.get('category') ?? '']);
+
   const handleCheckbox = (event: CheckboxChangeEvent) => {
     let isSelected = event.target.checked;
     let value = event.target.value;
+    let catergories;
 
     if (isSelected) {
-      setSelectedCategory([...selectedCategory, value]);
+      catergories = [...selectedCategory, value];
     } else {
-      setSelectedCategory((prevData) => {
-        return prevData.filter((key) => {
-          return key !== value;
-        });
-      });
+      catergories = selectedCategory.filter((key) => key !== value);
     }
-    setPage(1);
+    setSelectedCategory(catergories);
+    searchParams.set('page', '1');
+    if (catergories.length !== 0) {
+      searchParams.set('category', JSON.stringify(catergories));
+    } else {
+      searchParams.delete('category');
+    }
+    navigate({ pathname: `/${guestUrls.productListUrl}`, search: searchParams.toString() });
   };
 
   return (
     <>
       <Flex vertical className="font-normal">
-        {category.filter((cate: CategoryProps) => cate.childrenIDs?.length === 0).map((cate: CategoryProps) => (
-          <Checkbox value={cate._id} onChange={handleCheckbox} checked={selectedCategory.includes(cate._id)}>
-            {cate.name}
-          </Checkbox>
-        ))}
+        {category
+          .filter((cate: CategoryProps) => cate.childrenIDs?.length === 0)
+          .map((cate: CategoryProps) => (
+            <Checkbox value={cate._id} onChange={handleCheckbox} checked={selectedCategory.includes(cate._id)}>
+              {cate.name}
+            </Checkbox>
+          ))}
       </Flex>
       <Button
         variant="link"
@@ -44,7 +47,9 @@ const CategoryFilter = ({
         className="mt-4"
         onClick={() => {
           setSelectedCategory([]);
-          setPage(1);
+          searchParams.delete('category');
+          searchParams.set('page', '1');
+          navigate({ pathname: `/${guestUrls.productListUrl}`, search: searchParams.toString() });
         }}
       >
         Clear

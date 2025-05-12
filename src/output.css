@@ -393,10 +393,6 @@
   display: grid;
 }
 
-#root .contents{
-  display: contents;
-}
-
 #root .\!hidden{
   display: none !important;
 }
