@@ -1,6 +1,9 @@
 import { Button, Checkbox, Flex } from 'antd';
 import { ProductQuality } from '../../../../../../types/enum/productQuality.enum';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { guestUrls } from '../../../../../../constants/urlPaths/guestUrls';
+import { useState } from 'react';
 
 interface QualityProps {
   label: string;
@@ -30,29 +33,29 @@ const qualityValue: QualityProps[] = [
   },
 ];
 
-const QualityFilter = ({
-  quality,
-  setQuality,
-  setPage,
-}: {
-  setQuality: React.Dispatch<React.SetStateAction<string[]>>;
-  setPage: React.Dispatch<React.SetStateAction<number>>;
-  quality: string[];
-}) => {
+const QualityFilter = () => {
+  const navigate = useNavigate();
+  let [searchParams] = useSearchParams();
+  const [quality, setQuality] = useState<string[]>(Array(searchParams.get('quality') ?? ''));
+
   const handleCheckbox = (event: CheckboxChangeEvent) => {
     let isSelected = event.target.checked;
     let value = event.target.value;
+    let qualityFilter;
 
     if (isSelected) {
-      setQuality([...quality, value]);
+      qualityFilter = [...quality, value];
     } else {
-      setQuality((prevData) => {
-        return prevData.filter((key) => {
-          return key !== value;
-        });
-      });
+      qualityFilter = quality.filter((key) => key !== value);
     }
-    setPage(1);
+    setQuality(qualityFilter);
+    searchParams.set('page', '1');
+    if (qualityFilter.length !== 0) {
+      searchParams.set('quality', JSON.stringify(qualityFilter));
+    } else {
+      searchParams.delete('quality');
+    }
+    navigate({ pathname: `/${guestUrls.productListUrl}`, search: searchParams.toString() });
   };
   return (
     <>
@@ -69,7 +72,9 @@ const QualityFilter = ({
         className="mt-4"
         onClick={() => {
           setQuality([]);
-          setPage(1);
+          searchParams.set('page', '1');
+          searchParams.delete('quality');
+          navigate({ pathname: `/${guestUrls.productListUrl}`, search: searchParams.toString() });
         }}
       >
         Clear

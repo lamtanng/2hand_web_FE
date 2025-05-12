@@ -5,37 +5,25 @@ import QualityFilter from './components/QualityFilter';
 import CategoryFilter from './components/CategoryFilter';
 
 const Filter = ({
-  category,
-  setPrice,
-  setQuality,
-  setPage,
-  quality,
-  setSelectedCategory,
-  selectedCategory,
+  category
 }: {
   category: CategoryProps[];
-  setPrice: React.Dispatch<React.SetStateAction<string>>;
-  setQuality: React.Dispatch<React.SetStateAction<string[]>>;
-  setPage: React.Dispatch<React.SetStateAction<number>>;
-  quality: string[];
-  setSelectedCategory: React.Dispatch<React.SetStateAction<string[]>>;
-  selectedCategory: string[];
 }) => {
   const items: CollapseProps['items'] = [
     {
       key: '1',
       label: 'Category',
-      children: <CategoryFilter category={category} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} setPage={setPage} />,
+      children: <CategoryFilter category={category} />,
     },
     {
       key: '2',
       label: 'Price',
-      children: <PriceFilter setPage={setPage} setPrice={setPrice} />,
+      children: <PriceFilter />,
     },
     {
       key: '3',
       label: 'Quality',
-      children: <QualityFilter quality={quality} setPage={setPage} setQuality={setQuality} />,
+      children: <QualityFilter />,
     },
   ];
   return (

@@ -717,9 +717,9 @@
   background-color: rgb(0 0 0 / 0.2);
 }
 
-#root .bg-blue-200{
+#root .bg-blue-100{
   --tw-bg-opacity: 1;
-  background-color: rgb(191 219 254 / var(--tw-bg-opacity));
+  background-color: rgb(219 234 254 / var(--tw-bg-opacity));
 }
 
 #root .bg-blue-50{
@@ -737,6 +737,16 @@
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
 }
 
+#root .bg-green-50{
+  --tw-bg-opacity: 1;
+  background-color: rgb(240 253 244 / var(--tw-bg-opacity));
+}
+
+#root .bg-red-100{
+  --tw-bg-opacity: 1;
+  background-color: rgb(254 226 226 / var(--tw-bg-opacity));
+}
+
 #root .bg-slate-50{
   --tw-bg-opacity: 1;
   background-color: rgb(248 250 252 / var(--tw-bg-opacity));
@@ -749,31 +759,6 @@
 
 #root .bg-white\/10{
   background-color: rgb(255 255 255 / 0.1);
-}
-
-#root .bg-blue-100{
-  --tw-bg-opacity: 1;
-  background-color: rgb(219 234 254 / var(--tw-bg-opacity));
-}
-
-#root .bg-green-100{
-  --tw-bg-opacity: 1;
-  background-color: rgb(220 252 231 / var(--tw-bg-opacity));
-}
-
-#root .bg-green-50{
-  --tw-bg-opacity: 1;
-  background-color: rgb(240 253 244 / var(--tw-bg-opacity));
-}
-
-#root .bg-red-100{
-  --tw-bg-opacity: 1;
-  background-color: rgb(254 226 226 / var(--tw-bg-opacity));
-}
-
-#root .bg-yellow-100{
-  --tw-bg-opacity: 1;
-  background-color: rgb(254 249 195 / var(--tw-bg-opacity));
 }
 
 #root .bg-yellow-50{

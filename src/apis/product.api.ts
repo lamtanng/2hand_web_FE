@@ -10,11 +10,11 @@ const productByIDUrl = getProductUrl(productPaths.idPath);
 const getAllProduct = (
   page: number,
   limit: number,
-  search: string | undefined,
-  sort: string | undefined,
-  quality: string | undefined,
-  price: string | undefined,
-  cateID: string | undefined,
+  search: string | null,
+  sort: string | null,
+  quality: string | null,
+  price: string | null,
+  cateID: string | null,
   storeID: string | undefined,
 ) => {
   return axiosClient.get(productUrl, {

@@ -1,12 +1,13 @@
 import { Radio, Space } from 'antd';
-import React from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { guestUrls } from '../../../../../../constants/urlPaths/guestUrls';
 
 interface PriceProps {
-  label: string,
+  label: string;
   range?: {
-    min?: number,
-    max?: number
-  }
+    min?: number;
+    max?: number;
+  };
 }
 
 const priceValue: PriceProps[] = [
@@ -57,20 +58,22 @@ const priceValue: PriceProps[] = [
   },
 ];
 
-const PriceFilter = ({
-  setPage,
-  setPrice,
-}: {
-  setPrice: React.Dispatch<React.SetStateAction<string>>;
-  setPage: React.Dispatch<React.SetStateAction<number>>;
-}) => {
+const PriceFilter = () => {
+  const navigate = useNavigate();
+  let [searchParams] = useSearchParams();
+
   return (
     <Radio.Group
       defaultValue={undefined}
       className="font-normal"
       onChange={(event) => {
-        setPrice(event.target.value);
-        setPage(1);
+        searchParams.set('page', '1');
+        if (event.target.value) {
+          searchParams.set('price', event.target.value);
+        } else {
+          searchParams.delete('price');
+        }
+        navigate({ pathname: `/${guestUrls.productListUrl}`, search: searchParams.toString() });
       }}
     >
       <Space direction="vertical">
