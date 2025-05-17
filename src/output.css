@@ -1299,14 +1299,6 @@
     width: 100%;
   }
 
-  #root .xl\:min-w-80{
-    min-width: 20rem;
-  }
-
-  #root .xl\:max-w-80{
-    max-width: 20rem;
-  }
-
   #root .xl\:flex-grow{
     flex-grow: 1;
   }

@@ -29,6 +29,7 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
   const [isFree, setFree] = useState<boolean>(false);
   const [quantity, setQuantity] = useState<number>(1);
   const [isSubmitting, setSubmitting] = useState<boolean>(false);
+  const [isGenerating, setGenerating] = useState<boolean>(false);
   const [description, setDescription] = useState<string>('');
   const [selectedProvince, setSelectedProvince] = useState<ProvincesAddressProps | null>(null);
   const [selectedDistrict, setSelectedDistrict] = useState<DistrictAddressProps | null>(null);
@@ -73,7 +74,6 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
     try {
       setSubmitting(true);
       await productAPIs.updateProduct(data);
-      console.log(data);
       displaySuccess('Product is updated successfully');
       navigate(-1);
     } catch (error) {
@@ -83,8 +83,43 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
     }
   };
 
+  const isGeneratable = !description.trim() && base64Images.length === 0 ? true : false;
+
+  const handleGenerateDescription = async () => {
+    try {
+      setGenerating(true);
+      const images = base64Images.map((item: string) => {
+        return { type: 'image_url', image_url: { url: item } };
+      });
+      const prompt = { type: 'text', text: description };
+      const content = {
+        model: 'gpt-4o-mini',
+        messages: [
+          {
+            role: 'system',
+            content: `I am a seller. Please help me create content for my product's description without format. `,
+          },
+          {
+            role: 'user',
+            content: [prompt, ...images],
+          },
+        ],
+        stream: false,
+        temperature: 1,
+        n: 2,
+      };
+      const res = await productAPIs.generateProductDescription(content);
+      console.log(res);
+      setDescription(res.data.choices[0].message.content);
+    } catch (error) {
+      handleError(error);
+    } finally {
+      setGenerating(false);
+    }
+  };
+
   const handleSubmitForm = (product: FormProductProps) => {
-    const storeID = store && store._id && store._id
+    const storeID = store && store._id && store._id;
     const newProduct: ProductRequestBodyProps = {
       name: product.name?.trim(),
       description: description.trim(),
@@ -103,16 +138,16 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
         district: {
           DistrictID: selectedDistrict?.DistrictID,
           ProvinceID: selectedDistrict?.ProvinceID,
-          DistrictName: selectedDistrict?.DistrictName?.trim()
+          DistrictName: selectedDistrict?.DistrictName?.trim(),
         },
         province: {
           ProvinceID: selectedProvince?.ProvinceID,
-          ProvinceName: selectedProvince?.ProvinceName?.trim()
+          ProvinceName: selectedProvince?.ProvinceName?.trim(),
         },
         ward: {
           WardCode: selectedWard?.WardCode,
           DistrictID: selectedWard?.DistrictID,
-          WardName: selectedWard?.WardName?.trim()
+          WardName: selectedWard?.WardName?.trim(),
         },
         isDefault: isSelectedDefault,
       },
@@ -193,7 +228,10 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
     quantity,
     setBase64Images,
     base64Images,
-    setSelectedDefault
+    setSelectedDefault,
+    handleGenerateDescription,
+    isGeneratable,
+    isGenerating,
   };
 };
 

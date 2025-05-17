@@ -47,6 +47,9 @@ const ProductForm = ({
     quantity,
     base64Images,
     setBase64Images,
+    handleGenerateDescription,
+    isGeneratable,
+    isGenerating,
   } = useProductForm(store, product);
 
   const navigate = useNavigate();
@@ -110,6 +113,19 @@ const ProductForm = ({
           </Typography.Paragraph>
           <TextEditor setValue={setDescription} value={description} />
         </Form.Item>
+        <Flex justify="end" className="w-full">
+          <Form.Item>
+            <Button
+              className="h-10 w-full text-base"
+              type="primary"
+              onClick={handleGenerateDescription}
+              disabled={isGeneratable}
+              loading={isGenerating}
+            >
+              Generate Description
+            </Button>
+          </Form.Item>
+        </Flex>
         <ConditionRadio onChange={setCondition} selected={condition} />
         <Typography.Title level={3} className="m-0 mb-4">
           Picking Information
