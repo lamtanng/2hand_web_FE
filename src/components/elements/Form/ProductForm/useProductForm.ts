@@ -108,7 +108,7 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
         temperature: 1,
         n: 2,
       };
-      const res = await productAPIs.generateProductDescription(content);
+      const res = await productAPIs.integrateAI(content);
       console.log(res);
       setDescription(res.data.choices[0].message.content);
     } catch (error) {
@@ -118,49 +118,75 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
     }
   };
 
-  const handleSubmitForm = (product: FormProductProps) => {
-    const storeID = store && store._id && store._id;
-    const newProduct: ProductRequestBodyProps = {
-      name: product.name?.trim(),
-      description: description.trim(),
-      image: base64Images,
-      price: product.price,
-      quantity: quantity,
-      quality: condition,
-      cateID: selectedCategory?._id,
-      storeID: storeID,
-      weight: product.weight,
-      height: product.height,
-      length: product.length,
-      width: product.width,
-      address: {
-        address: product.detailAddress,
-        district: {
-          DistrictID: selectedDistrict?.DistrictID,
-          ProvinceID: selectedDistrict?.ProvinceID,
-          DistrictName: selectedDistrict?.DistrictName?.trim(),
-        },
-        province: {
-          ProvinceID: selectedProvince?.ProvinceID,
-          ProvinceName: selectedProvince?.ProvinceName?.trim(),
-        },
-        ward: {
-          WardCode: selectedWard?.WardCode,
-          DistrictID: selectedWard?.DistrictID,
-          WardName: selectedWard?.WardName?.trim(),
-        },
-        isDefault: isSelectedDefault,
-      },
-    };
+  const handleSubmitForm = async (product: FormProductProps) => {
+    try {
+      const prompt = { type: 'text', text: description };
+      const content = {
+        model: 'gpt-4o-mini',
+        messages: [
+          {
+            role: 'system',
+            content: 'Check if my content violates social standards. Return true or false in boolean data type',
+          },
+          {
+            role: 'user',
+            content: [prompt],
+          },
+        ],
+        stream: false,
+        temperature: 1,
+        n: 2,
+      };
+      const res = await productAPIs.integrateAI(content);
+      if (res.data.choices[0].message.content === 'true') {
+        throw Error('Your description violates social standards');
+      } else {
+        const storeID = store && store._id && store._id;
+        const newProduct: ProductRequestBodyProps = {
+          name: product.name?.trim(),
+          description: description.trim(),
+          image: base64Images,
+          price: product.price,
+          quantity: quantity,
+          quality: condition,
+          cateID: selectedCategory?._id,
+          storeID: storeID,
+          weight: product.weight,
+          height: product.height,
+          length: product.length,
+          width: product.width,
+          address: {
+            address: product.detailAddress,
+            district: {
+              DistrictID: selectedDistrict?.DistrictID,
+              ProvinceID: selectedDistrict?.ProvinceID,
+              DistrictName: selectedDistrict?.DistrictName?.trim(),
+            },
+            province: {
+              ProvinceID: selectedProvince?.ProvinceID,
+              ProvinceName: selectedProvince?.ProvinceName?.trim(),
+            },
+            ward: {
+              WardCode: selectedWard?.WardCode,
+              DistrictID: selectedWard?.DistrictID,
+              WardName: selectedWard?.WardName?.trim(),
+            },
+            isDefault: isSelectedDefault,
+          },
+        };
 
-    const updateProduct: ProductRequestBodyProps = {
-      _id: currentProduct?._id,
-      ...newProduct,
-    };
-    if (currentProduct) {
-      handleUpdateProduct(updateProduct);
-    } else {
-      handleAddProduct(newProduct);
+        const updateProduct: ProductRequestBodyProps = {
+          _id: currentProduct?._id,
+          ...newProduct,
+        };
+        if (currentProduct) {
+          handleUpdateProduct(updateProduct);
+        } else {
+          handleAddProduct(newProduct);
+        }
+      }
+    } catch (error) {
+      handleError(error);
     }
   };
 

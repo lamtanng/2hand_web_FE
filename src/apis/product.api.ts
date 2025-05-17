@@ -61,7 +61,7 @@ const deleteProduct = (productID: string) => {
   return axiosClient.delete(productUrl, { params: { _id: productID } });
 };
 
-const generateProductDescription = (content: any) => {
+const integrateAI = (content: any) => {
   const generateURL = 'v1/chat/completions';
   return axiosAI.post(generateURL, content, {
     headers: {
@@ -78,5 +78,5 @@ export const productAPIs = {
   deleteProduct,
   getProductByID,
   updateProduct,
-  generateProductDescription,
+  integrateAI,
 };
