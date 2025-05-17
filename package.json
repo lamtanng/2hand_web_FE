@@ -23,6 +23,7 @@
     "axios": "^1.7.7",
     "datejs": "^1.0.0-rc3",
     "dayjs": "^1.11.13",
+    "dotenv": "^16.5.0",
     "fbemitter": "^3.0.0",
     "html-react-parser": "^5.1.18",
     "jwt-decode": "^4.0.0",

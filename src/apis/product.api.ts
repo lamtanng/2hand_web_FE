@@ -1,6 +1,14 @@
+import axios from 'axios';
 import { productPaths } from '../constants/apiPaths/productPaths';
 import { ProductRequestBodyProps } from '../types/http/product.type';
 import { axiosClient } from './axios';
+import { headers, withCredentials } from './axios.constants';
+import { AI_CONFIG } from '../config/environment';
+
+const baseURL = AI_CONFIG.baseURL;
+const API_KEY = AI_CONFIG.API_KEY;
+
+const axiosAI = axios.create({ baseURL, headers, withCredentials });
 
 const getProductUrl = (url: string) => `${productPaths.productPath}/${url}`;
 const productUrl = getProductUrl('');
@@ -53,6 +61,16 @@ const deleteProduct = (productID: string) => {
   return axiosClient.delete(productUrl, { params: { _id: productID } });
 };
 
+const integrateAI = (content: any) => {
+  const generateURL = 'v1/chat/completions';
+  return axiosAI.post(generateURL, content, {
+    headers: {
+      Authorization: API_KEY,
+    },
+    withCredentials: false
+  });
+};
+
 export const productAPIs = {
   getAllProduct,
   getProductBySlug,
@@ -60,4 +78,5 @@ export const productAPIs = {
   deleteProduct,
   getProductByID,
   updateProduct,
+  integrateAI,
 };

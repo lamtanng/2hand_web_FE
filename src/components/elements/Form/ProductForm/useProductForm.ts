@@ -29,6 +29,7 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
   const [isFree, setFree] = useState<boolean>(false);
   const [quantity, setQuantity] = useState<number>(1);
   const [isSubmitting, setSubmitting] = useState<boolean>(false);
+  const [isGenerating, setGenerating] = useState<boolean>(false);
   const [description, setDescription] = useState<string>('');
   const [selectedProvince, setSelectedProvince] = useState<ProvincesAddressProps | null>(null);
   const [selectedDistrict, setSelectedDistrict] = useState<DistrictAddressProps | null>(null);
@@ -73,7 +74,6 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
     try {
       setSubmitting(true);
       await productAPIs.updateProduct(data);
-      console.log(data);
       displaySuccess('Product is updated successfully');
       navigate(-1);
     } catch (error) {
@@ -83,49 +83,110 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
     }
   };
 
-  const handleSubmitForm = (product: FormProductProps) => {
-    const storeID = store && store._id && store._id
-    const newProduct: ProductRequestBodyProps = {
-      name: product.name?.trim(),
-      description: description.trim(),
-      image: base64Images,
-      price: product.price,
-      quantity: quantity,
-      quality: condition,
-      cateID: selectedCategory?._id,
-      storeID: storeID,
-      weight: product.weight,
-      height: product.height,
-      length: product.length,
-      width: product.width,
-      address: {
-        address: product.detailAddress,
-        district: {
-          DistrictID: selectedDistrict?.DistrictID,
-          ProvinceID: selectedDistrict?.ProvinceID,
-          DistrictName: selectedDistrict?.DistrictName?.trim()
-        },
-        province: {
-          ProvinceID: selectedProvince?.ProvinceID,
-          ProvinceName: selectedProvince?.ProvinceName?.trim()
-        },
-        ward: {
-          WardCode: selectedWard?.WardCode,
-          DistrictID: selectedWard?.DistrictID,
-          WardName: selectedWard?.WardName?.trim()
-        },
-        isDefault: isSelectedDefault,
-      },
-    };
+  const isGeneratable = !description.trim() && base64Images.length === 0 ? true : false;
 
-    const updateProduct: ProductRequestBodyProps = {
-      _id: currentProduct?._id,
-      ...newProduct,
-    };
-    if (currentProduct) {
-      handleUpdateProduct(updateProduct);
-    } else {
-      handleAddProduct(newProduct);
+  const handleGenerateDescription = async () => {
+    try {
+      setGenerating(true);
+      const images = base64Images.map((item: string) => {
+        return { type: 'image_url', image_url: { url: item } };
+      });
+      const prompt = { type: 'text', text: description };
+      const content = {
+        model: 'gpt-4o-mini',
+        messages: [
+          {
+            role: 'system',
+            content: `I am a seller. Please help me create content for my product's description without format. `,
+          },
+          {
+            role: 'user',
+            content: [prompt, ...images],
+          },
+        ],
+        stream: false,
+        temperature: 1,
+        n: 2,
+      };
+      const res = await productAPIs.integrateAI(content);
+      console.log(res);
+      setDescription(res.data.choices[0].message.content);
+    } catch (error) {
+      handleError(error);
+    } finally {
+      setGenerating(false);
+    }
+  };
+
+  const handleSubmitForm = async (product: FormProductProps) => {
+    try {
+      const prompt = { type: 'text', text: description };
+      const content = {
+        model: 'gpt-4o-mini',
+        messages: [
+          {
+            role: 'system',
+            content: 'Check if my content violates social standards. Return true or false in boolean data type',
+          },
+          {
+            role: 'user',
+            content: [prompt],
+          },
+        ],
+        stream: false,
+        temperature: 1,
+        n: 2,
+      };
+      const res = await productAPIs.integrateAI(content);
+      if (res.data.choices[0].message.content === 'true') {
+        throw Error('Your description violates social standards');
+      } else {
+        const storeID = store && store._id && store._id;
+        const newProduct: ProductRequestBodyProps = {
+          name: product.name?.trim(),
+          description: description.trim(),
+          image: base64Images,
+          price: product.price,
+          quantity: quantity,
+          quality: condition,
+          cateID: selectedCategory?._id,
+          storeID: storeID,
+          weight: product.weight,
+          height: product.height,
+          length: product.length,
+          width: product.width,
+          address: {
+            address: product.detailAddress,
+            district: {
+              DistrictID: selectedDistrict?.DistrictID,
+              ProvinceID: selectedDistrict?.ProvinceID,
+              DistrictName: selectedDistrict?.DistrictName?.trim(),
+            },
+            province: {
+              ProvinceID: selectedProvince?.ProvinceID,
+              ProvinceName: selectedProvince?.ProvinceName?.trim(),
+            },
+            ward: {
+              WardCode: selectedWard?.WardCode,
+              DistrictID: selectedWard?.DistrictID,
+              WardName: selectedWard?.WardName?.trim(),
+            },
+            isDefault: isSelectedDefault,
+          },
+        };
+
+        const updateProduct: ProductRequestBodyProps = {
+          _id: currentProduct?._id,
+          ...newProduct,
+        };
+        if (currentProduct) {
+          handleUpdateProduct(updateProduct);
+        } else {
+          handleAddProduct(newProduct);
+        }
+      }
+    } catch (error) {
+      handleError(error);
     }
   };
 
@@ -193,7 +254,10 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
     quantity,
     setBase64Images,
     base64Images,
-    setSelectedDefault
+    setSelectedDefault,
+    handleGenerateDescription,
+    isGeneratable,
+    isGenerating,
   };
 };
 
