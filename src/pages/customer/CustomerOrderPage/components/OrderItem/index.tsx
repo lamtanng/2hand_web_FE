@@ -17,7 +17,7 @@ import { formattedOrderStageStatus } from '../../../../../utils/formattedOrderSt
 import ReturnModal from '../ReturnModal';
 
 const CustomerOrderItem = ({ order }: { order: OrderProps }) => {
-  const { receiveOrder, cancelReasons, isModalOpen, setIsModalOpen, openCancelModal, cancelOrder, setDescription } =
+  const { receiveOrder, cancelReasons, isModalOpen, setIsModalOpen, openCancelModal, cancelOrder, setDescription, rebuyProduct } =
     useOrderItem(order);
   let actionGroup;
   let actionModal;
@@ -70,13 +70,13 @@ const CustomerOrderItem = ({ order }: { order: OrderProps }) => {
         );
       break;
     case OrderStage.Delivering:
-      actionGroup = <DeliveryActions receiveOrder={receiveOrder} />;
+      actionGroup = <DeliveryActions receiveOrder={receiveOrder} rebuyProduct={rebuyProduct} />;
       break;
     case OrderStage.Delivered:
-      actionGroup = <RebuyActions />;
+      actionGroup = <RebuyActions rebuyProduct={rebuyProduct} />;
       break;
     case OrderStage.Cancelled:
-      actionGroup = <RebuyActions />;
+      actionGroup = <RebuyActions rebuyProduct={rebuyProduct} />;
       break;
     default:
       actionGroup = null;
@@ -145,11 +145,11 @@ const CustomerOrderItem = ({ order }: { order: OrderProps }) => {
               )}
             </Flex>
           )}
-          {/* {actionGroup} */}
-          <DeliveryActions receiveOrder={receiveOrder} />
+          {actionGroup}
+          {/* <DeliveryActions receiveOrder={receiveOrder} /> */}
         </Flex>
-        {/* {actionModal} */}
-        <ReturnModal/>
+        {actionModal}
+        {/* <ReturnModal/> */}
       </div>
     </div>
   );

@@ -16,22 +16,22 @@ export const ConfirmActions = ({ openCancelModal }: { openCancelModal: () => voi
   );
 };
 
-export const DeliveryActions = ({ receiveOrder }: { receiveOrder: () => void }) => {
+export const DeliveryActions = ({ receiveOrder, rebuyProduct }: { receiveOrder: () => void, rebuyProduct: () => void }) => {
   return (
     <div id="actions">
       <Flex justify="end" gap={'middle'}>
-        <ReturnButton onClick={() => {}} />
+        <ReturnButton onClick={rebuyProduct} />
         <ConfirmReceivedButton onClick={receiveOrder} />
       </Flex>
     </div>
   );
 };
 
-export const RebuyActions = () => {
+export const RebuyActions = ({ rebuyProduct }: { rebuyProduct: () => void }) => {
   return (
     <div id="actions">
       <Flex justify="end" gap={'middle'}>
-        <RebuyButton onClick={() => {}} />
+        <RebuyButton onClick={rebuyProduct} />
       </Flex>
     </div>
   );

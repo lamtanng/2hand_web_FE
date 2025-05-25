@@ -10,7 +10,7 @@ export const CancelButton = ({ onClick }: { onClick: React.MouseEventHandler<HTM
 
 export const RebuyButton = ({ onClick }: { onClick: React.MouseEventHandler<HTMLElement> | undefined }) => {
   return (
-    <Button type="primary" className="h-10 text-base" onClick={onClick} disabled>
+    <Button type="primary" className="h-10 text-base" onClick={onClick}>
       Rebuy
     </Button>
   );

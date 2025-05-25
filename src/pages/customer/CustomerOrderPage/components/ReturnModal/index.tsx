@@ -58,12 +58,12 @@ const ReturnModal = () => {
         <Typography.Title level={4} className="m-0 mb-2 text-blue-600">
           Choose a reason
         </Typography.Title>
-        <Typography.Paragraph className="m-0">Why do you want to cancel this order?</Typography.Paragraph>
+        <Typography.Paragraph className="m-0">Why do you want to return this order?</Typography.Paragraph>
         <Divider />
         <div className="max-h-[calc(70vh-120px)] overflow-y-auto px-6">
           <Flex vertical>
             <Typography.Paragraph className="m-0 mb-[10px]">
-              Cancel Reason <span className="text-red-600">*</span>:{' '}
+              Return Reason <span className="text-red-600">*</span>:{' '}
             </Typography.Paragraph>
             <Dropdown menu={menuProps} trigger={['click']} className="mb-6">
               <Button className="h-10 w-full">
