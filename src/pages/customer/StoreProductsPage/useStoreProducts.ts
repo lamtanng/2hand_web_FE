@@ -53,11 +53,11 @@ const useStoreProducts = (profile: UserProps | undefined) => {
       const res = await productAPIs.getAllProduct(
         page,
         limit,
-        undefined,
+        null,
         sort,
-        undefined,
-        undefined,
-        undefined,
+        null,
+        null,
+        null,
         store,
       );
       setProduct(res?.data.response.data);

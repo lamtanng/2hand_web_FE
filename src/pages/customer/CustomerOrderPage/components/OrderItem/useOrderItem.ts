@@ -86,6 +86,10 @@ const useOrderItem = (order: OrderProps) => {
     showConfirm();
   };
 
-  return { isModalOpen, setIsModalOpen, receiveOrder, cancelReasons, openCancelModal, cancelOrder, setDescription };
+  const rebuyProduct = () => {
+    console.log(order.orderDetailIDs);
+  }
+
+  return { isModalOpen, setIsModalOpen, receiveOrder, cancelReasons, openCancelModal, cancelOrder, setDescription, rebuyProduct };
 };
 export default useOrderItem;
