@@ -12,6 +12,13 @@ import { orderRequestsAPIs } from '../../../../../apis/orderRequest.api';
 import { ReasonProps } from '../../../../../types/http/reason.type';
 import { NewOrderStage } from '../../../../../types/http/orderStage.type';
 import { Role } from '../../../../../types/enum/role.enum';
+import { cartAPIs } from '../../../../../apis/cart.api';
+import { ProductProps } from '../../../../../types/product.type';
+import { OrderDetailProps } from '../../../../../types/orderDetail.type';
+import { CartItemProps } from '../../../../../types/cart.type';
+import { NewCartItemProps } from '../../../../../types/http/cart.type';
+import useAccountPage from '../../../AccountPage/useAccountPage';
+import { displaySuccess } from '../../../../../utils/displayToast';
 
 const useOrderItem = (order: OrderProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,6 +26,7 @@ const useOrderItem = (order: OrderProps) => {
   const [description, setDescription] = useState<string>('');
 
   const { confirm } = Modal;
+  const { profile } = useAccountPage();
 
   const showConfirm = () => {
     confirm({
@@ -86,10 +94,38 @@ const useOrderItem = (order: OrderProps) => {
     showConfirm();
   };
 
-  const rebuyProduct = () => {
-    console.log(order.orderDetailIDs);
-  }
+  const getCartItemByID = async (productID: string | undefined) => {
+    const res = await cartAPIs.getCartItem(productID);
+    return res.data;
+  };
 
-  return { isModalOpen, setIsModalOpen, receiveOrder, cancelReasons, openCancelModal, cancelOrder, setDescription, rebuyProduct };
+  const rebuyProduct = () => {
+    order.orderDetailIDs.forEach(async (item: OrderDetailProps) => {
+      try {
+        const cartItem: CartItemProps = await getCartItemByID(item.productID._id);
+        const totalQuantity = cartItem ? cartItem.quantity + item.quantity : item.quantity;
+        const data: NewCartItemProps = {
+          userID: profile?._id,
+          items: [{ productID: item.productID._id, quantity: totalQuantity }],
+        };
+        await cartAPIs.addCartItem(data);
+        displaySuccess('Product is added to cart successfully.');
+        eventEmitter.emit('addToCart', item.productID._id);
+      } catch (error) {
+        handleError(error);
+      }
+    });
+  };
+
+  return {
+    isModalOpen,
+    setIsModalOpen,
+    receiveOrder,
+    cancelReasons,
+    openCancelModal,
+    cancelOrder,
+    setDescription,
+    rebuyProduct,
+  };
 };
 export default useOrderItem;
