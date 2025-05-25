@@ -1,9 +1,14 @@
 import { Flex } from 'antd';
-import { CancelButton, ConfirmReceivedButton, RebuyButton, ReturnButton } from '../../../../../components/elements/Buttons/CustomerOrderButtons';
+import {
+  CancelButton,
+  ConfirmReceivedButton,
+  RebuyButton,
+  ReturnButton,
+} from '../../../../../components/elements/Buttons/CustomerOrderButtons';
 
-export const ConfirmActions = ({openCancelModal}: {openCancelModal: () => void}) => {
+export const ConfirmActions = ({ openCancelModal }: { openCancelModal: () => void }) => {
   return (
-    <div id="actions" className='w-1/2'>
+    <div id="actions" className="w-1/2">
       <Flex justify="end" gap={'middle'}>
         <CancelButton onClick={openCancelModal} />
       </Flex>
@@ -11,23 +16,23 @@ export const ConfirmActions = ({openCancelModal}: {openCancelModal: () => void})
   );
 };
 
-export const DeliveryActions = ({receiveOrder}: {receiveOrder: () => void}) => {
-    return (
-      <div id="actions">
-        <Flex justify="end" gap={'middle'}>
-          <ReturnButton onClick={() => {}} />
-          <ConfirmReceivedButton onClick={receiveOrder} />
-        </Flex>
-      </div>
-    );
-  };
+export const DeliveryActions = ({ receiveOrder }: { receiveOrder: () => void }) => {
+  return (
+    <div id="actions">
+      <Flex justify="end" gap={'middle'}>
+        <ReturnButton onClick={() => {}} />
+        <ConfirmReceivedButton onClick={receiveOrder} />
+      </Flex>
+    </div>
+  );
+};
 
-  export const RebuyActions = () => {
-    return (
-      <div id="actions">
-        <Flex justify="end" gap={'middle'}>
-          <RebuyButton onClick={() => {}} />
-        </Flex>
-      </div>
-    );
-  };
+export const RebuyActions = () => {
+  return (
+    <div id="actions">
+      <Flex justify="end" gap={'middle'}>
+        <RebuyButton onClick={() => {}} />
+      </Flex>
+    </div>
+  );
+};

@@ -14,6 +14,7 @@ import { ReplyStatus } from '../../../../../types/enum/replyStatus.enum';
 import { Link } from 'react-router-dom';
 import { formattedCurrency } from '../../../../../utils/formattedCurrency';
 import { formattedOrderStageStatus } from '../../../../../utils/formattedOrderStageStatus';
+import ReturnModal from '../ReturnModal';
 
 const CustomerOrderItem = ({ order }: { order: OrderProps }) => {
   const { receiveOrder, cancelReasons, isModalOpen, setIsModalOpen, openCancelModal, cancelOrder, setDescription } =
@@ -144,9 +145,11 @@ const CustomerOrderItem = ({ order }: { order: OrderProps }) => {
               )}
             </Flex>
           )}
-          {actionGroup}
+          {/* {actionGroup} */}
+          <DeliveryActions receiveOrder={receiveOrder} />
         </Flex>
-        {actionModal}
+        {/* {actionModal} */}
+        <ReturnModal/>
       </div>
     </div>
   );

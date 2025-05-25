@@ -18,7 +18,7 @@ export const RebuyButton = ({ onClick }: { onClick: React.MouseEventHandler<HTML
 
 export const ReviewButton = ({ onClick }: { onClick: React.MouseEventHandler<HTMLElement> | undefined }) => {
   return (
-    <Button variant="outlined" className="h-10 text-base" onClick={onClick}>
+    <Button variant="outlined" color='primary' className="h-10 text-base" onClick={onClick}>
       Review
     </Button>
   );
@@ -42,7 +42,7 @@ export const ContactShopButton = ({ onClick }: { onClick: React.MouseEventHandle
 
 export const ReturnButton = ({ onClick }: { onClick: React.MouseEventHandler<HTMLElement> | undefined }) => {
   return (
-    <Button variant="outlined" className="h-10 text-base" onClick={onClick} disabled>
+    <Button variant="outlined" color='primary' className="h-10 text-base" onClick={onClick}>
       Return Order
     </Button>
   );

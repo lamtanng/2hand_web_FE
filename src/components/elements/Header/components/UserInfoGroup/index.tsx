@@ -25,7 +25,7 @@ const UserInfoGroup = ({ user }: { user: UserProps }) => {
     try {
       await authAPIs.logout();
       dispatch(deleteAuth());
-      navigate(`/${authUrls.loginUrl}`);
+      navigate(`/`);
     } catch (error) {
       handleError(error);
     } finally {

@@ -13,6 +13,8 @@ import { productAPIs } from '../../../../apis/product.api';
 import { displaySuccess } from '../../../../utils/displayToast';
 import { handleError } from '../../../../utils/handleError';
 import { DistrictAddressProps, ProvincesAddressProps, WardAddressProps } from '../../../../types/address.type';
+import { PromptType } from '../../../../types/enum/promptType.enum';
+import { openAIAPIs } from '../../../../apis/openai.api';
 
 const useProductForm = (store: StoreProps | undefined, currentProduct: ProductProps | undefined) => {
   const navigate = useNavigate();
@@ -31,6 +33,8 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
   const [isSubmitting, setSubmitting] = useState<boolean>(false);
   const [isGenerating, setGenerating] = useState<boolean>(false);
   const [description, setDescription] = useState<string>('');
+  const [generatedDescription, setGeneratedDescription] = useState<string>('');
+  const [isPreviewOpen, setPreviewOpen] = useState<boolean>(false);
   const [selectedProvince, setSelectedProvince] = useState<ProvincesAddressProps | null>(null);
   const [selectedDistrict, setSelectedDistrict] = useState<DistrictAddressProps | null>(null);
   const [selectedWard, setSelectedWard] = useState<WardAddressProps | null>(null);
@@ -83,7 +87,7 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
     }
   };
 
-  const isGeneratable = !description.trim() && base64Images.length === 0 ? true : false;
+  const isGeneratable = !description && base64Images.length === 0 ? true : false;
 
   const handleGenerateDescription = async () => {
     try {
@@ -93,24 +97,12 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
       });
       const prompt = { type: 'text', text: description };
       const content = {
-        model: 'gpt-4o-mini',
-        messages: [
-          {
-            role: 'system',
-            content: `I am a seller. Please help me create content for my product's description without format. `,
-          },
-          {
-            role: 'user',
-            content: [prompt, ...images],
-          },
-        ],
-        stream: false,
-        temperature: 1,
-        n: 2,
+        promptType: PromptType.ProductDescription,
+        content: [prompt, ...images],
       };
-      const res = await productAPIs.integrateAI(content);
-      console.log(res);
-      setDescription(res.data.choices[0].message.content);
+      const res = await openAIAPIs.integrateAI(content);
+      setGeneratedDescription(res.data[0]);
+      setPreviewOpen(true);
     } catch (error) {
       handleError(error);
     } finally {
@@ -118,30 +110,19 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
     }
   };
 
+  const handleAcceptGenerated = () => {
+    setDescription(generatedDescription);
+    setPreviewOpen(false);
+    setGeneratedDescription('');
+  };
+
+  const handleRejectGenerated = () => {
+    setPreviewOpen(false);
+    setGeneratedDescription('');
+  };
+
   const handleSubmitForm = async (product: FormProductProps) => {
-    try {
-      const prompt = { type: 'text', text: description };
-      const content = {
-        model: 'gpt-4o-mini',
-        messages: [
-          {
-            role: 'system',
-            content: 'Check if my content violates social standards. Return true or false in boolean data type',
-          },
-          {
-            role: 'user',
-            content: [prompt],
-          },
-        ],
-        stream: false,
-        temperature: 1,
-        n: 2,
-      };
-      const res = await productAPIs.integrateAI(content);
-      if (res.data.choices[0].message.content === 'true') {
-        throw Error('Your description violates social standards');
-      } else {
-        const storeID = store && store._id && store._id;
+    const storeID = store && store._id && store._id;
         const newProduct: ProductRequestBodyProps = {
           name: product.name?.trim(),
           description: description.trim(),
@@ -184,10 +165,63 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
         } else {
           handleAddProduct(newProduct);
         }
-      }
-    } catch (error) {
-      handleError(error);
-    }
+    // try {
+    //   const prompt = { type: 'text', text: description };
+    //   const content = {
+    //     promptType: PromptType.CheckCommunityViolation,
+    //     content: [prompt],
+    //   };
+    //   const res = await productAPIs.integrateAI(content);
+    //   if (res.data[0].content === 'true') {
+    //     throw Error('Your description violates social standards');
+    //   } else {
+    //     const storeID = store && store._id && store._id;
+    //     const newProduct: ProductRequestBodyProps = {
+    //       name: product.name?.trim(),
+    //       description: description.trim(),
+    //       image: base64Images,
+    //       price: product.price,
+    //       quantity: quantity,
+    //       quality: condition,
+    //       cateID: selectedCategory?._id,
+    //       storeID: storeID,
+    //       weight: product.weight,
+    //       height: product.height,
+    //       length: product.length,
+    //       width: product.width,
+    //       address: {
+    //         address: product.detailAddress,
+    //         district: {
+    //           DistrictID: selectedDistrict?.DistrictID,
+    //           ProvinceID: selectedDistrict?.ProvinceID,
+    //           DistrictName: selectedDistrict?.DistrictName?.trim(),
+    //         },
+    //         province: {
+    //           ProvinceID: selectedProvince?.ProvinceID,
+    //           ProvinceName: selectedProvince?.ProvinceName?.trim(),
+    //         },
+    //         ward: {
+    //           WardCode: selectedWard?.WardCode,
+    //           DistrictID: selectedWard?.DistrictID,
+    //           WardName: selectedWard?.WardName?.trim(),
+    //         },
+    //         isDefault: isSelectedDefault,
+    //       },
+    //     };
+
+    //     const updateProduct: ProductRequestBodyProps = {
+    //       _id: currentProduct?._id,
+    //       ...newProduct,
+    //     };
+    //     if (currentProduct) {
+    //       handleUpdateProduct(updateProduct);
+    //     } else {
+    //       handleAddProduct(newProduct);
+    //     }
+    //   }
+    // } catch (error) {
+    //   handleError(error);
+    // }
   };
 
   useEffect(() => {
@@ -243,6 +277,9 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
     isSubmitting,
     description,
     setDescription,
+    generatedDescription,
+    isPreviewOpen,
+    setPreviewOpen,
     selectedDistrict,
     selectedProvince,
     selectedWard,
@@ -258,6 +295,8 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
     handleGenerateDescription,
     isGeneratable,
     isGenerating,
+    handleAcceptGenerated,
+    handleRejectGenerated,
   };
 };
 

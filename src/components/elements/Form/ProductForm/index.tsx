@@ -1,7 +1,6 @@
 import { FormProvider } from 'react-hook-form';
 import { Button, Checkbox, Flex, Form, InputNumber, Typography } from 'antd';
 import CategoryDropdown from './components/CategoryDropdown';
-import ImageUploader from './components/ImageUploader';
 import { CategoryProps } from '../../../../types/category.type';
 import { StoreProps } from '../../../../types/store.type';
 import { ProductProps } from '../../../../types/product.type';
@@ -12,6 +11,8 @@ import SubmitButton from '../../Buttons/SubmitButton';
 import TextEditor from '../../TextEditor';
 import AddressForm from '../AddressForm';
 import { useNavigate } from 'react-router-dom';
+import ImageUploader from './components/ImageUploader';
+import DescriptionPreview from './components/DescriptionPreview';
 
 const ProductForm = ({
   category,
@@ -50,6 +51,10 @@ const ProductForm = ({
     handleGenerateDescription,
     isGeneratable,
     isGenerating,
+    generatedDescription,
+    isPreviewOpen,
+    handleAcceptGenerated,
+    handleRejectGenerated,
   } = useProductForm(store, product);
 
   const navigate = useNavigate();
@@ -145,6 +150,14 @@ const ProductForm = ({
           setSelectedDistrict={setSelectedDistrict}
           setSelectedProvince={setSelectedProvince}
           setSelectedWard={setSelectedWard}
+        />
+        <DescriptionPreview
+          isOpen={isPreviewOpen}
+          currentDescription={description}
+          generatedDescription={generatedDescription}
+          onAccept={handleAcceptGenerated}
+          onReject={handleRejectGenerated}
+          isGenerating={isGenerating}
         />
         <Flex gap={'large'} justify="center">
           <Form.Item className="w-1/4">
