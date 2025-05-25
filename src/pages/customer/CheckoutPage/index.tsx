@@ -3,7 +3,6 @@ import ReceiverAddress from './components/ReceiverAddress';
 import CheckoutItem from './components/CheckoutItem';
 import PaymentMethod from './components/PaymentMethod';
 import Header from '../../../components/elements/Header';
-import Footer from '../../../components/elements/Footer';
 import { CartItemProps, CartProps } from '../../../types/cart.type';
 import useCheckoutPage from './useCheckoutPage';
 import { ShipmentProps } from '../../../types/shipment.type';
@@ -82,7 +81,6 @@ const CheckoutPage = () => {
           />
         </div>
       </div>
-      <Footer />
     </>
   );
 };

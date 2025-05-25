@@ -19,6 +19,7 @@ import ScrollToTop from '../components/layouts/ScrollToTop';
 import NotFoundPage from '../pages/NotFoundPage';
 import ServerErrorPage from '../pages/ServerErrorPage';
 import { ResetPasswordPageRoute } from '../pages/ResetPasswordPage/ResetPasswordPage.route';
+import MainLayout from '../components/layouts/MainLayout';
 
 const routes = createBrowserRouter([
   {
@@ -30,22 +31,27 @@ const routes = createBrowserRouter([
       </>
     ),
     children: [
-      HomePageRoutes,
-      ProductListRoutes,
-      ProductDetailRoutes,
-      UserProfilePageRoutes,
-      LoginRoute,
-      SignupRoute,
-      ResetPasswordPageRoute,
       {
-        element: <ProtectedRoutes />,
+        element: <MainLayout />,
         children: [
-          accountRoutes,
-          CartPageRoutes,
-          ChekoutPageRoutes,
-          StoreRegisterPageRoutes,
-          UploadProductPageRoutes,
-          OrderIntermediaryPageRoutes,
+          HomePageRoutes,
+          ProductListRoutes,
+          ProductDetailRoutes,
+          UserProfilePageRoutes,
+          LoginRoute,
+          SignupRoute,
+          ResetPasswordPageRoute,
+          {
+            element: <ProtectedRoutes />,
+            children: [
+              accountRoutes,
+              CartPageRoutes,
+              ChekoutPageRoutes,
+              StoreRegisterPageRoutes,
+              UploadProductPageRoutes,
+              OrderIntermediaryPageRoutes,
+            ],
+          },
         ],
       },
       {
@@ -56,11 +62,19 @@ const routes = createBrowserRouter([
   },
   {
     path: '*',
-    element: <NotFoundPage />,
+    element: (
+      <MainLayout>
+        <NotFoundPage />
+      </MainLayout>
+    ),
   },
   {
     path: '/error',
-    element: <ServerErrorPage />,
+    element: (
+      <MainLayout>
+        <ServerErrorPage />
+      </MainLayout>
+    ),
   },
 ]);
 

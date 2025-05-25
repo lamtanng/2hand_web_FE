@@ -20,7 +20,6 @@ const Account = () => {
           </Flex>
         </div>
       </div>
-      <Footer />
     </>
   );
 };
