@@ -11,11 +11,11 @@ const useProductListPage = () => {
       const res = await productAPIs.getAllProduct(
         page,
         limit,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
+        null,
+        null,
+        null,
+        null,
+        null,
         undefined,
       );
       setProducts(res.data.response.data);

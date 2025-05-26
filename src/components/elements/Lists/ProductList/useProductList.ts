@@ -13,11 +13,11 @@ const useProductList = () => {
       const res = await productAPIs.getAllProduct(
         page,
         limit,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
+        null,
+        null,
+        null,
+        null,
+        null,
         undefined,
       );
       setProduct(res?.data.response.data);

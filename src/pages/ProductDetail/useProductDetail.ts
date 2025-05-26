@@ -32,11 +32,11 @@ const useProductDetail = () => {
     const res = await productAPIs?.getAllProduct(
       page,
       limit,
-      undefined,
+      null,
       JSON.stringify({ createdAt: -1 }),
-      undefined,
-      undefined,
-      undefined,
+      null,
+      null,
+      null,
       storeIDGroup,
     );
     setStoreProduct(res?.data?.response?.data);

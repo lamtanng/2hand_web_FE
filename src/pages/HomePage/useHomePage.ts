@@ -8,29 +8,29 @@ const useHomePage = () => {
   const [freeProduct, setFreeProduct] = useState<ProductProps[]>([]);
   const [isLoading, setLoading] = useState<boolean>(false);
 
-  const getNewestProducts = async (page: number, limit: number, sort: string | undefined) => {
+  const getNewestProducts = async (page: number, limit: number, sort: string | null) => {
     const res = await productAPIs?.getAllProduct(
       page,
       limit,
-      undefined,
+      null,
       sort,
-      undefined,
-      undefined,
-      undefined,
+      null,
+      null,
+      null,
       undefined,
     );
     setNewestProduct(res?.data?.response?.data);
   };
 
-  const getFreeProducts = async (page: number, limit: number, price: string | undefined) => {
+  const getFreeProducts = async (page: number, limit: number, price: string | null) => {
     const res = await productAPIs?.getAllProduct(
       page,
       limit,
-      undefined,
-      undefined,
-      undefined,
+      null,
+      null,
+      null,
       price,
-      undefined,
+      null,
       undefined,
     );
     setFreeProduct(res?.data?.response?.data);

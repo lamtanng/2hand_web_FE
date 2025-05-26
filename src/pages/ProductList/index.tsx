@@ -17,7 +17,7 @@ import { guestUrls } from '../../constants/urlPaths/guestUrls';
 const ProductList = () => {
   const navigate = useNavigate();
   let [searchParams] = useSearchParams();
-  const { product, totalProducts, category, isLoading, setSelectedCategory, selectedCategory } = useListProducts();
+  const { product, totalProducts, category, isLoading } = useListProducts();
 
   const onSearch = useDebouncedCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target.value) {
