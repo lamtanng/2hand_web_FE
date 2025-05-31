@@ -157,6 +157,7 @@ const ProductForm = ({
           generatedDescription={generatedDescription}
           onAccept={handleAcceptGenerated}
           onReject={handleRejectGenerated}
+          onRegenerate={handleGenerateDescription}
           isGenerating={isGenerating}
         />
         <Flex gap={'large'} justify="center">

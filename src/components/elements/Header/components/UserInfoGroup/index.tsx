@@ -11,6 +11,7 @@ import { deleteAuth } from '../../../../../redux/slices/login.slice';
 import { handleError } from '../../../../../utils/handleError';
 import { formattedName } from '../../../../../utils/formatName';
 import { authUrls } from '../../../../../constants/urlPaths/authUrls';
+import NotificationBell from '../../../Notification';
 
 const UserInfoGroup = ({ user }: { user: UserProps }) => {
   const { itemAmount, profile } = useUserInfo(user);
@@ -74,10 +75,11 @@ const UserInfoGroup = ({ user }: { user: UserProps }) => {
           <p className="absolute -right-2 -top-2 m-0 rounded-full bg-blue-500 px-1 text-xs text-white">{itemAmount}</p>
         </div>
       </Link>
-      <div className="relative h-fit">
+      {/* <div className="relative h-fit">
         <BellOutlined className="m-0 text-lg text-blue-600" />
         <p className="absolute -right-2 -top-2 m-0 rounded-full bg-blue-500 px-1 text-xs text-white">0</p>
-      </div>
+      </div> */}
+      <NotificationBell />
       <Link to={actionLink}>
         <Button type="primary" className="hidden px-10 text-base md:inline">
           Sell a product

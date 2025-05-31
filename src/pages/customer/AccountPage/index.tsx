@@ -2,7 +2,6 @@ import { Flex } from 'antd';
 import Header from '../../../components/elements/Header';
 import MenuBar from './components/MenuBar';
 import { Outlet } from 'react-router-dom';
-import Footer from '../../../components/elements/Footer';
 
 const Account = () => {
   return (

@@ -23,3 +23,35 @@
     @apply inline-block h-full border-b border-b-blue-500 font-medium no-underline transition-all duration-100 ease-in-out hover:text-gray-600;
   }
 }
+
+/* Notification Popover Styles */
+.notification-popover {
+  padding: 0;
+}
+
+.notification-popover .ant-popover-inner {
+  padding: 0;
+  border-radius: 8px;
+}
+
+.notification-popover .ant-popover-inner-content {
+  padding: 16px;
+}
+
+.notification-popover .ant-list-item {
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 4px;
+}
+
+.notification-popover .ant-list-item:last-child {
+  margin-bottom: 0;
+}
+
+.notification-popover .ant-tag {
+  margin-right: 0;
+  font-size: 12px;
+  line-height: 18px;
+  height: 20px;
+  padding: 0 8px;
+}

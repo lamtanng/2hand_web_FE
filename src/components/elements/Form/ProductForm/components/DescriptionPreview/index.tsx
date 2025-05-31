@@ -1,6 +1,13 @@
 import React from 'react';
 import { Modal, Typography, Flex, Button, Divider, Card, Badge } from 'antd';
-import { CheckOutlined, CloseOutlined, SwapRightOutlined, EditOutlined, LoadingOutlined } from '@ant-design/icons';
+import {
+  CheckOutlined,
+  CloseOutlined,
+  SwapRightOutlined,
+  EditOutlined,
+  LoadingOutlined,
+  ReloadOutlined,
+} from '@ant-design/icons';
 import parse from 'html-react-parser';
 
 interface DescriptionPreviewProps {
@@ -9,6 +16,7 @@ interface DescriptionPreviewProps {
   generatedDescription: string;
   onAccept: () => void;
   onReject: () => void;
+  onRegenerate: () => void;
   isGenerating?: boolean;
 }
 
@@ -18,6 +26,7 @@ const DescriptionPreview: React.FC<DescriptionPreviewProps> = ({
   generatedDescription,
   onAccept,
   onReject,
+  onRegenerate,
   isGenerating = false,
 }) => {
   return (
@@ -48,22 +57,17 @@ const DescriptionPreview: React.FC<DescriptionPreviewProps> = ({
       }}
     >
       <Divider className="!mb-6 !mt-3" />
-      <Flex vertical gap="large">
-        <div className="relative grid grid-cols-2 gap-6">
-          <Card
-            title={
-              <Flex align="center" gap="small">
-                <Typography.Text className="text-gray-500">Current Description</Typography.Text>
-              </Flex>
-            }
-            className="h-full shadow-sm transition-all duration-300 hover:shadow-md"
-            bodyStyle={{
-              maxHeight: 'calc(100vh - 400px)',
-              overflowY: 'auto',
-              padding: '16px',
-              backgroundColor: '#fafafa',
-            }}
-          >
+
+      <Flex gap={'large'} justify="space-between" style={{ minHeight: '60vh' }}>
+        {/* Left Side - Current Description */}
+        <div className="border-r border-gray-200 pr-4" style={{ width: '100%' }}>
+          <Flex align="center" gap="small" className="mb-4">
+            <div className="h-5 w-1 rounded-full bg-gray-400" />
+            <Typography.Title level={5} className="!m-0 text-gray-600">
+              Current Description
+            </Typography.Title>
+          </Flex>
+          <div className="h-[calc(100vh-500px)] w-full overflow-y-auto rounded-lg bg-gradient-to-br from-gray-50 to-gray-100 p-6 shadow-[inset_0_2px_4px_rgba(0,0,0,0.06)]">
             <div className="prose max-w-none">
               {currentDescription ? (
                 parse(currentDescription)
@@ -73,31 +77,30 @@ const DescriptionPreview: React.FC<DescriptionPreviewProps> = ({
                 </Typography.Text>
               )}
             </div>
-          </Card>
-
-          <div className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-500 shadow-lg transition-transform hover:scale-110">
-              <SwapRightOutlined className="text-xl text-white" />
-            </div>
           </div>
+        </div>
 
-          <Card
-            title={
-              <Flex align="center" gap="small">
-                <Badge status="processing">
-                  <Typography.Text className="font-medium text-blue-600">Generated Description</Typography.Text>
-                </Badge>
-              </Flex>
-            }
-            className="h-full shadow-sm transition-all duration-300 hover:shadow-md"
-            bodyStyle={{
-              maxHeight: 'calc(100vh - 400px)',
-              overflowY: 'auto',
-              padding: '16px',
-              backgroundColor: isGenerating ? '#f5f5f5' : '#f0f5ff',
-            }}
-            bordered={false}
-          >
+        {/* Right Side - Generated Description */}
+        <div style={{ width: '100%' }}>
+          <Flex justify="space-between" align="center" className="mb-4">
+            <Flex align="center" gap="small">
+              <div className="h-5 w-1 rounded-full bg-blue-500" />
+              <Badge status="processing" />
+              <Typography.Title level={5} className="!m-0 text-blue-600">
+                Generated Description
+              </Typography.Title>
+            </Flex>
+            <Button
+              type="primary"
+              icon={isGenerating ? <LoadingOutlined /> : <ReloadOutlined />}
+              onClick={onRegenerate}
+              disabled={isGenerating}
+              className="bg-blue-500 hover:bg-blue-600"
+            >
+              Regenerate
+            </Button>
+          </Flex>
+          <div className="h-[calc(100vh-500px)] w-full overflow-y-auto rounded-lg bg-gradient-to-br from-blue-50 to-blue-100/50 p-6 shadow-[inset_0_2px_4px_rgba(0,0,0,0.06)]">
             {isGenerating ? (
               <Flex vertical className="h-full items-center justify-center" gap="middle">
                 <LoadingOutlined className="animate-spin text-4xl text-blue-500" />
@@ -114,32 +117,33 @@ const DescriptionPreview: React.FC<DescriptionPreviewProps> = ({
                 )}
               </div>
             )}
-          </Card>
+          </div>
         </div>
+      </Flex>
 
-        <Divider className="!my-4" />
+      <Divider className="!my-4" />
 
-        <Flex gap="middle" justify="center">
-          <Button
-            size="large"
-            icon={<CloseOutlined />}
-            onClick={onReject}
-            className="min-w-[140px] transition-all duration-300 hover:scale-105 hover:bg-gray-50"
-            disabled={isGenerating}
-          >
-            Keep Current
-          </Button>
-          <Button
-            type="primary"
-            size="large"
-            icon={<CheckOutlined />}
-            onClick={onAccept}
-            className="min-w-[140px] bg-blue-500 transition-all duration-300 hover:scale-105 hover:bg-blue-600"
-            disabled={isGenerating}
-          >
-            Use Generated
-          </Button>
-        </Flex>
+      {/* Action Buttons */}
+      <Flex justify="end" gap="middle">
+        <Button
+          size="large"
+          icon={<CloseOutlined />}
+          onClick={onReject}
+          className="min-w-[140px] transition-all duration-300 hover:scale-105 hover:bg-gray-50"
+          disabled={isGenerating}
+        >
+          Keep Current
+        </Button>
+        <Button
+          type="primary"
+          size="large"
+          icon={<CheckOutlined />}
+          onClick={onAccept}
+          className="min-w-[140px] bg-blue-500 transition-all duration-300 hover:scale-105 hover:bg-blue-600"
+          disabled={isGenerating}
+        >
+          Use Generated
+        </Button>
       </Flex>
     </Modal>
   );
