@@ -1,4 +1,4 @@
-import { AccountBookTwoTone, BellTwoTone, ShoppingTwoTone, ShopTwoTone } from '@ant-design/icons';
+import { BellTwoTone } from '@ant-design/icons';
 import { Divider, Flex, Typography } from 'antd';
 
 const Notifications = () => {

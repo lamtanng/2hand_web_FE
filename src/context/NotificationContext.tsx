@@ -4,6 +4,8 @@ import { getSocket, initializeSocket } from '../config/socket';
 import { useAuth0 } from '@auth0/auth0-react';
 import { NotificationProps } from '../types/notification.type';
 import { displayInfo } from '../utils/displayToast';
+import { useAppSelector } from '../redux/hooks';
+import { loginSelector } from '../redux/slices/login.slice';
 
 interface NotificationContextProps {
   notifications: NotificationProps[];
@@ -19,19 +21,19 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
   const [socket, setSocket] = useState<Socket | null>(null);
   const [notifications, setNotifications] = useState<NotificationProps[]>([]);
   const [unreadCount, setUnreadCount] = useState<number>(0);
-  const { getAccessTokenSilently, isAuthenticated, user } = useAuth0();
+  // const { getAccessTokenSilently, isAuthenticated, user } = useAuth0();
+  const { user, token } = useAppSelector(loginSelector);
 
   useEffect(() => {
     const initSocket = async () => {
-      if (isAuthenticated && user?.sub) {
+      if (token.accessToken) {
         try {
-          console.log('Initializing socket with user:', user.sub);
-          const token = await getAccessTokenSilently();
-          const socketInstance = initializeSocket(token);
+          console.log('Initializing socket with user:', user._id);
+          const socketInstance = initializeSocket(token.accessToken);
 
           // Join user's room using their ID
-          socketInstance.emit('join', { userId: user.sub });
-          console.log('Emitted join event with userId:', user.sub);
+          socketInstance.emit('join', { userId: user._id });
+          console.log('Emitted join event with userId:', user._id);
 
           setSocket(socketInstance);
 
@@ -51,9 +53,10 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
         socket.disconnect();
       }
     };
-  }, [isAuthenticated, getAccessTokenSilently, user]);
+  }, [token.accessToken, user._id]);
 
   useEffect(() => {
+    console.log('socket', socket);
     if (!socket) return;
 
     console.log('Setting up socket event listeners');
