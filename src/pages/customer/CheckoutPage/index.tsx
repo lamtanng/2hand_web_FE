@@ -19,7 +19,7 @@ const CheckoutPage = () => {
     })
     .flat()
     .reduce((accumulator: number, currentValue: number) => accumulator + currentValue, 0);
-
+  console.log('total', total);
   const {
     profile,
     value,
