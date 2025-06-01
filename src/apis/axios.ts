@@ -1,10 +1,10 @@
 import axios, { AxiosError } from 'axios';
-import { baseURL, headers, timeout, withCredentials } from './axios.constants';
+import { baseURL, headers, withCredentials } from './axios.constants';
 import { authAPIs } from './auth.api';
 import { handleError } from '../utils/handleError';
 import { authPaths } from '../constants/apiPaths/authPaths';
 
-const axiosClient = axios.create({ baseURL, timeout, headers, withCredentials });
+const axiosClient = axios.create({ baseURL,  headers, withCredentials });
 
 axiosClient.interceptors.request.use(
   (config) => config,

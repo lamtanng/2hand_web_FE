@@ -35,6 +35,9 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
   const [description, setDescription] = useState<string>('');
   const [generatedDescription, setGeneratedDescription] = useState<string>('');
   const [isPreviewOpen, setPreviewOpen] = useState<boolean>(false);
+  const [isWarningOpen, setWarningOpen] = useState<boolean>(false);
+  const [violatingImages, setViolatingImages] = useState<number[]>([]);
+  const [violatingTexts, setViolatingTexts] = useState<string[]>([]);
   const [selectedProvince, setSelectedProvince] = useState<ProvincesAddressProps | null>(null);
   const [selectedDistrict, setSelectedDistrict] = useState<DistrictAddressProps | null>(null);
   const [selectedWard, setSelectedWard] = useState<WardAddressProps | null>(null);
@@ -65,8 +68,9 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
     try {
       setSubmitting(true);
       const res = await productAPIs.addProduct(data);
-      displaySuccess('Product is added successfully');
-      navigate(`/${res.data.slug}`);
+      console.log(res);
+      // displaySuccess('Product is added successfully');
+      // navigate(`/${res.data.slug}`);
     } catch (error) {
       handleError(error);
     } finally {
@@ -89,20 +93,28 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
 
   const isGeneratable = !description && base64Images.length === 0 ? true : false;
 
-  const handleGenerateDescription = async () => {
+  const handleGenerateDescription = async (showPreview = true) => {
     try {
       setGenerating(true);
+      const data = method.getValues();
       const images = base64Images.map((item: string) => {
         return { type: 'image_url', image_url: { url: item } };
       });
-      const prompt = { type: 'text', text: description };
+      const prompt = [
+        { type: 'text', text: description },
+        { type: 'text', text: data.name },
+      ];
       const content = {
         promptType: PromptType.ProductDescription,
-        content: [prompt, ...images],
+        content: [...prompt, ...images],
       };
       const res = await openAIAPIs.integrateAI(content);
       setGeneratedDescription(res.data[0]);
-      setPreviewOpen(true);
+
+      // Only open the preview modal if showPreview is true
+      if (showPreview) {
+        setPreviewOpen(true);
+      }
     } catch (error) {
       handleError(error);
     } finally {
@@ -121,107 +133,93 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
     setGeneratedDescription('');
   };
 
-  const handleSubmitForm = async (product: FormProductProps) => {
-    const storeID = store && store._id && store._id;
-        const newProduct: ProductRequestBodyProps = {
-          name: product.name?.trim(),
-          description: description.trim(),
-          image: base64Images,
-          price: product.price,
-          quantity: quantity,
-          quality: condition,
-          cateID: selectedCategory?._id,
-          storeID: storeID,
-          weight: product.weight,
-          height: product.height,
-          length: product.length,
-          width: product.width,
-          address: {
-            address: product.detailAddress,
-            district: {
-              DistrictID: selectedDistrict?.DistrictID,
-              ProvinceID: selectedDistrict?.ProvinceID,
-              DistrictName: selectedDistrict?.DistrictName?.trim(),
-            },
-            province: {
-              ProvinceID: selectedProvince?.ProvinceID,
-              ProvinceName: selectedProvince?.ProvinceName?.trim(),
-            },
-            ward: {
-              WardCode: selectedWard?.WardCode,
-              DistrictID: selectedWard?.DistrictID,
-              WardName: selectedWard?.WardName?.trim(),
-            },
-            isDefault: isSelectedDefault,
-          },
-        };
+  const handleSubmitForm = async (data: FormProductProps) => {
+    // Check for potential community standard violations
+    try {
+      const res = await openAIAPIs.checkCommunityStandards([description, data.name], base64Images);
+      console.log(res);
+      if (!res.data.status) {
+        setViolatingImages(res.data.images);
+        setViolatingTexts(res.data.text);
 
-        const updateProduct: ProductRequestBodyProps = {
-          _id: currentProduct?._id,
-          ...newProduct,
-        };
-        if (currentProduct) {
-          handleUpdateProduct(updateProduct);
-        } else {
-          handleAddProduct(newProduct);
+        // Auto-generate a new description if text violations are detected
+        // Pass false to prevent opening the preview modal
+        if (res.data.text && res.data.text.length > 0) {
+          handleGenerateDescription(false);
         }
-    // try {
-    //   const prompt = { type: 'text', text: description };
-    //   const content = {
-    //     promptType: PromptType.CheckCommunityViolation,
-    //     content: [prompt],
-    //   };
-    //   const res = await productAPIs.integrateAI(content);
-    //   if (res.data[0].content === 'true') {
-    //     throw Error('Your description violates social standards');
-    //   } else {
-    //     const storeID = store && store._id && store._id;
-    //     const newProduct: ProductRequestBodyProps = {
-    //       name: product.name?.trim(),
-    //       description: description.trim(),
-    //       image: base64Images,
-    //       price: product.price,
-    //       quantity: quantity,
-    //       quality: condition,
-    //       cateID: selectedCategory?._id,
-    //       storeID: storeID,
-    //       weight: product.weight,
-    //       height: product.height,
-    //       length: product.length,
-    //       width: product.width,
-    //       address: {
-    //         address: product.detailAddress,
-    //         district: {
-    //           DistrictID: selectedDistrict?.DistrictID,
-    //           ProvinceID: selectedDistrict?.ProvinceID,
-    //           DistrictName: selectedDistrict?.DistrictName?.trim(),
-    //         },
-    //         province: {
-    //           ProvinceID: selectedProvince?.ProvinceID,
-    //           ProvinceName: selectedProvince?.ProvinceName?.trim(),
-    //         },
-    //         ward: {
-    //           WardCode: selectedWard?.WardCode,
-    //           DistrictID: selectedWard?.DistrictID,
-    //           WardName: selectedWard?.WardName?.trim(),
-    //         },
-    //         isDefault: isSelectedDefault,
-    //       },
-    //     };
 
-    //     const updateProduct: ProductRequestBodyProps = {
-    //       _id: currentProduct?._id,
-    //       ...newProduct,
-    //     };
-    //     if (currentProduct) {
-    //       handleUpdateProduct(updateProduct);
-    //     } else {
-    //       handleAddProduct(newProduct);
-    //     }
-    //   }
-    // } catch (error) {
-    //   handleError(error);
-    // }
+        setWarningOpen(true);
+        return;
+      }
+    } catch (error) {
+      handleError(error);
+    }
+
+    // If no violations, proceed with submission
+    submitProduct(data);
+  };
+
+  // Submit the product regardless of violations
+  const handleBypassWarning = () => {
+    const data = method.getValues();
+    submitProduct(data, false);
+    setWarningOpen(false);
+  };
+
+  // Common submission logic for both normal and bypass paths
+  const submitProduct = (data: FormProductProps, isApproved: boolean = true) => {
+    const storeID = store && store._id && store._id;
+    const newProduct: ProductRequestBodyProps = {
+      name: data.name?.trim(),
+      description: description.trim(),
+      image: base64Images,
+      price: data.price,
+      quantity: quantity,
+      quality: condition,
+      cateID: selectedCategory?._id,
+      storeID: storeID,
+      weight: data.weight,
+      height: data.height,
+      length: data.length,
+      width: data.width,
+      address: {
+        address: data.detailAddress,
+        district: {
+          DistrictID: selectedDistrict?.DistrictID,
+          ProvinceID: selectedDistrict?.ProvinceID,
+          DistrictName: selectedDistrict?.DistrictName?.trim(),
+        },
+        province: {
+          ProvinceID: selectedProvince?.ProvinceID,
+          ProvinceName: selectedProvince?.ProvinceName?.trim(),
+        },
+        ward: {
+          WardCode: selectedWard?.WardCode,
+          DistrictID: selectedWard?.DistrictID,
+          WardName: selectedWard?.WardName?.trim(),
+        },
+        isDefault: isSelectedDefault,
+      },
+      isApproved: isApproved,
+    };
+
+    const updateProduct: ProductRequestBodyProps = {
+      _id: currentProduct?._id,
+      ...newProduct,
+    };
+    if (currentProduct) {
+      handleUpdateProduct(updateProduct);
+    } else {
+      handleAddProduct(newProduct);
+    }
+  };
+
+  // Handle editing after warning
+  const handleEditAfterWarning = () => {
+    setWarningOpen(false);
+    setDescription(generatedDescription);
+    // Scroll to top or to the specific field with violation
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   useEffect(() => {
@@ -297,6 +295,13 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
     isGenerating,
     handleAcceptGenerated,
     handleRejectGenerated,
+    isWarningOpen,
+    setWarningOpen,
+    handleEditAfterWarning,
+    violatingImages,
+    setViolatingImages,
+    violatingTexts,
+    handleBypassWarning,
   };
 };
 
