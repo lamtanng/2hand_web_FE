@@ -63,6 +63,7 @@ const ProductForm = ({
     setViolatingImages,
     violatingTexts,
     handleBypassWarning,
+    setSubmitting,
   } = useProductForm(store, product);
 
   const navigate = useNavigate();
@@ -175,7 +176,10 @@ const ProductForm = ({
         />
         <CommunityStandardWarning
           isOpen={isWarningOpen}
-          onClose={() => setWarningOpen(false)}
+          onClose={() => {
+            setWarningOpen(false);
+            setSubmitting(false);
+          }}
           onEdit={handleEditAfterWarning}
           currentDescription={description}
           generatedDescription={generatedDescription}

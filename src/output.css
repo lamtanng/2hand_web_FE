@@ -419,6 +419,10 @@
   margin-top: 1.5rem !important;
 }
 
+.block{
+  display: block !important;
+}
+
 .inline{
   display: inline !important;
 }
@@ -635,6 +639,10 @@
 
 .min-w-\[140px\]{
   min-width: 140px !important;
+}
+
+.min-w-\[120px\]{
+  min-width: 120px !important;
 }
 
 .max-w-none{
@@ -854,6 +862,11 @@
 .border-gray-200{
   --tw-border-opacity: 1 !important;
   border-color: rgb(229 231 235 / var(--tw-border-opacity)) !important;
+}
+
+.border-red-300{
+  --tw-border-opacity: 1 !important;
+  border-color: rgb(252 165 165 / var(--tw-border-opacity)) !important;
 }
 
 .bg-black{

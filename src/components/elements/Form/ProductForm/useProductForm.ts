@@ -304,6 +304,7 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
     setViolatingImages,
     violatingTexts,
     handleBypassWarning,
+    setSubmitting
   };
 };
 
