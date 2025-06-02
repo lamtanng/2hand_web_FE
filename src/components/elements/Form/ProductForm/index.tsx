@@ -13,6 +13,7 @@ import AddressForm from '../AddressForm';
 import { useNavigate } from 'react-router-dom';
 import ImageUploader from './components/ImageUploader';
 import DescriptionPreview from './components/DescriptionPreview';
+import CommunityStandardWarning from './components/CommunityStandardWarning';
 
 const ProductForm = ({
   category,
@@ -55,6 +56,13 @@ const ProductForm = ({
     isPreviewOpen,
     handleAcceptGenerated,
     handleRejectGenerated,
+    isWarningOpen,
+    setWarningOpen,
+    handleEditAfterWarning,
+    violatingImages,
+    setViolatingImages,
+    violatingTexts,
+    handleBypassWarning,
   } = useProductForm(store, product);
 
   const navigate = useNavigate();
@@ -66,7 +74,12 @@ const ProductForm = ({
           Product Images
         </Typography.Title>
         <Form.Item>
-          <ImageUploader base64Images={base64Images} setBase64Images={setBase64Images} />
+          <ImageUploader
+            base64Images={base64Images}
+            setBase64Images={setBase64Images}
+            violatingImages={violatingImages}
+            setViolatingImages={setViolatingImages}
+          />
         </Form.Item>
         <Typography.Title level={3} className="m-0 mb-4">
           Product Information
@@ -123,7 +136,7 @@ const ProductForm = ({
             <Button
               className="h-10 w-full text-base"
               type="primary"
-              onClick={handleGenerateDescription}
+              onClick={() => handleGenerateDescription(true)}
               disabled={isGeneratable}
               loading={isGenerating}
             >
@@ -157,8 +170,23 @@ const ProductForm = ({
           generatedDescription={generatedDescription}
           onAccept={handleAcceptGenerated}
           onReject={handleRejectGenerated}
-          onRegenerate={handleGenerateDescription}
+          onRegenerate={() => handleGenerateDescription(true)}
           isGenerating={isGenerating}
+        />
+        <CommunityStandardWarning
+          isOpen={isWarningOpen}
+          onClose={() => setWarningOpen(false)}
+          onEdit={handleEditAfterWarning}
+          currentDescription={description}
+          generatedDescription={generatedDescription}
+          isGenerating={isGenerating}
+          onRegenerate={handleGenerateDescription}
+          base64Images={base64Images}
+          setBase64Images={setBase64Images}
+          violatingImages={violatingImages}
+          setViolatingImages={setViolatingImages}
+          violatingTexts={violatingTexts}
+          onBypass={handleBypassWarning}
         />
         <Flex gap={'large'} justify="center">
           <Form.Item className="w-1/4">

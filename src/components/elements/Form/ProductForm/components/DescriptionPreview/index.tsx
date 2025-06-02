@@ -60,14 +60,13 @@ const DescriptionPreview: React.FC<DescriptionPreviewProps> = ({
 
       <Flex gap={'large'} justify="space-between" style={{ minHeight: '60vh' }}>
         {/* Left Side - Current Description */}
-        <div className="border-r border-gray-200 pr-4" style={{ width: '100%' }}>
+        <div style={{ width: '100%', background: 'rgba(243 244 246 0.5)', padding: '16px', borderRadius: '12px' }}>
           <Flex align="center" gap="small" className="mb-4">
-            <div className="h-5 w-1 rounded-full bg-gray-400" />
-            <Typography.Title level={5} className="!m-0 text-gray-600">
+            <Typography.Title level={5} style={{ margin: '12px 0' }}>
               Current Description
             </Typography.Title>
           </Flex>
-          <div className="h-[calc(100vh-500px)] w-full overflow-y-auto rounded-lg bg-gradient-to-br from-gray-50 to-gray-100 p-6 shadow-[inset_0_2px_4px_rgba(0,0,0,0.06)]">
+          <div className="h-[calc(100vh-500px)] w-full overflow-y-auto rounded-lg bg-white p-6 shadow-[inset_0_2px_4px_rgba(0,0,0,0.06)]">
             <div className="prose max-w-none">
               {currentDescription ? (
                 parse(currentDescription)
@@ -81,12 +80,12 @@ const DescriptionPreview: React.FC<DescriptionPreviewProps> = ({
         </div>
 
         {/* Right Side - Generated Description */}
-        <div style={{ width: '100%' }}>
+        <div style={{ width: '100%', background: 'rgba(239 246 255 0.5)', padding: '16px', borderRadius: '12px' }}>
           <Flex justify="space-between" align="center" className="mb-4">
             <Flex align="center" gap="small">
-              <div className="h-5 w-1 rounded-full bg-blue-500" />
+              <div className="h-5 w-1 rounded-full bg-blue-600" />
               <Badge status="processing" />
-              <Typography.Title level={5} className="!m-0 text-blue-600">
+              <Typography.Title level={5}style={{ margin: '12px 0', color: "rgb(37 99 235)" }}>
                 Generated Description
               </Typography.Title>
             </Flex>
@@ -100,10 +99,9 @@ const DescriptionPreview: React.FC<DescriptionPreviewProps> = ({
               Regenerate
             </Button>
           </Flex>
-          <div className="h-[calc(100vh-500px)] w-full overflow-y-auto rounded-lg bg-gradient-to-br from-blue-50 to-blue-100/50 p-6 shadow-[inset_0_2px_4px_rgba(0,0,0,0.06)]">
+          <div className="h-[calc(100vh-500px)] w-full overflow-y-auto rounded-lg bg-white p-6 shadow-[inset_0_2px_4px_rgba(0,0,0,0.06)]">
             {isGenerating ? (
               <Flex vertical className="h-full items-center justify-center" gap="middle">
-                <LoadingOutlined className="animate-spin text-4xl text-blue-500" />
                 <Typography.Text className="text-gray-500">Generating content...</Typography.Text>
               </Flex>
             ) : (
