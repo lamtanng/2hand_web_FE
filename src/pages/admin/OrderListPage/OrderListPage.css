@@ -1,0 +1,134 @@
+/* Order List Page Styles */
+
+.order-list-page .ant-table-wrapper .ant-table {
+  border-radius: 8px;
+}
+
+.order-list-page .ant-table-wrapper .ant-table-thead > tr > th {
+  background-color: #f9fafb;
+  color: #4b5563;
+  font-weight: 600;
+}
+
+.order-list-page .ant-table-wrapper .ant-table-tbody > tr:hover > td {
+  background-color: #f0f9ff;
+}
+
+.order-list-page .ant-table-wrapper .ant-table-row-selected > td {
+  background-color: #e0f2fe !important;
+}
+
+.order-list-page .ant-table-wrapper .ant-table-cell {
+  padding: 16px;
+}
+
+.order-list-page .ant-tag {
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.order-list-page .ant-input-search .ant-input-wrapper {
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.order-list-page .ant-card {
+  transition: all 0.3s ease;
+}
+
+.order-list-page .ant-card:hover {
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.order-list-page .ant-table-pagination {
+  margin: 16px 0;
+}
+
+.order-list-page .ant-table-wrapper .ant-table-thead > tr > th::before {
+  display: none !important;
+}
+
+/* Statistic Cards */
+.order-list-page .stat-card {
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.order-list-page .stat-card:hover {
+  transform: translateY(-3px);
+}
+
+.order-list-page .ant-statistic-title {
+  color: #6b7280;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.order-list-page .ant-statistic-content {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+/* Pulse animation for action required button */
+.pulse-animation {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(220, 38, 38, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .order-list-page .ant-card-body {
+    padding: 16px;
+  }
+
+  .order-list-page .ant-table-wrapper .ant-table-cell {
+    padding: 12px 8px;
+  }
+
+  .order-list-page .ant-statistic-content {
+    font-size: 20px;
+  }
+}
+
+/* Animation for row hover */
+.order-list-page .ant-table-tbody > tr {
+  transition: transform 0.2s ease;
+}
+
+.order-list-page .ant-table-tbody > tr:hover {
+  transform: translateY(-2px);
+}
+
+/* Custom scrollbar */
+.order-list-page .ant-table-body::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.order-list-page .ant-table-body::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.order-list-page .ant-table-body::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 4px;
+}
+
+.order-list-page .ant-table-body::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}

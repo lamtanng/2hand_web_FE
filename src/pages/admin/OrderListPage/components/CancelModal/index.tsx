@@ -1,8 +1,9 @@
-import { CloseOutlined } from '@ant-design/icons';
-import { Button, Divider, Flex, Typography } from 'antd';
+import { CloseOutlined, ExclamationCircleOutlined, CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
+import { Button, Divider, Flex, Typography, Alert, Space, Avatar } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
-import React from 'react';
+import React, { useState } from 'react';
 import { ReplyStatus } from '../../../../../types/enum/replyStatus.enum';
+import './CancelModal.css';
 
 const CancelModal = ({
   isModalOpen,
@@ -17,61 +18,114 @@ const CancelModal = ({
   record: any;
   processRequest: (replyStatus: string) => Promise<void>;
 }) => {
+  const [isProcessing, setIsProcessing] = useState(false);
+
   const handleClose = () => {
+    if (!isProcessing) {
+      setIsModalOpen(false);
+    }
+  };
+
+  const handleReject = async () => {
+    setIsProcessing(true);
+    await processRequest(ReplyStatus.Rejected);
+    setIsProcessing(false);
     setIsModalOpen(false);
   };
 
-  const handleReject = () => {
-    processRequest(ReplyStatus.Rejected);
+  const handleApprove = async () => {
+    setIsProcessing(true);
+    await processRequest(ReplyStatus.Succeeded);
+    setIsProcessing(false);
     setIsModalOpen(false);
   };
 
-  const handleApprove = () => {
-    processRequest(ReplyStatus.Succeeded);
-    setIsModalOpen(false);
-  };
   return (
     <div
       onClick={handleClose}
-      className={`fixed inset-0 z-30 flex items-center justify-center transition-colors ${isModalOpen ? 'visible bg-black/20' : 'invisible'} `}
+      className={`fixed inset-0 z-30 flex items-center justify-center transition-colors ${isModalOpen ? 'visible bg-black/20 backdrop-blur-sm' : 'invisible'} `}
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className={`max-h-[70vh] w-1/2 rounded-xl bg-white p-6 shadow transition-all ${isModalOpen ? 'scale-100 opacity-100' : 'scale-100 opacity-0'} `}
+        className={`cancel-modal max-h-[70vh] w-full max-w-md rounded-xl bg-white p-0 shadow-lg transition-all ${isModalOpen ? 'scale-100 opacity-100' : 'scale-95 opacity-0'} `}
       >
-        <Button variant="text" onClick={handleClose} className="absolute right-2 top-2 border-none text-gray-400">
-          <CloseOutlined />
-        </Button>
-        <Typography.Title level={4} className="m-0 mb-2 text-blue-600">
-          Cancel Request
-        </Typography.Title>
-        <Divider />
-        <div className="max-h-[calc(70vh-120px)] overflow-y-auto px-6">
-          <Flex className="mb-2">
-            <Typography.Paragraph className="m-0 w-1/6">Reason: </Typography.Paragraph>
-            <Typography.Paragraph className="m-0">{record?.orderRequest?.reasonID?.name}</Typography.Paragraph>
+        <div className="rounded-t-xl border-b border-blue-100 bg-blue-50 p-6">
+          <Flex align="center" justify="space-between">
+            <Flex align="center" gap="small">
+              <ExclamationCircleOutlined className="text-xl text-blue-500" />
+              <Typography.Title level={4} className="m-0 text-blue-700">
+                Cancel Request
+              </Typography.Title>
+            </Flex>
+            <Button
+              type="text"
+              onClick={handleClose}
+              icon={<CloseOutlined />}
+              className="hover:bg-blue-100 hover:text-blue-700"
+              disabled={isProcessing}
+            />
           </Flex>
-          <Flex className="mb-2">
-            <Typography.Paragraph className="m-0 w-1/6">Description: </Typography.Paragraph>
-            <Typography.Paragraph className="m-0">{record?.orderRequest?.description}</Typography.Paragraph>
-          </Flex>
-          <Flex vertical gap={'small'} className="mb-6">
-            <Typography.Paragraph className="m-0">Reply message: </Typography.Paragraph>
+        </div>
+
+        <div className="max-h-[calc(70vh-120px)] overflow-y-auto p-6">
+          <Alert
+            message="Action Required"
+            description="A customer has requested to cancel their order. Please review the details and respond accordingly."
+            type="info"
+            showIcon
+            className="mb-4"
+          />
+
+          <Space direction="vertical" className="mb-4 w-full">
+            <Typography.Text strong>Reason for Cancellation:</Typography.Text>
+            <div className="rounded-md border border-gray-200 bg-gray-50 p-3">
+              <Typography.Text>{record?.orderRequest?.reasonID?.name || 'No reason specified'}</Typography.Text>
+            </div>
+          </Space>
+
+          <Space direction="vertical" className="mb-4 w-full">
+            <Typography.Text strong>Customer's Description:</Typography.Text>
+            <div className="max-h-32 overflow-y-auto rounded-md border border-gray-200 bg-gray-50 p-3">
+              <Typography.Paragraph className="m-0">
+                {record?.orderRequest?.description || 'No description provided'}
+              </Typography.Paragraph>
+            </div>
+          </Space>
+
+          <Space direction="vertical" className="mb-4 w-full">
+            <Typography.Text strong>Your Response:</Typography.Text>
             <TextArea
               showCount
               maxLength={500}
               autoSize={{ minRows: 3 }}
               onChange={(e) => setDescription(e.target.value)}
-              className="mb-6"
+              placeholder="Enter your response to the customer..."
+              className="response-textarea"
+              disabled={isProcessing}
             />
-          </Flex>
-          <Divider />
-          <Flex justify="end" gap={'large'}>
-            <Button className="px-8 py-5 text-base" onClick={handleReject}>
-              Reject
+          </Space>
+        </div>
+
+        <div className="rounded-b-xl border-t border-gray-100 bg-gray-50 p-4">
+          <Flex justify="end" gap="middle">
+            <Button
+              danger
+              icon={<CloseCircleOutlined />}
+              onClick={handleReject}
+              disabled={isProcessing}
+              loading={isProcessing}
+            >
+              Reject Request
             </Button>
-            <Button type="primary" className="px-8 py-5 text-base" onClick={handleApprove}>
-              Approve
+            <Button
+              type="primary"
+              className="bg-green-600 hover:bg-green-700"
+              icon={<CheckCircleOutlined />}
+              onClick={handleApprove}
+              disabled={isProcessing}
+              loading={isProcessing}
+            >
+              Approve Cancellation
             </Button>
           </Flex>
         </div>
