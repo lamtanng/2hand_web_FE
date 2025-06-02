@@ -48,7 +48,13 @@ const StoreProfile = () => {
                 <FormProvider {...method}>
                   <Form name="normal_login" layout="vertical" className="w-full" onFinish={handleSubmit(updateStore)}>
                     <Typography.Paragraph className="m-0 mb-6 text-base">Store ID: {store?._id}</Typography.Paragraph>
-                    <CustomFormItem name="storeName" hint="Store's name" label="Store's Name" isRequired={true} maxLength={50} />
+                    <CustomFormItem
+                      name="storeName"
+                      hint="Store's name"
+                      label="Store's Name"
+                      isRequired={true}
+                      maxLength={50}
+                    />
                     <Form.Item>
                       <Typography.Paragraph className="m-0 mb-[10px]">
                         Description <span className="text-red-600">*</span>:{' '}
