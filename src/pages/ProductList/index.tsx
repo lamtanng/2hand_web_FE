@@ -65,7 +65,6 @@ const ProductList = () => {
           </Flex>
         </div>
       </div>
-      {/* <Footer /> */}
     </>
   );
 };
