@@ -38,7 +38,6 @@ const UserProfilePage = () => {
           </div>
         </div>
       )}
-      <Footer />
     </>
   );
 };

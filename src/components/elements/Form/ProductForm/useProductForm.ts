@@ -15,6 +15,7 @@ import { handleError } from '../../../../utils/handleError';
 import { DistrictAddressProps, ProvincesAddressProps, WardAddressProps } from '../../../../types/address.type';
 import { PromptType } from '../../../../types/enum/promptType.enum';
 import { openAIAPIs } from '../../../../apis/openai.api';
+import { accountUrls } from '../../../../constants/urlPaths/customer/accountUrls';
 
 const useProductForm = (store: StoreProps | undefined, currentProduct: ProductProps | undefined) => {
   const navigate = useNavigate();
@@ -68,9 +69,8 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
     try {
       setSubmitting(true);
       const res = await productAPIs.addProduct(data);
-      console.log(res);
-      // displaySuccess('Product is added successfully');
-      // navigate(`/${res.data.slug}`);
+      displaySuccess('Product is added successfully');
+      navigate(`/${res.data.slug}`);
     } catch (error) {
       handleError(error);
     } finally {
@@ -164,6 +164,7 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
     const data = method.getValues();
     submitProduct(data, false);
     setWarningOpen(false);
+    navigate(`/${accountUrls.accountUrl}/${accountUrls.productsUrl}`);
   };
 
   // Common submission logic for both normal and bypass paths
@@ -218,6 +219,7 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
   const handleEditAfterWarning = () => {
     setWarningOpen(false);
     setDescription(generatedDescription);
+    setSubmitting(false);
     // Scroll to top or to the specific field with violation
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
