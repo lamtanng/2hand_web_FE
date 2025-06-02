@@ -20,7 +20,6 @@ const UploadProductPage = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 };

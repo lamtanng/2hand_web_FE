@@ -1,8 +1,5 @@
 import { Divider, Flex, Typography } from 'antd';
-import Footer from '../../components/elements/Footer';
 import Header from '../../components/elements/Header';
-// import { useAppSelector } from '../../redux/hooks';
-// import { loginSelector } from '../../redux/slices/login.slice';
 import CustomCarousel from './components/Carousel';
 import CategorySlider from './components/CategorySlider';
 import ProductSlider from '../../components/elements/Slider/ProductSlider';
@@ -45,7 +42,7 @@ const HomePage = () => {
                 <ProductList />
               </div>
               <Divider />
-              <div className='pb-20'>
+              <div className="pb-20">
                 <Typography.Title level={2}>About Us</Typography.Title>
                 <SystemInfo />
               </div>
@@ -53,7 +50,6 @@ const HomePage = () => {
           </Flex>
         )}
       </div>
-      <Footer />
     </>
   );
 };
