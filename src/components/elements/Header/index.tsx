@@ -1,13 +1,12 @@
 import { Divider, Flex, Image } from 'antd';
-import Search from 'antd/es/input/Search';
 import { Link } from 'react-router-dom';
-import CustomCategoryMenu from '../Menu/CategoryMenu';
+// import logo from '../../../../public/logo.webp';
+import { guestUrls } from '../../../constants/urlPaths/guestUrls';
 import { useAppSelector } from '../../../redux/hooks';
 import { loginSelector } from '../../../redux/slices/login.slice';
-import UserInfoGroup from './components/UserInfoGroup';
+import CustomCategoryMenu from '../Menu/CategoryMenu';
 import ActionGroup from './components/ActionGroup';
-import logo from '../../../../public/logo.webp';
-import { guestUrls } from '../../../constants/urlPaths/guestUrls';
+import UserInfoGroup from './components/UserInfoGroup';
 
 export default function Header() {
   const { user } = useAppSelector(loginSelector);
@@ -20,13 +19,16 @@ export default function Header() {
           <Flex gap={'large'} justify="start" align="center" className="flex xl:flex-grow">
             <Flex gap="large" className="font-sans">
               <Link to="/" className="font-sans">
-                <Image alt="" src={logo} width={50} preview={false} />
+                {/* <Image alt="" src={logo} width={50} preview={false} /> */}
               </Link>
             </Flex>
             <Link to={'/'} className="font-sans text-base">
               Home
             </Link>
-            <Link to={{ pathname: `/${guestUrls.productListUrl}`, search: 'page=1&limit=8' }} className="font-sans text-base">
+            <Link
+              to={{ pathname: `/${guestUrls.productListUrl}`, search: 'page=1&limit=8' }}
+              className="font-sans text-base"
+            >
               Products
             </Link>
           </Flex>

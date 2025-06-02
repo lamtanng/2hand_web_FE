@@ -1,171 +1,140 @@
-import React from 'react';
-import { Badge, Button, List, Popover, Typography, Tag } from 'antd';
-import {
-  BellOutlined,
-  ShoppingCartOutlined,
-  DollarOutlined,
-  InfoCircleOutlined,
-  ShoppingOutlined,
-  UserOutlined,
-  DeleteOutlined,
-} from '@ant-design/icons';
-import { useNotification } from '../../../context/NotificationContext';
-import { useNavigate } from 'react-router-dom';
-import { NotificationProps, NotificationType } from '../../../types/notification.type';
+import { BellOutlined } from '@ant-design/icons';
+import { Badge, Button, Popover, Tabs } from 'antd';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import React, { useState } from 'react';
+import { notificationAPIs } from '../../../apis/notification.api';
+import { useNotification } from '../../../context/NotificationContext';
+import { useAppSelector } from '../../../redux/hooks';
+import { loginSelector } from '../../../redux/slices/login.slice';
+import { NotificationProps } from '../../../types/notification.type';
+import NotificationList from './NotificationList';
 
 dayjs.extend(relativeTime);
 
-interface NotificationConfig {
-  icon: React.ReactNode;
-  color: string;
-  tagText: string;
-}
+const NotificationBell: React.FC = () => {
+  const { unreadCount, markAllAsRead, markAsRead, clearNotifications } = useNotification();
+  const { user } = useAppSelector(loginSelector);
+  const [activeTab, setActiveTab] = useState<'user' | 'store'>('user');
+  const [loading, setLoading] = useState(false);
+  const [userNotifications, setUserNotifications] = useState<NotificationProps[]>([]);
+  const [storeNotifications, setStoreNotifications] = useState<NotificationProps[]>([]);
+  const [userPage, setUserPage] = useState(1);
+  const [userHasMore, setUserHasMore] = useState(true);
+  const [storePage, setStorePage] = useState(1);
+  const [storeHasMore, setStoreHasMore] = useState(true);
 
-const getNotificationConfig = (type: NotificationType): NotificationConfig => {
-  switch (type) {
-    case NotificationType.Order:
-      return {
-        icon: <ShoppingCartOutlined className="text-blue-500" />,
-        color: 'blue',
-        tagText: 'Order',
-      };
-    case NotificationType.Finance:
-      return {
-        icon: <DollarOutlined className="text-green-500" />,
-        color: 'green',
-        tagText: 'Finance',
-      };
-    case NotificationType.System:
-      return {
-        icon: <InfoCircleOutlined className="text-orange-500" />,
-        color: 'orange',
-        tagText: 'System',
-      };
-    case NotificationType.Product:
-      return {
-        icon: <ShoppingOutlined className="text-purple-500" />,
-        color: 'purple',
-        tagText: 'Product',
-      };
-    case NotificationType.User:
-      return {
-        icon: <UserOutlined className="text-cyan-500" />,
-        color: 'cyan',
-        tagText: 'User',
-      };
-  }
-};
-
-interface NotificationListProps {
-  onClose: () => void;
-}
-
-const NotificationList: React.FC<NotificationListProps> = ({ onClose }) => {
-  const { notifications, markAsRead, markAllAsRead, clearNotifications } = useNotification();
-  const navigate = useNavigate();
-
-  const handleNotificationClick = (notification: NotificationProps) => {
-    if (!notification.isRead) {
-      markAsRead(notification._id);
-    }
-
-    // Navigate based on notification type and relatedId
-    if (notification.relatedId) {
-      switch (notification.type) {
-        case NotificationType.Order:
-          navigate(`/orders/${notification.relatedId}`);
-          break;
-        case NotificationType.Product:
-          navigate(`/products/${notification.relatedId}`);
-          break;
-        case NotificationType.User:
-          navigate(`/users/${notification.relatedId}`);
-          break;
-        case NotificationType.Finance:
-          navigate(`/finance/${notification.relatedId}`);
-          break;
-        default:
-          break;
+  const fetchNotifications = async (
+    ownerId: string,
+    setter: React.Dispatch<React.SetStateAction<NotificationProps[]>>,
+    page: number,
+    setHasMore: React.Dispatch<React.SetStateAction<boolean>>,
+  ) => {
+    setLoading(true);
+    try {
+      const res = await notificationAPIs.getAllNotification({ _id: ownerId, limit: 20, page });
+      const data = res.data?.data || [];
+      if (page === 1) {
+        setter(data);
+      } else {
+        setter((prev) => [...prev, ...data]);
       }
+      setHasMore(!!res.data?.nextPage);
+    } finally {
+      setLoading(false);
     }
-
-    onClose();
   };
 
-  return (
-    <div className="w-96">
-      <div className="mb-2 flex items-center justify-between border-b border-gray-200 pb-2">
-        <Typography.Title level={5} className="m-0">
-          Notifications
-        </Typography.Title>
-        <div className="flex items-center gap-2">
-          {notifications.length > 0 && (
-            <>
-              <Button type="link" onClick={markAllAsRead} className="px-0">
-                Mark all as read
-              </Button>
-              <Button
-                type="text"
-                icon={<DeleteOutlined />}
-                onClick={clearNotifications}
-                className="text-red-500 hover:text-red-600"
-              />
-            </>
-          )}
-        </div>
-      </div>
-      <List
-        className="max-h-[calc(100vh-200px)] overflow-y-auto"
-        dataSource={notifications}
-        renderItem={(notification) => {
-          const config = getNotificationConfig(notification.type);
-          return (
-            <List.Item
-              className={`cursor-pointer transition-colors duration-200 hover:bg-gray-50 ${
-                !notification.isRead ? 'bg-blue-50' : ''
-              }`}
-              onClick={() => handleNotificationClick(notification)}
-            >
-              <List.Item.Meta
-                avatar={config.icon}
-                title={
-                  <div className="flex items-center gap-2">
-                    <span className="flex-grow">{notification.title}</span>
-                    <Tag color={config.color} className="ml-2">
-                      {config.tagText}
-                    </Tag>
-                  </div>
-                }
-                description={
-                  <div>
-                    <p className="mb-1">{notification.content}</p>
-                    <div className="flex items-center justify-between text-xs text-gray-500">
-                      <span>{dayjs(notification.createdAt).fromNow()}</span>
-                      {!notification.isRead && <span className="h-2 w-2 rounded-full bg-blue-500"></span>}
-                    </div>
-                  </div>
-                }
-              />
-            </List.Item>
-          );
-        }}
-        locale={{
-          emptyText: (
-            <div className="py-8 text-center text-gray-500">
-              <BellOutlined className="mb-2 text-2xl" />
-              <p>No notifications</p>
-            </div>
-          ),
-        }}
-      />
-    </div>
-  );
-};
+  const handleTabChange = (key: string) => {
+    setActiveTab(key as 'user' | 'store');
+    if (key === 'user' && user._id) {
+      setUserPage(1);
+      fetchNotifications(user._id, setUserNotifications, 1, setUserHasMore);
+    }
+    if (key === 'store' && user.storeId) {
+      setStorePage(1);
+      fetchNotifications(user.storeId, setStoreNotifications, 1, setStoreHasMore);
+    }
+  };
 
-const NotificationBell: React.FC = () => {
-  const { unreadCount } = useNotification();
+  const handlePopoverOpen = () => {
+    if (activeTab === 'user' && user._id) {
+      setUserPage(1);
+      fetchNotifications(user._id, setUserNotifications, 1, setUserHasMore);
+    }
+    if (activeTab === 'store' && user.storeId) {
+      setStorePage(1);
+      fetchNotifications(user.storeId, setStoreNotifications, 1, setStoreHasMore);
+    }
+  };
+
+  const fetchMoreUser = () => {
+    if (user._id) {
+      const nextPage = userPage + 1;
+      setUserPage(nextPage);
+      fetchNotifications(user._id, setUserNotifications, nextPage, setUserHasMore);
+    }
+  };
+  const fetchMoreStore = () => {
+    if (user.storeId) {
+      const nextPage = storePage + 1;
+      setStorePage(nextPage);
+      fetchNotifications(user.storeId, setStoreNotifications, nextPage, setStoreHasMore);
+    }
+  };
+
+  const userUnread = user._id && unreadCount && unreadCount[user._id]?.unread ? unreadCount[user._id].unread : 0;
+  const storeUnread =
+    user.storeId && unreadCount && unreadCount[user.storeId]?.unread ? unreadCount[user.storeId].unread : 0;
+
+  const tabItems = [
+    {
+      key: 'user',
+      label: (
+        <span>
+          User Notifications{' '}
+          <Badge count={userUnread} size="default" style={{ backgroundColor: '#1677ff' }} offset={[4, 0]} />
+        </span>
+      ),
+      children: (
+        <NotificationList
+          onClose={() => {}}
+          ownerId={user._id}
+          loading={loading && activeTab === 'user'}
+          notifications={userNotifications}
+          fetchMore={fetchMoreUser}
+          hasMore={userHasMore}
+          markAsRead={markAsRead}
+          markAllAsRead={markAllAsRead}
+          clearNotifications={clearNotifications}
+        />
+      ),
+    },
+    {
+      key: 'store',
+      label: (
+        <span>
+          Store Notifications{' '}
+          <Badge count={storeUnread} size="default" style={{ backgroundColor: '#faad14' }} offset={[4, 0]} />
+        </span>
+      ),
+      children: (
+        <NotificationList
+          onClose={() => {}}
+          ownerId={user.storeId}
+          loading={loading && activeTab === 'store'}
+          notifications={storeNotifications}
+          fetchMore={fetchMoreStore}
+          hasMore={storeHasMore}
+          markAsRead={markAsRead}
+          markAllAsRead={markAllAsRead}
+          clearNotifications={clearNotifications}
+        />
+      ),
+    },
+  ];
+
+  const totalUnread = unreadCount ? Object.values(unreadCount).reduce((sum, item) => sum + item.unread, 0) : 0;
 
   return (
     <Popover
@@ -173,13 +142,22 @@ const NotificationBell: React.FC = () => {
       trigger="click"
       arrow={false}
       overlayClassName="notification-popover"
-      content={<NotificationList onClose={() => {}} />}
+      content={
+        <Tabs
+          defaultActiveKey="user"
+          activeKey={activeTab}
+          onChange={handleTabChange}
+          items={tabItems}
+          className="notification-tabs"
+        />
+      }
+      onOpenChange={(visible) => visible && handlePopoverOpen()}
     >
-      <Badge count={unreadCount} offset={[-5, 5]}>
+      <Badge count={totalUnread} offset={[-5, 5]}>
         <Button
           type="text"
           icon={<BellOutlined className="text-xl" />}
-          className="flex h-12 w-12 items-center justify-center hover:bg-gray-100 text-blue-600"
+          className="flex h-12 w-12 items-center justify-center text-blue-600 hover:bg-gray-100"
         />
       </Badge>
     </Popover>

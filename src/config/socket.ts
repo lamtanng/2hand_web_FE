@@ -1,6 +1,6 @@
 import { io, Socket } from 'socket.io-client';
 
-const SOCKET_URL = 'http://localhost:8017/v1';
+const SOCKET_URL = 'http://localhost:8017';
 
 // Create a singleton socket instance
 let socket: Socket | null = null;
@@ -9,7 +9,11 @@ export const initializeSocket = (token: string): Socket => {
   if (!socket) {
     console.log('Initializing socket connection to:', SOCKET_URL);
 
-    socket = io(SOCKET_URL);
+    socket = io(SOCKET_URL, {
+      auth: {
+        token,
+      },
+    });
 
     // Add connection event handlers
     socket.on('connect', () => {
