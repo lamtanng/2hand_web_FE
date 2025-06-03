@@ -4,25 +4,10 @@ const SystemInfo = () => {
   return (
     <>
       <Typography.Paragraph>
-        Welcome to 2Hand Market, your trusted destination for sustainable shopping and mindful consumption. Established
-        with a vision to reduce waste and make quality items more accessible, our platform connects buyers and sellers
-        in a vibrant community of conscious consumers. We believe that every pre-loved item has a story to tell and
-        deserves a second chance to bring value to someone new.
+      LMarket is a cutting-edge e-commerce platform designed to revolutionize the online shopping experience for today’s discerning consumers. In a world where convenience and quality are paramount, especially following the surge in online shopping during the COVID-19 pandemic, LMarket stands out by offering a seamless, secure, and user-centric marketplace. Our platform is dedicated to connecting buyers with a carefully curated selection of high-quality products across various categories, ensuring that every purchase is backed by trust and transparency.LMarket is a cutting-edge e-commerce platform designed to revolutionize the online shopping experience for today’s discerning consumers. In a world where convenience and quality are paramount, especially following the surge in online shopping during the COVID-19 pandemic, LMarket stands out by offering a seamless, secure, and user-centric marketplace. Our platform is dedicated to connecting buyers with a carefully curated selection of high-quality products across various categories, ensuring that every purchase is backed by trust and transparency.
       </Typography.Paragraph>
       <Typography.Paragraph>
-        Our mission is to revolutionize the way people think about second-hand shopping. We carefully curate our
-        marketplace to ensure high-quality items, transparent transactions, and a seamless user experience. Whether
-        you're a fashion enthusiast, a tech lover, or someone looking for unique home decor, our diverse categories
-        cater to all your needs. By choosing second-hand, you're not just making a purchase – you're making a positive
-        impact on the environment and supporting sustainable consumption.
-      </Typography.Paragraph>
-      <Typography.Paragraph>
-        What sets us apart is our commitment to building a trustworthy community. Every seller on our platform is
-        verified, and all items undergo a quality assessment process. We provide secure payment options, reliable
-        shipping partners, and dedicated customer support to ensure your shopping experience is safe and satisfying.
-        Join our growing community of over 100,000 users who are already making smarter, more sustainable choices in
-        their shopping journey. Together, we're building a future where second-hand is the first choice for conscious
-        consumers.
+      At LMarket, we prioritize sustainability and responsible consumption, empowering our users to make informed choices that positively impact both their lives and the environment. With features such as personalized recommendations, real-time customer support, and an intuitive interface, we strive to create an engaging shopping experience that not only meets the needs of our customers but also fosters a vibrant community of informed consumers and reputable sellers. Join us at LMarket, where quality meets convenience, and where every shopping journey is a step toward a better tomorrow.
       </Typography.Paragraph>
     </>
   );

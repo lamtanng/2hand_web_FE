@@ -29,14 +29,14 @@ const MenuBar = () => {
   const items: MenuItem[] = [
     getItem('Dashboard', 'dashboard', <HomeOutlined />),
     getItem('Accounts', 'accountList', <UserOutlined />),
-    getItem('Categories', 'categoryList', <MenuOutlined />),
+    // getItem('Categories', 'categoryList', <MenuOutlined />),
     getItem('Products', 'productList', <CarryOutOutlined />),
     getItem('Orders', 'orderList', <FileTextOutlined />),
-    getItem('Policies', 'policies', <BookOutlined />, [
-      getItem('Cancel Order', 'policies/cancel-order'),
-      getItem('Return Order', 'policies/return-order'),
-      getItem('Report', 'policies/report'),
-    ]),
+    // getItem('Policies', 'policies', <BookOutlined />, [
+    //   getItem('Cancel Order', 'policies/cancel-order'),
+    //   getItem('Return Order', 'policies/return-order'),
+    //   getItem('Report', 'policies/report'),
+    // ]),
     getItem('Logout', 'logout', <LogoutOutlined />),
   ];
 

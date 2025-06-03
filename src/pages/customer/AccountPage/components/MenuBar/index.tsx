@@ -51,7 +51,7 @@ const MenuBar = () => {
         getItem('Notifications', 'notifications', <NotificationOutlined />),
         getItem('My Purchases', 'purchases', <FileTextOutlined />),
         getItem('My Reviews', 'reviews', <StarOutlined />),
-        getItem('Wishlist', 'wishlist', <HeartOutlined />),
+        // getItem('Wishlist', 'wishlist', <HeartOutlined />),
       ],
     },
     {

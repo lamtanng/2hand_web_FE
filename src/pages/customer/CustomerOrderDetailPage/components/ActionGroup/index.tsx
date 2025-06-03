@@ -22,10 +22,10 @@ export const DeliveryActions = ({receiveOrder}: {receiveOrder: () => void}) => {
       <Flex className="px-12 py-5" justify="end">
         <ConfirmReceivedButton onClick={receiveOrder} />
       </Flex>
-      <Divider variant="dashed" className="m-0" />
+      {/* <Divider variant="dashed" className="m-0" />
       <Flex className="px-12 py-5" justify="end">
         <ReturnButton onClick={() => {}} />
-      </Flex>
+      </Flex> */}
     </div>
   );
 };
