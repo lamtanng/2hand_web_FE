@@ -19,7 +19,7 @@ const useHomePage = () => {
       null,
       undefined,
       true,
-      false
+      undefined
     );
     setNewestProduct(res?.data?.response?.data);
   };
@@ -35,7 +35,7 @@ const useHomePage = () => {
       null,
       undefined,
       true,
-      false
+      undefined
     );
     setFreeProduct(res?.data?.response?.data);
   };

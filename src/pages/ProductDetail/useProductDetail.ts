@@ -38,7 +38,7 @@ const useProductDetail = () => {
       null,
       null,
       storeIDGroup,
-      undefined,
+      true,
       undefined,
     );
     setStoreProduct(res?.data?.response?.data);

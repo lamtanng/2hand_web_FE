@@ -29,6 +29,7 @@ import {
   SyncOutlined,
   InfoCircleOutlined,
 } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 import useDashboard from './useDashboard';
 import { OrderStage } from '../../../types/enum/orderStage.enum';
 import { formattedOrderRate } from '../../../utils/formattedOrderRate';
@@ -76,6 +77,7 @@ const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d'
 
 function DashboardPage() {
   const { statistics, isLoading } = useDashboard();
+  const navigate = useNavigate();
   const data = statistics?.orders;
   const totalOrders = statistics?.orders?.reduce((total, order) => total + order.count, 0) || 0;
   const totalDeliveredOrders = statistics?.orders?.find((item: any) => item._id === OrderStage.Delivered);
@@ -167,82 +169,126 @@ function DashboardPage() {
         <>
           <Row gutter={[16, 16]} className="mb-6">
             <Col xs={24} sm={12} md={8} lg={6} xl={4} className="mb-4">
-              <StatisticCard
-                title="Users"
-                icon={<UserOutlined className="text-2xl" />}
-                data={statistics?.userTotal || 0}
-                date={formattedDate}
-                trend={userTrend}
-                trendIcon={userTrend >= 0 ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
-                trendColor={userTrend >= 0 ? 'text-green-500' : 'text-red-500'}
-                progressPercent={75}
-                progressColor="#1890ff"
-              />
+              <Tooltip title="View all users">
+                <div>
+                  <StatisticCard
+                    title="Users"
+                    icon={<UserOutlined className="text-2xl" />}
+                    data={statistics?.userTotal || 0}
+                    date={formattedDate}
+                    trend={userTrend}
+                    trendIcon={userTrend >= 0 ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
+                    trendColor={userTrend >= 0 ? 'text-green-500' : 'text-red-500'}
+                    progressPercent={75}
+                    progressColor="#1890ff"
+                    onClick={() => navigate('/ad/accountList')}
+                  />
+                </div>
+              </Tooltip>
             </Col>
             <Col xs={24} sm={12} md={8} lg={6} xl={4} className="mb-4">
-              <StatisticCard
-                title="Products"
-                icon={<ShoppingOutlined className="text-2xl" />}
-                data={statistics?.productTotal || 0}
-                date={formattedDate}
-                trend={productTrend}
-                trendIcon={productTrend >= 0 ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
-                trendColor={productTrend >= 0 ? 'text-green-500' : 'text-red-500'}
-                progressPercent={65}
-                progressColor="#722ed1"
-              />
+              <Tooltip title="View all products">
+                <div>
+                  <StatisticCard
+                    title="Products"
+                    icon={<ShoppingOutlined className="text-2xl" />}
+                    data={statistics?.productTotal || 0}
+                    date={formattedDate}
+                    trend={productTrend}
+                    trendIcon={productTrend >= 0 ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
+                    trendColor={productTrend >= 0 ? 'text-green-500' : 'text-red-500'}
+                    progressPercent={65}
+                    progressColor="#722ed1"
+                    onClick={() => navigate('/ad/productList')}
+                  />
+                </div>
+              </Tooltip>
             </Col>
             <Col xs={24} sm={12} md={8} lg={6} xl={4} className="mb-4">
-              <StatisticCard
-                title="Orders"
-                icon={<FileTextOutlined className="text-2xl" />}
-                data={totalOrders}
-                date={formattedDate}
-                trend={orderTrend}
-                trendIcon={orderTrend >= 0 ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
-                trendColor={orderTrend >= 0 ? 'text-green-500' : 'text-red-500'}
-                progressPercent={45}
-                progressColor="#fa8c16"
-              />
+              <Tooltip title="View all orders">
+                <div>
+                  <StatisticCard
+                    title="Orders"
+                    icon={<FileTextOutlined className="text-2xl" />}
+                    data={totalOrders}
+                    date={formattedDate}
+                    trend={orderTrend}
+                    trendIcon={orderTrend >= 0 ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
+                    trendColor={orderTrend >= 0 ? 'text-green-500' : 'text-red-500'}
+                    progressPercent={45}
+                    progressColor="#fa8c16"
+                    onClick={() => navigate('/ad/orderList')}
+                  />
+                </div>
+              </Tooltip>
             </Col>
             <Col xs={24} sm={12} md={8} lg={6} xl={4} className="mb-4">
-              <StatisticCard
-                title="Stores"
-                icon={<ShopOutlined className="text-2xl" />}
-                data={statistics?.storeTotal || 0}
-                date={formattedDate}
-                trend={storeTrend}
-                trendIcon={storeTrend >= 0 ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
-                trendColor={storeTrend >= 0 ? 'text-green-500' : 'text-red-500'}
-                progressPercent={80}
-                progressColor="#13c2c2"
-              />
+              <Tooltip title="View products by store">
+                <div>
+                  <StatisticCard
+                    title="Stores"
+                    icon={<ShopOutlined className="text-2xl" />}
+                    data={statistics?.storeTotal || 0}
+                    date={formattedDate}
+                    trend={storeTrend}
+                    trendIcon={storeTrend >= 0 ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
+                    trendColor={storeTrend >= 0 ? 'text-green-500' : 'text-red-500'}
+                    progressPercent={80}
+                    progressColor="#13c2c2"
+                    onClick={() => navigate('/ad/productList')}
+                  />
+                </div>
+              </Tooltip>
             </Col>
             <Col xs={24} sm={12} md={12} lg={12} xl={4} className="mb-4">
-              <StatisticCard
-                title="Success Rate"
-                icon={<PercentageOutlined className="text-2xl" />}
-                data={formattedOrderRate(totalDeliveredOrders?.count, totalOrders)}
-                date={formattedDate}
-                trend={successTrend}
-                trendIcon={successTrend >= 0 ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
-                trendColor={successTrend >= 0 ? 'text-green-500' : 'text-red-500'}
-                progressPercent={successTrend > 0 ? 70 : 30}
-                progressColor="#52c41a"
-              />
+              <Tooltip title="View successful orders">
+                <div>
+                  <StatisticCard
+                    title="Success Rate"
+                    icon={<PercentageOutlined className="text-2xl" />}
+                    data={formattedOrderRate(totalDeliveredOrders?.count, totalOrders)}
+                    date={formattedDate}
+                    trend={successTrend}
+                    trendIcon={successTrend >= 0 ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
+                    trendColor={successTrend >= 0 ? 'text-green-500' : 'text-red-500'}
+                    progressPercent={successTrend > 0 ? 70 : 30}
+                    progressColor="#52c41a"
+                    onClick={() =>
+                      navigate('/ad/orderList', {
+                        state: {
+                          filterStage: OrderStage.Delivered,
+                          activeTab: 'delivered',
+                        },
+                      })
+                    }
+                  />
+                </div>
+              </Tooltip>
             </Col>
             <Col xs={24} sm={12} md={12} lg={12} xl={4} className="mb-4">
-              <StatisticCard
-                title="Cancel Rate"
-                icon={<PercentageOutlined className="text-2xl" />}
-                data={formattedOrderRate(totalCancelOrders?.count, totalOrders)}
-                date={formattedDate}
-                trend={cancelTrend}
-                trendIcon={cancelTrend >= 0 ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
-                trendColor={cancelTrend >= 0 ? 'text-red-500' : 'text-green-500'}
-                progressPercent={cancelTrend > 0 ? 30 : 70}
-                progressColor="#f5222d"
-              />
+              <Tooltip title="View cancelled orders">
+                <div>
+                  <StatisticCard
+                    title="Cancel Rate"
+                    icon={<PercentageOutlined className="text-2xl" />}
+                    data={formattedOrderRate(totalCancelOrders?.count, totalOrders)}
+                    date={formattedDate}
+                    trend={cancelTrend}
+                    trendIcon={cancelTrend >= 0 ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
+                    trendColor={cancelTrend >= 0 ? 'text-red-500' : 'text-green-500'}
+                    progressPercent={cancelTrend > 0 ? 30 : 70}
+                    progressColor="#f5222d"
+                    onClick={() =>
+                      navigate('/ad/orderList', {
+                        state: {
+                          filterStage: OrderStage.Cancelled,
+                          activeTab: 'cancelled',
+                        },
+                      })
+                    }
+                  />
+                </div>
+              </Tooltip>
             </Col>
           </Row>
 
@@ -254,35 +300,26 @@ function DashboardPage() {
                   <Flex align="center">
                     <FileTextOutlined className="mr-2 text-blue-500" />
                     <Typography.Title level={4} className="m-0">
-                      Orders by Stages
+                      Order Distribution
                     </Typography.Title>
-                    <Tooltip title="Shows the distribution of orders across different stages and their total amounts">
-                      <InfoCircleOutlined className="ml-2 text-gray-400 hover:text-blue-500" />
-                    </Tooltip>
                   </Flex>
                 }
-                extra={
-                  <Button icon={<SyncOutlined />} size="small">
-                    Refresh
-                  </Button>
-                }
               >
-                <ResponsiveContainer width="100%" height={400}>
-                  <BarChart data={data || []} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
+                <ResponsiveContainer width="100%" height={350}>
+                  <BarChart
+                    data={data}
+                    margin={{
+                      top: 20,
+                      right: 30,
+                      left: 20,
+                      bottom: 20,
+                    }}
+                  >
                     <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                    <XAxis
-                      dataKey="_id"
-                      tick={{ fill: '#666', fontSize: 12 }}
-                      tickLine={{ stroke: '#ccc' }}
-                      axisLine={{ stroke: '#ccc' }}
-                    />
-                    <YAxis
-                      tick={{ fill: '#666', fontSize: 12 }}
-                      tickLine={{ stroke: '#ccc' }}
-                      axisLine={{ stroke: '#ccc' }}
-                    />
+                    <XAxis dataKey="_id" />
+                    <YAxis />
                     <RechartsTooltip
-                      cursor={{ fill: 'rgba(0, 0, 0, 0.05)' }}
+                      formatter={(value: any, name: any) => [`${value} orders`, name]}
                       contentStyle={{
                         backgroundColor: 'rgba(255, 255, 255, 0.95)',
                         borderRadius: '8px',
@@ -291,31 +328,17 @@ function DashboardPage() {
                         border: 'none',
                       }}
                     />
-                    <Legend
-                      wrapperStyle={{ paddingTop: '20px' }}
-                      formatter={(value) => <span className="text-gray-700">{value}</span>}
-                    />
-                    <Bar
-                      dataKey="count"
-                      name="Number of Orders"
-                      fill="#3b82f6"
-                      radius={[4, 4, 0, 0]}
-                      animationDuration={1500}
-                    />
-                    <Bar
-                      dataKey="totalAmount"
-                      name="Total Amount ($)"
-                      fill="#10b981"
-                      radius={[4, 4, 0, 0]}
-                      animationDuration={1500}
-                    />
+                    <Legend />
+                    <Bar dataKey="count" name="Orders" fill="#1890ff" radius={[4, 4, 0, 0]} />
+                    <Bar dataKey="totalAmount" name="Amount ($)" fill="#52c41a" radius={[4, 4, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </Card>
             </Col>
+
             <Col xs={24} lg={8}>
               <Card
-                className="store-stats-card h-full border-0 shadow-md transition-all hover:shadow-lg"
+                className="border-0 shadow-md transition-all hover:shadow-lg"
                 title={
                   <Flex align="center">
                     <ShopOutlined className="mr-2 text-blue-500" />
@@ -325,7 +348,7 @@ function DashboardPage() {
                   </Flex>
                 }
               >
-                <div className="flex items-center justify-center">
+                <div className="store-categories-chart">
                   <ResponsiveContainer width="100%" height={350}>
                     <PieChart>
                       <Pie
@@ -337,7 +360,6 @@ function DashboardPage() {
                         fill="#8884d8"
                         dataKey="value"
                         label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                        animationDuration={1500}
                       >
                         {storeCategoriesData.map((entry, index) => (
                           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />

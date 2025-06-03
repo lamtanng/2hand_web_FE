@@ -20,7 +20,7 @@ const useProductList = () => {
         null,
         undefined, 
         undefined,
-        false
+        undefined
       );
       setProduct(res?.data.response.data);
     } catch (error) {
