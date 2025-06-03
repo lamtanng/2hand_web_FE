@@ -4,7 +4,7 @@ import { notificationAPIs } from '../apis/notification.api';
 import { initializeSocket } from '../config/socket';
 import { useAppSelector } from '../redux/hooks';
 import { loginSelector } from '../redux/slices/login.slice';
-import { CountNotificationResponse, GetNotificationsRequest } from '../types/http/notification.type';
+import { CountNotificationResponse } from '../types/http/notification.type';
 import { NotificationProps } from '../types/notification.type';
 import { displayInfo } from '../utils/displayToast';
 
@@ -41,7 +41,7 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
   // Fetch tổng số lượng chưa đọc cho cả user và store
   const fetchNotificationCount = async () => {
     if (!user._id && !user.storeId) return;
-    let ids = [];
+    const ids = [];
     if (user._id) ids.push(user._id);
     if (user.storeId) ids.push(user.storeId);
 

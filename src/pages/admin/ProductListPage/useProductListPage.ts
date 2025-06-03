@@ -1,11 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from 'react';
 import { productAPIs } from '../../../apis/product.api';
 import { useNotification } from '../../../context/NotificationContext';
 import { useAppSelector } from '../../../redux/hooks';
 import { loginSelector } from '../../../redux/slices/login.slice';
 import { ProductProps } from '../../../types/product.type';
-import { TablePaginationConfig } from 'antd';
-import { FilterValue, SorterResult } from 'antd/es/table/interface';
 
 // Export for type checking in the index component
 export type TabKey = 'approved' | 'pending';
@@ -115,9 +114,8 @@ const useProductListPage = () => {
         params.storeID,
         params.isApproved,
       );
-
-      setProducts(res.data.products);
-      setTotal(res.data.pagination.total);
+      setProducts(res.data.response.data);
+      setTotal(res.data.response.total);
     } catch (error) {
       console.error('Failed to fetch products:', error);
     } finally {
@@ -147,7 +145,7 @@ const useProductListPage = () => {
       }
 
       // Gọi API để update isApproved = true
-      const res = await productAPIs.updateProduct({
+      await productAPIs.updateProduct({
         _id: productId,
         name: productToApprove.name,
         description: productToApprove.description,
@@ -219,12 +217,17 @@ const useProductListPage = () => {
   };
 
   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-    setSelectedRowKeys(newSelectedRowKeys);
+    // Filter out any keys that are currently in processing state
+    const validKeys = newSelectedRowKeys.filter(key => 
+      !approvalStatus[key.toString()] || approvalStatus[key.toString()] !== 'processing'
+    );
+    setSelectedRowKeys(validKeys);
   };
 
   // Filter products by approval status and other filters
   useEffect(() => {
-    if (!products.length) return;
+    console.log(">>>>> product", products?.length)
+    if (!products?.length) return;
 
     let result = [...products];
 

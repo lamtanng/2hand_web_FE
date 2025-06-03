@@ -1,21 +1,20 @@
-import { TableProps, Typography, Image, Space, Button, Table, Tag, Tabs, Badge, Tooltip, message } from 'antd';
-import defaultPic from '../../../assets/blob.webp';
-import { Link } from 'react-router-dom';
 import {
-  EditOutlined,
   CheckCircleOutlined,
-  ClockCircleOutlined,
-  EyeOutlined,
-  SearchOutlined,
   CheckOutlined,
+  ClockCircleOutlined,
+  EditOutlined,
+  EyeOutlined,
   SaveOutlined,
-  SyncOutlined,
+  SyncOutlined
 } from '@ant-design/icons';
-import useProductListPage, { TabKey } from './useProductListPage';
-import { formattedCurrency } from '../../../utils/formattedCurrency';
-import { ProductProps } from '../../../types/product.type';
-import { useMemo, useState } from 'react';
 import type { TabsProps } from 'antd';
+import { Badge, Button, Image, Space, Table, TableProps, Tabs, Tag, Tooltip, Typography, message } from 'antd';
+import { useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
+import defaultPic from '../../../assets/blob.webp';
+import { ProductProps } from '../../../types/product.type';
+import { formattedCurrency } from '../../../utils/formattedCurrency';
+import useProductListPage, { TabKey } from './useProductListPage';
 
 const ProductListPage = () => {
   const {
@@ -196,7 +195,12 @@ const ProductListPage = () => {
           </Tooltip>
           <Tooltip title="Edit Product">
             <Link to={record._id!}>
-              <Button type="default" icon={<EditOutlined />} size="small" />
+              <Button 
+                type="default" 
+                icon={<EditOutlined />} 
+                size="small" 
+                disabled={approvalStatus[record._id!] === 'processing'}
+              />
             </Link>
           </Tooltip>
           {activeTab === 'pending' && !record.isApproved && approvalStatus[record._id!] !== 'processing' && (
@@ -247,7 +251,13 @@ const ProductListPage = () => {
         <>
           <TableHeader />
           <Table<ProductProps>
-            rowSelection={rowSelection}
+            rowSelection={{
+              ...rowSelection,
+              getCheckboxProps: (record) => ({
+                disabled: approvalStatus[record._id!] === 'processing',
+                name: record.name,
+              }),
+            }}
             dataSource={products}
             columns={columns}
             rowKey="_id"
@@ -257,7 +267,11 @@ const ProductListPage = () => {
             bordered
             size="middle"
             scroll={{ x: 'max-content' }}
-            rowClassName="hover:bg-blue-50"
+            rowClassName={(record) =>
+              approvalStatus[record._id!] === 'processing' 
+                ? 'bg-blue-50 hover:bg-blue-100 opacity-70 cursor-not-allowed' 
+                : 'hover:bg-blue-50'
+            }
             className="overflow-hidden rounded-lg shadow"
           />
         </>
@@ -275,7 +289,13 @@ const ProductListPage = () => {
         <>
           <TableHeader />
           <Table<ProductProps>
-            rowSelection={rowSelection}
+            rowSelection={{
+              ...rowSelection,
+              getCheckboxProps: (record) => ({
+                disabled: approvalStatus[record._id!] === 'processing',
+                name: record.name,
+              }),
+            }}
             dataSource={products}
             columns={columns}
             rowKey="_id"
@@ -286,7 +306,9 @@ const ProductListPage = () => {
             size="middle"
             scroll={{ x: 'max-content' }}
             rowClassName={(record) =>
-              approvalStatus[record._id!] === 'processing' ? 'bg-blue-50 hover:bg-blue-100' : 'hover:bg-blue-50'
+              approvalStatus[record._id!] === 'processing' 
+                ? 'bg-blue-50 hover:bg-blue-100 opacity-70 cursor-not-allowed' 
+                : 'hover:bg-blue-50'
             }
             className="overflow-hidden rounded-lg shadow"
           />
