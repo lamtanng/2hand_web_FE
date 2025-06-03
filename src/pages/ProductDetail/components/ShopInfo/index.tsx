@@ -22,10 +22,10 @@ const ShopInfo = ({ product, storeProduct }: {product: ProductProps | undefined,
                   : product?.storeID.userID.email}
               </Typography.Title>
               <Flex gap={'small'}>
-                <Button variant="filled" color="primary" className="w-1/2">
-                  {/* <PhoneOutlined /> {product?.storeID.userID.phoneNumber} */}
+                {/* <Button variant="filled" color="primary" className="w-1/2">
+                  <PhoneOutlined /> {product?.storeID.userID.phoneNumber}
                   <MessageOutlined /> Chat now
-                </Button>
+                </Button> */}
                 <Link to={`/user/${product?.storeID.userID.slug}`} className="w-1/2">
                   <Button variant="outlined" color="primary" className="w-full">
                     <ShopOutlined /> Visit shop
@@ -50,7 +50,7 @@ const ShopInfo = ({ product, storeProduct }: {product: ProductProps | undefined,
                 <p className="text-blue-600">{dateString}</p>
               </Flex>
             </Col>
-            <Col span={12}>
+            {/* <Col span={12}>
               <Flex justify="space-between">
                 <p>Followers</p>
                 <p className="text-blue-600">{product?.storeID.userID.followerID?.length}</p>
@@ -61,7 +61,7 @@ const ShopInfo = ({ product, storeProduct }: {product: ProductProps | undefined,
                 <p>Products</p>
                 <p className="text-blue-600">{storeProduct.length}</p>
               </Flex>
-            </Col>
+            </Col> */}
           </Row>
         </div>
       </Flex>

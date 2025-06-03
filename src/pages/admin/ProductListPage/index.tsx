@@ -1,114 +1,338 @@
-import { TableProps, Typography, Image, Space, Button, Table } from 'antd';
-import defaultPic from '../../../assets/blob.webp';
+import {
+  CheckCircleOutlined,
+  CheckOutlined,
+  ClockCircleOutlined,
+  EditOutlined,
+  EyeOutlined,
+  SaveOutlined,
+  SyncOutlined
+} from '@ant-design/icons';
+import type { TabsProps } from 'antd';
+import { Badge, Button, Image, Space, Table, TableProps, Tabs, Tag, Tooltip, Typography, message } from 'antd';
+import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { EditOutlined } from '@ant-design/icons';
-// import { handleError } from '../../../utils/handleError';
-import useProductListPage from './useProductListPage';
+import defaultPic from '../../../assets/blob.webp';
+import { ProductProps } from '../../../types/product.type';
 import { formattedCurrency } from '../../../utils/formattedCurrency';
-
-export interface CustomTableColumns {
-  picture: string;
-  name: string;
-  price: number;
-  quantity: string;
-  quality: string;
-}
+import useProductListPage, { TabKey } from './useProductListPage';
 
 const ProductListPage = () => {
-  const { products } = useProductListPage();
+  const {
+    products,
+    loading,
+    activeTab,
+    setActiveTab,
+    handleTableChange,
+    pagination,
+    approveProduct,
+    // Row selection properties
+    selectedRowKeys,
+    onSelectChange,
+    bulkApproveProducts,
+    bulkActionLoading,
+    // Approval status
+    approvalStatus,
+  } = useProductListPage();
 
-  // const { confirm } = Modal;
+  const [activeApprovalId, setActiveApprovalId] = useState<string | null>(null);
 
-  // const showConfirm = (productID: string) => {
-  //   confirm({
-  //     title: 'Do you want to delete this product?',
-  //     async onOk() {
-  //       try {
-  //       } catch (error) {
-  //         handleError(error);
-  //       } finally {
-  //       }
-  //     },
-  //     onCancel() {},
-  //   });
-  // };
+  // Create unique quality options for filter
+  const qualityOptions = useMemo(() => {
+    const qualities = Array.from(new Set(products.map((p) => p.quality)));
+    return qualities.map((q) => ({ text: q, value: q }));
+  }, [products]);
 
-  const columns: TableProps['columns'] = [
+  const handleApproveProduct = async (productId: string) => {
+    setActiveApprovalId(productId);
+    try {
+      const success = await approveProduct(productId);
+      if (success) {
+        message.success('Product approval process started');
+      } else {
+        message.error('Failed to approve product');
+      }
+    } catch (error) {
+      message.error('An error occurred while approving the product');
+      console.error(error);
+    } finally {
+      setActiveApprovalId(null);
+    }
+  };
+
+  // Xử lý bulk approve
+  const handleBulkApprove = async () => {
+    try {
+      const success = await bulkApproveProducts(true); // Approve với isApproved = true
+      if (success) {
+        message.success(`Successfully started approval for ${selectedRowKeys.length} products`);
+      } else {
+        message.error('Failed to update products');
+      }
+    } catch (error) {
+      message.error('An error occurred while updating products');
+      console.error(error);
+    }
+  };
+
+  // Cấu hình row selection
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: onSelectChange,
+  };
+
+  const columns: TableProps<ProductProps>['columns'] = [
     {
-      title: 'Product Picture',
-      dataIndex: 'picture',
-      key: 'picture',
-      width: '5%',
+      title: 'Product',
+      key: 'product',
+      width: 200,
+      ellipsis: true,
       render: (_, record) => (
-        <div className="image-container">
-          <Image width="100px" src={record.image[0]} fallback={defaultPic} preview={false} />
+        <div className="flex items-center gap-3" style={{ maxWidth: 180 }}>
+          {/* Image container - fixed width */}
+          <div className="mr-2 h-12 w-12 flex-shrink-0 overflow-hidden rounded-lg border border-gray-200">
+            <Image
+              src={record.image[0]}
+              fallback={defaultPic}
+              preview={false}
+              className="h-full w-full object-cover"
+              alt={record.name}
+            />
+          </div>
+
+          {/* Text container - takes remaining width with overflow control */}
+          <div className="min-w-0 flex-1">
+            {/* Product name with ellipsis */}
+            <div
+              className="overflow-hidden text-ellipsis whitespace-nowrap font-medium text-blue-600"
+              title={record.name}
+              style={{ maxWidth: '100%' }}
+            >
+              <Link to={`/${record.slug}`} target="_blank" className="hover:text-blue-800">
+                {record.name}
+              </Link>
+            </div>
+
+            {/* Product ID with ellipsis */}
+            <div className="mt-1 overflow-hidden text-ellipsis whitespace-nowrap text-xs text-gray-500">
+              ID: {record._id}
+            </div>
+          </div>
         </div>
       ),
     },
     {
-      title: 'Product Name',
-      dataIndex: 'name',
-      key: 'name',
-      width: '20%',
-      render: (text, record) => <Link to={`/${record.slug}`}>{text}</Link>,
-      responsive: ['xs', 'md'],
-    },
-    {
-      title: 'Product Price',
-      key: 'price',
+      title: 'Price',
       dataIndex: 'price',
-      width: '5%',
-      render: (text: number) => <>{formattedCurrency(text)}</>,
-      responsive: ['xs', 'md'],
+      key: 'price',
+      sorter: true,
+      width: '15%',
+      render: (price: number) => <span className="font-semibold text-green-600">{formattedCurrency(price)}</span>,
     },
     {
-      title: 'In Stock',
-      key: 'quantity',
+      title: 'Stock',
       dataIndex: 'quantity',
-      width: '5%',
-      responsive: ['xs', 'md'],
+      key: 'quantity',
+      sorter: true,
+      width: '10%',
+      render: (quantity: number) => (
+        <Tag color={quantity > 10 ? 'green' : quantity > 0 ? 'orange' : 'red'}>
+          {quantity > 0 ? quantity : 'Out of stock'}
+        </Tag>
+      ),
     },
     {
       title: 'Quality',
-      key: 'quality',
       dataIndex: 'quality',
-      width: '5%',
-      responsive: ['xs', 'md'],
+      key: 'quality',
+      filters: qualityOptions,
+      filterSearch: true,
+      width: '15%',
+      render: (quality: string) => {
+        let color = 'default';
+        if (quality === 'new') color = 'green';
+        else if (quality === 'like new') color = 'cyan';
+        else if (quality === 'good') color = 'blue';
+        else if (quality === 'average') color = 'orange';
+        else if (quality === 'old') color = 'red';
+
+        return <Tag color={color}>{quality.toUpperCase()}</Tag>;
+      },
+    },
+    {
+      title: 'Status',
+      key: 'status',
+      width: '15%',
+      render: (_, record) => (
+        <div>
+          {approvalStatus[record._id!] === 'processing' ? (
+            <Tag icon={<SyncOutlined spin />} color="processing">
+              Processing
+            </Tag>
+          ) : record.isApproved ? (
+            <Tag icon={<CheckCircleOutlined />} color="success">
+              Approved
+            </Tag>
+          ) : (
+            <Tag icon={<ClockCircleOutlined />} color="warning">
+              Pending
+            </Tag>
+          )}
+          {record.isSoldOut && <Tag color="red">Sold Out</Tag>}
+          {!record.isActive && <Tag color="default">Inactive</Tag>}
+        </div>
+      ),
     },
     {
       title: 'Action',
       key: 'action',
-      width: '5%',
+      width: '15%',
       render: (_, record) => (
-        <Space size="middle">
-          <Link to={record._id}>
-            <Button variant="filled" color="primary">
-              <EditOutlined />
-            </Button>
-          </Link>
-          {/* <Button
-            variant="filled"
-            color="danger"
-            onClick={() => {
-              showConfirm(record._id);
-            }}
-          >
-            <DeleteOutlined />
-          </Button> */}
+        <Space size="small">
+          <Tooltip title="View Details">
+            <Link to={`/${record.slug}`}>
+              <Button type="primary" ghost icon={<EyeOutlined />} size="small" />
+            </Link>
+          </Tooltip>
+          <Tooltip title="Edit Product">
+            <Link to={record._id!}>
+              <Button 
+                type="default" 
+                icon={<EditOutlined />} 
+                size="small" 
+                disabled={approvalStatus[record._id!] === 'processing'}
+              />
+            </Link>
+          </Tooltip>
+          {activeTab === 'pending' && !record.isApproved && approvalStatus[record._id!] !== 'processing' && (
+            <Tooltip title="Approve Product">
+              <Button
+                type="primary"
+                icon={<CheckOutlined />}
+                size="small"
+                onClick={() => handleApproveProduct(record._id!)}
+                loading={loading && record._id === activeApprovalId}
+              />
+            </Tooltip>
+          )}
         </Space>
       ),
-      responsive: ['xs', 'md'],
     },
   ];
+
+  // Hiển thị nút Save All khi có items được chọn
+  const TableHeader = () => (
+    <div className="mb-4 flex items-center justify-between">
+      <div>
+        <span className="mr-2">{selectedRowKeys.length} items selected</span>
+        {selectedRowKeys.length > 0 && (
+          <Button type="primary" icon={<SaveOutlined />} onClick={handleBulkApprove} loading={bulkActionLoading}>
+            Save All
+          </Button>
+        )}
+      </div>
+      <div>
+        <Typography.Text type="secondary">
+          Use checkboxes to select multiple products and update them at once
+        </Typography.Text>
+      </div>
+    </div>
+  );
+
+  const items: TabsProps['items'] = [
+    {
+      key: 'approved',
+      label: (
+        <span>
+          Approved Products{' '}
+          <Badge count={products.filter((p) => p.isApproved === true).length} style={{ backgroundColor: '#52c41a' }} />
+        </span>
+      ),
+      children: (
+        <>
+          <TableHeader />
+          <Table<ProductProps>
+            rowSelection={{
+              ...rowSelection,
+              getCheckboxProps: (record) => ({
+                disabled: approvalStatus[record._id!] === 'processing',
+                name: record.name,
+              }),
+            }}
+            dataSource={products}
+            columns={columns}
+            rowKey="_id"
+            loading={loading}
+            onChange={handleTableChange}
+            pagination={pagination}
+            bordered
+            size="middle"
+            scroll={{ x: 'max-content' }}
+            rowClassName={(record) =>
+              approvalStatus[record._id!] === 'processing' 
+                ? 'bg-blue-50 hover:bg-blue-100 opacity-70 cursor-not-allowed' 
+                : 'hover:bg-blue-50'
+            }
+            className="overflow-hidden rounded-lg shadow"
+          />
+        </>
+      ),
+    },
+    {
+      key: 'pending',
+      label: (
+        <span>
+          Pending Approval{' '}
+          <Badge count={products.filter((p) => p.isApproved !== true).length} style={{ backgroundColor: '#faad14' }} />
+        </span>
+      ),
+      children: (
+        <>
+          <TableHeader />
+          <Table<ProductProps>
+            rowSelection={{
+              ...rowSelection,
+              getCheckboxProps: (record) => ({
+                disabled: approvalStatus[record._id!] === 'processing',
+                name: record.name,
+              }),
+            }}
+            dataSource={products}
+            columns={columns}
+            rowKey="_id"
+            loading={loading}
+            onChange={handleTableChange}
+            pagination={pagination}
+            bordered
+            size="middle"
+            scroll={{ x: 'max-content' }}
+            rowClassName={(record) =>
+              approvalStatus[record._id!] === 'processing' 
+                ? 'bg-blue-50 hover:bg-blue-100 opacity-70 cursor-not-allowed' 
+                : 'hover:bg-blue-50'
+            }
+            className="overflow-hidden rounded-lg shadow"
+          />
+        </>
+      ),
+    },
+  ];
+
+  const handleTabChange = (key: string) => {
+    setActiveTab(key as TabKey);
+  };
 
   return (
     <div>
       <div className="mb-6 rounded-xl bg-white p-8 shadow-sm">
         <Typography.Title level={2} className="m-0 mb-2 text-blue-600">
-          Product List
+          Product Management
         </Typography.Title>
+        <Typography.Text type="secondary">Manage and review all products in the system</Typography.Text>
       </div>
-      <Table dataSource={products} columns={columns} scroll={{ x: 'max-content' }} />
+
+      <div className="rounded-xl bg-white p-4 shadow-sm">
+        <Tabs activeKey={activeTab} items={items} onChange={handleTabChange} type="card" className="mb-4" />
+      </div>
     </div>
   );
 };

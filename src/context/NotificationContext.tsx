@@ -4,9 +4,15 @@ import { notificationAPIs } from '../apis/notification.api';
 import { initializeSocket } from '../config/socket';
 import { useAppSelector } from '../redux/hooks';
 import { loginSelector } from '../redux/slices/login.slice';
-import { CountNotificationResponse, GetNotificationsRequest } from '../types/http/notification.type';
+import { CountNotificationResponse } from '../types/http/notification.type';
 import { NotificationProps } from '../types/notification.type';
 import { displayInfo } from '../utils/displayToast';
+
+// Interface for product approval events
+interface ProductApprovalEvent {
+  _id: string; // Product ID
+  status: 'processing' | 'done';
+}
 
 interface NotificationContextProps {
   notifications: NotificationProps[];
@@ -15,6 +21,9 @@ interface NotificationContextProps {
   markAllAsRead: (receiverId?: string, ownerId?: string) => void;
   clearNotifications: (receiverId?: string, ownerId?: string) => void;
   fetchNotificationCount: () => void;
+  // Add product approval subscription
+  subscribeToProductApproval: (callback: (data: ProductApprovalEvent) => void) => () => void;
+  productApprovalEvents: ProductApprovalEvent[];
 }
 
 const NotificationContext = createContext<NotificationContextProps | undefined>(undefined);
@@ -25,16 +34,18 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
   const [unreadCount, setUnreadCount] = useState<CountNotificationResponse | null>(null);
   const { user, token } = useAppSelector(loginSelector);
 
+  // State for product approval events
+  const [productApprovalEvents, setProductApprovalEvents] = useState<ProductApprovalEvent[]>([]);
+  const [approvalEventCallbacks, setApprovalEventCallbacks] = useState<((data: ProductApprovalEvent) => void)[]>([]);
+
   // Fetch tổng số lượng chưa đọc cho cả user và store
   const fetchNotificationCount = async () => {
     if (!user._id && !user.storeId) return;
-    let total = 0;
-    let ids = [];
+    const ids = [];
     if (user._id) ids.push(user._id);
     if (user.storeId) ids.push(user.storeId);
 
     const res = await notificationAPIs.countNotification(ids);
-    console.log('res', res);
     setUnreadCount(res.data);
   };
 
@@ -116,14 +127,55 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
       // setUnreadCount((prev) => Math.max(0, prev - 1));
     });
 
+    // Listen for product approval events
+    socket.on('cron:product_approval', (data: ProductApprovalEvent) => {
+      console.log('Product approval event received:', data);
+
+      // Add to event list (most recent first)
+      setProductApprovalEvents((prev) => {
+        // Check if event with same ID already exists
+        const existingIndex = prev.findIndex((e) => e._id === data._id);
+        if (existingIndex >= 0) {
+          // Update existing event
+          const newEvents = [...prev];
+          newEvents[existingIndex] = data;
+          return newEvents;
+        } else {
+          // Add new event
+          return [data, ...prev.slice(0, 99)]; // Keep last 100 events
+        }
+      });
+
+      // Call any registered callbacks
+      approvalEventCallbacks.forEach((callback) => {
+        try {
+          callback(data);
+        } catch (error) {
+          console.error('Error in product approval callback:', error);
+        }
+      });
+    });
+
     return () => {
       console.log('Cleaning up socket event listeners');
       socket.off('notifications_list');
       socket.off('notification');
       socket.off('notification_updated');
       socket.off('notification_deleted');
+      socket.off('cron:product_approval');
     };
-  }, [socket]);
+  }, [socket, approvalEventCallbacks]);
+
+  // Function to subscribe to product approval events
+  const subscribeToProductApproval = (callback: (data: ProductApprovalEvent) => void) => {
+    // Add callback to list
+    setApprovalEventCallbacks((prev) => [...prev, callback]);
+
+    // Return unsubscribe function
+    return () => {
+      setApprovalEventCallbacks((prev) => prev.filter((cb) => cb !== callback));
+    };
+  };
 
   const markAsRead = async (_id: string, ownerId: string) => {
     if (!socket) return;
@@ -178,6 +230,9 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
         markAllAsRead,
         clearNotifications,
         fetchNotificationCount,
+        // Add product approval subscription
+        subscribeToProductApproval,
+        productApprovalEvents,
       }}
     >
       {children}

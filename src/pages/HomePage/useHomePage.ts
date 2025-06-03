@@ -18,6 +18,8 @@ const useHomePage = () => {
       null,
       null,
       undefined,
+      true,
+      false
     );
     setNewestProduct(res?.data?.response?.data);
   };
@@ -32,6 +34,8 @@ const useHomePage = () => {
       price,
       null,
       undefined,
+      true,
+      false
     );
     setFreeProduct(res?.data?.response?.data);
   };

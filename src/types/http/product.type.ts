@@ -15,6 +15,6 @@ export interface ProductRequestBodyProps {
   height: number | undefined;
   width: number | undefined;
   length: number | undefined;
-  address: AddressProps;
+  address?: AddressProps;
   isApproved?: boolean;
 }

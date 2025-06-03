@@ -1,6 +1,6 @@
 import { Divider, Flex, Image } from 'antd';
 import { Link } from 'react-router-dom';
-// import logo from '../../../../public/logo.webp';
+import logo from '../../../../src/assets/logo.webp';
 import { guestUrls } from '../../../constants/urlPaths/guestUrls';
 import { useAppSelector } from '../../../redux/hooks';
 import { loginSelector } from '../../../redux/slices/login.slice';
@@ -19,7 +19,7 @@ export default function Header() {
           <Flex gap={'large'} justify="start" align="center" className="flex xl:flex-grow">
             <Flex gap="large" className="font-sans">
               <Link to="/" className="font-sans">
-                {/* <Image alt="" src={logo} width={50} preview={false} /> */}
+                <Image alt="" src={logo} width={50} preview={false} />
               </Link>
             </Flex>
             <Link to={'/'} className="font-sans text-base">

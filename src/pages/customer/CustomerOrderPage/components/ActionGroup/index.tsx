@@ -20,7 +20,7 @@ export const DeliveryActions = ({ receiveOrder, rebuyProduct }: { receiveOrder: 
   return (
     <div id="actions">
       <Flex justify="end" gap={'middle'}>
-        <ReturnButton onClick={rebuyProduct} />
+        {/* <ReturnButton onClick={rebuyProduct} /> */}
         <ConfirmReceivedButton onClick={receiveOrder} />
       </Flex>
     </div>

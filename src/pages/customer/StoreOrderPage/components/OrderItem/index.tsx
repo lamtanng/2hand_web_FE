@@ -66,9 +66,9 @@ const StoreOrderItem = ({ order }: { order: OrderProps }) => {
               <Typography.Title level={5} className="m-0 inline truncate">
                 {`${order.userID.firstName} ${order.userID.lastName}`}
               </Typography.Title>
-              <Button type="primary" className="px-2 py-1 text-xs">
+              {/* <Button type="primary" className="px-2 py-1 text-xs">
                 <MessageOutlined /> Chat
-              </Button>
+              </Button> */}
             </Flex>
             <div id="order-status">
               <p className="m-0 font-sans text-blue-700">{order?.orderStageID?.name && order.orderStageID.name}</p>

@@ -12,7 +12,7 @@ const OrderDetail = ({ order, item }: { order: OrderProps; item: OrderDetailProp
         <Flex justify="space-between" align="center">
           <div id="product-info" className="w-5/6">
             <Flex gap={'middle'}>
-              <Image width={75} preview={false} alt="" src={item.productID.image[0]} fallback={defaultPic} />
+              <Image width={75} preview={false} alt="" src={item?.productID?.image[0]} fallback={defaultPic} />
               <div>
                 <Typography.Title level={5} className="m-0 mb-2">
                   {item.productID.name}

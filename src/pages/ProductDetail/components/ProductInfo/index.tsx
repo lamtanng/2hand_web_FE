@@ -42,7 +42,7 @@ const ProductInfo = ({
               <div>
                 You have similar products? <Link to={'#'}>Sell now</Link>
               </div>
-              <Flex gap={'small'}>
+              {/* <Flex gap={'small'}>
                 <Button type="text" className="p-0 text-xs text-gray-500 hover:bg-transparent">
                   <FlagOutlined /> Report
                 </Button>
@@ -52,7 +52,7 @@ const ProductInfo = ({
                 <Button type="text" className="p-0 text-xs text-gray-500 hover:bg-transparent">
                   <HeartOutlined /> Like
                 </Button>
-              </Flex>
+              </Flex> */}
             </Flex>
           </Flex>
         </div>

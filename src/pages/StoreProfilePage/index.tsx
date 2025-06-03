@@ -1,5 +1,4 @@
 import { Button, Flex, Typography } from 'antd';
-import Footer from '../../components/elements/Footer';
 import Header from '../../components/elements/Header';
 import useUserProfileDetail from './useUserProfileName';
 import ProductSlider from '../../components/elements/Slider/ProductSlider';

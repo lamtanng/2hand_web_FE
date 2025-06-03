@@ -92,11 +92,11 @@ const CustomerOrderItem = ({ order }: { order: OrderProps }) => {
               <Typography.Title level={5} className="m-0 inline truncate">
                 {order.storeID.name}
               </Typography.Title>
-              <Button type="primary" className="px-2 py-1 text-xs">
+              {/* <Button type="primary" className="px-2 py-1 text-xs">
                 <MessageOutlined /> Chat
-              </Button>
+              </Button> */}
               <Link to={`/user/${order.storeID.userID.slug}`}>
-                <Button variant="outlined" className="px-2 py-1 text-xs">
+                <Button type="primary" className="px-2 py-1 text-xs">
                   <ShopOutlined /> Visit shop
                 </Button>
               </Link>

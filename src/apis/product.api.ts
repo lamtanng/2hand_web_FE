@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from 'axios';
 import { productPaths } from '../constants/apiPaths/productPaths';
 import { ProductRequestBodyProps } from '../types/http/product.type';
 import { axiosClient } from './axios';
 import { headers, withCredentials } from './axios.constants';
 import { AI_CONFIG } from '../config/environment';
+import { PaginationResponseProps } from '../types/http/pagination';
+import { ProductProps } from '../types/product.type';
 
 const baseURL = AI_CONFIG.baseURL;
 const API_KEY = AI_CONFIG.API_KEY;
@@ -24,8 +27,10 @@ const getAllProduct = (
   price: string | null,
   cateID: string | null,
   storeID: string | undefined,
+  isApproved: boolean | undefined,
+  isSoldOut: boolean | undefined,
 ) => {
-  return axiosClient.get(productUrl, {
+  return axiosClient.get<{response: PaginationResponseProps<ProductProps>}>(productUrl, {
     params: {
       page: page,
       limit: limit,
@@ -35,6 +40,8 @@ const getAllProduct = (
       price: price,
       cateID: cateID,
       storeID: storeID,
+      isApproved: isApproved,
+      isSoldOut: isSoldOut,
     },
   });
 };
@@ -67,8 +74,12 @@ const integrateAI = (content: any) => {
     headers: {
       Authorization: API_KEY,
     },
-    withCredentials: false
+    withCredentials: false,
   });
+};
+
+const approveProduct = (data: Array<{ _id: string; isApproved: boolean }>) => {
+  return axiosClient.post(getProductUrl('update-products-approval'), { products: data });
 };
 
 export const productAPIs = {
@@ -79,4 +90,5 @@ export const productAPIs = {
   getProductByID,
   updateProduct,
   integrateAI,
+  approveProduct,
 };

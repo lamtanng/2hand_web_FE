@@ -14,7 +14,7 @@ const ImageUploader = ({
   setViolatingImages?: React.Dispatch<React.SetStateAction<number[]>>;
 }) => {
   const { fileList, handlePreview, handleChange, previewImage, previewOpen, setPreviewImage, setPreviewOpen } =
-    useImageUploader(base64Images, setBase64Images, violatingImages, setViolatingImages);
+    useImageUploader(base64Images, setBase64Images);
 
   const uploadButton = (
     <button style={{ border: 0, background: 'none' }} type="button">
@@ -84,7 +84,7 @@ const ImageUploader = ({
         onChange={handleChange}
         multiple={true}
         maxCount={10}
-        itemRender={itemRender}
+        itemRender={violatingImages && violatingImages.length > 0 ? itemRender : undefined}
       >
         {uploadButton}
       </Upload>

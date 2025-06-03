@@ -52,14 +52,14 @@ const UserInfo = () => {
                 Phone number: {profile?.phoneNumber}
               </Typography.Paragraph>
               <Typography.Paragraph className="m-0 text-base">Joined in: {dateString}</Typography.Paragraph>
-              <Typography.Paragraph className="m-0 text-base text-blue-600" onClick={showModal}>
+              {/* <Typography.Paragraph className="m-0 text-base text-blue-600" onClick={showModal}>
                 Followers: {profile?.followerID?.length}
               </Typography.Paragraph>
               <Typography.Paragraph className="m-0 text-base text-blue-600" onClick={showModal}>
                 Following: {profile?.followingID?.length}
-              </Typography.Paragraph>
+              </Typography.Paragraph> */}
             </div>
-            {user._id === profile?._id ? null : (
+            {/* {user._id === profile?._id ? null : (
               <Flex gap={'large'}>
                 <Button variant="filled" color="primary" className="w-1/2">
                   <MessageOutlined /> Chat now
@@ -68,7 +68,7 @@ const UserInfo = () => {
                   Follow
                 </Button>
               </Flex>
-            )}
+            )} */}
           </Flex>
         </Flex>
       </div>
