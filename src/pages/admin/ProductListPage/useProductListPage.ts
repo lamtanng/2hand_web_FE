@@ -1,12 +1,35 @@
 import { useEffect, useState } from 'react';
-import { ProductProps } from '../../../types/product.type';
-import { handleError } from '../../../utils/handleError';
 import { productAPIs } from '../../../apis/product.api';
+import { useNotification } from '../../../context/NotificationContext';
+import { useAppSelector } from '../../../redux/hooks';
+import { loginSelector } from '../../../redux/slices/login.slice';
+import { ProductProps } from '../../../types/product.type';
+import { TablePaginationConfig } from 'antd';
+import { FilterValue, SorterResult } from 'antd/es/table/interface';
 
 // Export for type checking in the index component
 export type TabKey = 'approved' | 'pending';
 export type SortOrder = 'ascend' | 'descend' | null;
 export type SortField = 'price' | 'quantity' | 'name' | null;
+
+// Interface for tracking product approval status
+interface ApprovalStatusMap {
+  [productId: string]: 'processing' | 'done';
+}
+
+// Interface for product filters
+interface ProductFilterParams {
+  page?: number;
+  limit?: number;
+  quality?: string | null;
+  sort?: SortField | null;
+  order?: SortOrder | null;
+  isApproved?: boolean;
+  search?: string | null;
+  price?: string | null;
+  cateID?: string | null;
+  storeID?: string | undefined;
+}
 
 const useProductListPage = () => {
   const [products, setProducts] = useState<ProductProps[]>([]);
@@ -28,36 +51,94 @@ const useProductListPage = () => {
   const [pageSize, setPageSize] = useState<number>(10);
   const [total, setTotal] = useState<number>(0);
 
-  const getAllProducts = async () => {
+  const { user } = useAppSelector(loginSelector);
+
+  // For tracking approval status
+  const [approvalStatus, setApprovalStatus] = useState<ApprovalStatusMap>({});
+
+  // Get notification context to access socket events
+  const { subscribeToProductApproval } = useNotification();
+
+  // Subscribe to product approval events
+  useEffect(() => {
+    // Only subscribe for admin users
+    const isAdmin = user?.roleID?.includes('670d2db6d696affd52e661c2');
+    if (!isAdmin) return;
+
+    const unsubscribe = subscribeToProductApproval((data) => {
+      setApprovalStatus((prev) => ({
+        ...prev,
+        [data._id]: data.status,
+      }));
+
+      // If status is 'done', refresh the product list
+      if (data.status === 'done') {
+        getAllProducts();
+      }
+    });
+
+    return unsubscribe;
+  }, [user]);
+
+  /**
+   * Fetches products with filters and pagination
+   * @param customParams Optional custom parameters to override the current state
+   */
+  const getAllProducts = async (customParams?: Partial<ProductFilterParams>) => {
     setLoading(true);
     try {
+      // Default params from current state
+      const defaultParams: ProductFilterParams = {
+        page: currentPage,
+        limit: pageSize,
+        quality: qualityFilter.length > 0 ? qualityFilter.join(',') : null,
+        sort: sortField,
+        order: sortOrder,
+        isApproved: activeTab === 'approved',
+        search: null,
+        price: null,
+        cateID: null,
+        storeID: undefined,
+      };
+
+      // Merge with custom params if provided
+      const params = { ...defaultParams, ...customParams };
+
       const res = await productAPIs.getAllProduct(
-        1,
-        1000, // Get all to handle client-side filtering
-        null,
-        null,
-        null,
-        null,
-        null,
-        undefined,
-        undefined,
+        params.page || 1,
+        params.limit || 10,
+        params.search || null,
+        params.sort || null,
+        params.quality || null,
+        params.price || null,
+        params.cateID || null,
+        params.storeID,
+        params.isApproved,
       );
 
-      if (res.data.response && res.data.response.data) {
-        setProducts(res.data.response.data);
-        setTotal(res.data.response.data.length);
-      }
+      setProducts(res.data.products);
+      setTotal(res.data.pagination.total);
     } catch (error) {
-      handleError(error);
+      console.error('Failed to fetch products:', error);
     } finally {
       setLoading(false);
     }
   };
 
+  // Load products when component mounts or filters change
+  useEffect(() => {
+    getAllProducts();
+  }, [activeTab, currentPage, pageSize, qualityFilter.join(','), sortField, sortOrder]);
+
   // Approve product function
   const approveProduct = async (productId: string) => {
-    setLoading(true);
     try {
+      // Update local approval status to 'processing' while waiting for BE response
+      setApprovalStatus((prev) => ({
+        ...prev,
+        [productId]: 'processing',
+      }));
+
       // Tìm sản phẩm cần approve
       const productToApprove = products.find((p) => p._id === productId);
 
@@ -66,7 +147,7 @@ const useProductListPage = () => {
       }
 
       // Gọi API để update isApproved = true
-      await productAPIs.updateProduct({
+      const res = await productAPIs.updateProduct({
         _id: productId,
         name: productToApprove.name,
         description: productToApprove.description,
@@ -80,18 +161,25 @@ const useProductListPage = () => {
         height: productToApprove.height,
         width: productToApprove.width,
         length: productToApprove.length,
-        // address: productToApprove.address,
         isApproved: true,
       });
 
-      // Refresh danh sách sản phẩm sau khi approve
-      await getAllProducts();
+      // Product is already updated via socket, but we'll make sure
+      if (!approvalStatus[productId] || approvalStatus[productId] !== 'done') {
+        // Update local state if needed
+        setProducts((prev) => prev.map((p) => (p._id === productId ? { ...p, isApproved: true } : p)));
+      }
+
       return true;
     } catch (error) {
-      handleError(error);
+      console.error('Failed to approve product:', error);
+      // Clear processing status
+      setApprovalStatus((prev) => {
+        const newStatus = { ...prev };
+        delete newStatus[productId];
+        return newStatus;
+      });
       return false;
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -101,6 +189,13 @@ const useProductListPage = () => {
 
     setBulkActionLoading(true);
     try {
+      // Mark all selected products as processing
+      const newStatus: ApprovalStatusMap = {};
+      selectedRowKeys.forEach((key) => {
+        newStatus[key.toString()] = 'processing';
+      });
+      setApprovalStatus((prev) => ({ ...prev, ...newStatus }));
+
       // Chuẩn bị dữ liệu cho API bulkApprove
       const productsToUpdate = selectedRowKeys.map((key) => ({
         _id: key.toString(),
@@ -113,16 +208,16 @@ const useProductListPage = () => {
       // Refresh danh sách và reset selection
       await getAllProducts();
       setSelectedRowKeys([]);
+
       return true;
     } catch (error) {
-      handleError(error);
+      console.error('Failed to bulk approve products:', error);
       return false;
     } finally {
       setBulkActionLoading(false);
     }
   };
 
-  // Handle row selection change
   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
     setSelectedRowKeys(newSelectedRowKeys);
   };
@@ -168,8 +263,8 @@ const useProductListPage = () => {
 
   // Handle table sorting
   const handleTableChange = (pagination: any, filters: any, sorter: any) => {
-    setCurrentPage(pagination.current);
-    setPageSize(pagination.pageSize);
+    if (pagination.current) setCurrentPage(pagination.current);
+    if (pagination.pageSize) setPageSize(pagination.pageSize);
 
     if (sorter) {
       const field = sorter.field as SortField;
@@ -190,10 +285,7 @@ const useProductListPage = () => {
     }
   };
 
-  useEffect(() => {
-    getAllProducts();
-  }, []);
-
+  // Public API của hook
   return {
     products: filteredProducts,
     loading,
@@ -215,6 +307,10 @@ const useProductListPage = () => {
     onSelectChange,
     bulkApproveProducts,
     bulkActionLoading,
+    // Approval status
+    approvalStatus,
+    // Expose the improved getAllProducts function
+    getAllProducts,
   };
 };
 

@@ -9,6 +9,7 @@ import {
   SearchOutlined,
   CheckOutlined,
   SaveOutlined,
+  SyncOutlined,
 } from '@ant-design/icons';
 import useProductListPage, { TabKey } from './useProductListPage';
 import { formattedCurrency } from '../../../utils/formattedCurrency';
@@ -30,6 +31,8 @@ const ProductListPage = () => {
     onSelectChange,
     bulkApproveProducts,
     bulkActionLoading,
+    // Approval status
+    approvalStatus,
   } = useProductListPage();
 
   const [activeApprovalId, setActiveApprovalId] = useState<string | null>(null);
@@ -45,7 +48,7 @@ const ProductListPage = () => {
     try {
       const success = await approveProduct(productId);
       if (success) {
-        message.success('Product approved successfully');
+        message.success('Product approval process started');
       } else {
         message.error('Failed to approve product');
       }
@@ -62,7 +65,7 @@ const ProductListPage = () => {
     try {
       const success = await bulkApproveProducts(true); // Approve với isApproved = true
       if (success) {
-        message.success(`Successfully updated ${selectedRowKeys.length} products`);
+        message.success(`Successfully started approval for ${selectedRowKeys.length} products`);
       } else {
         message.error('Failed to update products');
       }
@@ -162,7 +165,11 @@ const ProductListPage = () => {
       width: '15%',
       render: (_, record) => (
         <div>
-          {record.isApproved ? (
+          {approvalStatus[record._id!] === 'processing' ? (
+            <Tag icon={<SyncOutlined spin />} color="processing">
+              Processing
+            </Tag>
+          ) : record.isApproved ? (
             <Tag icon={<CheckCircleOutlined />} color="success">
               Approved
             </Tag>
@@ -192,7 +199,7 @@ const ProductListPage = () => {
               <Button type="default" icon={<EditOutlined />} size="small" />
             </Link>
           </Tooltip>
-          {activeTab === 'pending' && !record.isApproved && (
+          {activeTab === 'pending' && !record.isApproved && approvalStatus[record._id!] !== 'processing' && (
             <Tooltip title="Approve Product">
               <Button
                 type="primary"
@@ -278,7 +285,9 @@ const ProductListPage = () => {
             bordered
             size="middle"
             scroll={{ x: 'max-content' }}
-            rowClassName="hover:bg-blue-50"
+            rowClassName={(record) =>
+              approvalStatus[record._id!] === 'processing' ? 'bg-blue-50 hover:bg-blue-100' : 'hover:bg-blue-50'
+            }
             className="overflow-hidden rounded-lg shadow"
           />
         </>
