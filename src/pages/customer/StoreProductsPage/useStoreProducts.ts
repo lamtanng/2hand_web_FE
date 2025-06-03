@@ -71,7 +71,7 @@ const useStoreProducts = (profile: UserProps | undefined) => {
       }
 
       const store = JSON.stringify(storeID);
-      const res = await productAPIs.getAllProduct(page, limit, null, sort, null, null, null, store, undefined);
+      const res = await productAPIs.getAllProduct(page, limit, null, sort, null, null, null, store, undefined, undefined);
 
       if (res?.data.response.data) {
         let filteredData = [...res.data.response.data];

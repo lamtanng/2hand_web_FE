@@ -28,6 +28,7 @@ interface ProductFilterParams {
   price?: string | null;
   cateID?: string | null;
   storeID?: string | undefined;
+  isSoldOut?: boolean | undefined;
 }
 
 const useProductListPage = () => {
@@ -98,6 +99,7 @@ const useProductListPage = () => {
         price: null,
         cateID: null,
         storeID: undefined,
+        isSoldOut: undefined,
       };
 
       // Merge with custom params if provided
@@ -113,6 +115,7 @@ const useProductListPage = () => {
         params.cateID || null,
         params.storeID,
         params.isApproved,
+        params.isSoldOut,
       );
       setProducts(res.data.response.data);
       setTotal(res.data.response.total);
@@ -160,6 +163,7 @@ const useProductListPage = () => {
         width: productToApprove.width,
         length: productToApprove.length,
         isApproved: true,
+        isSoldOut: productToApprove.isSoldOut,
       });
 
       // Product is already updated via socket, but we'll make sure

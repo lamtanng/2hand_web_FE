@@ -28,6 +28,7 @@ const getAllProduct = (
   cateID: string | null,
   storeID: string | undefined,
   isApproved: boolean | undefined,
+  isSoldOut: boolean | undefined,
 ) => {
   return axiosClient.get<{response: PaginationResponseProps<ProductProps>}>(productUrl, {
     params: {
@@ -40,6 +41,7 @@ const getAllProduct = (
       cateID: cateID,
       storeID: storeID,
       isApproved: isApproved,
+      isSoldOut: isSoldOut,
     },
   });
 };
