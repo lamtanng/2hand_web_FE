@@ -1,19 +1,17 @@
 import {
-  BookOutlined,
   CarryOutOutlined,
   FileTextOutlined,
   HomeOutlined,
   LogoutOutlined,
-  MenuOutlined,
-  UserOutlined,
+  UserOutlined
 } from '@ant-design/icons';
 import { Menu, MenuProps } from 'antd';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { authAPIs } from '../../../../../apis/auth.api';
-import { handleError } from '../../../../../utils/handleError';
-import { deleteAuth } from '../../../../../redux/slices/login.slice';
-import { useAppDispatch } from '../../../../../redux/hooks';
 import { useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { authAPIs } from '../../../../../apis/auth.api';
+import { useAppDispatch } from '../../../../../redux/hooks';
+import { deleteAuth } from '../../../../../redux/slices/login.slice';
+import { handleError } from '../../../../../utils/handleError';
 
 type MenuItem = Required<MenuProps>['items'][number];
 

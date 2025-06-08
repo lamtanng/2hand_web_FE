@@ -1,9 +1,9 @@
-import { MessageOutlined, ShopOutlined, UserOutlined } from '@ant-design/icons';
+import { ShopOutlined, UserOutlined } from '@ant-design/icons';
 import { Avatar, Button, Col, Divider, Flex, Row, Typography } from 'antd';
 import { Link } from 'react-router-dom';
 import { ProductProps } from '../../../../types/product.type';
 
-const ShopInfo = ({ product, storeProduct }: {product: ProductProps | undefined, storeProduct: ProductProps[]}) => {
+const ShopInfo = ({ product }: {product: ProductProps | undefined, storeProduct: ProductProps[]}) => {
   const dateString =
     product && product.storeID.userID.createdAt && new Date(product.storeID.userID.createdAt).toDateString();
   return (

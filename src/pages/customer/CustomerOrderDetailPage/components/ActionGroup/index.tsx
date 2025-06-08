@@ -1,9 +1,8 @@
-import { Divider, Flex } from 'antd';
+import { Flex } from 'antd';
 import {
   CancelButton,
   ConfirmReceivedButton,
-  RebuyButton,
-  ReturnButton,
+  RebuyButton
 } from '../../../../../components/elements/Buttons/CustomerOrderButtons';
 
 export const ConfirmActions = ({openCancelModal}: {openCancelModal: () => void}) => {

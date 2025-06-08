@@ -1,15 +1,15 @@
-import React, { useMemo, useState, useEffect } from 'react';
-import { Modal, Typography, Flex, Button, Alert, List, Divider, Badge, Popconfirm, Space, Checkbox } from 'antd';
 import {
-  CloseCircleOutlined,
   CheckOutlined,
-  ReloadOutlined,
-  LoadingOutlined,
-  WarningOutlined,
+  CloseCircleOutlined,
   ExclamationCircleOutlined,
+  LoadingOutlined,
+  ReloadOutlined,
+  WarningOutlined,
 } from '@ant-design/icons';
-import ImageUploader from '../ImageUploader';
+import { Alert, Badge, Button, Checkbox, Divider, Flex, List, Modal, Popconfirm, Space, Typography } from 'antd';
 import parse from 'html-react-parser';
+import React, { useEffect, useMemo, useState } from 'react';
+import ImageUploader from '../ImageUploader';
 
 interface CommunityStandardWarningProps {
   isOpen: boolean;
@@ -43,7 +43,7 @@ const CommunityStandardWarning: React.FC<CommunityStandardWarningProps> = ({
   onBypass,
 }) => {
   const [bypassConfirmed, setBypassConfirmed] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [_, setIsSubmitting] = useState(false);
   const [showAutoGenerateMessage, setShowAutoGenerateMessage] = useState(false);
 
   // Function to highlight violating text in the HTML content

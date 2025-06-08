@@ -1,19 +1,17 @@
-import { FireFilled, FireOutlined, UndoOutlined } from '@ant-design/icons';
-import { AutoComplete, Divider, Flex, Image, Spin } from 'antd';
-import Input from 'antd/es/input/Input';
+import { FireFilled, UndoOutlined } from '@ant-design/icons';
+import { Divider, Flex, Image } from 'antd';
 import { useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { useDebouncedCallback } from 'use-debounce';
 import logo from '../../../../src/assets/logo.webp';
-import { createSearchHistory, findAllHintByUserId, findBySearchText } from '../../../apis/searchHistory.api';
+import { createSearchHistory, findBySearchText } from '../../../apis/searchHistory.api';
 import { guestUrls } from '../../../constants/urlPaths/guestUrls';
 import { useAppSelector } from '../../../redux/hooks';
 import { loginSelector } from '../../../redux/slices/login.slice';
+import { normalizeString } from '../../../utils/formatName';
 import CustomCategoryMenu from '../Menu/CategoryMenu';
 import ActionGroup from './components/ActionGroup';
 import CustomSearchDropdown, { SearchOption } from './components/CustomSearchDropdown';
 import UserInfoGroup from './components/UserInfoGroup';
-import { normalizeString } from '../../../utils/formatName';
 
 // Interface cho dữ liệu search history
 interface SearchHistoryItem {
@@ -114,17 +112,17 @@ export default function Header() {
     }
   };
 
-  const fetchAllHintByUserId = async (userId?: string) => {
-    try {
-      const res = await findAllHintByUserId(userId);
-      const newOptions = mapToOptions(res.data);
-      setOptions(newOptions);
-    } catch (error) {
-      setOptions([]);
-    } finally {
-      setIsHintLoading(false);
-    }
-  };
+  // const fetchAllHintByUserId = async (userId?: string) => {
+  //   try {
+  //     const res = await findAllHintByUserId(userId);
+  //     const newOptions = mapToOptions(res.data);
+  //     setOptions(newOptions);
+  //   } catch (error) {
+  //     setOptions([]);
+  //   } finally {
+  //     setIsHintLoading(false);
+  //   }
+  // };
 
   const onSearchChange = (value: string) => {
     setSearch(value);

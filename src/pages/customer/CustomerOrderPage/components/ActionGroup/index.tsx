@@ -3,7 +3,6 @@ import {
   CancelButton,
   ConfirmReceivedButton,
   RebuyButton,
-  ReturnButton,
 } from '../../../../../components/elements/Buttons/CustomerOrderButtons';
 
 export const ConfirmActions = ({ openCancelModal }: { openCancelModal: () => void }) => {
@@ -16,7 +15,7 @@ export const ConfirmActions = ({ openCancelModal }: { openCancelModal: () => voi
   );
 };
 
-export const DeliveryActions = ({ receiveOrder, rebuyProduct }: { receiveOrder: () => void, rebuyProduct: () => void }) => {
+export const DeliveryActions = ({ receiveOrder }: { receiveOrder: () => void; rebuyProduct: () => void }) => {
   return (
     <div id="actions">
       <Flex justify="end" gap={'middle'}>

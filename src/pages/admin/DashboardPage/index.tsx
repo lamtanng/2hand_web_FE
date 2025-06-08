@@ -1,41 +1,39 @@
-import { Button, Flex, Tooltip, Typography, Row, Col, Card, Spin, Table, Avatar, Space, Tabs } from 'antd';
+import {
+  ArrowDownOutlined,
+  ArrowUpOutlined,
+  CalendarOutlined,
+  DashboardOutlined,
+  DownloadOutlined,
+  FileTextOutlined,
+  PercentageOutlined,
+  ShopOutlined,
+  ShoppingOutlined,
+  StarOutlined,
+  UserOutlined
+} from '@ant-design/icons';
+import { Avatar, Button, Card, Col, Flex, Row, Spin, Table, Tabs, Tooltip, Typography } from 'antd';
+import { useNavigate } from 'react-router-dom';
 import {
   Bar,
   BarChart,
   CartesianGrid,
+  Cell,
   Legend,
+  Line,
+  LineChart,
+  Pie,
+  PieChart,
+  Tooltip as RechartsTooltip,
+  ResponsiveContainer,
   XAxis,
   YAxis,
-  ResponsiveContainer,
-  Tooltip as RechartsTooltip,
-  LineChart,
-  Line,
-  PieChart,
-  Pie,
-  Cell,
 } from 'recharts';
-import {
-  CalendarOutlined,
-  DownloadOutlined,
-  FileTextOutlined,
-  PercentageOutlined,
-  ShoppingOutlined,
-  UserOutlined,
-  DashboardOutlined,
-  ArrowUpOutlined,
-  ArrowDownOutlined,
-  ShopOutlined,
-  StarOutlined,
-  SyncOutlined,
-  InfoCircleOutlined,
-} from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
-import useDashboard from './useDashboard';
 import { OrderStage } from '../../../types/enum/orderStage.enum';
+import { formattedCurrency } from '../../../utils/formattedCurrency';
 import { formattedOrderRate } from '../../../utils/formattedOrderRate';
 import StatisticCard from './components/StatisticCard';
-import { formattedCurrency } from '../../../utils/formattedCurrency';
 import './DashboardPage.css';
+import useDashboard from './useDashboard';
 
 const currentDate = new Date();
 const formattedDate = new Intl.DateTimeFormat('en-US', {
@@ -361,7 +359,7 @@ function DashboardPage() {
                         dataKey="value"
                         label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
                       >
-                        {storeCategoriesData.map((entry, index) => (
+                        {storeCategoriesData.map((_, index) => (
                           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                         ))}
                       </Pie>

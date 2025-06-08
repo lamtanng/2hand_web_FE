@@ -6,12 +6,12 @@ import {
   ShoppingOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import { Button, List, notification, Spin, Tag, Typography } from 'antd';
+import { Button, List, Spin, Tag, Typography } from 'antd';
 import dayjs from 'dayjs';
 import React from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { NotificationProps, NotificationType } from '../../../types/notification.type';
 import { useNavigate } from 'react-router-dom';
+import { NotificationProps, NotificationType } from '../../../types/notification.type';
 
 interface NotificationConfig {
   icon: React.ReactNode;

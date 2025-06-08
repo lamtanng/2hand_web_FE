@@ -1,21 +1,14 @@
-import { CloseOutlined, MessageOutlined, UserOutlined } from '@ant-design/icons';
-import { Avatar, Button, Divider, Flex, Modal, Tabs, TabsProps, Typography } from 'antd';
-import useUserProfileDetail from '../../useUserProfileName';
-import { formattedName } from '../../../../utils/formatName';
-import { useAppSelector } from '../../../../redux/hooks';
-import { loginSelector } from '../../../../redux/slices/login.slice';
+import { CloseOutlined, UserOutlined } from '@ant-design/icons';
+import { Avatar, Button, Flex, Tabs, TabsProps, Typography } from 'antd';
 import { useState } from 'react';
+import { formattedName } from '../../../../utils/formatName';
+import useUserProfileDetail from '../../useUserProfileName';
 import UserList from '../UserList';
 
 const UserInfo = () => {
-  const { user } = useAppSelector(loginSelector);
   const { profile } = useUserProfileDetail();
   const dateString = profile && profile.createdAt && new Date(profile.createdAt).toDateString();
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
 
   const handleClose = () => {
     setIsModalOpen(false);

@@ -1,19 +1,19 @@
-import { MessageOutlined, UserOutlined } from '@ant-design/icons';
-import { Avatar, Button, Divider, Flex, Typography } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
+import { Avatar, Divider, Flex, Typography } from 'antd';
+import dayjs from 'dayjs';
 import { Link } from 'react-router-dom';
-import { ConfirmActions, DeliveryActions } from '../ActionGroup';
-import PickupDateModal from '../PickupDateModal';
-import useOrderItem from './useOrderItem';
-import { OrderDetailProps } from '../../../../../types/orderDetail.type';
-import { OrderProps } from '../../../../../types/order.type';
 import { OrderStage } from '../../../../../types/enum/orderStage.enum';
 import { OrderStageStatus } from '../../../../../types/enum/orderStageStatus.enum';
-import DirectCancelModal from '../DirectCancelModal';
-import dayjs from 'dayjs';
 import { ReplyStatus } from '../../../../../types/enum/replyStatus.enum';
-import OrderDetail from '../OrderDetail';
+import { OrderProps } from '../../../../../types/order.type';
+import { OrderDetailProps } from '../../../../../types/orderDetail.type';
 import { formattedCurrency } from '../../../../../utils/formattedCurrency';
 import { formattedOrderStageStatus } from '../../../../../utils/formattedOrderStageStatus';
+import { ConfirmActions, DeliveryActions } from '../ActionGroup';
+import DirectCancelModal from '../DirectCancelModal';
+import OrderDetail from '../OrderDetail';
+import PickupDateModal from '../PickupDateModal';
+import useOrderItem from './useOrderItem';
 
 const StoreOrderItem = ({ order }: { order: OrderProps }) => {
   const {

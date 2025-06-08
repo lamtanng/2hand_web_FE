@@ -1,40 +1,40 @@
 import {
   AccountBookOutlined,
+  BarChartOutlined,
   CalendarOutlined,
+  DashboardOutlined,
   DownloadOutlined,
   FileTextOutlined,
-  PercentageOutlined,
-  ShoppingOutlined,
-  DashboardOutlined,
-  BarChartOutlined,
   LineChartOutlined,
+  PercentageOutlined,
   PieChartOutlined,
   ReloadOutlined,
+  ShoppingOutlined,
 } from '@ant-design/icons';
-import { Button, Divider, Flex, Typography, Card, Row, Col, Spin, Empty } from 'antd';
+import { Button, Card, Empty, Spin, Typography } from 'antd';
 import {
-  LineChart,
-  Line,
+  Bar,
+  BarChart,
   CartesianGrid,
+  Cell,
+  Legend,
+  Line,
+  LineChart,
+  Pie,
+  PieChart,
+  Tooltip as RechartsTooltip,
+  ResponsiveContainer,
   XAxis,
   YAxis,
-  Tooltip as RechartsTooltip,
-  Legend,
-  BarChart,
-  Bar,
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
 } from 'recharts';
-import useAccountPage from '../AccountPage/useAccountPage';
-import useStoreDashboardPage from './useStoreDashboardPage';
-import { accountUrls } from '../../../constants/urlPaths/customer/accountUrls';
 import StatisticCard from '../../../components/elements/Cards/StatisticCard';
-import { formattedOrderRate } from '../../../utils/formattedOrderRate';
+import { accountUrls } from '../../../constants/urlPaths/customer/accountUrls';
 import { OrderStage } from '../../../types/enum/orderStage.enum';
 import { formattedCurrency } from '../../../utils/formattedCurrency';
+import { formattedOrderRate } from '../../../utils/formattedOrderRate';
+import useAccountPage from '../AccountPage/useAccountPage';
 import './StoreDashboard.css';
+import useStoreDashboardPage from './useStoreDashboardPage';
 
 // Mock data for charts
 const revenueData = [
@@ -201,7 +201,7 @@ const StoreDashboard = () => {
                   Orders by Stage
                 </Typography.Title>
               </div>
-              {statistics?.orders?.length > 0 ? (
+              {statistics?.orders?.length && statistics?.orders?.length > 0 ? (
                 <ResponsiveContainer width="100%" height={300}>
                   <PieChart>
                     <Pie
@@ -214,7 +214,7 @@ const StoreDashboard = () => {
                       dataKey="value"
                       label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
                     >
-                      {ordersByStageData.map((entry, index) => (
+                      {ordersByStageData.map((_, index) => (
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                       ))}
                     </Pie>
@@ -243,7 +243,7 @@ const StoreDashboard = () => {
                 Orders by Stage
               </Typography.Title>
             </div>
-            {statistics?.orders?.length > 0 ? (
+            {statistics?.orders?.length && statistics?.orders?.length > 0 ? (
               <ResponsiveContainer width="100%" height={400}>
                 <BarChart data={statistics.orders} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
