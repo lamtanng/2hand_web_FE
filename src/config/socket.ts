@@ -1,6 +1,6 @@
 import { io, Socket } from 'socket.io-client';
 
-const SOCKET_URL = 'https://be-4-22tc.onrender.com';
+const SOCKET_URL = 'https://be-6-1yl5.onrender.com';
 
 // Create a singleton socket instance
 let socket: Socket | null = null;
