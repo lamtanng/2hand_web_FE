@@ -4,7 +4,7 @@ import banner2 from '../../../../assets/banner2.webp';
 import banner3 from '../../../../assets/banner3.webp';
 
 const CustomCarousel = () => {
-  const onChange = (currentSlide: number) => {};
+  const onChange = () => {};
   return (
     <Carousel dots={false} arrows autoplay infinite={true} afterChange={onChange}>
       <div>

@@ -290,7 +290,7 @@ const OrderListPage = () => {
       title: 'Action',
       key: 'action',
       width: '12%',
-      render: (_, record) => (
+      render: () => (
         <Space>
           <Tooltip title="View Order Details">
             <Button type="primary" size="small" icon={<EyeOutlined />} className="bg-blue-500" />

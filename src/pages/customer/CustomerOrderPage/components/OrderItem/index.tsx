@@ -1,20 +1,19 @@
-import { MessageOutlined, ShopOutlined } from '@ant-design/icons';
+import { ShopOutlined } from '@ant-design/icons';
 import { Button, Divider, Flex, Typography } from 'antd';
-import { ConfirmActions, DeliveryActions, RebuyActions } from '../ActionGroup';
-import OrderDetail from '../OrderDetail';
-import { OrderDetailProps } from '../../../../../types/orderDetail.type';
-import { OrderProps } from '../../../../../types/order.type';
+import dayjs from 'dayjs';
+import { Link } from 'react-router-dom';
 import { OrderStage } from '../../../../../types/enum/orderStage.enum';
 import { OrderStageStatus } from '../../../../../types/enum/orderStageStatus.enum';
-import useOrderItem from './useOrderItem';
-import DirectCancelModal from '../DirectCancelModal';
-import CancelRequestModal from '../CancelRequestModal';
-import dayjs from 'dayjs';
 import { ReplyStatus } from '../../../../../types/enum/replyStatus.enum';
-import { Link } from 'react-router-dom';
+import { OrderProps } from '../../../../../types/order.type';
+import { OrderDetailProps } from '../../../../../types/orderDetail.type';
 import { formattedCurrency } from '../../../../../utils/formattedCurrency';
 import { formattedOrderStageStatus } from '../../../../../utils/formattedOrderStageStatus';
-import ReturnModal from '../ReturnModal';
+import { ConfirmActions, DeliveryActions, RebuyActions } from '../ActionGroup';
+import CancelRequestModal from '../CancelRequestModal';
+import DirectCancelModal from '../DirectCancelModal';
+import OrderDetail from '../OrderDetail';
+import useOrderItem from './useOrderItem';
 
 const CustomerOrderItem = ({ order }: { order: OrderProps }) => {
   const { receiveOrder, cancelReasons, isModalOpen, setIsModalOpen, openCancelModal, cancelOrder, setDescription, rebuyProduct } =

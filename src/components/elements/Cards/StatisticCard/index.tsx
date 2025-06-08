@@ -1,6 +1,6 @@
-import { Flex, Skeleton, Typography, Tooltip } from 'antd';
+import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
+import { Skeleton, Tooltip } from 'antd';
 import { Link } from 'react-router-dom';
-import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
 import './StatisticCard.css';
 
 // Helper function to determine icon class based on label

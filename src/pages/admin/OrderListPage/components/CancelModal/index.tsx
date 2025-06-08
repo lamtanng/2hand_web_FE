@@ -1,5 +1,5 @@
-import { CloseOutlined, ExclamationCircleOutlined, CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
-import { Button, Divider, Flex, Typography, Alert, Space, Avatar } from 'antd';
+import { CheckCircleOutlined, CloseCircleOutlined, CloseOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import { Alert, Button, Flex, Space, Typography } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import React, { useState } from 'react';
 import { ReplyStatus } from '../../../../../types/enum/replyStatus.enum';

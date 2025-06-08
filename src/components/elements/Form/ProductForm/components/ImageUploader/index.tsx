@@ -1,12 +1,11 @@
 import { PlusOutlined, WarningOutlined } from '@ant-design/icons';
-import { Upload, Image, Tooltip } from 'antd';
+import { Image, Tooltip, Upload } from 'antd';
 import useImageUploader from './useImageUploader';
 
 const ImageUploader = ({
   base64Images,
   setBase64Images,
   violatingImages = [],
-  setViolatingImages,
 }: {
   base64Images: string[];
   setBase64Images: React.Dispatch<React.SetStateAction<string[]>>;
@@ -24,7 +23,7 @@ const ImageUploader = ({
   );
 
   // Custom render for Upload.Item to show warning icon on violating images
-  const itemRender = (originNode: React.ReactElement, file: any, fileList: any[]) => {
+  const itemRender = (originNode: React.ReactElement, file: any) => {
     const index = Number(file.uid.replace('-', ''));
     const isViolating = violatingImages.includes(index);
 

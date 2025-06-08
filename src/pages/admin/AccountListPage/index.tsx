@@ -1,38 +1,36 @@
 import {
-  TableProps,
-  Typography,
-  Space,
-  Button,
-  Table,
-  Card,
-  Input,
-  Tag,
-  Avatar,
-  Tooltip,
-  Badge,
-  Flex,
-  Dropdown,
-  MenuProps,
-} from 'antd';
-import {
-  EditOutlined,
-  SearchOutlined,
-  UserOutlined,
   CheckCircleFilled,
   CloseCircleFilled,
+  EditOutlined,
+  ExportOutlined,
   FilterOutlined,
   MoreOutlined,
-  UserAddOutlined,
   ReloadOutlined,
-  ExportOutlined,
+  SearchOutlined,
+  UserOutlined
 } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
-import useAccountListPage from './useAccountListPage';
-import { UserProps } from '../../../types/user.type';
-import { formattedName } from '../../../utils/formatName';
+import {
+  Avatar,
+  Button,
+  Card,
+  Dropdown,
+  Flex,
+  Input,
+  MenuProps,
+  Space,
+  Table,
+  TableProps,
+  Tag,
+  Tooltip,
+  Typography
+} from 'antd';
 import dayjs from 'dayjs';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { UserProps } from '../../../types/user.type';
+import { formattedName } from '../../../utils/formatName';
 import './AccountListPage.css';
+import useAccountListPage from './useAccountListPage';
 
 export interface CustomTableColumns {
   _id: string | undefined;

@@ -1,14 +1,13 @@
-import React from 'react';
-import { Modal, Typography, Flex, Button, Divider, Card, Badge } from 'antd';
 import {
   CheckOutlined,
   CloseOutlined,
-  SwapRightOutlined,
   EditOutlined,
   LoadingOutlined,
-  ReloadOutlined,
+  ReloadOutlined
 } from '@ant-design/icons';
+import { Badge, Button, Divider, Flex, Modal, Typography } from 'antd';
 import parse from 'html-react-parser';
+import React from 'react';
 
 interface DescriptionPreviewProps {
   isOpen: boolean;
