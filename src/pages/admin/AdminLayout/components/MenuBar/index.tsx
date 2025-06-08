@@ -69,6 +69,7 @@ const MenuBar = () => {
   const handleLogOut = async () => {
     try {
       await authAPIs.logout();
+      localStorage.removeItem('accessToken');
       dispatch(deleteAuth());
     } catch (error) {
       handleError(error);

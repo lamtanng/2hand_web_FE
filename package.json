@@ -17,6 +17,7 @@
     "@emotion/styled": "^11.13.0",
     "@hookform/resolvers": "^3.9.0",
     "@reduxjs/toolkit": "^2.2.7",
+    "@types/styled-components": "^5.1.34",
     "antd": "^5.21.2",
     "antd-img-crop": "^4.23.0",
     "antd-input-otp": "^2.1.0",
@@ -39,6 +40,7 @@
     "react-toastify": "^10.0.5",
     "recharts": "^2.13.3",
     "socket.io-client": "^4.8.1",
+    "styled-components": "^6.1.18",
     "use-debounce": "^10.0.4",
     "yup": "^1.4.0"
   },

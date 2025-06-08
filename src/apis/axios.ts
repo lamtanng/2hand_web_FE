@@ -46,6 +46,7 @@ axiosClient.interceptors.response.use(
 const handleLogout = async () => {
   try {
     await authAPIs.logout();
+    localStorage.removeItem('accessToken');
   } catch (error: AxiosError | any) {
     handleError(error);
   } finally {

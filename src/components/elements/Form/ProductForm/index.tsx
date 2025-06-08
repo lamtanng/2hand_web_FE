@@ -12,8 +12,8 @@ import TextEditor from '../../TextEditor';
 import AddressForm from '../AddressForm';
 import { useNavigate } from 'react-router-dom';
 import ImageUploader from './components/ImageUploader';
-import DescriptionPreview from './components/DescriptionPreview';
 import CommunityStandardWarning from './components/CommunityStandardWarning';
+import DescriptionPreview from './components/DescriptionPreview';
 
 const ProductForm = ({
   category,
