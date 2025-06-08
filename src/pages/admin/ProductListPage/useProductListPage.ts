@@ -222,15 +222,15 @@ const useProductListPage = () => {
 
   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
     // Filter out any keys that are currently in processing state
-    const validKeys = newSelectedRowKeys.filter(key => 
-      !approvalStatus[key.toString()] || approvalStatus[key.toString()] !== 'processing'
+    const validKeys = newSelectedRowKeys.filter(
+      (key) => !approvalStatus[key.toString()] || approvalStatus[key.toString()] !== 'processing',
     );
     setSelectedRowKeys(validKeys);
   };
 
   // Filter products by approval status and other filters
   useEffect(() => {
-    console.log(">>>>> product", products?.length)
+    console.log('>>>>> product', products?.length);
     if (!products?.length) return;
 
     let result = [...products];

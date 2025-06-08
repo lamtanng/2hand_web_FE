@@ -11,10 +11,10 @@ import {
   Badge,
   Flex,
   Dropdown,
-  MenuProps,
   Statistic,
   Row,
   Col,
+  Tabs,
 } from 'antd';
 import {
   SearchOutlined,
@@ -41,7 +41,6 @@ import { formattedName } from '../../../utils/formatName';
 import { formattedCurrency } from '../../../utils/formattedCurrency';
 import { formattedOrderStageStatus } from '../../../utils/formattedOrderStageStatus';
 import { useState, useMemo } from 'react';
-import dayjs from 'dayjs';
 import './OrderListPage.css';
 
 export interface CustomTableColumns {
@@ -60,6 +59,7 @@ export interface CustomTableColumns {
 const OrderListPage = () => {
   const {
     orders,
+    allOrders,
     isModalOpen,
     setIsModalOpen,
     setReplyMessage,
@@ -68,6 +68,10 @@ const OrderListPage = () => {
     processRequest,
     isLoading,
     refreshOrders,
+    activeStageFilter,
+    setActiveStageFilter,
+    activeTab,
+    setActiveTab,
   } = useOrderListPage();
   const [searchText, setSearchText] = useState<string>('');
 
@@ -117,6 +121,46 @@ const OrderListPage = () => {
     return stages.filter(Boolean).map((stage) => ({ text: stage, value: stage }));
   }, [orders]);
 
+  // Count orders by stage for tab badges
+  const orderCounts = useMemo(() => {
+    const counts = {
+      all: allOrders?.length || 0,
+      pending: 0,
+      confirmed: 0,
+      delivering: 0,
+      delivered: 0,
+      cancelled: 0,
+    };
+
+    allOrders?.forEach((order) => {
+      const stage = order?.orderStageID?.name?.toLowerCase();
+      if (stage && counts[stage as keyof typeof counts] !== undefined) {
+        counts[stage as keyof typeof counts]++;
+      }
+    });
+
+    return counts;
+  }, [allOrders]);
+
+  // Handle tab change
+  const handleTabChange = (key: string) => {
+    setActiveTab(key);
+
+    if (key === 'all') {
+      setActiveStageFilter(null);
+    } else if (key === 'pending') {
+      setActiveStageFilter(OrderStage.Confirmating);
+    } else if (key === 'confirmed') {
+      setActiveStageFilter(OrderStage.Picking);
+    } else if (key === 'delivering') {
+      setActiveStageFilter(OrderStage.Delivering);
+    } else if (key === 'delivered') {
+      setActiveStageFilter(OrderStage.Delivered);
+    } else if (key === 'cancelled') {
+      setActiveStageFilter(OrderStage.Cancelled);
+    }
+  };
+
   const columns: TableProps['columns'] = [
     {
       title: 'Order ID',
@@ -159,17 +203,18 @@ const OrderListPage = () => {
       key: 'stage',
       width: '15%',
       filters: stageFilters,
+      filteredValue: activeStageFilter ? [activeStageFilter] : null,
       onFilter: (value, record) => record.stage === value,
       render: (stage) => {
         let color = 'default';
         let icon = null;
 
         switch (stage) {
-          case OrderStage.Pending:
+          case !OrderStageStatus.Active:
             color = 'processing';
             icon = <ClockCircleOutlined />;
             break;
-          case OrderStage.Confirmed:
+          case OrderStage.Picking:
             color = 'cyan';
             icon = <CheckCircleOutlined />;
             break;
@@ -272,20 +317,72 @@ const OrderListPage = () => {
   // Helper function to determine status color
   const getStatusColor = (status: string) => {
     switch (status) {
-      case OrderStageStatus.Pending:
+      case OrderStageStatus.RequestToSeller:
         return 'processing';
-      case OrderStageStatus.Confirmed:
+      case OrderStage.Picking:
         return 'cyan';
       case OrderStageStatus.RequestToAdmin:
         return 'warning';
-      case OrderStageStatus.Completed:
+      case OrderStage.Delivered:
         return 'success';
-      case OrderStageStatus.Cancelled:
+      case OrderStage.Cancelled:
         return 'error';
       default:
         return 'default';
     }
   };
+
+  // Tab items for different order stages
+  const tabItems = [
+    {
+      key: 'all',
+      label: (
+        <span>
+          All Orders <Badge count={orderCounts.all} style={{ backgroundColor: '#1890ff' }} />
+        </span>
+      ),
+    },
+    {
+      key: 'pending',
+      label: (
+        <span>
+          Pending <Badge count={orderCounts.pending} style={{ backgroundColor: '#faad14' }} />
+        </span>
+      ),
+    },
+    {
+      key: 'confirmed',
+      label: (
+        <span>
+          Confirmed <Badge count={orderCounts.confirmed} style={{ backgroundColor: '#13c2c2' }} />
+        </span>
+      ),
+    },
+    {
+      key: 'delivering',
+      label: (
+        <span>
+          Delivering <Badge count={orderCounts.delivering} style={{ backgroundColor: '#1890ff' }} />
+        </span>
+      ),
+    },
+    {
+      key: 'delivered',
+      label: (
+        <span>
+          Delivered <Badge count={orderCounts.delivered} style={{ backgroundColor: '#52c41a' }} />
+        </span>
+      ),
+    },
+    {
+      key: 'cancelled',
+      label: (
+        <span>
+          Cancelled <Badge count={orderCounts.cancelled} style={{ backgroundColor: '#f5222d' }} />
+        </span>
+      ),
+    },
+  ];
 
   return (
     <div className="order-list-page">
@@ -336,6 +433,8 @@ const OrderListPage = () => {
       </Row>
 
       <Card className="border-0 shadow-md">
+        <Tabs activeKey={activeTab} onChange={handleTabChange} items={tabItems} className="mb-4" />
+
         <Flex justify="space-between" align="center" className="mb-4">
           <Input
             placeholder="Search by customer, store or order ID"

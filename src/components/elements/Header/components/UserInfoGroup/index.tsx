@@ -24,6 +24,7 @@ const UserInfoGroup = ({ user }: { user: UserProps }) => {
   const handleLogOut = async () => {
     try {
       await authAPIs.logout();
+      localStorage.removeItem('accessToken');
       dispatch(deleteAuth());
       navigate(`/`);
     } catch (error) {

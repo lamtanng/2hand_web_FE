@@ -5,7 +5,7 @@ import {
   EditOutlined,
   EyeOutlined,
   SaveOutlined,
-  SyncOutlined
+  SyncOutlined,
 } from '@ant-design/icons';
 import type { TabsProps } from 'antd';
 import { Badge, Button, Image, Space, Table, TableProps, Tabs, Tag, Tooltip, Typography, message } from 'antd';
@@ -195,10 +195,10 @@ const ProductListPage = () => {
           </Tooltip>
           <Tooltip title="Edit Product">
             <Link to={record._id!}>
-              <Button 
-                type="default" 
-                icon={<EditOutlined />} 
-                size="small" 
+              <Button
+                type="default"
+                icon={<EditOutlined />}
+                size="small"
                 disabled={approvalStatus[record._id!] === 'processing'}
               />
             </Link>
@@ -268,8 +268,8 @@ const ProductListPage = () => {
             size="middle"
             scroll={{ x: 'max-content' }}
             rowClassName={(record) =>
-              approvalStatus[record._id!] === 'processing' 
-                ? 'bg-blue-50 hover:bg-blue-100 opacity-70 cursor-not-allowed' 
+              approvalStatus[record._id!] === 'processing'
+                ? 'bg-blue-50 hover:bg-blue-100 opacity-70 cursor-not-allowed'
                 : 'hover:bg-blue-50'
             }
             className="overflow-hidden rounded-lg shadow"
@@ -306,8 +306,8 @@ const ProductListPage = () => {
             size="middle"
             scroll={{ x: 'max-content' }}
             rowClassName={(record) =>
-              approvalStatus[record._id!] === 'processing' 
-                ? 'bg-blue-50 hover:bg-blue-100 opacity-70 cursor-not-allowed' 
+              approvalStatus[record._id!] === 'processing'
+                ? 'bg-blue-50 hover:bg-blue-100 opacity-70 cursor-not-allowed'
                 : 'hover:bg-blue-50'
             }
             className="overflow-hidden rounded-lg shadow"

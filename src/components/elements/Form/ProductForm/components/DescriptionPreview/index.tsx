@@ -53,20 +53,28 @@ const DescriptionPreview: React.FC<DescriptionPreviewProps> = ({
       }}
       bodyStyle={{
         maxHeight: 'calc(100vh - 200px)',
-        overflowY: 'auto',
+        overflow: 'hidden',
       }}
     >
       <Divider className="!mb-6 !mt-3" />
 
       <Flex gap={'large'} justify="space-between" style={{ minHeight: '60vh' }}>
         {/* Left Side - Current Description */}
-        <div style={{ width: '100%', background: 'rgba(243 244 246 0.5)', padding: '16px', borderRadius: '12px' }}>
+        <div
+          style={{
+            width: '100%',
+            flexBasis: '47%',
+            background: 'rgba(243 244 246 0.5)',
+            padding: '16px',
+            borderRadius: '12px',
+          }}
+        >
           <Flex align="center" gap="small" className="mb-4">
             <Typography.Title level={5} style={{ margin: '12px 0' }}>
               Current Description
             </Typography.Title>
           </Flex>
-          <div className="h-[calc(100vh-500px)] w-full overflow-y-auto rounded-lg bg-white p-6 shadow-[inset_0_2px_4px_rgba(0,0,0,0.06)]">
+          <div className="h-[calc(100vh-500px)] w-full overflow-y-auto rounded-lg bg-gray-100/50 p-6 shadow-[inset_0_2px_4px_rgba(0,0,0,0.06)]">
             <div className="prose max-w-none">
               {currentDescription ? (
                 parse(currentDescription)
@@ -80,12 +88,20 @@ const DescriptionPreview: React.FC<DescriptionPreviewProps> = ({
         </div>
 
         {/* Right Side - Generated Description */}
-        <div style={{ width: '100%', background: 'rgba(239 246 255 0.5)', padding: '16px', borderRadius: '12px' }}>
+        <div
+          style={{
+            width: '100%',
+            flexBasis: '47%',
+            background: 'rgba(239 246 255 0.5)',
+            padding: '16px',
+            borderRadius: '12px',
+          }}
+        >
           <Flex justify="space-between" align="center" className="mb-4">
             <Flex align="center" gap="small">
               <div className="h-5 w-1 rounded-full bg-blue-600" />
               <Badge status="processing" />
-              <Typography.Title level={5}style={{ margin: '12px 0', color: "rgb(37 99 235)" }}>
+              <Typography.Title level={5} style={{ margin: '12px 0', color: 'rgb(37 99 235)' }}>
                 Generated Description
               </Typography.Title>
             </Flex>
@@ -99,7 +115,7 @@ const DescriptionPreview: React.FC<DescriptionPreviewProps> = ({
               Regenerate
             </Button>
           </Flex>
-          <div className="h-[calc(100vh-500px)] w-full overflow-y-auto rounded-lg bg-white p-6 shadow-[inset_0_2px_4px_rgba(0,0,0,0.06)]">
+          <div className="h-[calc(100vh-500px)] w-full overflow-y-auto rounded-lg bg-blue-100/50 p-6 shadow-[inset_0_2px_4px_rgba(0,0,0,0.06)]">
             {isGenerating ? (
               <Flex vertical className="h-full items-center justify-center" gap="middle">
                 <Typography.Text className="text-gray-500">Generating content...</Typography.Text>

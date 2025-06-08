@@ -11,6 +11,7 @@ interface StatisticCardProps {
   trendColor?: string;
   progressPercent?: number;
   progressColor?: string;
+  onClick?: () => void;
 }
 
 const StatisticCard = ({
@@ -23,6 +24,7 @@ const StatisticCard = ({
   trendColor = 'text-green-500',
   progressPercent,
   progressColor = '#1890ff',
+  onClick,
 }: StatisticCardProps) => {
   // Determine background color based on title for visual differentiation
   const getBgColor = () => {
@@ -66,8 +68,9 @@ const StatisticCard = ({
 
   return (
     <Card
-      className={`statistic-card h-full w-full border-0 shadow-md transition-all duration-300 hover:shadow-lg ${getBgColor()}`}
+      className={`statistic-card h-full w-full border-0 shadow-md transition-all duration-300 hover:shadow-lg ${getBgColor()} ${onClick ? 'cursor-pointer hover:translate-y-[-4px]' : ''}`}
       bodyStyle={{ padding: '24px', height: '100%' }}
+      onClick={onClick}
     >
       <Flex vertical className="h-full" justify="space-between">
         <Flex align="center" className="mb-4">

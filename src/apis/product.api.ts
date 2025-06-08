@@ -17,6 +17,8 @@ const getProductUrl = (url: string) => `${productPaths.productPath}/${url}`;
 const productUrl = getProductUrl('');
 const productBySlugUrl = getProductUrl(productPaths.slugPath);
 const productByIDUrl = getProductUrl(productPaths.idPath);
+const productByEmbeddingUrl = getProductUrl(productPaths.embeddingPath);
+const productHistoryUrl = getProductUrl('get-history-products');
 
 const getAllProduct = (
   page: number,
@@ -30,7 +32,7 @@ const getAllProduct = (
   isApproved: boolean | undefined,
   isSoldOut: boolean | undefined,
 ) => {
-  return axiosClient.get<{response: PaginationResponseProps<ProductProps>}>(productUrl, {
+  return axiosClient.get<{ response: PaginationResponseProps<ProductProps> }>(productUrl, {
     params: {
       page: page,
       limit: limit,
@@ -43,6 +45,40 @@ const getAllProduct = (
       isApproved: isApproved,
       isSoldOut: isSoldOut,
     },
+  });
+};
+
+const getAllProductByEmbedding = (
+  page: number,
+  limit: number,
+  search: string | null,
+  sort: string | null,
+  quality: string | null,
+  price: string | null,
+  cateID: string | null,
+  storeID: string | undefined,
+  isApproved: boolean | undefined,
+  isSoldOut: boolean | undefined,
+) => {
+  return axiosClient.get<{ response: PaginationResponseProps<ProductProps> }>(productByEmbeddingUrl, {
+    params: {
+      page: page,
+      limit: limit,
+      search: search,
+      sort: sort,
+      quality: quality,
+      price: price,
+      cateID: cateID,
+      storeID: storeID,
+      isApproved: isApproved,
+      isSoldOut: isSoldOut,
+    },
+  });
+};
+
+const getProductHistory = (userId?: string) => {
+  return axiosClient.get<ProductProps[]>(productHistoryUrl, {
+    params: { userId },
   });
 };
 
@@ -91,4 +127,6 @@ export const productAPIs = {
   updateProduct,
   integrateAI,
   approveProduct,
+  getAllProductByEmbedding,
+  getProductHistory,
 };

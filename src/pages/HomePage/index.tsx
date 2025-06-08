@@ -1,16 +1,17 @@
 import { Divider, Flex, Typography } from 'antd';
+import ProductCard from '../../components/elements/Cards/ProductCard';
 import Header from '../../components/elements/Header';
+import ProductSlider from '../../components/elements/Slider/ProductSlider';
+import PageSpin from '../../components/elements/Spin/PageSpin';
+import { ProductProps } from '../../types/product.type';
 import CustomCarousel from './components/Carousel';
 import CategorySlider from './components/CategorySlider';
-import ProductSlider from '../../components/elements/Slider/ProductSlider';
-import ProductList from '../../components/elements/Lists/ProductList';
-import SystemInfo from './components/SystemInfo';
 import Collection from './components/Collection';
+import SystemInfo from './components/SystemInfo';
 import useHomePage from './useHomePage';
-import PageSpin from '../../components/elements/Spin/PageSpin';
 
 const HomePage = () => {
-  const { freeProduct, isLoading, newestProduct } = useHomePage();
+  const { freeProduct, isLoading, newestProduct, recommendedProduct } = useHomePage();
 
   return (
     <>
@@ -39,7 +40,13 @@ const HomePage = () => {
               </div>
               <div>
                 <Typography.Title level={2}>Recommended Products</Typography.Title>
-                <ProductList />
+                <div className="mt-10 grid grid-cols-2 md:grid-cols-3 md:gap-x-0 md:gap-y-6 xl:grid-cols-5">
+                  {recommendedProduct?.map((item: ProductProps) => (
+                    <div key={item._id}>
+                      <ProductCard product={item} isLoading={isLoading} />
+                    </div>
+                  ))}
+                </div>
               </div>
               <Divider />
               <div className="pb-20">
