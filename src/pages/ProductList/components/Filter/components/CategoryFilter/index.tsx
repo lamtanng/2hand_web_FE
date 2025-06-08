@@ -8,13 +8,12 @@ import { useState } from 'react';
 const CategoryFilter = ({ category }: { category: CategoryProps[] }) => {
   const navigate = useNavigate();
   let [searchParams] = useSearchParams();
-  const [selectedCategory, setSelectedCategory] = useState<string[]>([searchParams.get('category') ?? '']);
+  const [selectedCategory, setSelectedCategory] = useState<string[]>(JSON.parse(searchParams.get('category') ?? '[]'));
 
   const handleCheckbox = (event: CheckboxChangeEvent) => {
     let isSelected = event.target.checked;
     let value = event.target.value;
     let catergories;
-
     if (isSelected) {
       catergories = [...selectedCategory, value];
     } else {
@@ -35,11 +34,14 @@ const CategoryFilter = ({ category }: { category: CategoryProps[] }) => {
       <Flex vertical className="font-normal">
         {category
           .filter((cate: CategoryProps) => cate.childrenIDs?.length === 0)
-          .map((cate: CategoryProps) => (
-            <Checkbox value={cate._id} onChange={handleCheckbox} checked={selectedCategory.includes(cate._id)}>
-              {cate.name}
-            </Checkbox>
-          ))}
+          .map((cate: CategoryProps) => {
+            const isSelected = selectedCategory.includes(cate._id);
+            return (
+              <Checkbox key={cate._id} value={cate._id} onChange={handleCheckbox} checked={isSelected}>
+                {cate.name}
+              </Checkbox>
+            );
+          })}
       </Flex>
       <Button
         variant="link"

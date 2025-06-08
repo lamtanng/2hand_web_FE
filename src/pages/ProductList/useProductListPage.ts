@@ -37,18 +37,36 @@ const useListProducts = () => {
     try {
       setLoading(true);
       let storeIDGroup = storeID?.length !== 0 ? JSON.stringify(storeID) : '';
-      const res = await productAPIs?.getAllProductByEmbedding(
-        page,
-        limit,
-        search,
-        sort,
-        quality,
-        price,
-        cateID,
-        storeIDGroup,
-        isApproved,
-        isSoldOut,
-      );
+      // const params = [page, limit, search, sort, quality, price, cateID, storeIDGroup, isApproved, isSoldOut];
+
+      let res;
+      if (search) {
+        res = await productAPIs?.getAllProductByEmbedding(
+          page,
+          limit,
+          search,
+          sort,
+          quality,
+          price,
+          cateID,
+          storeIDGroup,
+          isApproved,
+          isSoldOut,
+        );
+      } else {
+        res = await productAPIs?.getAllProduct(
+          page,
+          limit,
+          search,
+          sort,
+          quality,
+          price,
+          cateID,
+          storeIDGroup,
+          isApproved,
+          isSoldOut,
+        );
+      }
       setProduct(res?.data?.response?.data);
       setTotalProducts(res?.data?.response?.total);
     } catch (error) {

@@ -1,9 +1,9 @@
 import { FireFilled, UndoOutlined } from '@ant-design/icons';
 import { Divider, Flex, Image } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import logo from '../../../../src/assets/logo.webp';
-import { createSearchHistory, findBySearchText } from '../../../apis/searchHistory.api';
+import { createSearchHistory, findAllHintByUserId, findBySearchText } from '../../../apis/searchHistory.api';
 import { guestUrls } from '../../../constants/urlPaths/guestUrls';
 import { useAppSelector } from '../../../redux/hooks';
 import { loginSelector } from '../../../redux/slices/login.slice';
@@ -28,6 +28,10 @@ export default function Header() {
   const [search, setSearch] = useState('');
   const [options, setOptions] = useState<SearchOption[]>([]);
   const [isHintLoading, setIsHintLoading] = useState(false);
+
+  useEffect(() => {
+    fetchAllHintByUserId(user?._id);
+  }, []);
 
   const displayingGroup = user.phoneNumber ? <UserInfoGroup user={user} /> : <ActionGroup />;
 
@@ -87,10 +91,10 @@ export default function Header() {
     setIsHintLoading(true);
 
     try {
-      // if (!query) {
-      //   await fetchAllHintByUserId(user?._id);
-      //   return;
-      // }
+      if (!query) {
+        await fetchAllHintByUserId(user?._id);
+        return;
+      }
 
       await fetchSearchSuggestionsByText(query);
     } catch (error) {
@@ -112,17 +116,18 @@ export default function Header() {
     }
   };
 
-  // const fetchAllHintByUserId = async (userId?: string) => {
-  //   try {
-  //     const res = await findAllHintByUserId(userId);
-  //     const newOptions = mapToOptions(res.data);
-  //     setOptions(newOptions);
-  //   } catch (error) {
-  //     setOptions([]);
-  //   } finally {
-  //     setIsHintLoading(false);
-  //   }
-  // };
+  const fetchAllHintByUserId = async (userId?: string) => {
+    try {
+      if (!userId) return;
+      const res = await findAllHintByUserId(userId);
+      const newOptions = mapToOptions(res.data);
+      setOptions(newOptions);
+    } catch (error) {
+      setOptions([]);
+    } finally {
+      setIsHintLoading(false);
+    }
+  };
 
   const onSearchChange = (value: string) => {
     setSearch(value);
