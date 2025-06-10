@@ -9,7 +9,7 @@ const CustomCategoryMenu = () => {
   const { category } = useCategoryMenu();
   const navigate = useNavigate();
 
-  const topLevel = category.filter((cate: CategoryProps) => !cate.parentID);
+  const topLevel = category?.filter((cate: CategoryProps) => !cate.parentID);
   const getChildCate = (parentID: string) => {
     const childCate = category.filter((cate: CategoryProps) => cate.parentID?._id === parentID);
     return childCate.length !== 0 ? childCate : null;
