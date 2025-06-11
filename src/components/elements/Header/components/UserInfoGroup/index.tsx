@@ -1,5 +1,5 @@
 import { ShoppingCartOutlined, UserOutlined } from '@ant-design/icons';
-import { Avatar, Button, Divider, Dropdown, Flex, MenuProps, Typography } from 'antd';
+import { Avatar, Button, Divider, Dropdown, Flex, MenuProps, Typography, Badge } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { authAPIs } from '../../../../../apis/auth.api';
 import { accountUrls } from '../../../../../constants/urlPaths/customer/accountUrls';
@@ -68,15 +68,14 @@ const UserInfoGroup = ({ user }: { user: UserProps }) => {
       </Dropdown>
       <Divider type="vertical" className="m-0" />
       <Link to={`/${customerUrls.cartUrl}`}>
-        <div className="relative h-fit">
-          <ShoppingCartOutlined className="m-0 text-lg" />
-          <p className="absolute -right-2 -top-2 m-0 rounded-full bg-blue-500 px-1 text-xs text-white">{itemAmount}</p>
-        </div>
+        <Badge count={itemAmount} offset={[-5, 5]}>
+          <Button
+            type="text"
+            icon={<ShoppingCartOutlined className="text-xl" />}
+            className="flex h-12 w-12 items-center justify-center text-blue-600 hover:bg-gray-100"
+          />
+        </Badge>
       </Link>
-      {/* <div className="relative h-fit">
-        <BellOutlined className="m-0 text-lg text-blue-600" />
-        <p className="absolute -right-2 -top-2 m-0 rounded-full bg-blue-500 px-1 text-xs text-white">0</p>
-      </div> */}
       <NotificationBell />
       <Link to={actionLink}>
         <Button type="primary" className="hidden px-10 text-base md:inline">
