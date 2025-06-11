@@ -8,10 +8,16 @@ import { guestUrls } from '../../../constants/urlPaths/guestUrls';
 import { useAppSelector } from '../../../redux/hooks';
 import { loginSelector } from '../../../redux/slices/login.slice';
 import { normalizeString } from '../../../utils/formatName';
+import ImageSearch from '../../elements/ImageSearch';
 import CustomCategoryMenu from '../Menu/CategoryMenu';
 import ActionGroup from './components/ActionGroup';
 import CustomSearchDropdown, { SearchOption } from './components/CustomSearchDropdown';
 import UserInfoGroup from './components/UserInfoGroup';
+import './styles.css';
+import { productAPIs } from '../../../apis/product.api';
+import { ProductProps } from '../../../types/product.type';
+import { CategoryProps } from '../../../types/category.type';
+import { StoreProps } from '../../../types/store.type';
 
 // Interface cho dữ liệu search history
 interface SearchHistoryItem {
@@ -28,6 +34,13 @@ export default function Header() {
   const [search, setSearch] = useState('');
   const [options, setOptions] = useState<SearchOption[]>([]);
   const [isHintLoading, setIsHintLoading] = useState(false);
+
+  // State cho kết quả tìm kiếm bằng hình ảnh
+  const [imageSearchResults, setImageSearchResults] = useState<ProductProps[]>([]);
+  const [isImageSearching, setIsImageSearching] = useState(false);
+
+  console.log('Header - imageSearchResults:', imageSearchResults);
+  console.log('Header - isImageSearching:', isImageSearching);
 
   useEffect(() => {
     fetchAllHintByUserId(user?._id);
@@ -158,6 +171,176 @@ export default function Header() {
     }
   };
 
+  const clearImageSearchResults = () => {
+    console.log('Clearing image search results');
+    setImageSearchResults([]);
+  };
+
+  const handleImageSearch = async (imageBase64: string) => {
+    try {
+      if (!imageBase64) throw new Error('Image is required');
+
+      setIsImageSearching(true);
+      console.log('Starting image search...');
+
+      // Mô phỏng API call - Thay thế bằng API thực tế của bạn
+      // Giả lập dữ liệu trả về để test
+      // setTimeout(() => {
+      //   // Tạo một số category và store mẫu
+      // //   const categoryMock: CategoryProps = {
+      // //     _id: 'cat123',
+      // //     name: 'Thời trang',
+      // //     isActive: true,
+      // //     image: 'https://example.com/category.jpg',
+      // //     slug: 'thoi-trang',
+      // //   };
+
+      // //   const storeMock: StoreProps = {
+      // //     _id: 'store123',
+      // //     name: 'Shop thời trang',
+      // //     slug: 'shop-thoi-trang',
+      // //     description: 'Cửa hàng thời trang chất lượng',
+      // //     address: [
+      // //       {
+      // //         _id: 'addr123',
+      // //         address: '123 Đường ABC',
+      // //         ward: null,
+      // //         district: null,
+      // //         province: {
+      // //           ProvinceID: 1,
+      // //           ProvinceName: 'Hồ Chí Minh',
+      // //           CountryID: 1,
+      // //         },
+      // //         isDefault: true,
+      // //       },
+      // //     ],
+      // //     avatar: 'https://example.com/store.jpg',
+      // //     isActive: true,
+      // //     userID: {
+      // //       _id: 'user123',
+      // //       firstName: 'Nguyễn',
+      // //       lastName: 'Văn A',
+      // //       email: 'example@email.com',
+      // //     },
+      // //     ghnStoreID: 'ghn123',
+      // //   };
+
+      // //   const mockProducts: ProductProps[] = [
+      // //     {
+      // //       _id: '1',
+      // //       name: 'Áo thun nữ phong cách Hàn Quốc',
+      // //       description: 'Áo thun nữ phong cách Hàn Quốc, chất liệu cotton 100%, thoáng mát',
+      // //       image: ['https://cf.shopee.vn/file/vn-11134201-23030-zs77nkofp3nv2a'],
+      // //       price: 150000,
+      // //       quantity: 10,
+      // //       quality: 'Mới 100%',
+      // //       isActive: true,
+      // //       isSoldOut: false,
+      // //       cateID: categoryMock,
+      // //       storeID: storeMock,
+      // //       slug: 'ao-thun-nu-han-quoc',
+      // //       weight: 200,
+      // //       height: 3,
+      // //       width: 30,
+      // //       length: 50,
+      // //       address: {
+      // //         _id: 'addr123',
+      // //         address: '123 Đường ABC',
+      // //         ward: null,
+      // //         district: null,
+      // //         province: {
+      // //           ProvinceID: 1,
+      // //           ProvinceName: 'Hồ Chí Minh',
+      // //           CountryID: 1,
+      // //         },
+      // //         isDefault: true,
+      // //       },
+      // //       isApproved: true,
+      // //     },
+      // //     {
+      // //       _id: '2',
+      // //       name: 'Áo thun nam cổ tròn basic',
+      // //       description: 'Áo thun nam cổ tròn basic, form rộng, chất cotton',
+      // //       image: ['https://cf.shopee.vn/file/sg-11134201-22100-qnop3l8brfiv44'],
+      // //       price: 120000,
+      // //       quantity: 20,
+      // //       quality: 'Mới 100%',
+      // //       isActive: true,
+      // //       isSoldOut: false,
+      // //       cateID: categoryMock,
+      // //       storeID: storeMock,
+      // //       slug: 'ao-thun-nam-basic',
+      // //       weight: 250,
+      // //       height: 3,
+      // //       width: 35,
+      // //       length: 60,
+      // //       address: {
+      // //         _id: 'addr123',
+      // //         address: '123 Đường ABC',
+      // //         ward: null,
+      // //         district: null,
+      // //         province: {
+      // //           ProvinceID: 2,
+      // //           ProvinceName: 'Hà Nội',
+      // //           CountryID: 1,
+      // //         },
+      // //         isDefault: true,
+      // //       },
+      // //       isApproved: true,
+      // //     },
+      // //     {
+      // //       _id: '3',
+      // //       name: 'Áo sơ mi nữ dài tay',
+      // //       description: 'Áo sơ mi nữ dài tay, kiểu dáng công sở, thanh lịch',
+      // //       image: ['https://cf.shopee.vn/file/sg-11134201-22120-dxsewz9jfplvc3'],
+      // //       price: 220000,
+      // //       quantity: 15,
+      // //       quality: 'Mới 100%',
+      // //       isActive: true,
+      // //       isSoldOut: false,
+      // //       cateID: categoryMock,
+      // //       storeID: storeMock,
+      // //       slug: 'ao-so-mi-nu-dai-tay',
+      // //       weight: 300,
+      // //       height: 2,
+      // //       width: 40,
+      // //       length: 65,
+      // //       address: {
+      // //         _id: 'addr123',
+      // //         address: '123 Đường ABC',
+      // //         ward: null,
+      // //         district: null,
+      // //         province: {
+      // //           ProvinceID: 3,
+      // //           ProvinceName: 'Đà Nẵng',
+      // //           CountryID: 1,
+      // //         },
+      // //         isDefault: true,
+      // //       },
+      // //       isApproved: true,
+      // //     },
+      // //   ];
+
+      // //   console.log('Mock search results:', mockProducts);
+      // //   setImageSearchResults(mockProducts);
+      // //   setIsImageSearching(false);
+      // // }, 2000);
+
+      const response = await productAPIs.getProductByImage(imageBase64);
+      console.log('response', response);
+      if (response.data.length > 0) {
+        setImageSearchResults(response.data);
+      } else {
+        setImageSearchResults([]);
+      }
+      setIsImageSearching(false);
+    } catch (error) {
+      console.error('Error searching by image:', error);
+      setImageSearchResults([]);
+      setIsImageSearching(false);
+    }
+  };
+
   return (
     <>
       <div className="nav-bar fixed z-20 mx-auto w-full bg-white py-5 shadow-sm">
@@ -168,9 +351,9 @@ export default function Header() {
                 <Image alt="" src={logo} width={50} preview={false} />
               </Link>
             </Flex>
-            <Link to={'/'} className="font-sans text-base">
+            {/* <Link to={'/'} className="font-sans text-base">
               Home
-            </Link>
+            </Link> */}
             {/* <Link
               to={{ pathname: `/${guestUrls.productListUrl}`, search: 'page=1&limit=8' }}
               className="font-sans text-base"
@@ -178,16 +361,25 @@ export default function Header() {
               Products
             </Link> */}
 
-            <CustomSearchDropdown
-              options={options}
-              value={search}
-              onChange={onSearchChange}
-              onSearch={fetchSearchSuggestions}
-              onSelect={onSelect}
-              isLoading={isHintLoading}
-              placeholder="Search for a product"
-              width={250}
-            />
+            <div className="search-container">
+              <CustomSearchDropdown
+                options={options}
+                value={search}
+                onChange={onSearchChange}
+                onSearch={fetchSearchSuggestions}
+                onSelect={onSelect}
+                isLoading={isHintLoading}
+                placeholder="Search for a product"
+                width={250}
+                className="custom-search-with-image"
+              />
+              <ImageSearch
+                onSearch={handleImageSearch}
+                searchResults={imageSearchResults}
+                isSearching={isImageSearching}
+                clearResults={clearImageSearchResults}
+              />
+            </div>
           </Flex>
           {displayingGroup}
         </Flex>
