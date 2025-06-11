@@ -1,16 +1,15 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Button, Modal, Upload, message, Spin, Flex, Divider, Card, Typography, List, Avatar, Empty } from 'antd';
 import {
   CameraOutlined,
-  SearchOutlined,
-  UploadOutlined,
-  DeleteOutlined,
   CopyOutlined,
-  RollbackOutlined,
-  ShoppingOutlined,
+  DeleteOutlined,
   EnvironmentOutlined,
+  RollbackOutlined,
+  SearchOutlined,
+  UploadOutlined
 } from '@ant-design/icons';
+import { Button, Card, Divider, Empty, Flex, List, message, Modal, Spin, Typography, Upload } from 'antd';
 import type { UploadFile, UploadProps } from 'antd/es/upload/interface';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ProductProps } from '../../../types/product.type';
 import './styles.css';

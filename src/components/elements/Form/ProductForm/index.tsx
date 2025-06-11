@@ -1,20 +1,20 @@
+import { Button, Flex, Form, InputNumber, Typography } from 'antd';
 import { FormProvider } from 'react-hook-form';
-import { Button, Checkbox, Flex, Form, InputNumber, Typography } from 'antd';
-import CategoryDropdown from './components/CategoryDropdown';
+import { useNavigate } from 'react-router-dom';
+import AIIcon from '../../../../assets/ai-icon.webp';
 import { CategoryProps } from '../../../../types/category.type';
-import { StoreProps } from '../../../../types/store.type';
 import { ProductProps } from '../../../../types/product.type';
-import useProductForm from './useProductForm';
-import CustomFormItem from '../../ControlledComponents/ControlledInput';
-import ConditionRadio from './components/ConditionRadio';
+import { StoreProps } from '../../../../types/store.type';
 import SubmitButton from '../../Buttons/SubmitButton';
+import CustomFormItem from '../../ControlledComponents/ControlledInput';
 import TextEditor from '../../TextEditor';
 import AddressForm from '../AddressForm';
-import { useNavigate } from 'react-router-dom';
-import ImageUploader from './components/ImageUploader';
+import CategoryDropdown from './components/CategoryDropdown';
 import CommunityStandardWarning from './components/CommunityStandardWarning';
+import ConditionRadio from './components/ConditionRadio';
 import DescriptionPreview from './components/DescriptionPreview';
-import AIIcon from '../../../../assets/ai-icon.webp';
+import ImageUploader from './components/ImageUploader';
+import useProductForm from './useProductForm';
 
 const ProductForm = ({
   category,
@@ -34,7 +34,6 @@ const ProductForm = ({
     selectedCategory,
     setSelectedCategory,
     isFree,
-    onFreeChange,
     setQuantity,
     isSubmitting,
     description,
@@ -51,7 +50,6 @@ const ProductForm = ({
     base64Images,
     setBase64Images,
     handleGenerateDescription,
-    isGeneratable,
     isGenerating,
     generatedDescription,
     isPreviewOpen,

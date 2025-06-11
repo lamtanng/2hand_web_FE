@@ -1,15 +1,15 @@
-import { MessageOutlined, ShopOutlined } from '@ant-design/icons';
-import { Button, Divider, Flex, Typography, Image, Rate } from 'antd';
-import defaultPic from '../../../../../assets/blob.webp';
-import { OrderDetailProps } from '../../../../../types/orderDetail.type';
-import { OrderProps } from '../../../../../types/order.type';
-import { ReviewButton } from '../../../../../components/elements/Buttons/CustomerOrderButtons';
-import ReviewModal from '../ReviewModal';
-import { useState } from 'react';
-import { OrderStage } from '../../../../../types/enum/orderStage.enum';
-import { Link } from 'react-router-dom';
-import { formattedCurrency } from '../../../../../utils/formattedCurrency';
+import { ShopOutlined } from '@ant-design/icons';
+import { Button, Divider, Flex, Image, Rate, Typography } from 'antd';
 import dayjs from 'dayjs';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import defaultPic from '../../../../../assets/blob.webp';
+import { ReviewButton } from '../../../../../components/elements/Buttons/CustomerOrderButtons';
+import { OrderStage } from '../../../../../types/enum/orderStage.enum';
+import { OrderProps } from '../../../../../types/order.type';
+import { OrderDetailProps } from '../../../../../types/orderDetail.type';
+import { formattedCurrency } from '../../../../../utils/formattedCurrency';
+import ReviewModal from '../ReviewModal';
 
 const OrderInfo = ({ order }: { order: OrderProps | undefined }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -58,7 +58,7 @@ const OrderInfo = ({ order }: { order: OrderProps | undefined }) => {
               </Flex>
               {item.reviewID && (
                 <div id="review">
-                  <Divider variant='dashed'/>
+                  <Divider variant="dashed" />
                   <Flex gap={'large'}>
                     <Flex gap={'middle'} vertical className="w-full">
                       <Flex gap={'small'} vertical>

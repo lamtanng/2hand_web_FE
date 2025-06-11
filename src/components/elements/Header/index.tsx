@@ -3,10 +3,12 @@ import { Divider, Flex, Image } from 'antd';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import logo from '../../../../src/assets/logo.webp';
+import { productAPIs } from '../../../apis/product.api';
 import { createSearchHistory, findAllHintByUserId, findBySearchText } from '../../../apis/searchHistory.api';
 import { guestUrls } from '../../../constants/urlPaths/guestUrls';
 import { useAppSelector } from '../../../redux/hooks';
 import { loginSelector } from '../../../redux/slices/login.slice';
+import { ProductProps } from '../../../types/product.type';
 import { normalizeString } from '../../../utils/formatName';
 import ImageSearch from '../../elements/ImageSearch';
 import CustomCategoryMenu from '../Menu/CategoryMenu';
@@ -14,10 +16,6 @@ import ActionGroup from './components/ActionGroup';
 import CustomSearchDropdown, { SearchOption } from './components/CustomSearchDropdown';
 import UserInfoGroup from './components/UserInfoGroup';
 import './styles.css';
-import { productAPIs } from '../../../apis/product.api';
-import { ProductProps } from '../../../types/product.type';
-import { CategoryProps } from '../../../types/category.type';
-import { StoreProps } from '../../../types/store.type';
 
 // Interface cho dữ liệu search history
 interface SearchHistoryItem {
