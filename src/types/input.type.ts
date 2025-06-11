@@ -9,6 +9,7 @@ export interface CustomFormItemProps extends FormItemProps {
   isRequired?: boolean;
   isDisabled?: boolean;
   maxLength?: number | undefined;
+  suffix?: React.ReactNode;
 }
 
 export interface CustomOTPProps extends OTPProps {

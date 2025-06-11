@@ -109,7 +109,7 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
         content: [...prompt, ...images],
       };
       const res = await openAIAPIs.integrateAI(content);
-      setGeneratedDescription(res.data[0]);
+      setGeneratedDescription(res.data);
 
       // Only open the preview modal if showPreview is true
       if (showPreview) {
