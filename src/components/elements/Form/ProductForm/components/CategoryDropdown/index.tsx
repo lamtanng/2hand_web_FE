@@ -17,7 +17,7 @@ const CategoryDropdown = ({
     return childCate.length !== 0 ? childCate : null;
   };
 
-  const items: MenuProps['items'] = topLevel.map((cate: CategoryProps) => ({
+  const items: MenuProps['items'] = topLevel?.map((cate: CategoryProps) => ({
     key: JSON.stringify(cate),
     label: cate.name,
     children: getChildCate(cate._id)?.map((cate: CategoryProps) => ({
