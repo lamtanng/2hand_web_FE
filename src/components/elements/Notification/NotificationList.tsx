@@ -80,7 +80,7 @@ const NotificationList: React.FC<NotificationListProps> = ({
   const navigate = useNavigate();
 
   const redirect = (notiType: NotificationType, id: string) => {
-    if (notiType === NotificationType.Order) return navigate(`/account/purchase/${id}`);
+    if (notiType === NotificationType.Order) return navigate(`/account/purchases/${id}`);
 
     if (notiType === NotificationType.Finance) return navigate(`/finance/${id}`);
 

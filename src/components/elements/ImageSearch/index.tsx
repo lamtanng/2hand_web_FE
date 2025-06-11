@@ -245,7 +245,7 @@ const ImageSearch: React.FC<ImageSearchProps> = ({
           dataSource={searchResults}
           renderItem={(item) => (
             <List.Item className="result-item animate-item">
-              <Link to={`/product/${item.slug}`} className="result-link">
+              <Link to={`/${item.slug}`} className="result-link">
                 <Card hoverable className="result-card">
                   <Flex align="start" gap={16}>
                     <div className="result-image-container">
