@@ -28,6 +28,7 @@ const DescriptionPreview: React.FC<DescriptionPreviewProps> = ({
   onRegenerate,
   isGenerating = false,
 }) => {
+  console.log({generatedDescription});
   return (
     <Modal
       title={
