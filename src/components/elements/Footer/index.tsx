@@ -19,14 +19,14 @@ const Footer = () => {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
           {/* About Section */}
           <div>
-            <Title level={4}>2Hand Market</Title>
+            <Title level={4}>LMarket</Title>
             <Paragraph className="text-gray-600">
-              Your trusted destination for quality second-hand items. Making sustainable shopping accessible to
-              everyone.
+              LMarket is your one-stop destination for discovering, buying, and selling quality products. Experience a
+              modern, secure, and user-friendly marketplace.
             </Paragraph>
             <Space className="mt-4">
               <a
-                href="https://facebook.com"
+                href="https://facebook.com/lmarket"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-600 hover:text-blue-600"
@@ -34,7 +34,7 @@ const Footer = () => {
                 <FacebookOutlined className="text-xl" />
               </a>
               <a
-                href="https://instagram.com"
+                href="https://instagram.com/lmarket"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-600 hover:text-pink-600"
@@ -42,7 +42,7 @@ const Footer = () => {
                 <InstagramOutlined className="text-xl" />
               </a>
               <a
-                href="https://twitter.com"
+                href="https://twitter.com/lmarket"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-600 hover:text-blue-400"
@@ -50,7 +50,7 @@ const Footer = () => {
                 <TwitterOutlined className="text-xl" />
               </a>
               <a
-                href="https://linkedin.com"
+                href="https://linkedin.com/company/lmarket"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-600 hover:text-blue-800"
@@ -70,6 +70,37 @@ const Footer = () => {
               <Link to="/products" className="text-gray-600 hover:text-blue-600">
                 Shop
               </Link>
+              <Link to="/about" className="text-gray-600 hover:text-blue-600">
+                About Us
+              </Link>
+              <Link to="/contact" className="text-gray-600 hover:text-blue-600">
+                Contact
+              </Link>
+              <Link to="/faq" className="text-gray-600 hover:text-blue-600">
+                FAQ
+              </Link>
+            </Space>
+          </div>
+
+          {/* Customer Service */}
+          <div>
+            <Title level={4}>Customer Service</Title>
+            <Space direction="vertical" className="w-full">
+              <Link to="/help" className="text-gray-600 hover:text-blue-600">
+                Help Center
+              </Link>
+              <Link to="/returns" className="text-gray-600 hover:text-blue-600">
+                Returns & Refunds
+              </Link>
+              <Link to="/shipping" className="text-gray-600 hover:text-blue-600">
+                Shipping Info
+              </Link>
+              <Link to="/terms" className="text-gray-600 hover:text-blue-600">
+                Terms of Service
+              </Link>
+              <Link to="/privacy" className="text-gray-600 hover:text-blue-600">
+                Privacy Policy
+              </Link>
             </Space>
           </div>
 
@@ -79,15 +110,15 @@ const Footer = () => {
             <Space direction="vertical" className="w-full">
               <Space className="text-gray-600">
                 <HomeOutlined />
-                <Text>123 Market Street, City, Country</Text>
+                <Text>456 Commerce Avenue, Metropolis, Country</Text>
               </Space>
               <Space className="text-gray-600">
                 <PhoneOutlined />
-                <Text>+1 234 567 8900</Text>
+                <Text>+1 800 123 4567</Text>
               </Space>
               <Space className="text-gray-600">
                 <MailOutlined />
-                <Text>support@2handmarket.com</Text>
+                <Text>support@lmarket.com</Text>
               </Space>
             </Space>
           </div>
@@ -97,7 +128,7 @@ const Footer = () => {
 
         {/* Copyright */}
         <div className="text-center text-gray-600">
-          <Text>© {new Date().getFullYear()} 2Hand Market. All rights reserved.</Text>
+          <Text>© {new Date().getFullYear()} LMarket. All rights reserved.</Text>
         </div>
       </div>
     </footer>
