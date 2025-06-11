@@ -29,11 +29,11 @@ export const DeliveryActions = ({receiveOrder}: {receiveOrder: () => void}) => {
   );
 };
 
-export const RebuyActions = () => {
+export const RebuyActions = ({ rebuyProduct }: { rebuyProduct: () => void }) => {
   return (
     <div className="bg-blue-50">
       <Flex className="px-12 py-5" justify="end">
-        <RebuyButton onClick={() => {}} />
+      <RebuyButton onClick={rebuyProduct} />
       </Flex>
     </div>
   );
