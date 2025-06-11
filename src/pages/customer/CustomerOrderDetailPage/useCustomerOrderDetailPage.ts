@@ -16,6 +16,12 @@ import { NewRequestProps } from '../../../types/http/orderRequest.type';
 import { NewOrderStage } from '../../../types/http/orderStage.type';
 import { OrderStageTrackingProps } from '../../../types/orderTracking.type';
 import { Role } from '../../../types/enum/role.enum';
+import { OrderDetailProps } from '../../../types/orderDetail.type';
+import { CartItemProps } from '../../../types/cart.type';
+import { NewCartItemProps } from '../../../types/http/cart.type';
+import { cartAPIs } from '../../../apis/cart.api';
+import { displaySuccess } from '../../../utils/displayToast';
+import useAccountPage from '../AccountPage/useAccountPage';
 
 const useCustomerOrderDetailPage = () => {
   const params = useParams();
@@ -27,6 +33,7 @@ const useCustomerOrderDetailPage = () => {
   const [isLoading, setLoading] = useState<boolean>(false);
 
   const { confirm } = Modal;
+  const { profile } = useAccountPage();
 
   const showConfirm = () => {
     confirm({
@@ -131,6 +138,29 @@ const useCustomerOrderDetailPage = () => {
     showConfirm();
   };
 
+  const getCartItemByID = async (productID: string | undefined) => {
+    const res = await cartAPIs.getCartItem(productID);
+    return res.data;
+  };
+
+  const rebuyProduct = () => {
+    order?.orderDetailIDs.forEach(async (item: OrderDetailProps) => {
+      try {
+        const cartItem: CartItemProps = await getCartItemByID(item.productID._id);
+        const totalQuantity = cartItem ? cartItem.quantity + item.quantity : item.quantity;
+        const data: NewCartItemProps = {
+          userID: profile?._id,
+          items: [{ productID: item.productID._id, quantity: totalQuantity }],
+        };
+        await cartAPIs.addCartItem(data);
+        displaySuccess('Product is added to cart successfully.');
+        eventEmitter.emit('addToCart', item.productID._id);
+      } catch (error) {
+        handleError(error);
+      }
+    });
+  };
+
   useEffect(() => {
     fetchData(params?.id);
 
@@ -159,7 +189,9 @@ const useCustomerOrderDetailPage = () => {
     setDescription,
     cancelOrder,
     stages,
-    isLoading
+    isLoading,
+    rebuyProduct
   };
 };
+
 export default useCustomerOrderDetailPage;
