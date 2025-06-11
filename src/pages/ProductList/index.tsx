@@ -44,7 +44,7 @@ const ProductList = () => {
               <Flex justify="space-between" align="baseline">
                 <Flex gap={'small'} align="baseline">
                   <Typography.Title level={3}>Products</Typography.Title>
-                  <Typography.Paragraph className="text-gray-600">({totalProducts} products)</Typography.Paragraph>
+                  {/* <Typography.Paragraph className="text-gray-600">({totalProducts} products)</Typography.Paragraph> */}
                 </Flex>
                 <Flex gap={'middle'} align="center">
                   <p>Sort by:</p>

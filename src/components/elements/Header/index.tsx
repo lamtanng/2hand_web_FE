@@ -3,15 +3,19 @@ import { Divider, Flex, Image } from 'antd';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import logo from '../../../../src/assets/logo.webp';
+import { productAPIs } from '../../../apis/product.api';
 import { createSearchHistory, findAllHintByUserId, findBySearchText } from '../../../apis/searchHistory.api';
 import { guestUrls } from '../../../constants/urlPaths/guestUrls';
 import { useAppSelector } from '../../../redux/hooks';
 import { loginSelector } from '../../../redux/slices/login.slice';
+import { ProductProps } from '../../../types/product.type';
 import { normalizeString } from '../../../utils/formatName';
+import ImageSearch from '../../elements/ImageSearch';
 import CustomCategoryMenu from '../Menu/CategoryMenu';
 import ActionGroup from './components/ActionGroup';
 import CustomSearchDropdown, { SearchOption } from './components/CustomSearchDropdown';
 import UserInfoGroup from './components/UserInfoGroup';
+import './styles.css';
 
 // Interface cho dữ liệu search history
 interface SearchHistoryItem {
@@ -28,6 +32,13 @@ export default function Header() {
   const [search, setSearch] = useState('');
   const [options, setOptions] = useState<SearchOption[]>([]);
   const [isHintLoading, setIsHintLoading] = useState(false);
+
+  // State cho kết quả tìm kiếm bằng hình ảnh
+  const [imageSearchResults, setImageSearchResults] = useState<ProductProps[]>([]);
+  const [isImageSearching, setIsImageSearching] = useState(false);
+
+  console.log('Header - imageSearchResults:', imageSearchResults);
+  console.log('Header - isImageSearching:', isImageSearching);
 
   useEffect(() => {
     fetchAllHintByUserId(user?._id);
@@ -158,6 +169,31 @@ export default function Header() {
     }
   };
 
+  const clearImageSearchResults = () => {
+    console.log('Clearing image search results');
+    setImageSearchResults([]);
+  };
+
+  const handleImageSearch = async (imageBase64: string) => {
+    try {
+      if (!imageBase64) throw new Error('Image is required');
+
+      setIsImageSearching(true);
+
+      const response = await productAPIs.getProductByImage(imageBase64);
+      if (response.data.length > 0) {
+        setImageSearchResults(response.data);
+      } else {
+        setImageSearchResults([]);
+      }
+      setIsImageSearching(false);
+    } catch (error) {
+      console.error('Error searching by image:', error);
+      setImageSearchResults([]);
+      setIsImageSearching(false);
+    }
+  };
+
   return (
     <>
       <div className="nav-bar fixed z-20 mx-auto w-full bg-white py-5 shadow-sm">
@@ -168,9 +204,9 @@ export default function Header() {
                 <Image alt="" src={logo} width={50} preview={false} />
               </Link>
             </Flex>
-            <Link to={'/'} className="font-sans text-base">
+            {/* <Link to={'/'} className="font-sans text-base">
               Home
-            </Link>
+            </Link> */}
             {/* <Link
               to={{ pathname: `/${guestUrls.productListUrl}`, search: 'page=1&limit=8' }}
               className="font-sans text-base"
@@ -178,16 +214,25 @@ export default function Header() {
               Products
             </Link> */}
 
-            <CustomSearchDropdown
-              options={options}
-              value={search}
-              onChange={onSearchChange}
-              onSearch={fetchSearchSuggestions}
-              onSelect={onSelect}
-              isLoading={isHintLoading}
-              placeholder="Search for a product"
-              width={250}
-            />
+            <div className="search-container">
+              <CustomSearchDropdown
+                options={options}
+                value={search}
+                onChange={onSearchChange}
+                onSearch={fetchSearchSuggestions}
+                onSelect={onSelect}
+                isLoading={isHintLoading}
+                placeholder="Search for a product"
+                width={250}
+                className="custom-search-with-image"
+              />
+              <ImageSearch
+                onSearch={handleImageSearch}
+                searchResults={imageSearchResults}
+                isSearching={isImageSearching}
+                clearResults={clearImageSearchResults}
+              />
+            </div>
           </Flex>
           {displayingGroup}
         </Flex>

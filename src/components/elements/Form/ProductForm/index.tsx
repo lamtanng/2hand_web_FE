@@ -1,19 +1,20 @@
+import { Button, Flex, Form, InputNumber, Typography } from 'antd';
 import { FormProvider } from 'react-hook-form';
-import { Button, Checkbox, Flex, Form, InputNumber, Typography } from 'antd';
-import CategoryDropdown from './components/CategoryDropdown';
+import { useNavigate } from 'react-router-dom';
+import AIIcon from '../../../../assets/ai-icon.webp';
 import { CategoryProps } from '../../../../types/category.type';
-import { StoreProps } from '../../../../types/store.type';
 import { ProductProps } from '../../../../types/product.type';
-import useProductForm from './useProductForm';
-import CustomFormItem from '../../ControlledComponents/ControlledInput';
-import ConditionRadio from './components/ConditionRadio';
+import { StoreProps } from '../../../../types/store.type';
 import SubmitButton from '../../Buttons/SubmitButton';
+import CustomFormItem from '../../ControlledComponents/ControlledInput';
 import TextEditor from '../../TextEditor';
 import AddressForm from '../AddressForm';
-import { useNavigate } from 'react-router-dom';
-import ImageUploader from './components/ImageUploader';
+import CategoryDropdown from './components/CategoryDropdown';
 import CommunityStandardWarning from './components/CommunityStandardWarning';
+import ConditionRadio from './components/ConditionRadio';
 import DescriptionPreview from './components/DescriptionPreview';
+import ImageUploader from './components/ImageUploader';
+import useProductForm from './useProductForm';
 
 const ProductForm = ({
   category,
@@ -33,7 +34,6 @@ const ProductForm = ({
     selectedCategory,
     setSelectedCategory,
     isFree,
-    onFreeChange,
     setQuantity,
     isSubmitting,
     description,
@@ -50,7 +50,6 @@ const ProductForm = ({
     base64Images,
     setBase64Images,
     handleGenerateDescription,
-    isGeneratable,
     isGenerating,
     generatedDescription,
     isPreviewOpen,
@@ -112,7 +111,7 @@ const ProductForm = ({
               className="h-10 w-full text-base"
             />
           </Form.Item>
-          <Flex vertical className="w-full">
+          <div className="flex w-full flex-col gap-1">
             <CustomFormItem
               name="price"
               hint="Price"
@@ -121,30 +120,31 @@ const ProductForm = ({
               isDisabled={isFree}
               isRequired={true}
             />
-            <Checkbox onChange={onFreeChange} checked={isFree}>
+            {/* <Checkbox onChange={onFreeChange} checked={isFree}>
               Free Product
-            </Checkbox>
-          </Flex>
+            </Checkbox> */}
+          </div>
         </Flex>
         <Form.Item rules={[{ required: true, message: 'Please input.' }]}>
-          <Typography.Paragraph className="m-0 mb-2">
-            Descripition <span className="text-red-600">*</span>
-          </Typography.Paragraph>
-          <TextEditor setValue={setDescription} value={description} />
-        </Form.Item>
-        <Flex justify="end" className="w-full">
-          <Form.Item>
+          <Flex justify="space-between">
+            <Typography.Paragraph className="m-0 mb-2 text-sm">
+              Descripition <span className="text-red-600">*</span>
+            </Typography.Paragraph>
+
             <Button
-              className="h-10 w-full text-base"
-              type="primary"
+              className="h-10 text-base font-bold"
+              type="link"
+              size="small"
+              icon={<img src={AIIcon} alt="AI" className="h-5 w-5" />}
               onClick={() => handleGenerateDescription(true)}
-              disabled={isGeneratable}
+              // disabled={isGeneratable}
               loading={isGenerating}
             >
-              Generate Description
+              Ask AI
             </Button>
-          </Form.Item>
-        </Flex>
+          </Flex>
+          <TextEditor setValue={setDescription} value={description} />
+        </Form.Item>
         <ConditionRadio onChange={setCondition} selected={condition} />
         <Typography.Title level={3} className="m-0 mb-4">
           Picking Information

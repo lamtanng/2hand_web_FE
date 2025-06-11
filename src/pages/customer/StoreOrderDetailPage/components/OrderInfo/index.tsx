@@ -1,10 +1,10 @@
-import { MessageOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Divider, Flex, Typography, Image, Avatar, Rate } from 'antd';
-import defaultPic from '../../../../../assets/blob.webp';
-import { OrderDetailProps } from '../../../../../types/orderDetail.type';
-import { OrderProps } from '../../../../../types/order.type';
-import { formattedCurrency } from '../../../../../utils/formattedCurrency';
+import { UserOutlined } from '@ant-design/icons';
+import { Avatar, Divider, Flex, Image, Rate, Typography } from 'antd';
 import dayjs from 'dayjs';
+import defaultPic from '../../../../../assets/blob.webp';
+import { OrderProps } from '../../../../../types/order.type';
+import { OrderDetailProps } from '../../../../../types/orderDetail.type';
+import { formattedCurrency } from '../../../../../utils/formattedCurrency';
 
 const OrderInfo = ({ order }: { order: OrderProps | undefined }) => {
   return (
@@ -16,9 +16,9 @@ const OrderInfo = ({ order }: { order: OrderProps | undefined }) => {
             <Typography.Title level={5} className="m-0 inline truncate">
               {`${order?.userID.firstName} ${order?.userID.lastName}`}
             </Typography.Title>
-            <Button type="primary" className="px-2 py-1 text-xs">
+            {/* <Button type="primary" className="px-2 py-1 text-xs">
               <MessageOutlined /> Chat
-            </Button>
+            </Button> */}
           </Flex>
         </div>
         <Divider className="mb-0" />
