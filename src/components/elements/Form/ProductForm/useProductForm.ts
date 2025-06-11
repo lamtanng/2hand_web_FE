@@ -1,21 +1,21 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
-import { useEffect, useState } from 'react';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { StoreProps } from '../../../../types/store.type';
-import { ProductProps } from '../../../../types/product.type';
-import { FormProductProps, productSchema } from './ProductForm.constants';
-import { ProductQuality } from '../../../../types/enum/productQuality.enum';
-import { CategoryProps } from '../../../../types/category.type';
-import { ProductRequestBodyProps } from '../../../../types/http/product.type';
+import { openAIAPIs } from '../../../../apis/openai.api';
 import { productAPIs } from '../../../../apis/product.api';
+import { accountUrls } from '../../../../constants/urlPaths/customer/accountUrls';
+import { DistrictAddressProps, ProvincesAddressProps, WardAddressProps } from '../../../../types/address.type';
+import { CategoryProps } from '../../../../types/category.type';
+import { ProductQuality } from '../../../../types/enum/productQuality.enum';
+import { PromptType } from '../../../../types/enum/promptType.enum';
+import { ProductRequestBodyProps } from '../../../../types/http/product.type';
+import { ProductProps } from '../../../../types/product.type';
+import { StoreProps } from '../../../../types/store.type';
 import { displaySuccess } from '../../../../utils/displayToast';
 import { handleError } from '../../../../utils/handleError';
-import { DistrictAddressProps, ProvincesAddressProps, WardAddressProps } from '../../../../types/address.type';
-import { PromptType } from '../../../../types/enum/promptType.enum';
-import { openAIAPIs } from '../../../../apis/openai.api';
-import { accountUrls } from '../../../../constants/urlPaths/customer/accountUrls';
+import { FormProductProps, productSchema } from './ProductForm.constants';
 
 const useProductForm = (store: StoreProps | undefined, currentProduct: ProductProps | undefined) => {
   const navigate = useNavigate();
@@ -70,7 +70,7 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
       setSubmitting(true);
       const res = await productAPIs.addProduct(data);
       displaySuccess('Product is added successfully');
-      navigate(`/${res.data.slug}`);
+      navigate(`/${res.data.data.slug}`);
     } catch (error) {
       handleError(error);
     } finally {
@@ -96,14 +96,25 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
   const handleGenerateDescription = async (showPreview = true) => {
     try {
       setGenerating(true);
+      setPreviewOpen(true);
       const data = method.getValues();
       const images = base64Images.map((item: string) => {
         return { type: 'image_url', image_url: { url: item } };
       });
       const prompt = [
         { type: 'text', text: description },
-        { type: 'text', text: data.name },
+        { type: 'text', text: `Tên sản phẩm: ${data.name}` },
+        {
+          type: 'text',
+          text: `Địa chỉ: ${selectedDistrict?.DistrictName}, ${selectedProvince?.ProvinceName}, ${selectedWard?.WardName}`,
+        },
+        { type: 'text', text: `Giá: ${data.price} VNĐ` },
+        { type: 'text', text: `Cân nặng: ${data.weight} kg` },
+        { type: 'text', text: `Chiều cao: ${data.height} cm` },
+        { type: 'text', text: `Chiều dài: ${data.length} cm` },
+        { type: 'text', text: `Chiều rộng: ${data.width} cm` },
       ];
+      console.log('prompt', data, prompt);
       const content = {
         promptType: PromptType.ProductDescription,
         content: [...prompt, ...images],
@@ -136,6 +147,7 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
   const handleSubmitForm = async (data: FormProductProps) => {
     // Check for potential community standard violations
     try {
+      setSubmitting(true);
       const res = await openAIAPIs.checkCommunityStandards([description, data.name], base64Images);
       console.log(res);
       if (!res.data.status) {
@@ -153,6 +165,8 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
       }
     } catch (error) {
       handleError(error);
+    } finally {
+      setSubmitting(false);
     }
 
     // If no violations, proceed with submission
@@ -304,7 +318,7 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
     setViolatingImages,
     violatingTexts,
     handleBypassWarning,
-    setSubmitting
+    setSubmitting,
   };
 };
 

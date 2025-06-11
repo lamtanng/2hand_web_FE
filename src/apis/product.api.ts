@@ -93,7 +93,7 @@ const getProductByID = (productID: string | undefined) => {
 };
 
 const addProduct = (data: ProductRequestBodyProps) => {
-  return axiosClient.post(productUrl, data);
+  return axiosClient.post<{ status: string; data: { slug: string } }>(productUrl, data);
 };
 
 const updateProduct = (data: ProductRequestBodyProps) => {
