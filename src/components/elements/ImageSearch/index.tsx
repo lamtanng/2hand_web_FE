@@ -37,11 +37,6 @@ const ImageSearch: React.FC<ImageSearchProps> = ({
   const [showResults, setShowResults] = useState(false);
   const pasteAreaRef = useRef<HTMLDivElement>(null);
 
-  console.log('Search results in ImageSearch:', searchResults);
-  console.log('isSearching:', isSearching);
-  console.log('showResults:', showResults);
-
-  // Reset state khi đóng modal
   useEffect(() => {
     if (!isModalOpen) {
       setShowResults(false);
@@ -162,7 +157,7 @@ const ImageSearch: React.FC<ImageSearchProps> = ({
           reader.readAsDataURL(blob);
           reader.onload = () => {
             setImagePreview(reader.result as string);
-            message.success('Đã dán hình ảnh thành công');
+            // message.success('Đã dán hình ảnh thành công');
           };
           return;
         }
