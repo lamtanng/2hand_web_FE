@@ -47,7 +47,7 @@ const ImageSearch: React.FC<ImageSearchProps> = ({
       setShowResults(false);
       if (clearResults) clearResults();
     }
-  }, [isModalOpen, clearResults]);
+  }, [isModalOpen]);
 
   // Hiển thị kết quả khi có searchResults
   useEffect(() => {
