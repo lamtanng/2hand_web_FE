@@ -1,4 +1,3 @@
-import Footer from '../../../components/elements/Footer';
 import Header from '../../../components/elements/Header';
 import { Typography } from 'antd';
 import StoreRegisterForm from './components/StoreRegisterForm';
@@ -15,7 +14,6 @@ const StoreRegister = () => {
           <StoreRegisterForm />
         </div>
       </div>
-      <Footer />
     </>
   );
 };

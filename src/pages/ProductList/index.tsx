@@ -1,5 +1,4 @@
 import { Divider, Flex, Typography } from 'antd';
-// import Footer from '../../components/elements/Footer';
 import Header from '../../components/elements/Header';
 import Search from 'antd/es/transfer/search';
 import Filter from './components/Filter';

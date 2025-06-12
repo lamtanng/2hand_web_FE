@@ -1,5 +1,4 @@
 import { Button, Flex, Typography } from 'antd';
-import Footer from '../../../components/elements/Footer';
 import Header from '../../../components/elements/Header';
 import ProductList from '../../../components/elements/Lists/ProductList';
 import { CheckCircleTwoTone } from '@ant-design/icons';
@@ -42,7 +41,6 @@ const OrderIntermediaryPage = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 };
