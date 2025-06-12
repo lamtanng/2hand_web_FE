@@ -70,7 +70,7 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
       setSubmitting(true);
       const res = await productAPIs.addProduct(data);
       displaySuccess('Product is added successfully');
-      navigate(`/${res.data.slug}`);
+      navigate(`/${res.data.data.slug}`);
     } catch (error) {
       handleError(error);
     } finally {
@@ -136,6 +136,7 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
   const handleSubmitForm = async (data: FormProductProps) => {
     // Check for potential community standard violations
     try {
+      setSubmitting(true);
       const res = await openAIAPIs.checkCommunityStandards([description, data.name], base64Images);
       console.log(res);
       if (!res.data.status) {
@@ -153,7 +154,9 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
       }
     } catch (error) {
       handleError(error);
-    }
+    } finally {
+      setSubmitting(false);
+    }   
 
     // If no violations, proceed with submission
     submitProduct(data);

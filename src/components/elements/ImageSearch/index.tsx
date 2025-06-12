@@ -37,9 +37,9 @@ const ImageSearch: React.FC<ImageSearchProps> = ({
   const [showResults, setShowResults] = useState(false);
   const pasteAreaRef = useRef<HTMLDivElement>(null);
 
-  console.log('Search results in ImageSearch:', searchResults);
-  console.log('isSearching:', isSearching);
-  console.log('showResults:', showResults);
+  // console.log('Search results in ImageSearch:', searchResults);
+  // console.log('isSearching:', isSearching);
+  // console.log('showResults:', showResults);
 
   // Reset state khi đóng modal
   useEffect(() => {

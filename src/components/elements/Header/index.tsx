@@ -37,8 +37,8 @@ export default function Header() {
   const [imageSearchResults, setImageSearchResults] = useState<ProductProps[]>([]);
   const [isImageSearching, setIsImageSearching] = useState(false);
 
-  console.log('Header - imageSearchResults:', imageSearchResults);
-  console.log('Header - isImageSearching:', isImageSearching);
+  // console.log('Header - imageSearchResults:', imageSearchResults);
+  // console.log('Header - isImageSearching:', isImageSearching);
 
   useEffect(() => {
     fetchAllHintByUserId(user?._id);
@@ -170,7 +170,7 @@ export default function Header() {
   };
 
   const clearImageSearchResults = () => {
-    console.log('Clearing image search results');
+    // console.log('Clearing image search results');
     setImageSearchResults([]);
   };
 
