@@ -5,7 +5,7 @@ import {
   EnvironmentOutlined,
   RollbackOutlined,
   SearchOutlined,
-  UploadOutlined
+  UploadOutlined,
 } from '@ant-design/icons';
 import { Button, Card, Divider, Empty, Flex, List, message, Modal, Spin, Typography, Upload } from 'antd';
 import type { UploadFile, UploadProps } from 'antd/es/upload/interface';
@@ -86,7 +86,7 @@ const ImageSearch: React.FC<ImageSearchProps> = ({
 
     setIsLoading(true);
     try {
-      await onSearch(imagePreview); 
+      await onSearch(imagePreview);
     } catch (error) {
       message.error('Có lỗi xảy ra khi tìm kiếm');
       console.error(error);
@@ -162,7 +162,7 @@ const ImageSearch: React.FC<ImageSearchProps> = ({
           reader.readAsDataURL(blob);
           reader.onload = () => {
             setImagePreview(reader.result as string);
-            message.success('Đã dán hình ảnh thành công');
+            // message.success('Đã dán hình ảnh thành công');
           };
           return;
         }

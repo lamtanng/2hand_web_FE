@@ -129,7 +129,6 @@ export default function Header() {
 
   const fetchAllHintByUserId = async (userId?: string) => {
     try {
-      if (!userId) return;
       const res = await findAllHintByUserId(userId);
       const newOptions = mapToOptions(res.data);
       setOptions(newOptions);
