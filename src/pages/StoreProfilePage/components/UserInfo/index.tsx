@@ -1,21 +1,14 @@
-import { CloseOutlined, MessageOutlined, UserOutlined } from '@ant-design/icons';
-import { Avatar, Button, Divider, Flex, Modal, Tabs, TabsProps, Typography } from 'antd';
-import useUserProfileDetail from '../../useUserProfileName';
-import { formattedName } from '../../../../utils/formatName';
-import { useAppSelector } from '../../../../redux/hooks';
-import { loginSelector } from '../../../../redux/slices/login.slice';
+import { CloseOutlined, UserOutlined } from '@ant-design/icons';
+import { Avatar, Button, Flex, Tabs, TabsProps, Typography } from 'antd';
 import { useState } from 'react';
+import { formattedName } from '../../../../utils/formatName';
+import useUserProfileDetail from '../../useUserProfileName';
 import UserList from '../UserList';
 
 const UserInfo = () => {
-  const { user } = useAppSelector(loginSelector);
   const { profile } = useUserProfileDetail();
   const dateString = profile && profile.createdAt && new Date(profile.createdAt).toDateString();
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
 
   const handleClose = () => {
     setIsModalOpen(false);
@@ -52,14 +45,14 @@ const UserInfo = () => {
                 Phone number: {profile?.phoneNumber}
               </Typography.Paragraph>
               <Typography.Paragraph className="m-0 text-base">Joined in: {dateString}</Typography.Paragraph>
-              <Typography.Paragraph className="m-0 text-base text-blue-600" onClick={showModal}>
+              {/* <Typography.Paragraph className="m-0 text-base text-blue-600" onClick={showModal}>
                 Followers: {profile?.followerID?.length}
               </Typography.Paragraph>
               <Typography.Paragraph className="m-0 text-base text-blue-600" onClick={showModal}>
                 Following: {profile?.followingID?.length}
-              </Typography.Paragraph>
+              </Typography.Paragraph> */}
             </div>
-            {user._id === profile?._id ? null : (
+            {/* {user._id === profile?._id ? null : (
               <Flex gap={'large'}>
                 <Button variant="filled" color="primary" className="w-1/2">
                   <MessageOutlined /> Chat now
@@ -68,7 +61,7 @@ const UserInfo = () => {
                   Follow
                 </Button>
               </Flex>
-            )}
+            )} */}
           </Flex>
         </Flex>
       </div>

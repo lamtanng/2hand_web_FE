@@ -6,6 +6,8 @@ type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 const useImageUploader = (
   base64Images: string[],
   setBase64Images: React.Dispatch<React.SetStateAction<string[]>>,
+  violatingImages: number[] = [],
+  setViolatingImages?: React.Dispatch<React.SetStateAction<number[]>>,
   cropOptions = { quality: 0.9, backgroundColor: 'white' },
 ) => {
   const [previewOpen, setPreviewOpen] = useState(false);
@@ -102,7 +104,23 @@ const useImageUploader = (
     setPreviewOpen(true);
   };
 
-  const handleChange: UploadProps['onChange'] = async ({ fileList: newFileList }) => {
+  // Helper function to update violatingImages after removing an image
+  const updateViolatingImagesAfterRemoval = (removedIndex: number, currentViolatingImages: number[]) => {
+    if (!setViolatingImages) return;
+
+    // Create a new array with adjusted indices
+    const updatedViolatingImages = currentViolatingImages
+      .filter((index) => index !== removedIndex) // Remove the index of the deleted image
+      .map((index) => (index > removedIndex ? index - 1 : index)); // Decrement indices for images that come after the removed one
+
+    setViolatingImages(updatedViolatingImages);
+  };
+
+  const handleChange: UploadProps['onChange'] = async ({ fileList: newFileList, file }) => {
+    // Check if this is a file removal operation
+    const isRemoval = file.status === 'removed';
+    const removedIndex = isRemoval ? Number(file.uid.replace('-', '')) : -1;
+
     // Update the file list immediately for UI responsiveness
     setFileList(newFileList);
 
@@ -124,6 +142,12 @@ const useImageUploader = (
       // Filter out empty strings and update base64Images
       const validBase64Images = base64Results.filter(Boolean);
       setBase64Images(validBase64Images);
+
+      // If this was a removal operation, update violatingImages array
+      if (isRemoval && setViolatingImages) {
+        updateViolatingImagesAfterRemoval(removedIndex, violatingImages);
+      }
+
       console.log('Updated Base64 Images:', validBase64Images);
     } catch (error) {
       console.error('Error processing images:', error);

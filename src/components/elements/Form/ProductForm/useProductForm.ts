@@ -1,20 +1,21 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
-import { useEffect, useState } from 'react';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { StoreProps } from '../../../../types/store.type';
-import { ProductProps } from '../../../../types/product.type';
-import { FormProductProps, productSchema } from './ProductForm.constants';
-import { ProductQuality } from '../../../../types/enum/productQuality.enum';
-import { CategoryProps } from '../../../../types/category.type';
-import { ProductRequestBodyProps } from '../../../../types/http/product.type';
+import { openAIAPIs } from '../../../../apis/openai.api';
 import { productAPIs } from '../../../../apis/product.api';
+import { accountUrls } from '../../../../constants/urlPaths/customer/accountUrls';
+import { DistrictAddressProps, ProvincesAddressProps, WardAddressProps } from '../../../../types/address.type';
+import { CategoryProps } from '../../../../types/category.type';
+import { ProductQuality } from '../../../../types/enum/productQuality.enum';
+import { PromptType } from '../../../../types/enum/promptType.enum';
+import { ProductRequestBodyProps } from '../../../../types/http/product.type';
+import { ProductProps } from '../../../../types/product.type';
+import { StoreProps } from '../../../../types/store.type';
 import { displaySuccess } from '../../../../utils/displayToast';
 import { handleError } from '../../../../utils/handleError';
-import { DistrictAddressProps, ProvincesAddressProps, WardAddressProps } from '../../../../types/address.type';
-import { PromptType } from '../../../../types/enum/promptType.enum';
-import { openAIAPIs } from '../../../../apis/openai.api';
+import { FormProductProps, productSchema } from './ProductForm.constants';
 
 const useProductForm = (store: StoreProps | undefined, currentProduct: ProductProps | undefined) => {
   const navigate = useNavigate();
@@ -35,6 +36,9 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
   const [description, setDescription] = useState<string>('');
   const [generatedDescription, setGeneratedDescription] = useState<string>('');
   const [isPreviewOpen, setPreviewOpen] = useState<boolean>(false);
+  const [isWarningOpen, setWarningOpen] = useState<boolean>(false);
+  const [violatingImages, setViolatingImages] = useState<number[]>([]);
+  const [violatingTexts, setViolatingTexts] = useState<string[]>([]);
   const [selectedProvince, setSelectedProvince] = useState<ProvincesAddressProps | null>(null);
   const [selectedDistrict, setSelectedDistrict] = useState<DistrictAddressProps | null>(null);
   const [selectedWard, setSelectedWard] = useState<WardAddressProps | null>(null);
@@ -66,7 +70,7 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
       setSubmitting(true);
       const res = await productAPIs.addProduct(data);
       displaySuccess('Product is added successfully');
-      navigate(`/${res.data.slug}`);
+      navigate(`/${res.data.data.slug}`);
     } catch (error) {
       handleError(error);
     } finally {
@@ -89,20 +93,39 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
 
   const isGeneratable = !description && base64Images.length === 0 ? true : false;
 
-  const handleGenerateDescription = async () => {
+  const handleGenerateDescription = async (showPreview = true) => {
     try {
       setGenerating(true);
+      setPreviewOpen(true);
+      const data = method.getValues();
       const images = base64Images.map((item: string) => {
         return { type: 'image_url', image_url: { url: item } };
       });
-      const prompt = { type: 'text', text: description };
+      const prompt = [
+        { type: 'text', text: description },
+        { type: 'text', text: `Tên sản phẩm: ${data.name}` },
+        {
+          type: 'text',
+          text: `Địa chỉ: ${selectedDistrict?.DistrictName}, ${selectedProvince?.ProvinceName}, ${selectedWard?.WardName}`,
+        },
+        { type: 'text', text: `Giá: ${data.price} VNĐ` },
+        { type: 'text', text: `Cân nặng: ${data.weight} kg` },
+        { type: 'text', text: `Chiều cao: ${data.height} cm` },
+        { type: 'text', text: `Chiều dài: ${data.length} cm` },
+        { type: 'text', text: `Chiều rộng: ${data.width} cm` },
+      ];
+      console.log('prompt', data, prompt);
       const content = {
         promptType: PromptType.ProductDescription,
-        content: [prompt, ...images],
+        content: [...prompt, ...images],
       };
       const res = await openAIAPIs.integrateAI(content);
-      setGeneratedDescription(res.data[0]);
-      setPreviewOpen(true);
+      setGeneratedDescription(res.data);
+
+      // Only open the preview modal if showPreview is true
+      if (showPreview) {
+        setPreviewOpen(true);
+      }
     } catch (error) {
       handleError(error);
     } finally {
@@ -121,107 +144,98 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
     setGeneratedDescription('');
   };
 
-  const handleSubmitForm = async (product: FormProductProps) => {
-    const storeID = store && store._id && store._id;
-        const newProduct: ProductRequestBodyProps = {
-          name: product.name?.trim(),
-          description: description.trim(),
-          image: base64Images,
-          price: product.price,
-          quantity: quantity,
-          quality: condition,
-          cateID: selectedCategory?._id,
-          storeID: storeID,
-          weight: product.weight,
-          height: product.height,
-          length: product.length,
-          width: product.width,
-          address: {
-            address: product.detailAddress,
-            district: {
-              DistrictID: selectedDistrict?.DistrictID,
-              ProvinceID: selectedDistrict?.ProvinceID,
-              DistrictName: selectedDistrict?.DistrictName?.trim(),
-            },
-            province: {
-              ProvinceID: selectedProvince?.ProvinceID,
-              ProvinceName: selectedProvince?.ProvinceName?.trim(),
-            },
-            ward: {
-              WardCode: selectedWard?.WardCode,
-              DistrictID: selectedWard?.DistrictID,
-              WardName: selectedWard?.WardName?.trim(),
-            },
-            isDefault: isSelectedDefault,
-          },
-        };
+  const handleSubmitForm = async (data: FormProductProps) => {
+    // Check for potential community standard violations
+    try {
+      setSubmitting(true);
+      const res = await openAIAPIs.checkCommunityStandards([description, data.name], base64Images);
+      console.log(res);
+      if (!res.data.status) {
+        setViolatingImages(res.data.images);
+        setViolatingTexts(res.data.text);
 
-        const updateProduct: ProductRequestBodyProps = {
-          _id: currentProduct?._id,
-          ...newProduct,
-        };
-        if (currentProduct) {
-          handleUpdateProduct(updateProduct);
-        } else {
-          handleAddProduct(newProduct);
+        // Auto-generate a new description if text violations are detected
+        // Pass false to prevent opening the preview modal
+        if (res.data.text && res.data.text.length > 0) {
+          handleGenerateDescription(false);
         }
-    // try {
-    //   const prompt = { type: 'text', text: description };
-    //   const content = {
-    //     promptType: PromptType.CheckCommunityViolation,
-    //     content: [prompt],
-    //   };
-    //   const res = await productAPIs.integrateAI(content);
-    //   if (res.data[0].content === 'true') {
-    //     throw Error('Your description violates social standards');
-    //   } else {
-    //     const storeID = store && store._id && store._id;
-    //     const newProduct: ProductRequestBodyProps = {
-    //       name: product.name?.trim(),
-    //       description: description.trim(),
-    //       image: base64Images,
-    //       price: product.price,
-    //       quantity: quantity,
-    //       quality: condition,
-    //       cateID: selectedCategory?._id,
-    //       storeID: storeID,
-    //       weight: product.weight,
-    //       height: product.height,
-    //       length: product.length,
-    //       width: product.width,
-    //       address: {
-    //         address: product.detailAddress,
-    //         district: {
-    //           DistrictID: selectedDistrict?.DistrictID,
-    //           ProvinceID: selectedDistrict?.ProvinceID,
-    //           DistrictName: selectedDistrict?.DistrictName?.trim(),
-    //         },
-    //         province: {
-    //           ProvinceID: selectedProvince?.ProvinceID,
-    //           ProvinceName: selectedProvince?.ProvinceName?.trim(),
-    //         },
-    //         ward: {
-    //           WardCode: selectedWard?.WardCode,
-    //           DistrictID: selectedWard?.DistrictID,
-    //           WardName: selectedWard?.WardName?.trim(),
-    //         },
-    //         isDefault: isSelectedDefault,
-    //       },
-    //     };
 
-    //     const updateProduct: ProductRequestBodyProps = {
-    //       _id: currentProduct?._id,
-    //       ...newProduct,
-    //     };
-    //     if (currentProduct) {
-    //       handleUpdateProduct(updateProduct);
-    //     } else {
-    //       handleAddProduct(newProduct);
-    //     }
-    //   }
-    // } catch (error) {
-    //   handleError(error);
-    // }
+        setWarningOpen(true);
+        return;
+      }
+    } catch (error) {
+      handleError(error);
+    } finally {
+      setSubmitting(false);
+    }   
+
+    // If no violations, proceed with submission
+    submitProduct(data);
+  };
+
+  // Submit the product regardless of violations
+  const handleBypassWarning = () => {
+    const data = method.getValues();
+    submitProduct(data, false);
+    setWarningOpen(false);
+    navigate(`/${accountUrls.accountUrl}/${accountUrls.productsUrl}`);
+  };
+
+  // Common submission logic for both normal and bypass paths
+  const submitProduct = (data: FormProductProps, isApproved: boolean = true) => {
+    const storeID = store && store._id && store._id;
+    const newProduct: ProductRequestBodyProps = {
+      name: data.name?.trim(),
+      description: description.trim(),
+      image: base64Images,
+      price: data.price,
+      quantity: quantity,
+      quality: condition,
+      cateID: selectedCategory?._id,
+      storeID: storeID,
+      weight: data.weight,
+      height: data.height,
+      length: data.length,
+      width: data.width,
+      address: {
+        address: data.detailAddress,
+        district: {
+          DistrictID: selectedDistrict?.DistrictID,
+          ProvinceID: selectedDistrict?.ProvinceID,
+          DistrictName: selectedDistrict?.DistrictName?.trim(),
+        },
+        province: {
+          ProvinceID: selectedProvince?.ProvinceID,
+          ProvinceName: selectedProvince?.ProvinceName?.trim(),
+        },
+        ward: {
+          WardCode: selectedWard?.WardCode,
+          DistrictID: selectedWard?.DistrictID,
+          WardName: selectedWard?.WardName?.trim(),
+        },
+        isDefault: isSelectedDefault,
+      },
+      isApproved: isApproved,
+    };
+
+    const updateProduct: ProductRequestBodyProps = {
+      _id: currentProduct?._id,
+      ...newProduct,
+    };
+    if (currentProduct) {
+      handleUpdateProduct(updateProduct);
+    } else {
+      handleAddProduct(newProduct);
+    }
+  };
+
+  // Handle editing after warning
+  const handleEditAfterWarning = () => {
+    setWarningOpen(false);
+    setDescription(generatedDescription);
+    setSubmitting(false);
+    // Scroll to top or to the specific field with violation
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   useEffect(() => {
@@ -297,6 +311,14 @@ const useProductForm = (store: StoreProps | undefined, currentProduct: ProductPr
     isGenerating,
     handleAcceptGenerated,
     handleRejectGenerated,
+    isWarningOpen,
+    setWarningOpen,
+    handleEditAfterWarning,
+    violatingImages,
+    setViolatingImages,
+    violatingTexts,
+    handleBypassWarning,
+    setSubmitting,
   };
 };
 

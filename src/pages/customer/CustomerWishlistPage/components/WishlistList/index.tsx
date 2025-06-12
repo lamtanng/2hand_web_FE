@@ -7,7 +7,7 @@ const WishlistList = () => {
   return (
     <div id="wishlist-list" className="mb-6">
       {profile?.wishlist?.length !== 0 ? (
-        profile?.wishlist?.map((item: any) => (
+        profile?.wishlist?.map(() => (
           <div id="wishlist-item">
             <Divider />
             <WishlistItem />

@@ -1,9 +1,8 @@
-import { Divider, Flex } from 'antd';
+import { Flex } from 'antd';
 import {
   CancelButton,
   ConfirmReceivedButton,
-  RebuyButton,
-  ReturnButton,
+  RebuyButton
 } from '../../../../../components/elements/Buttons/CustomerOrderButtons';
 
 export const ConfirmActions = ({openCancelModal}: {openCancelModal: () => void}) => {
@@ -22,19 +21,19 @@ export const DeliveryActions = ({receiveOrder}: {receiveOrder: () => void}) => {
       <Flex className="px-12 py-5" justify="end">
         <ConfirmReceivedButton onClick={receiveOrder} />
       </Flex>
-      <Divider variant="dashed" className="m-0" />
+      {/* <Divider variant="dashed" className="m-0" />
       <Flex className="px-12 py-5" justify="end">
         <ReturnButton onClick={() => {}} />
-      </Flex>
+      </Flex> */}
     </div>
   );
 };
 
-export const RebuyActions = () => {
+export const RebuyActions = ({ rebuyProduct }: { rebuyProduct: () => void }) => {
   return (
     <div className="bg-blue-50">
       <Flex className="px-12 py-5" justify="end">
-        <RebuyButton onClick={() => {}} />
+      <RebuyButton onClick={rebuyProduct} />
       </Flex>
     </div>
   );

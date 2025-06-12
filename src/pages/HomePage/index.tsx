@@ -1,19 +1,17 @@
 import { Divider, Flex, Typography } from 'antd';
-import Footer from '../../components/elements/Footer';
+import ProductCard from '../../components/elements/Cards/ProductCard';
 import Header from '../../components/elements/Header';
-// import { useAppSelector } from '../../redux/hooks';
-// import { loginSelector } from '../../redux/slices/login.slice';
+import ProductSlider from '../../components/elements/Slider/ProductSlider';
+import PageSpin from '../../components/elements/Spin/PageSpin';
+import { ProductProps } from '../../types/product.type';
 import CustomCarousel from './components/Carousel';
 import CategorySlider from './components/CategorySlider';
-import ProductSlider from '../../components/elements/Slider/ProductSlider';
-import ProductList from '../../components/elements/Lists/ProductList';
-import SystemInfo from './components/SystemInfo';
 import Collection from './components/Collection';
+import SystemInfo from './components/SystemInfo';
 import useHomePage from './useHomePage';
-import PageSpin from '../../components/elements/Spin/PageSpin';
 
 const HomePage = () => {
-  const { freeProduct, isLoading, newestProduct } = useHomePage();
+  const { freeProduct, isLoading, newestProduct, recommendedProduct } = useHomePage();
 
   return (
     <>
@@ -40,12 +38,20 @@ const HomePage = () => {
                 <Typography.Title level={2}>Free Products</Typography.Title>
                 <ProductSlider product={freeProduct} isLoading={isLoading} />
               </div>
-              <div>
-                <Typography.Title level={2}>Recommended Products</Typography.Title>
-                <ProductList />
-              </div>
+              {recommendedProduct?.length > 0 && (
+                <div>
+                  <Typography.Title level={2}>Recommended Products</Typography.Title>
+                  <div className="mt-10 grid grid-cols-2 md:grid-cols-3 md:gap-x-0 md:gap-y-6 xl:grid-cols-5">
+                    {recommendedProduct?.map((item: ProductProps) => (
+                      <div key={item._id}>
+                        <ProductCard product={item} isLoading={isLoading} />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
               <Divider />
-              <div className='pb-20'>
+              <div className="pb-20">
                 <Typography.Title level={2}>About Us</Typography.Title>
                 <SystemInfo />
               </div>
@@ -53,7 +59,6 @@ const HomePage = () => {
           </Flex>
         )}
       </div>
-      <Footer />
     </>
   );
 };

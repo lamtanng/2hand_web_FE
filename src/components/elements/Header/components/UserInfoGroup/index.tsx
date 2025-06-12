@@ -1,16 +1,16 @@
-import { BellOutlined, ShoppingCartOutlined, UserOutlined } from '@ant-design/icons';
-import { Avatar, Button, Divider, Dropdown, Flex, MenuProps, Typography } from 'antd';
-import { UserProps } from '../../../../../types/user.type';
-import useUserInfo from './useUserInfo';
+import { ShoppingCartOutlined, UserOutlined } from '@ant-design/icons';
+import { Avatar, Button, Divider, Dropdown, Flex, MenuProps, Typography, Badge } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
-import { customerUrls } from '../../../../../constants/urlPaths/customer/customerUrls';
-import { accountUrls } from '../../../../../constants/urlPaths/customer/accountUrls';
-import { useAppDispatch } from '../../../../../redux/hooks';
 import { authAPIs } from '../../../../../apis/auth.api';
+import { accountUrls } from '../../../../../constants/urlPaths/customer/accountUrls';
+import { customerUrls } from '../../../../../constants/urlPaths/customer/customerUrls';
+import { useAppDispatch } from '../../../../../redux/hooks';
 import { deleteAuth } from '../../../../../redux/slices/login.slice';
-import { handleError } from '../../../../../utils/handleError';
+import { UserProps } from '../../../../../types/user.type';
 import { formattedName } from '../../../../../utils/formatName';
-import { authUrls } from '../../../../../constants/urlPaths/authUrls';
+import { handleError } from '../../../../../utils/handleError';
+import NotificationBell from '../../../Notification';
+import useUserInfo from './useUserInfo';
 
 const UserInfoGroup = ({ user }: { user: UserProps }) => {
   const { itemAmount, profile } = useUserInfo(user);
@@ -24,6 +24,7 @@ const UserInfoGroup = ({ user }: { user: UserProps }) => {
   const handleLogOut = async () => {
     try {
       await authAPIs.logout();
+      localStorage.removeItem('accessToken');
       dispatch(deleteAuth());
       navigate(`/`);
     } catch (error) {
@@ -48,7 +49,7 @@ const UserInfoGroup = ({ user }: { user: UserProps }) => {
     {
       key: '4',
       label: (
-        <Typography.Paragraph className='m-0 p-0' onClick={handleLogOut}>
+        <Typography.Paragraph className="m-0 p-0" onClick={handleLogOut}>
           Logout
         </Typography.Paragraph>
       ),
@@ -61,23 +62,21 @@ const UserInfoGroup = ({ user }: { user: UserProps }) => {
         <Link to={`/user/${profile?.slug}`}>
           <Flex gap={'small'} align="center">
             <Avatar size="large" src={profile?.avatar} icon={<UserOutlined />} />
-            <p className="m-0 hidden font-sans xl:inline">
-              {formattedName(profile)}
-            </p>
+            <p className="m-0 hidden font-sans xl:inline">{formattedName(profile)}</p>
           </Flex>
         </Link>
       </Dropdown>
       <Divider type="vertical" className="m-0" />
       <Link to={`/${customerUrls.cartUrl}`}>
-        <div className="relative h-fit">
-          <ShoppingCartOutlined className="m-0 text-lg" />
-          <p className="absolute -right-2 -top-2 m-0 rounded-full bg-blue-500 px-1 text-xs text-white">{itemAmount}</p>
-        </div>
+        <Badge count={itemAmount} offset={[-5, 5]}>
+          <Button
+            type="text"
+            icon={<ShoppingCartOutlined className="text-xl" />}
+            className="flex h-12 w-12 items-center justify-center text-blue-600 hover:bg-gray-100"
+          />
+        </Badge>
       </Link>
-      <div className="relative h-fit">
-        <BellOutlined className="m-0 text-lg text-blue-600" />
-        <p className="absolute -right-2 -top-2 m-0 rounded-full bg-blue-500 px-1 text-xs text-white">0</p>
-      </div>
+      <NotificationBell />
       <Link to={actionLink}>
         <Button type="primary" className="hidden px-10 text-base md:inline">
           Sell a product

@@ -5,7 +5,7 @@ import { SignupRequestProps } from '../types/http/signup.type';
 import { RefreshTokenResponseProps } from '../types/http/token.type';
 import { VerifyRequestProps } from '../types/http/verifyOTP.type';
 import { axiosClient } from './axios';
-import { baseURL, headers, timeout, withCredentials } from './axios.constants';
+import { baseURL, headers, withCredentials } from './axios.constants';
 
 const getAuthUrl = (url: string) => `${authPaths.authPath}/${url}`;
 const loginUrl = getAuthUrl(authPaths.loginPath);
@@ -20,7 +20,7 @@ function login(data: LoginRequestProps) {
 }
 
 function refreshToken() {
-  return axiosClient.put<RefreshTokenResponseProps>(refreshTokenUrl, { baseURL, timeout, headers, withCredentials });
+  return axiosClient.put<RefreshTokenResponseProps>(refreshTokenUrl, { baseURL, headers, withCredentials });
 }
 
 function logout() {

@@ -38,6 +38,8 @@ const useUserProfileDetail = () => {
       null,
       null,
       storeIDGroup,
+      undefined,
+      undefined,
     );
     setStoreProduct(res?.data?.response?.data);
   };

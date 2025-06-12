@@ -1,13 +1,13 @@
-import { FlagOutlined, HeartOutlined, ShareAltOutlined } from '@ant-design/icons';
+import { HeartOutlined } from '@ant-design/icons';
 import { Button, Divider, Flex, Image, InputNumber, Typography } from 'antd';
-import defaultPic from '../../../../assets/blob.webp';
-import ImageSlider from '../ImageSlider';
-import { Link } from 'react-router-dom';
-import { ProductProps } from '../../../../types/product.type';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import defaultPic from '../../../../assets/blob.webp';
 import { useAppSelector } from '../../../../redux/hooks';
 import { loginSelector } from '../../../../redux/slices/login.slice';
+import { ProductProps } from '../../../../types/product.type';
 import { formattedCurrency } from '../../../../utils/formattedCurrency';
+import ImageSlider from '../ImageSlider';
 
 const ProductInfo = ({
   product,
@@ -42,7 +42,7 @@ const ProductInfo = ({
               <div>
                 You have similar products? <Link to={'#'}>Sell now</Link>
               </div>
-              <Flex gap={'small'}>
+              {/* <Flex gap={'small'}>
                 <Button type="text" className="p-0 text-xs text-gray-500 hover:bg-transparent">
                   <FlagOutlined /> Report
                 </Button>
@@ -52,7 +52,7 @@ const ProductInfo = ({
                 <Button type="text" className="p-0 text-xs text-gray-500 hover:bg-transparent">
                   <HeartOutlined /> Like
                 </Button>
-              </Flex>
+              </Flex> */}
             </Flex>
           </Flex>
         </div>

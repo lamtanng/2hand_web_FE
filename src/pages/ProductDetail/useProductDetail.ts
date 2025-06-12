@@ -38,6 +38,8 @@ const useProductDetail = () => {
       null,
       null,
       storeIDGroup,
+      true,
+      undefined,
     );
     setStoreProduct(res?.data?.response?.data);
   };

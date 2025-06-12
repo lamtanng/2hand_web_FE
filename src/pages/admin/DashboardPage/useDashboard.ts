@@ -12,6 +12,7 @@ interface StatisticsProps {
 const useDashboard = () => {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [statistics, setStatistics] = useState<StatisticsProps>();
+
   const getStatistics = async () => {
     try {
       setLoading(true);
@@ -27,9 +28,11 @@ const useDashboard = () => {
   useEffect(() => {
     getStatistics();
   }, []);
+
   return {
     isLoading,
     statistics,
   };
 };
+
 export default useDashboard;

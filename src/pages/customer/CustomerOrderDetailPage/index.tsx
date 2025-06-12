@@ -26,6 +26,7 @@ const CustomerOrderDetail = () => {
     cancelOrder,
     stages,
     isLoading,
+    rebuyProduct
   } = useCustomerOrderDetailPage();
   const navigate = useNavigate();
 
@@ -65,10 +66,10 @@ const CustomerOrderDetail = () => {
       actionGroup = <DeliveryActions receiveOrder={receiveOrder} />;
       break;
     case OrderStage.Delivered:
-      actionGroup = <RebuyActions />;
+      actionGroup = <RebuyActions rebuyProduct={rebuyProduct} />;
       break;
     case OrderStage.Cancelled:
-      actionGroup = <RebuyActions />;
+      actionGroup = <RebuyActions rebuyProduct={rebuyProduct} />;
       break;
     default:
       actionGroup = null;

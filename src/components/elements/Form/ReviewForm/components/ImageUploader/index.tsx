@@ -1,5 +1,5 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Upload, Image} from 'antd';
+import { Upload, Image } from 'antd';
 import ImgCrop from 'antd-img-crop';
 import useImageUploader from './useImageUploader';
 

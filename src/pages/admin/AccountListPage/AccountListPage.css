@@ -1,0 +1,118 @@
+/* Account List Page Styles */
+
+.account-list-page .ant-table-wrapper .ant-table {
+  border-radius: 8px;
+}
+
+.account-list-page .ant-table-wrapper .ant-table-thead > tr > th {
+  background-color: #f9fafb;
+  color: #4b5563;
+  font-weight: 600;
+}
+
+.account-list-page .ant-table-wrapper .ant-table-tbody > tr:hover > td {
+  background-color: #f0f9ff;
+}
+
+.account-list-page .ant-table-wrapper .ant-table-row-selected > td {
+  background-color: #e0f2fe !important;
+}
+
+.account-list-page .ant-table-wrapper .ant-table-cell {
+  padding: 16px;
+}
+
+.account-list-page .ant-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e5e7eb;
+  color: #6b7280;
+  transition: all 0.3s ease;
+}
+
+.account-list-page .ant-avatar:hover {
+  transform: scale(1.05);
+}
+
+.account-list-page .ant-tag {
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.account-list-page .ant-input-search .ant-input-wrapper {
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.account-list-page .ant-card {
+  transition: all 0.3s ease;
+}
+
+.account-list-page .ant-card:hover {
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.account-list-page .ant-table-pagination {
+  margin: 16px 0;
+}
+
+.account-list-page .ant-table-wrapper .ant-table-thead > tr > th::before {
+  display: none !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .account-list-page .ant-card-body {
+    padding: 16px;
+  }
+
+  .account-list-page .ant-table-wrapper .ant-table-cell {
+    padding: 12px 8px;
+  }
+}
+
+/* Animation for row hover */
+.account-list-page .ant-table-tbody > tr {
+  transition: transform 0.2s ease;
+}
+
+.account-list-page .ant-table-tbody > tr:hover {
+  transform: translateY(-2px);
+}
+
+/* Status tag styles */
+.account-list-page .ant-tag-success {
+  background-color: #d1fae5;
+  color: #065f46;
+  border-color: #10b981;
+}
+
+.account-list-page .ant-tag-error {
+  background-color: #fee2e2;
+  color: #991b1b;
+  border-color: #ef4444;
+}
+
+/* Custom scrollbar */
+.account-list-page .ant-table-body::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.account-list-page .ant-table-body::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.account-list-page .ant-table-body::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 4px;
+}
+
+.account-list-page .ant-table-body::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}

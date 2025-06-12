@@ -1,0 +1,70 @@
+.custom-dropdown-overlay .ant-menu {
+  max-height: 256px;
+  overflow-y: auto;
+  border-radius: 2px;
+  box-shadow:
+    0 3px 6px -4px rgba(0, 0, 0, 0.12),
+    0 6px 16px 0 rgba(0, 0, 0, 0.08),
+    0 9px 28px 8px rgba(0, 0, 0, 0.05);
+}
+
+.custom-dropdown-overlay .ant-menu-item {
+  padding: 5px 12px;
+  cursor: pointer;
+  min-height: 32px;
+  line-height: 22px;
+  display: flex;
+  align-items: center;
+  clear: both;
+}
+
+.custom-dropdown-overlay .ant-menu-item:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.custom-dropdown-overlay .ant-menu-item-active {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.search-item-loading {
+  display: flex;
+  justify-content: center;
+  padding: 12px;
+}
+
+/* Thiết lập UI giống AutoComplete */
+.custom-search-dropdown .ant-input-affix-wrapper {
+  border-radius: 2px;
+}
+
+.custom-search-dropdown .ant-input-affix-wrapper:hover {
+  border-color: #40a9ff;
+}
+
+.custom-search-dropdown .ant-input-affix-wrapper-focused {
+  border-color: #1890ff;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+/* Fix cho Menu */
+.ant-dropdown-menu {
+  padding: 4px 0;
+}
+
+.ant-dropdown {
+  box-shadow:
+    0 3px 6px -4px rgba(0, 0, 0, 0.12),
+    0 6px 16px 0 rgba(0, 0, 0, 0.08),
+    0 9px 28px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Styling cho active menu item */
+.ant-dropdown-menu-item-active,
+.ant-dropdown-menu-item:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+/* Styling cho options trong dropdown */
+.ant-dropdown-menu-item {
+  transition: all 0.3s;
+}

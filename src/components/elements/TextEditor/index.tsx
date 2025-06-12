@@ -1,5 +1,7 @@
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import './TextEditor.css';
+
 const TextEditor = ({
   value,
   setValue,
@@ -35,7 +37,7 @@ const TextEditor = ({
   ];
 
   return (
-    <div>
+    <div className="custom-editor">
       <ReactQuill theme="snow" value={value} onChange={setValue} modules={modules} formats={formats} />
     </div>
   );

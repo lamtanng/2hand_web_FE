@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from 'axios';
 import { productPaths } from '../constants/apiPaths/productPaths';
 import { ProductRequestBodyProps } from '../types/http/product.type';
 import { axiosClient } from './axios';
 import { headers, withCredentials } from './axios.constants';
 import { AI_CONFIG } from '../config/environment';
+import { PaginationResponseProps } from '../types/http/pagination';
+import { ProductProps } from '../types/product.type';
 
 const baseURL = AI_CONFIG.baseURL;
 const API_KEY = AI_CONFIG.API_KEY;
@@ -14,6 +17,8 @@ const getProductUrl = (url: string) => `${productPaths.productPath}/${url}`;
 const productUrl = getProductUrl('');
 const productBySlugUrl = getProductUrl(productPaths.slugPath);
 const productByIDUrl = getProductUrl(productPaths.idPath);
+const productByEmbeddingUrl = getProductUrl(productPaths.embeddingPath);
+const productHistoryUrl = getProductUrl('get-history-products');
 
 const getAllProduct = (
   page: number,
@@ -24,8 +29,10 @@ const getAllProduct = (
   price: string | null,
   cateID: string | null,
   storeID: string | undefined,
+  isApproved: boolean | undefined,
+  isSoldOut: boolean | undefined,
 ) => {
-  return axiosClient.get(productUrl, {
+  return axiosClient.get<{ response: PaginationResponseProps<ProductProps> }>(productUrl, {
     params: {
       page: page,
       limit: limit,
@@ -35,7 +42,43 @@ const getAllProduct = (
       price: price,
       cateID: cateID,
       storeID: storeID,
+      isApproved: isApproved,
+      isSoldOut: isSoldOut,
     },
+  });
+};
+
+const getAllProductByEmbedding = (
+  page: number,
+  limit: number,
+  search: string | null,
+  sort: string | null,
+  quality: string | null,
+  price: string | null,
+  cateID: string | null,
+  storeID: string | undefined,
+  isApproved: boolean | undefined,
+  isSoldOut: boolean | undefined,
+) => {
+  return axiosClient.get<{ response: PaginationResponseProps<ProductProps> }>(productByEmbeddingUrl, {
+    params: {
+      page: page,
+      limit: limit,
+      search: search,
+      sort: sort,
+      quality: quality,
+      price: price,
+      cateID: cateID,
+      storeID: storeID,
+      isApproved: isApproved,
+      isSoldOut: isSoldOut,
+    },
+  });
+};
+
+const getProductHistory = (userId?: string) => {
+  return axiosClient.get<ProductProps[]>(productHistoryUrl, {
+    params: { userId },
   });
 };
 
@@ -50,7 +93,7 @@ const getProductByID = (productID: string | undefined) => {
 };
 
 const addProduct = (data: ProductRequestBodyProps) => {
-  return axiosClient.post(productUrl, data);
+  return axiosClient.post<{ status: string; data: { slug: string } }>(productUrl, data);
 };
 
 const updateProduct = (data: ProductRequestBodyProps) => {
@@ -67,7 +110,17 @@ const integrateAI = (content: any) => {
     headers: {
       Authorization: API_KEY,
     },
-    withCredentials: false
+    withCredentials: false,
+  });
+};
+
+const approveProduct = (data: Array<{ _id: string; isApproved: boolean }>) => {
+  return axiosClient.post(getProductUrl('update-products-approval'), { products: data });
+};
+
+const getProductByImage = (imageBase64: string) => {
+  return axiosClient.post<ProductProps[]>(getProductUrl('get-product-by-image'), {
+    imageBase64,
   });
 };
 
@@ -79,4 +132,8 @@ export const productAPIs = {
   getProductByID,
   updateProduct,
   integrateAI,
+  approveProduct,
+  getAllProductByEmbedding,
+  getProductHistory,
+  getProductByImage,
 };

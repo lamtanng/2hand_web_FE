@@ -7,12 +7,12 @@ import { decodeToken } from '../../utils/jwt';
 
 export interface LoginSliceProps {
   token: TokenProps;
-  user: UserProps;
+  user: UserProps & { storeId?: string };
 }
 
 const initialState: LoginSliceProps = {
   token: {} as TokenProps,
-  user: {} as UserProps,
+  user: {} as UserProps & { storeId?: string },
 };
 
 const loginSlice = createSlice({
@@ -23,7 +23,7 @@ const loginSlice = createSlice({
       const user = decodeToken(action.payload?.data?.accessToken);
       state.token = action.payload.data;
       state.user = user;
-      localStorage.setItem('accessToken', action.payload?.data?.accessToken)
+      localStorage.setItem('accessToken', action.payload?.data?.accessToken);
     },
     deleteAuth: (state) => {
       state.token = initialState.token;

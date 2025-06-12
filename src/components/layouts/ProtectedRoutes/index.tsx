@@ -15,6 +15,8 @@ export const ProtectedRoutes = () => {
     const verifyRefreshToken = async () => {
       try {
         const res = await authAPIs.refreshToken();
+
+        console.log('res add storeAuth>>>>', res);
         dispatch(storeAuth(res));
       } catch (error) {
         handleError(error);
@@ -22,8 +24,9 @@ export const ProtectedRoutes = () => {
         setIsLoading(false);
       }
     };
+
     !token?.accessToken ? verifyRefreshToken() : setIsLoading(false);
   }, []);
 
-  return <>{isLoading ? <PageSpin/> : <Outlet />}</>;
+  return <>{isLoading ? <PageSpin /> : <Outlet />}</>;
 };

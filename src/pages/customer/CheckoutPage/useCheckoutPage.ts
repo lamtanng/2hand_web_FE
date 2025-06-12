@@ -314,7 +314,7 @@ const useCheckoutPage = (checkoutItems: CartProps[], total: number) => {
 
   useEffect(() => {
     if (profile) {
-      if (!profile?.firstName && !profile.lastName && profile.address?.length === 0) {
+      if (!profile?.firstName || !profile.lastName || profile.address?.length === 0) {
         showConfirm();
       }
     }

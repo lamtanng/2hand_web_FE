@@ -9,13 +9,13 @@ const CustomCategoryMenu = () => {
   const { category } = useCategoryMenu();
   const navigate = useNavigate();
 
-  const topLevel = category.filter((cate: CategoryProps) => !cate.parentID);
+  const topLevel = category?.filter((cate: CategoryProps) => !cate.parentID);
   const getChildCate = (parentID: string) => {
     const childCate = category.filter((cate: CategoryProps) => cate.parentID?._id === parentID);
     return childCate.length !== 0 ? childCate : null;
   };
 
-  const items: MenuProps['items'] = topLevel.map((cate: CategoryProps) => ({
+  const items: MenuProps['items'] = topLevel?.map((cate: CategoryProps) => ({
     key: cate._id,
     label: cate.name,
     children: getChildCate(cate._id)?.map((cate: CategoryProps) => ({

@@ -1,6 +1,5 @@
 import { Typography } from 'antd';
 // import CustomBreadcrumb from '../../components/elements/Breadcrumb';
-import Footer from '../../components/elements/Footer';
 import Header from '../../components/elements/Header';
 import ProductSlider from '../../components/elements/Slider/ProductSlider';
 import ProductList from '../../components/elements/Lists/ProductList';
@@ -13,10 +12,19 @@ import PageSpin from '../../components/elements/Spin/PageSpin';
 import ReviewSection from './components/ReviewSection';
 
 const ProductDetail = () => {
-  const { product, isLoading, storeProduct, handleAddToCart, setQuantity, isDirty, handleBuyNow, reviews, productQuantity } =
-    useProductDetail();
+  const {
+    product,
+    isLoading,
+    storeProduct,
+    handleAddToCart,
+    setQuantity,
+    isDirty,
+    handleBuyNow,
+    reviews,
+    productQuantity,
+  } = useProductDetail();
 
-    console.log(productQuantity)
+  console.log(productQuantity);
 
   return (
     <>
@@ -60,7 +68,6 @@ const ProductDetail = () => {
           </div>
         </div>
       )}
-      <Footer />
     </>
   );
 };

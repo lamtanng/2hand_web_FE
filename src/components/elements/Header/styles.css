@@ -1,0 +1,20 @@
+.search-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.custom-search-with-image {
+  margin-right: 8px;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .search-container {
+    width: 100%;
+  }
+
+  .custom-search-with-image {
+    width: calc(100% - 40px) !important;
+  }
+}

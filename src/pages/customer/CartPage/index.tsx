@@ -4,7 +4,6 @@ import Summary from './components/Summary';
 import useCart from './useCartPage';
 import Header from '../../../components/elements/Header';
 import ProductList from '../../../components/elements/Lists/ProductList';
-import Footer from '../../../components/elements/Footer';
 import { CartItemProps, CartProps } from '../../../types/cart.type';
 import SoldoutProduct from './components/SoldoutProducts';
 import EmptyCart from './components/EmptyCart';
@@ -102,7 +101,6 @@ const CartPage = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 };

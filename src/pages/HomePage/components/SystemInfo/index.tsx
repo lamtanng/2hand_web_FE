@@ -4,43 +4,10 @@ const SystemInfo = () => {
   return (
     <>
       <Typography.Paragraph>
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptas aspernatur voluptatibus tenetur est animi non
-        porro quasi perferendis. Excepturi cum tempore voluptas, quibusdam delectus ratione qui saepe vitae totam
-        voluptatibus. Deleniti blanditiis ea, reiciendis consequatur, ipsa expedita fugit excepturi nam, similique
-        itaque ut. Consequuntur velit nulla voluptatum ratione hic temporibus perferendis id dolore eligendi eveniet
-        iste, nisi nemo unde facilis. Aliquid cum exercitationem distinctio? Temporibus maiores asperiores sed quis
-        dolores! Quos porro distinctio optio sequi perspiciatis error neque ipsam libero facilis in! Itaque explicabo
-        maiores unde officia perferendis aut sunt. Amet at earum vero blanditiis deserunt harum fugit animi, voluptas
-        nisi labore ut nihil? Ex rem alias quam eius asperiores iure amet. Incidunt molestias quasi, omnis animi
-        expedita nisi alias! Id maxime harum sunt aut minima quam quibusdam eligendi, aliquid reiciendis esse laudantium
-        expedita perspiciatis assumenda? Itaque iste alias placeat sed quisquam voluptas, deserunt nesciunt recusandae
-        maxime culpa, atque hic?
+      LMarket is a cutting-edge e-commerce platform designed to revolutionize the online shopping experience for today’s discerning consumers. In a world where convenience and quality are paramount, especially following the surge in online shopping during the COVID-19 pandemic, LMarket stands out by offering a seamless, secure, and user-centric marketplace. Our platform is dedicated to connecting buyers with a carefully curated selection of high-quality products across various categories, ensuring that every purchase is backed by trust and transparency.LMarket is a cutting-edge e-commerce platform designed to revolutionize the online shopping experience for today’s discerning consumers. In a world where convenience and quality are paramount, especially following the surge in online shopping during the COVID-19 pandemic, LMarket stands out by offering a seamless, secure, and user-centric marketplace. Our platform is dedicated to connecting buyers with a carefully curated selection of high-quality products across various categories, ensuring that every purchase is backed by trust and transparency.
       </Typography.Paragraph>
       <Typography.Paragraph>
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptas aspernatur voluptatibus tenetur est animi non
-        porro quasi perferendis. Excepturi cum tempore voluptas, quibusdam delectus ratione qui saepe vitae totam
-        voluptatibus. Deleniti blanditiis ea, reiciendis consequatur, ipsa expedita fugit excepturi nam, similique
-        itaque ut. Consequuntur velit nulla voluptatum ratione hic temporibus perferendis id dolore eligendi eveniet
-        iste, nisi nemo unde facilis. Aliquid cum exercitationem distinctio? Temporibus maiores asperiores sed quis
-        dolores! Quos porro distinctio optio sequi perspiciatis error neque ipsam libero facilis in! Itaque explicabo
-        maiores unde officia perferendis aut sunt. Amet at earum vero blanditiis deserunt harum fugit animi, voluptas
-        nisi labore ut nihil? Ex rem alias quam eius asperiores iure amet. Incidunt molestias quasi, omnis animi
-        expedita nisi alias! Id maxime harum sunt aut minima quam quibusdam eligendi, aliquid reiciendis esse laudantium
-        expedita perspiciatis assumenda? Itaque iste alias placeat sed quisquam voluptas, deserunt nesciunt recusandae
-        maxime culpa, atque hic?
-      </Typography.Paragraph>
-      <Typography.Paragraph>
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptas aspernatur voluptatibus tenetur est animi non
-        porro quasi perferendis. Excepturi cum tempore voluptas, quibusdam delectus ratione qui saepe vitae totam
-        voluptatibus. Deleniti blanditiis ea, reiciendis consequatur, ipsa expedita fugit excepturi nam, similique
-        itaque ut. Consequuntur velit nulla voluptatum ratione hic temporibus perferendis id dolore eligendi eveniet
-        iste, nisi nemo unde facilis. Aliquid cum exercitationem distinctio? Temporibus maiores asperiores sed quis
-        dolores! Quos porro distinctio optio sequi perspiciatis error neque ipsam libero facilis in! Itaque explicabo
-        maiores unde officia perferendis aut sunt. Amet at earum vero blanditiis deserunt harum fugit animi, voluptas
-        nisi labore ut nihil? Ex rem alias quam eius asperiores iure amet. Incidunt molestias quasi, omnis animi
-        expedita nisi alias! Id maxime harum sunt aut minima quam quibusdam eligendi, aliquid reiciendis esse laudantium
-        expedita perspiciatis assumenda? Itaque iste alias placeat sed quisquam voluptas, deserunt nesciunt recusandae
-        maxime culpa, atque hic?
+      At LMarket, we prioritize sustainability and responsible consumption, empowering our users to make informed choices that positively impact both their lives and the environment. With features such as personalized recommendations, real-time customer support, and an intuitive interface, we strive to create an engaging shopping experience that not only meets the needs of our customers but also fosters a vibrant community of informed consumers and reputable sellers. Join us at LMarket, where quality meets convenience, and where every shopping journey is a step toward a better tomorrow.
       </Typography.Paragraph>
     </>
   );

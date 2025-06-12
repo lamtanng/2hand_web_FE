@@ -2,7 +2,6 @@ import {
   CarryOutOutlined,
   DashboardOutlined,
   FileTextOutlined,
-  HeartOutlined,
   // HeartOutlined,
   HomeOutlined,
   LogoutOutlined,
@@ -16,13 +15,13 @@ import {
 } from '@ant-design/icons';
 import { Avatar, Flex, Menu, MenuProps, Typography } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
-import useAccountPage from '../../useAccountPage';
-import { handleError } from '../../../../../utils/handleError';
 import { authAPIs } from '../../../../../apis/auth.api';
+import { authUrls } from '../../../../../constants/urlPaths/authUrls';
 import { useAppDispatch } from '../../../../../redux/hooks';
 import { deleteAuth } from '../../../../../redux/slices/login.slice';
 import { formattedName } from '../../../../../utils/formatName';
-import { authUrls } from '../../../../../constants/urlPaths/authUrls';
+import { handleError } from '../../../../../utils/handleError';
+import useAccountPage from '../../useAccountPage';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -51,7 +50,7 @@ const MenuBar = () => {
         getItem('Notifications', 'notifications', <NotificationOutlined />),
         getItem('My Purchases', 'purchases', <FileTextOutlined />),
         getItem('My Reviews', 'reviews', <StarOutlined />),
-        getItem('Wishlist', 'wishlist', <HeartOutlined />),
+        // getItem('Wishlist', 'wishlist', <HeartOutlined />),
       ],
     },
     {
@@ -64,7 +63,7 @@ const MenuBar = () => {
         // getItem('Store Reviews', 'store-reviews', <StarOutlined />),
         getItem('Store Profile', 'store-profile', <ShopOutlined />),
       ],
-      disabled: !isSeller
+      disabled: !isSeller,
     },
     {
       key: 'setting',
@@ -77,7 +76,6 @@ const MenuBar = () => {
     },
   ];
 
-
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -86,6 +84,7 @@ const MenuBar = () => {
   const handleLogOut = async () => {
     try {
       await authAPIs.logout();
+      localStorage.removeItem('accessToken');
       dispatch(deleteAuth());
     } catch (error) {
       handleError(error);

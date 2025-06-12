@@ -1,8 +1,7 @@
 import { Typography } from 'antd';
-import Footer from '../../../components/elements/Footer';
+import ProductForm from '../../../components/elements/Form/ProductForm';
 import Header from '../../../components/elements/Header';
 import useUploadProductPage from './useUploadProductPage';
-import ProductForm from '../../../components/elements/Form/ProductForm';
 
 const UploadProductPage = () => {
   const { category, store } = useUploadProductPage();
@@ -20,7 +19,6 @@ const UploadProductPage = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 };
