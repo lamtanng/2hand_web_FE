@@ -173,13 +173,13 @@ export default function Header() {
     setImageSearchResults([]);
   };
 
-  const handleImageSearch = async (imageBase64: string) => {
+  const handleImageSearch = async (imageBase64: string, description?: string) => {
     try {
       if (!imageBase64) throw new Error('Image is required');
 
       setIsImageSearching(true);
 
-      const response = await productAPIs.getProductByImage(imageBase64);
+      const response = await productAPIs.getProductByImage(imageBase64, description);
       if (response.data.length > 0) {
         setImageSearchResults(response.data);
       } else {
