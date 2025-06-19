@@ -7,17 +7,18 @@ import {
   SearchOutlined,
   UploadOutlined,
 } from '@ant-design/icons';
-import { Button, Card, Divider, Empty, Flex, List, message, Modal, Spin, Typography, Upload } from 'antd';
+import { Button, Card, Divider, Empty, Flex, Input, List, message, Modal, Spin, Typography, Upload } from 'antd';
 import type { UploadFile, UploadProps } from 'antd/es/upload/interface';
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ProductProps } from '../../../types/product.type';
 import './styles.css';
 
-const { Title, Text } = Typography;
+const { Title, Text, Paragraph } = Typography;
+const { TextArea } = Input;
 
 export interface ImageSearchProps {
-  onSearch: (imageBase64: string) => Promise<void>;
+  onSearch: (imageBase64: string, description?: string) => Promise<void>;
   searchResults?: ProductProps[];
   isSearching?: boolean;
   clearResults?: () => void;
@@ -35,11 +36,8 @@ const ImageSearch: React.FC<ImageSearchProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [isPasteFocused, setIsPasteFocused] = useState(false);
   const [showResults, setShowResults] = useState(false);
+  const [description, setDescription] = useState<string>('');
   const pasteAreaRef = useRef<HTMLDivElement>(null);
-
-  // console.log('Search results in ImageSearch:', searchResults);
-  // console.log('isSearching:', isSearching);
-  // console.log('showResults:', showResults);
 
   // Reset state khi đóng modal
   useEffect(() => {
@@ -75,6 +73,7 @@ const ImageSearch: React.FC<ImageSearchProps> = ({
     setIsModalOpen(false);
     setFileList([]);
     setImagePreview(null);
+    setDescription('');
     if (clearResults) clearResults();
   };
 
@@ -86,7 +85,7 @@ const ImageSearch: React.FC<ImageSearchProps> = ({
 
     setIsLoading(true);
     try {
-      await onSearch(imagePreview);
+      await onSearch(imagePreview, description);
     } catch (error) {
       message.error('Có lỗi xảy ra khi tìm kiếm');
       console.error(error);
@@ -97,6 +96,7 @@ const ImageSearch: React.FC<ImageSearchProps> = ({
   const handleRemoveImage = () => {
     setFileList([]);
     setImagePreview(null);
+    setDescription('');
   };
 
   const handleBackToSearch = () => {
@@ -323,6 +323,16 @@ const ImageSearch: React.FC<ImageSearchProps> = ({
               {imagePreview ? (
                 <div className="image-preview-container">
                   <img src={imagePreview} alt="Preview" className="image-preview" />
+                  <div className="product-description-container">
+                    <TextArea
+                      placeholder="Nhập thông tin cụ thể về sản phẩm bạn đang tìm kiếm..."
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                      autoSize={{ minRows: 2, maxRows: 4 }}
+                      className="product-description-input"
+                    />
+                    <Paragraph className="description-hint">Mô tả càng chi tiết giúp tìm kiếm chính xác hơn</Paragraph>
+                  </div>
                   <Button icon={<DeleteOutlined />} danger onClick={handleRemoveImage} className="remove-image-button">
                     Xóa ảnh
                   </Button>

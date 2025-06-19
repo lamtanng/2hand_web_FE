@@ -118,9 +118,10 @@ const approveProduct = (data: Array<{ _id: string; isApproved: boolean }>) => {
   return axiosClient.post(getProductUrl('update-products-approval'), { products: data });
 };
 
-const getProductByImage = (imageBase64: string) => {
+const getProductByImage = (imageBase64: string, description?: string) => {
   return axiosClient.post<ProductProps[]>(getProductUrl('get-product-by-image'), {
     imageBase64,
+    description,
   });
 };
 
